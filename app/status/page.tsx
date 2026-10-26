@@ -1,11 +1,10 @@
-import { sb } from "@/lib/supabase";
+import { db } from "@/lib/store";
 import { PageHero, Section } from "@/components/ui";
-export const metadata = { title: "Status – Docvy", robots: { index: false } };
-export const dynamic = "force-dynamic";
-const labels: Record<string, string> = { awaiting_payment: "Awaiting payment confirmation", payment_failed: "Payment not completed", doctor_review_pending: "Payment confirmed. Awaiting practitioner review", outcome_shared: "Outcome shared", refund_pending: "Refund in progress", refunded: "Refunded" };
-export default async function Status({ searchParams }: { searchParams: { t?: string } }) {
-  const t = searchParams.t ?? "";
-  const { data } = t.length >= 20 ? await sb().from("requests").select("ref,status").eq("status_token", t).maybeSingle() : { data: null };
-  return (<><PageHero eyebrow="STATUS" title="Your request status" text="Use the private link from your confirmation. No personal or medical details are shown here." />
-    <Section alt>{data ? <div className="max-w-md rounded-card border border-line bg-porc p-6"><p className="font-head text-2xl font-extrabold text-plum">{data.ref}</p><p className="mt-2 font-semibold">{labels[data.status]}</p><p className="mt-2 text-sm text-grey">A registered practitioner makes any clinical decision independently. A certificate is not guaranteed.</p></div> : <p role="alert">We could not find a request for this link.</p>}</Section></>);
+export const metadata = { title: "Status – Docvy" };
+const labels = { awaiting_payment: "Awaiting payment", payment_verified: "Payment verified", doctor_review_pending: "Doctor review pending", outcome_shared: "Outcome shared" } as const;
+export default function Status({ searchParams }: { searchParams: { ref?: string } }) {
+  const ref = (searchParams.ref ?? "").toUpperCase(); const r = ref ? db.get(ref) : undefined;
+  return (<><PageHero eyebrow="STATUS" title="Check your request status" text="Enter your reference ID. No health details are shown here." />
+    <Section alt><form className="mb-6 flex max-w-md gap-3"><label htmlFor="ref" className="sr-only">Reference ID</label><input id="ref" name="ref" defaultValue={ref} placeholder="DVY-XXXXXX" className="min-h-12 flex-1 rounded-btn border-[1.5px] border-line bg-porc px-3.5" /><button className="min-h-12 rounded-btn bg-plum px-6 font-semibold text-porc">Check</button></form>
+      {ref && (r ? <div className="max-w-md rounded-card border border-line bg-porc p-6"><p className="font-head text-2xl font-extrabold text-plum">{r.ref}</p><p className="mt-2 font-semibold">{labels[r.status]}</p><p className="mt-2 text-sm text-grey">A registered practitioner makes any clinical decision independently.</p></div> : <p role="alert" className="text-[#B42318]">No request found for that reference.</p>)}</Section></>);
 }

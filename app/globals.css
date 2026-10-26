@@ -1,5 +1,11 @@
-@tailwind base; @tailwind components; @tailwind utilities;
-body { @apply bg-sand text-ink font-body leading-[1.65]; }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root { color-scheme: light; }
+html { scroll-behavior: smooth; text-rendering: optimizeLegibility; }
+body { @apply bg-sand text-ink font-body leading-[1.65] antialiased; }
 h1,h2,h3 { @apply font-head text-plum tracking-tight; }
+button, a { -webkit-tap-highlight-color: transparent; }
 :focus-visible { outline: 3px solid #653B60; outline-offset: 3px; border-radius: 6px; }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+::selection { background: #E8DDF0; color: #29232D; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }

@@ -1,46 +1,52 @@
 export const purposes = [
-  { key: "work", title: "Work leave", text: "Request medical documentation related to a health concern affecting your ability to work." },
-  { key: "college", title: "College or university", text: "Find out how to request medical documentation for an absence or academic requirement." },
-  { key: "other", title: "Other medical documentation", text: "Describe your legitimate documentation need so the appropriate next steps can be explained." },
+  { key: "work", title: "Work leave", text: "Request documentation for a health concern affecting your ability to work.", icon: "briefcase-medical" },
+  { key: "college", title: "College or university", text: "Understand the process for documentation related to an absence or academic requirement.", icon: "graduation-cap" },
+  { key: "other", title: "Other medical documentation", text: "Tell us the legitimate purpose so the appropriate next steps can be explained.", icon: "file-check" },
 ];
 export const steps = [
-  { t: "Tell us what you need", d: "Select the purpose and share the minimum necessary information." },
-  { t: "Complete the required process", d: "Where a clinical assessment is required, complete it with a registered medical practitioner." },
-  { t: "Professional review", d: "The practitioner independently decides whether a certificate is clinically appropriate and what it can accurately state." },
-  { t: "Receive the outcome", d: "If approved, receive the document through secure delivery. If not, we explain next steps and the applicable refund policy." },
+  { t: "Tell us what you need", d: "Choose a purpose and provide only the information needed to route your request." },
+  { t: "Complete the required process", d: "If clinical assessment is needed, follow the instructions for assessment by a registered medical practitioner." },
+  { t: "Professional review", d: "The practitioner independently determines whether a certificate is clinically appropriate and what it can accurately state." },
+  { t: "Receive the outcome", d: "If approved, the document should be delivered through a secure channel. If not, the applicable outcome and refund terms should be explained." },
 ];
 export const faqs = [
-  ["How does Docvy work?", "You choose a purpose, share the minimum information needed, complete any required assessment with a registered medical practitioner, and receive an outcome."],
-  ["Can I request a medical certificate for sick leave?", "You can request documentation for a health concern affecting your work. Whether a certificate is issued depends on the practitioner's clinical judgement."],
-  ["Can students request documentation for college absence?", "Yes, you can start a request for an absence or academic requirement. The same clinical review applies."],
-  ["Will my employer or college accept the certificate?", "We cannot guarantee that. Each organisation sets its own acceptance requirements, so check with them first."],
-  ["Is a certificate guaranteed after payment?", "No. A certificate is issued only if a registered medical practitioner finds it clinically justified."],
-  ["Will a doctor review my case?", "Where a medical assessment is required, a registered medical practitioner reviews your case and decides independently. [Confirm exact workflow before launch.]"],
-  ["What happens if my request is not approved?", "We explain the outcome and next steps, and how the refund policy applies."],
-  ["How is my medical information protected?", "We collect only what is needed. [List implemented protections here once built and reviewed.]"],
-  ["What is included in the ₹299 price?", "[Confirm inclusions before launch. State plainly whether a medical assessment is covered.]"],
-  ["Can I cancel my request or request a refund?", "[Publish final cancellation and refund terms and show them before checkout.]"],
+  ["How does Docvy work?", "Choose a purpose and share the minimum information needed to route the request. Where required, a registered medical practitioner assesses the case and independently decides the appropriate outcome."],
+  ["Can I request a medical certificate for sick leave?", "You can request documentation for a health concern affecting work. Whether a certificate is issued depends on the practitioner's assessment and clinical judgement."],
+  ["Can students request documentation for college absence?", "Students can start a request related to an absence or academic requirement. A certificate is not automatic and is subject to the same independent clinical review."],
+  ["Will my employer or college accept the certificate?", "We cannot guarantee acceptance. Employers and educational institutions set their own requirements; check those requirements before requesting documentation."],
+  ["Is a certificate guaranteed after payment?", "No. Payment does not guarantee a certificate. A registered medical practitioner must independently determine whether issuing one is clinically justified."],
+  ["Will a doctor review my case?", "The intended service includes professional review where a clinical assessment is required. The operating workflow and practitioner availability must be confirmed before the service is launched."],
+  ["What happens if a certificate is not issued?", "The outcome should be communicated clearly. Any refund depends on the final published refund policy, which must be available before payment."],
+  ["How is my information handled?", "Docvy should collect only information necessary to provide the service, restrict access, and explain retention, deletion and sharing in its Privacy Policy. Do not submit sensitive health information until the secure workflow is operational."],
+  ["What does the proposed ₹299 price include?", "₹299 is a proposed price only until the exact service inclusions, any assessment fee and refund terms are confirmed and displayed before checkout."],
+  ["Can I cancel or request a refund?", "The final cancellation and refund terms must be reviewed and published before checkout is enabled. Contact details should be provided on the Contact page."],
 ] as const;
-export const legal: Record<string, { title: string; body: string[] }> = {
-  privacy: { title: "Privacy policy", body: [
-    "DRAFT for legal review. This is not final legal text.",
-    "What we collect: your name, email and mobile number, the purpose of your request, and payment status. Payment card or UPI details are handled by Razorpay and are not stored by Docvy.",
-    "Why: to process your request, take payment, route it to a registered medical practitioner and contact you about its status.",
-    "Who can see it: authorised Docvy staff and the practitioner reviewing your request. We do not send names, contact details or medical details to automation tools.",
-    "Retention, deletion, your rights and how to complain: [to be completed with counsel]." ] },
-  terms: { title: "Terms of service", body: [
-    "DRAFT for legal review.",
-    "Docvy helps you request medical documentation. It is not an emergency service and not a general consultation marketplace.",
-    "A certificate is never guaranteed. A registered medical practitioner decides independently whether one is clinically appropriate.",
-    "Employers, colleges and authorities set their own acceptance rules. Docvy cannot promise that any organisation will accept a certificate.",
-    "The price of \u20b9299 is proposed and the inclusions are to be confirmed: [to be completed]." ] },
-  refund: { title: "Cancellation and refund policy", body: [
-    "DRAFT. Final terms have not been decided.",
-    "When a refund applies, including if no certificate is issued, how long it takes and how to ask: [to be completed]." ] },
-  disclaimer: { title: "Medical disclaimer", body: [
-    "Docvy is not an emergency service. For urgent symptoms, call 112 or go to the nearest emergency department.",
-    "Clinical decisions rest with registered medical practitioners. Docvy does not guarantee any certificate or its acceptance." ] },
-  grievance: { title: "Grievance redressal", body: [
-    "DRAFT. Name and contact of the grievance officer, response timelines and escalation path: [to be added. Do not invent details].",
-    "Legal entity name and registered address: [to be added]." ] },
+export const legal: Record<string, { title: string; intro: string; sections: { heading: string; body: string[] }[] }> = {
+  privacy: { title: "Privacy Policy", intro: "Draft for review before launch. Replace the bracketed business details and confirm the actual data flows before publishing as a final policy.", sections: [
+    { heading: "Who operates Docvy", body: ["Docvy is operated by [legal entity name], with its registered address at [registered address]. Privacy questions can be sent to [privacy contact email]. Do not launch the service until these details are completed and verified."] },
+    { heading: "Information we may collect", body: ["Depending on the service actually provided, information may include contact details, request purpose, account or request reference, payment status, support correspondence and—only where necessary for a clinical assessment—health information supplied directly for that purpose.", "Do not collect identity documents, medical records or other sensitive details unless they are necessary, the secure workflow is ready, and the user has received the relevant notice. Never request passwords or payment-card details by email or chat."] },
+    { heading: "Why information is used", body: ["Information may be used to route a request, communicate with the requester, arrange an assessment where offered, process payment, provide support, prevent fraud, maintain required records and meet legal obligations. The actual purposes must match the implemented service and be explained at collection."] },
+    { heading: "Sharing and service providers", body: ["Information should be shared only with authorised personnel and service providers who need it for the stated purpose, such as payment processing or secure hosting, subject to appropriate safeguards and contractual terms. Health information must not be sent to advertising analytics, general AI tools or automation platforms without a lawful basis, suitable safeguards and a documented review."] },
+    { heading: "Security and retention", body: ["Docvy should apply least-privilege access, secure transmission, protected storage, access logging, backups and an incident-response process. No online service can promise absolute security. Set and publish a retention schedule based on operational needs and applicable law; securely delete or anonymise information when retention is no longer required, subject to legal obligations."] },
+    { heading: "Your choices and requests", body: ["Subject to applicable law, you may request access, correction or deletion of eligible personal information, withdraw consent where processing relies on consent, or raise a privacy concern. Contact [privacy contact email] and include your request reference if available. Do not email detailed medical records unless instructed through a verified secure channel."] },
+    { heading: "Cookies, updates and complaints", body: ["The deployed website should be checked for analytics, cookies and third-party scripts; describe them accurately here before launch. This policy may be updated when the service changes. For privacy complaints, contact [grievance officer name and email]. This draft requires review against applicable Indian data-protection and healthcare requirements before publication."] },
+  ] },
+  terms: { title: "Terms of Service", intro: "Draft for legal review. Complete all bracketed details and ensure the terms match the service that is actually available before accepting customers.", sections: [
+    { heading: "Service and eligibility", body: ["Docvy is intended to help users request medical documentation for legitimate purposes. The precise services available, service provider and operating entity must be identified at checkout. Users must provide accurate information and must not submit false, altered or misleading details."] },
+    { heading: "Independent clinical decision", body: ["Submitting a request or making a payment does not guarantee a consultation, diagnosis, medical certificate, recommended rest period or any particular wording. Only an appropriately registered medical practitioner may make clinical decisions within their professional scope. No certificate may be fabricated, backdated or issued without appropriate clinical justification."] },
+    { heading: "Acceptance by third parties", body: ["Employers, colleges, insurers and other organisations may have their own rules and may reject online or remote medical documentation. Docvy does not guarantee acceptance. Users should check the receiving organisation's requirements before placing a request."] },
+    { heading: "Price and payment", body: ["The displayed ₹299 price is proposed until the service inclusions, applicable taxes, any additional charges and refund terms are confirmed. The final amount and what it covers must be clearly shown before payment. Payment processing is handled by the selected payment provider under its terms."] },
+    { heading: "Cancellation, availability and contact", body: ["Cancellation and refunds are governed by the final Refund Policy presented before checkout. Service availability and estimated processing times must not be represented as guaranteed unless operationally verified. Contact [support email] for help. These terms require review by qualified Indian counsel and do not replace professional medical advice."] },
+  ] },
+  refund: { title: "Cancellation and Refund Policy", intro: "Draft only. Do not enable checkout until the commercial policy below is reviewed, approved and accurately implemented in the payment workflow.", sections: [
+    { heading: "Before payment", body: ["Before paying, users must be shown the exact service being purchased, total amount, any taxes or additional charges, and the circumstances in which cancellation or refund may be available."] },
+    { heading: "No guaranteed certificate", body: ["Payment does not guarantee a certificate. The final policy must clearly state how fees are treated when a practitioner determines that a certificate is not clinically appropriate, an assessment cannot be provided, or the service is cancelled by Docvy. Do not advertise a refund promise until the business has approved and can honour it."] },
+    { heading: "Requesting cancellation or refund", body: ["Contact [support email] with your request reference and reason. Do not send medical records or payment credentials by email. Add the confirmed cancellation cut-off, refund eligibility, processing timelines and escalation route here before launch."] },
+    { heading: "Processing and disputes", body: ["Approved refunds should be processed to the original payment method where supported by the payment provider. Actual processing times can depend on banks and payment networks. Keep a record of the decision and communication, and provide [grievance contact] for unresolved complaints."] },
+  ] },
+  disclaimer: { title: "Medical Disclaimer", intro: "Please read this before starting a request.", sections: [
+    { heading: "Not an emergency service", body: ["Docvy is not an emergency service and does not replace urgent or in-person medical care. In India, call 112 for emergencies or go to the nearest emergency department if you may be experiencing a medical emergency."] },
+    { heading: "No guaranteed outcome", body: ["A request or payment does not guarantee a certificate. A registered medical practitioner must independently assess the case where required and decide whether a document is clinically justified. Documents must accurately reflect the assessment and available records."] },
+    { heading: "Third-party requirements", body: ["An employer, college or other receiving organisation may decline a certificate or require a particular format, in-person assessment or additional evidence. Check its rules before submitting a request."] },
+  ] },
 };

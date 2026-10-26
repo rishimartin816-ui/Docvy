@@ -26,18 +26,8 @@ export default function RequestForm({ initial }: { initial?: string }) {
     try {
       const res = await fetch("/api/requests", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(v) });
       if (!res.ok) throw new Error();
-      const { token, orderId, keyId, amount } = await res.json();
-      await new Promise<void>((ok, bad) => { const s = document.createElement("script"); s.src = "https://checkout.razorpay.com/v1/checkout.js"; s.onload = () => ok(); s.onerror = () => bad(); document.body.appendChild(s); });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const rz = new (window as any).Razorpay({ key: keyId, amount, currency: "INR", order_id: orderId, name: "Docvy", description: "Medical documentation request",
-        prefill: { name: v.name, email: v.email, contact: v.mobile }, theme: { color: "#402442" },
-        handler: async (p: { razorpay_payment_id: string; razorpay_signature: string }) => {
-          await fetch("/api/payments/verify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId, paymentId: p.razorpay_payment_id, signature: p.razorpay_signature }) });
-          r.push(`/status?t=${token}`); },
-        modal: { ondismiss: () => { setBusy(false); setErr({ form: "Payment was not completed. You have not been charged." }); } } });
-      rz.on("payment.failed", () => { setBusy(false); setErr({ form: "Payment failed. You have not been charged. Please try again." }); });
-      rz.open();
-    } catch { setErr({ form: "We could not start your request. You have not been charged. Please try again." }); setBusy(false); }
+      const { ref } = await res.json(); r.push(`/status?ref=${ref}`);
+    } catch { setErr({ form: "We could not submit your request. You have not been charged. Please try again." }); setBusy(false); }
   };
   const F = ({ id, label, type = "text", mode }: { id: "name" | "email" | "mobile"; label: string; type?: string; mode?: "numeric" }) => (
     <div className="mb-4"><label htmlFor={id} className="mb-1.5 block text-sm font-semibold">{label}</label>
@@ -53,9 +43,9 @@ export default function RequestForm({ initial }: { initial?: string }) {
     {step === 2 && <div><h2 className="mb-3 font-head text-2xl font-bold text-plum">What you are paying for</h2><div className="rounded-card border border-line bg-porc p-5"><p className="font-head text-4xl font-extrabold text-plum">₹299</p><p><strong>Included:</strong> [confirm before launch]</p><p><strong>Not included:</strong> in-person care, treatment, or a guaranteed certificate.</p><p className="mt-2 text-sm text-grey">A registered practitioner decides independently whether a certificate is clinically justified. Additional assessment or a different service may be required. Refund terms: [final policy].</p></div></div>}
     {step === 3 && <div><h2 className="mb-3 font-head text-2xl font-bold text-plum">Consent</h2>
       {([["c1", "I have read the Privacy Policy and consent to my information being used to process this request."], ["c2", "I accept the Terms of Service and the Cancellation and Refund Policy."], ["c3", "I understand a certificate is not guaranteed and depends on a practitioner's clinical judgement."]] as const).map(([k, t]) => <label key={k} className="mb-3 flex gap-3"><input type="checkbox" className="mt-1.5 accent-[#653B60]" checked={v[k]} onChange={e => set(k, e.target.checked)} />{t}</label>)}
-      <p className="text-sm text-grey">Pay ₹299 (proposed price) securely through Razorpay. Your request starts only after payment is confirmed by our server. A certificate is not guaranteed.</p>
+      <p className="text-sm text-grey">Payment: the gateway is not configured in this build, so your request will be saved as awaiting payment. No charge is made.</p>
       {(err.consent || err.form) && <p role="alert" className="mt-2 text-sm text-[#B42318]">{err.consent || err.form}</p>}</div>}
     <div className="mt-6 flex gap-3">{step > 0 && <button className={btn} onClick={() => setStep(step - 1)}>Back</button>}
-      {step < 3 ? <button className={`${btn} bg-plum text-porc`} onClick={next} disabled={step === 1 && v.urgent}>Continue</button> : <button className={`${btn} bg-plum text-porc disabled:opacity-60`} onClick={submit} disabled={busy}>{busy ? "Submitting…" : "Pay and submit"}</button>}</div>
+      {step < 3 ? <button className={`${btn} bg-plum text-porc`} onClick={next} disabled={step === 1 && v.urgent}>Continue</button> : <button className={`${btn} bg-plum text-porc disabled:opacity-60`} onClick={submit} disabled={busy}>{busy ? "Submitting…" : "Submit request"}</button>}</div>
   </div>);
 }
