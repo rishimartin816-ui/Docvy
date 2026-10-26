@@ -1,11 +1,10 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { purposes } from "@/lib/content";
 type E = Record<string, string>;
 export default function RequestForm({ initial }: { initial?: string }) {
-  const r = useRouter();
   const [step, setStep] = useState(0);
+  const [success, setSuccess] = useState("");
   const [v, setV] = useState({ purpose: purposes.some(p => p.key === initial) ? initial! : "", name: "", email: "", mobile: "", urgent: false, c1: false, c2: false, c3: false });
   const [err, setErr] = useState<E>({});
   const [busy, setBusy] = useState(false);
@@ -26,26 +25,26 @@ export default function RequestForm({ initial }: { initial?: string }) {
     try {
       const res = await fetch("/api/requests", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(v) });
       if (!res.ok) throw new Error();
-      const { ref } = await res.json(); r.push(`/status?ref=${ref}`);
-    } catch { setErr({ form: "We could not submit your request. You have not been charged. Please try again." }); setBusy(false); }
+      const { ref } = await res.json(); setSuccess(`Your details have been submitted. Your reference ID is ${ref}. We will contact you using the details provided.`);
+    } catch { setErr({ form: "We could not submit your details. Please try again later. No payment has been taken." }); setBusy(false); }
   };
   const F = ({ id, label, type = "text", mode }: { id: "name" | "email" | "mobile"; label: string; type?: string; mode?: "numeric" }) => (
     <div className="mb-4"><label htmlFor={id} className="mb-1.5 block text-sm font-semibold">{label}</label>
       <input id={id} type={type} inputMode={mode} value={v[id]} onChange={e => set(id, e.target.value)} aria-invalid={!!err[id]} aria-describedby={err[id] ? id + "e" : undefined} className="min-h-12 w-full rounded-btn border-[1.5px] border-line bg-porc px-3.5 aria-[invalid=true]:border-[#B42318]" />
       {err[id] && <span id={id + "e"} className="mt-1 block text-sm text-[#B42318]">{err[id]}</span>}</div>);
   const btn = "inline-flex min-h-12 items-center rounded-btn border-[1.5px] border-plum px-6 font-semibold";
+  if (success) return <div className="mx-auto max-w-2xl rounded-card border border-line bg-sand p-8" role="status"><h2 className="font-head text-2xl font-bold text-plum">Thank you — details received</h2><p className="mt-3">{success}</p><p className="mt-3 text-sm text-grey">There is no payment step. Please do not send medical reports or sensitive health details through this form.</p></div>;
   return (<div className="mx-auto max-w-2xl rounded-card border border-line bg-sand p-6 md:p-8" aria-live="polite">
-    <p className="mb-6 text-sm font-semibold text-mulb">Step {step + 1} of 4</p>
+    <p className="mb-6 text-sm font-semibold text-mulb">Step {step + 1} of 3</p>
     {step === 0 && <fieldset><legend className="mb-4 font-head text-2xl font-bold text-plum">Purpose</legend>{purposes.map(p => <label key={p.key} className="mb-3 flex cursor-pointer gap-3 rounded-card border border-line bg-porc p-4 has-[:checked]:border-mulb has-[:checked]:bg-lav"><input type="radio" name="purpose" className="mt-1.5 accent-[#653B60]" checked={v.purpose === p.key} onChange={() => set("purpose", p.key)} /><span><strong>{p.title}</strong><br /><span className="text-sm text-grey">{p.text}</span></span></label>)}{err.purpose && <span className="text-sm text-[#B42318]">{err.purpose}</span>}</fieldset>}
     {step === 1 && <div><h2 className="mb-2 font-head text-2xl font-bold text-plum">Your details</h2><F id="name" label="Full name" /><F id="email" label="Email" type="email" /><F id="mobile" label="Mobile number (10 digits)" type="tel" mode="numeric" />
       <label className="mb-3 flex gap-3"><input type="checkbox" className="mt-1.5 accent-[#653B60]" checked={v.urgent} onChange={e => set("urgent", e.target.checked)} /> I have urgent symptoms right now</label>
       {v.urgent && <div role="alert" className="rounded-xl border-l-4 border-[#B42318] bg-lav p-4"><strong>Please get medical care first.</strong><p>For severe or sudden symptoms such as chest pain, trouble breathing, heavy bleeding or loss of consciousness, call 112 or go to the nearest emergency department. Documentation can wait.</p></div>}</div>}
-    {step === 2 && <div><h2 className="mb-3 font-head text-2xl font-bold text-plum">What you are paying for</h2><div className="rounded-card border border-line bg-porc p-5"><p className="font-head text-4xl font-extrabold text-plum">₹299</p><p><strong>Included:</strong> [confirm before launch]</p><p><strong>Not included:</strong> in-person care, treatment, or a guaranteed certificate.</p><p className="mt-2 text-sm text-grey">A registered practitioner decides independently whether a certificate is clinically justified. Additional assessment or a different service may be required. Refund terms: [final policy].</p></div></div>}
-    {step === 3 && <div><h2 className="mb-3 font-head text-2xl font-bold text-plum">Consent</h2>
+    {step === 2 && <div><h2 className="mb-3 font-head text-2xl font-bold text-plum">Consent</h2>
       {([["c1", "I have read the Privacy Policy and consent to my information being used to process this request."], ["c2", "I accept the Terms of Service and the Cancellation and Refund Policy."], ["c3", "I understand a certificate is not guaranteed and depends on a practitioner's clinical judgement."]] as const).map(([k, t]) => <label key={k} className="mb-3 flex gap-3"><input type="checkbox" className="mt-1.5 accent-[#653B60]" checked={v[k]} onChange={e => set(k, e.target.checked)} />{t}</label>)}
-      <p className="text-sm text-grey">Payment: the gateway is not configured in this build, so your request will be saved as awaiting payment. No charge is made.</p>
+      <p className="text-sm text-grey">No payment is required. Your contact details and request purpose will be sent to our Google Sheets intake log for follow-up. Do not include medical reports or detailed health information.</p>
       {(err.consent || err.form) && <p role="alert" className="mt-2 text-sm text-[#B42318]">{err.consent || err.form}</p>}</div>}
     <div className="mt-6 flex gap-3">{step > 0 && <button className={btn} onClick={() => setStep(step - 1)}>Back</button>}
-      {step < 3 ? <button className={`${btn} bg-plum text-porc`} onClick={next} disabled={step === 1 && v.urgent}>Continue</button> : <button className={`${btn} bg-plum text-porc disabled:opacity-60`} onClick={submit} disabled={busy}>{busy ? "Submitting…" : "Submit request"}</button>}</div>
+      {step < 2 ? <button className={`${btn} bg-plum text-porc`} onClick={next} disabled={step === 1 && v.urgent}>Continue</button> : <button className={`${btn} bg-plum text-porc disabled:opacity-60`} onClick={submit} disabled={busy}>{busy ? "Submitting…" : "Submit details"}</button>}</div>
   </div>);
 }
