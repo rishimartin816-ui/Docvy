@@ -1,0 +1,5 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+body { @apply bg-sand text-ink font-body leading-[1.65]; }
+h1,h2,h3 { @apply font-head text-plum tracking-tight; }
+:focus-visible { outline: 3px solid #653B60; outline-offset: 3px; border-radius: 6px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
