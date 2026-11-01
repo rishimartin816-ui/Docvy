@@ -1,49 +1,54 @@
 # DOCVY local PostgreSQL development boundary
 
-**Status:** Prepared for review  
+**Status:** Local development setup; custom-auth foundation approved  
 **Date:** 2026-11-01  
-**Related design:** `tenant-identity-and-authorization.md`
+**Related design:** `custom-authentication.md`
 
 ## Decision
 
-Use an isolated PostgreSQL 17 container as the zero-infrastructure-cost developer database. Keep it separate from the connected Supabase project and from the legacy documentation-request workflow.
+Use the existing isolated PostgreSQL 17 Docker container as the zero-infrastructure-cost development database. Keep it separate from the connected Supabase project and from the legacy documentation-request workflow.
 
-This is a development convenience, not the production hosting decision. It does not satisfy India data residency, backups, disaster recovery, production monitoring, or healthcare privacy/security requirements.
+This is a development environment, not a production hosting decision. It does not satisfy India data residency, production backups, disaster recovery, production monitoring or healthcare privacy/security requirements.
 
 ## Components
 
-- Docker Compose runs one official PostgreSQL 17 service.
+- Docker Compose runs the official PostgreSQL 17 image.
 - The database port is bound to loopback only (`127.0.0.1:54329`).
 - A named Docker volume preserves local data across container recreation.
-- Local credentials are supplied through an ignored `.env.postgres` file.
-- SQL changes are stored as reviewed, ordered files under `database/migrations/` and applied manually after review.
-- The first migration creates only the identity/organisation/branch/membership/role/provider-publication/audit foundation.
+- Local credentials are supplied through the ignored `.env.postgres` file.
+- SQL changes are stored as reviewed, ordered files under `database/migrations/` and applied manually after explicit review.
+- Migration `0001_platform_foundation.sql` creates the organisation, branch, membership, role, provider-publication and audit foundation.
+- Migration `0002_custom_identity_schema.sql` is prepared for review and has **not** been applied.
 
 ## Security posture
 
-The schema enables RLS on every foundation table and deliberately creates no policies in the first migration. This is fail-closed for a non-owner role. The migration also creates a non-login `docvy_app` role with `NOBYPASSRLS`; runtime credentials and policy design are a separate implementation gate.
+Migration 0001 enables RLS on all 11 foundation tables and deliberately creates no policies. The non-owner application role is therefore denied until trusted identity propagation and reviewed policies exist.
 
-The local container's bootstrap user is an administrator and bypasses RLS. It is for local schema administration only, never an application connection. No patient or clinical domain tables are created.
+The existing `docvy_app` role is a NOLOGIN group role with NOBYPASSRLS. The container bootstrap user is an administrator and bypasses RLS; it is for schema administration only, never application connections.
 
-## Identity integration is intentionally unresolved
+## Identity decision
 
-The current product direction proposes Supabase Auth, but a standalone PostgreSQL container does not include Supabase's `auth` schema or `auth.uid()` helper. This migration therefore stores a stable external identity UUID in `profiles.id` without inventing an Auth schema or weakening tenant policies. A later reviewed migration must connect the selected identity provider to database authorization and prove that browser-supplied tenant/user identifiers cannot be trusted.
+DOCVY has approved custom authentication on standalone PostgreSQL. Supabase Auth, `auth.users` and `auth.uid()` are not part of this architecture.
+
+The approved direction is documented in `custom-authentication.md`. Identity credentials and sessions live in a private `identity` schema; runtime application access will use narrowly scoped functions and transaction-scoped session identity. The app must never trust browser-supplied user, organisation, branch or role identifiers.
 
 ## Explicitly not done
 
-- No Docker container was started in the hosted preparation environment; Docker and `psql` were unavailable.
-- No SQL migration was executed.
-- No Supabase project was read or modified in this work.
-- No cloud infrastructure, paid service, production deployment, or data migration was created.
-- No real patient/provider data was loaded.
+- No cloud database or Supabase project was changed.
+- No production deployment, paid service or data migration was performed.
+- Migration 0002 has not been executed.
+- No patient or clinical tables/data have been added.
+- The existing documentation-request workflow remains unchanged.
+- No production India data-residency or compliance claim is made.
 
-## Acceptance checklist
+## Acceptance gates
 
-- [ ] Developer workstation has Docker Engine and Compose plugin.
-- [ ] Local service reports healthy and is reachable only on loopback.
-- [ ] Migration applies successfully to an empty disposable PostgreSQL 17 database.
-- [ ] All foundation tables have RLS enabled.
-- [ ] A non-owner role cannot read or write without an explicit policy.
-- [ ] Composite foreign keys reject a membership/branch relationship crossing organisations.
-- [ ] Audit events cannot be updated or deleted by the application role.
-- [ ] No real or sensitive data is used in local fixtures.
+- [x] Local PostgreSQL service reports healthy and is bound to loopback.
+- [x] Migration 0001 committed successfully on the local database.
+- [x] All 11 foundation tables report RLS enabled.
+- [x] `docvy_app` is NOLOGIN and NOBYPASSRLS.
+- [ ] Review migration 0002 before execution.
+- [ ] Apply migration 0002 to a disposable PostgreSQL 17 database.
+- [ ] Add and test authentication functions and transaction-scoped identity.
+- [ ] Add tenant RLS policies and positive/cross-tenant negative tests.
+- [ ] Never use real patient or clinical data in local fixtures.
