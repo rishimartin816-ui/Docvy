@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: docvy-postgres-dev
+    restart: unless-stopped
+    env_file:
+      - .env.postgres
+    ports:
+      - "127.0.0.1:54329:5432"
+    volumes:
+      - docvy_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  docvy_postgres_data:
+    name: docvy_postgres_dev_data
