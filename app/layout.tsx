@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 const head = DM_Sans({
   subsets: ["latin"],
   variable: "--font-head",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 const body = Inter({ subsets: ["latin"], variable: "--font-body" });
 
