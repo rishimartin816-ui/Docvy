@@ -11,6 +11,7 @@ import {
   Search,
   Stethoscope,
 } from "lucide-react";
+import HeroIllustration from "@/components/HeroIllustration";
 
 export const metadata: Metadata = {
   title: "DOCVY — Connected healthcare discovery and operations",
@@ -84,33 +85,21 @@ const proofPoints = [
 export default function Home() {
   return (
     <div className="home-shell overflow-hidden bg-[#F6FAF8] text-[#173A37]">
-      <section className="relative isolate min-h-[610px] overflow-hidden bg-[#EAF5F1]">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-24 top-8 hidden h-[490px] w-[490px] rounded-full border border-[#C0DED5] lg:block"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute right-[-15px] top-[105px] hidden h-[340px] w-[340px] rounded-full bg-[#DDF0E9] lg:block"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute right-[76px] top-[196px] hidden h-[180px] w-[180px] rounded-full bg-[#16A6A1]/20 blur-[1px] lg:block"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute right-[126px] top-[246px] hidden h-[80px] w-[80px] rounded-full bg-[#087F83] shadow-[0_18px_60px_rgba(8,127,131,0.22)] lg:block"
-        />
-
-        <div className="relative mx-auto grid min-h-[610px] max-w-[1440px] items-center gap-12 px-6 pb-14 pt-16 md:px-10 lg:grid-cols-[1.08fr_.92fr] lg:px-[72px] lg:pb-20 lg:pt-10">
+      <section className="relative isolate overflow-hidden bg-[radial-gradient(circle_at_78%_35%,#D5F0E8_0%,#EAF5F1_38%,#F4FAF7_100%)]">
+        <div aria-hidden="true" className="pointer-events-none absolute -left-24 top-24 h-64 w-64 rounded-full bg-[#DDF0E9]/80 blur-3xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute right-[8%] top-8 h-24 w-24 rounded-full bg-[#F6C9A9]/40 blur-2xl" />
+        <div className="relative mx-auto grid min-h-[680px] max-w-[1440px] items-center gap-8 px-6 pb-16 pt-14 md:px-10 lg:grid-cols-[1fr_1fr] lg:px-[72px] lg:pb-20 lg:pt-10">
           <div className="relative z-10 max-w-[700px]">
-            <p className="mb-6 text-xs font-bold tracking-[0.16em] text-[#087F83]">
+            <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83] shadow-sm">
+              <span className="h-2 w-2 rounded-full bg-[#F39B72]" />
               CARE, CONNECTED
             </p>
-            <h1 className="max-w-[700px] text-[42px] font-bold leading-[1.08] tracking-[-0.045em] text-[#173A37] sm:text-[52px] lg:text-[60px]">
-              Healthcare,
+            <h1 className="max-w-[700px] text-[43px] font-black leading-[1.04] tracking-[-0.052em] text-[#173A37] sm:text-[54px] lg:text-[64px]">
+              Better care
               <br />
-              connected around you.
+              starts with a
+              <br />
+              <span className="text-[#087F83]">better connection.</span>
             </h1>
             <p className="mt-7 max-w-[590px] text-base leading-8 text-[#526D66] md:text-[17px]">
               Find trusted care, connect with the right providers, and manage
@@ -119,13 +108,13 @@ export default function Home() {
             <div className="mt-9 flex flex-wrap gap-3">
               <Link
                 href="#discovery"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#087F83] px-6 text-sm font-semibold text-white shadow-sm transition hover:bg-[#066D70] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#087F83]"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#087F83] px-6 text-sm font-bold text-white shadow-[0_10px_24px_rgba(8,127,131,0.2)] transition hover:-translate-y-0.5 hover:bg-[#066D70] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#087F83]"
               >
                 Explore care <ArrowRight size={17} />
               </Link>
               <Link
                 href="#provider-ecosystem"
-                className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#B7D2C9] bg-white/70 px-6 text-sm font-semibold text-[#173A37] transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#087F83]"
+                className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#B7D2C9] bg-white/80 px-6 text-sm font-bold text-[#173A37] transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#087F83]"
               >
                 Explore DOCVY
               </Link>
@@ -135,25 +124,28 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="relative z-10 mx-auto w-full max-w-[560px] lg:mt-[250px] lg:translate-x-2">
-            <div className="rounded-[22px] border border-[#DCEAE5] bg-white p-5 shadow-[0_24px_70px_rgba(23,58,55,0.12)] sm:p-6">
+          <div className="relative mx-auto w-full max-w-[590px] pb-20 lg:pb-16">
+            <div className="absolute -right-3 top-10 h-20 w-20 rounded-[28px] bg-[#F4B38E]/70 rotate-12" aria-hidden="true" />
+            <div className="absolute -left-4 bottom-28 h-16 w-16 rounded-full bg-[#B9E1D5]" aria-hidden="true" />
+            <HeroIllustration />
+            <div className="absolute -bottom-1 left-1/2 w-[min(100%,520px)] -translate-x-1/2 rounded-[22px] border border-[#DCEAE5] bg-white/95 p-4 shadow-[0_22px_60px_rgba(23,58,55,0.16)] backdrop-blur sm:p-5">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <p className="text-[11px] font-bold tracking-[0.12em] text-[#526D66]">
+                <p className="text-[11px] font-extrabold tracking-[0.12em] text-[#526D66]">
                   DISCOVERY, WITHOUT THE FRICTION
                 </p>
-                <span className="rounded-full bg-[#DDF0E9] px-3 py-1 text-[10px] font-bold tracking-wide text-[#087F83]">
+                <span className="rounded-full bg-[#DDF0E9] px-3 py-1 text-[10px] font-extrabold tracking-wide text-[#087F83]">
                   IN DEVELOPMENT
                 </span>
               </div>
-              <div className="mt-5 flex min-h-[58px] items-center gap-3 rounded-xl border border-[#DCEAE5] bg-[#F6FAF8] px-4 text-sm text-[#789089]">
+              <div className="mt-4 flex min-h-[54px] items-center gap-3 rounded-xl border border-[#DCEAE5] bg-[#F6FAF8] px-4 text-sm text-[#789089]">
                 <Search size={19} className="shrink-0 text-[#087F83]" />
                 <span>Doctor, specialty, hospital or clinic</span>
               </div>
-              <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-                <span className="text-xs leading-5 text-[#526D66]">
+              <div className="mt-3 flex items-center justify-between gap-3">
+                <span className="text-[11px] leading-5 text-[#526D66]">
                   Live provider search is not available yet.
                 </span>
-                <span className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-[#EAF5F1] px-4 text-xs font-semibold text-[#087F83]">
+                <span className="inline-flex min-h-9 items-center gap-2 rounded-lg bg-[#EAF5F1] px-3 text-xs font-bold text-[#087F83]">
                   Preview <ArrowRight size={14} />
                 </span>
               </div>
