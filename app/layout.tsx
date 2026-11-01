@@ -1,15 +1,15 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { DM_Sans, Inter } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
-const head = DM_Sans({
+const docvyFont = DM_Sans({
   subsets: ["latin"],
   variable: "--font-head",
   weight: ["400", "500", "600", "700", "800", "900"],
+  display: "swap",
 });
-const body = Inter({ subsets: ["latin"], variable: "--font-body" });
 
 export const metadata: Metadata = {
   title: {
@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en-IN" className={`${head.variable} ${body.variable}`}>
+    <html lang="en-IN" className={docvyFont.variable}>
       <body>
         <a
           href="#main"
