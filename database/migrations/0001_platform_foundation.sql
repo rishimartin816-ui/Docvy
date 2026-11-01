@@ -117,6 +117,13 @@ CREATE TABLE IF NOT EXISTS membership_role_grants (
     ON DELETE RESTRICT
 );
 
+CREATE UNIQUE INDEX IF NOT EXISTS membership_role_grants_org_wide_unique
+  ON membership_role_grants (organisation_id, membership_id, role_id)
+  WHERE branch_id IS NULL;
+CREATE UNIQUE INDEX IF NOT EXISTS membership_role_grants_branch_unique
+  ON membership_role_grants (organisation_id, membership_id, role_id, branch_id)
+  WHERE branch_id IS NOT NULL;
+
 CREATE TABLE IF NOT EXISTS provider_public_profiles (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   profile_id uuid NOT NULL UNIQUE REFERENCES profiles(id) ON DELETE RESTRICT,
