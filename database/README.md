@@ -38,7 +38,7 @@ Verify the tables and RLS flags:
 
 ```bash
 docker compose --env-file .env.postgres exec postgres sh -c \
-  'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "\dt"'
+  'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "SELECT schemaname, tablename, rowsecurity FROM pg_tables WHERE schemaname = '''public''' ORDER BY tablename;"'
 ```
 
 Reapplying this migration is not a supported reset strategy. Use a disposable database for schema iteration and create a new numbered migration for each reviewed change.
