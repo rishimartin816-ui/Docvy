@@ -1,21 +1,302 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { Btn, Card, Illustration, PageHero, Section } from "@/components/ui";
-import Faq from "@/components/Faq";
-import { BriefcaseMedical, GraduationCap, FileCheck2, ArrowRight, ShieldCheck, ClipboardCheck, Stethoscope } from "lucide-react";
-import { purposes, steps } from "@/lib/content";
+import {
+  ArrowDownRight,
+  ArrowRight,
+  Building2,
+  CalendarCheck,
+  CheckCircle2,
+  Compass,
+  Hospital,
+  Search,
+  Stethoscope,
+} from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "DOCVY — Connected healthcare discovery and operations",
+  description:
+    "DOCVY is building a connected healthcare experience for patient discovery, doctors, clinics and hospitals.",
+};
+
+const discoveryCards = [
+  {
+    id: "doctors",
+    category: "PATIENTS",
+    title: "Find the right doctor",
+    description:
+      "Planned: explore specialties, credentials and provider profiles in one place.",
+    icon: Stethoscope,
+  },
+  {
+    id: "hospitals",
+    category: "CARE DESTINATIONS",
+    title: "Explore hospitals",
+    description:
+      "Planned: understand care destinations, departments and available services.",
+    icon: Hospital,
+  },
+  {
+    id: "clinics",
+    category: "LOCAL CARE",
+    title: "Discover clinics",
+    description:
+      "Planned: find local practices and learn about the services they provide.",
+    icon: Building2,
+  },
+  {
+    id: "appointments",
+    category: "NEXT STEP",
+    title: "Book an appointment",
+    description:
+      "Planned: move from discovery to a clear appointment request.",
+    icon: CalendarCheck,
+  },
+];
+
+const providerCards = [
+  {
+    number: "01",
+    title: "DOCTOR EXPERIENCE",
+    description:
+      "A focused workspace planned for provider profiles, schedules and patient-facing workflows.",
+  },
+  {
+    number: "02",
+    title: "CLINIC MANAGEMENT",
+    description:
+      "A connected workspace planned for appointments, staff, services and daily practice operations.",
+  },
+  {
+    number: "03",
+    title: "HOSPITAL MANAGEMENT",
+    description:
+      "A scalable operational foundation planned for multi-department care delivery.",
+  },
+];
+
+const proofPoints = [
+  ["One platform", "For every care journey"],
+  ["Connected workflows", "From discovery to operations"],
+  ["Built for trust", "Clear provider information"],
+  ["Designed to scale", "Clinic to hospital ecosystems"],
+];
+
 export default function Home() {
-  return (<>
-    <PageHero eyebrow="MEDICAL DOCUMENTATION, SIMPLIFIED" title="Need medical documentation for leave? Start with Docvy." text="Request medical documentation online for work, college or other legitimate needs. If a medical assessment is required, a registered medical practitioner will review your case and determine whether a certificate can be issued.">
-      <Btn href="/request">Request a certificate</Btn><Btn href="/how-it-works" kind="s">How it works</Btn>
-      <p className="w-full text-sm text-grey">Transparent process. Professional medical review when required. No guaranteed certificate issuance.</p>
-    </PageHero>
-    <Section alt><h2 className="mb-10 text-[27px] font-bold md:text-[32px]">What do you need documentation for?</h2>
-      <div className="grid gap-5 md:grid-cols-3">{purposes.map((p, i) => { const Icon = [BriefcaseMedical, GraduationCap, FileCheck2][i]; return <Card key={p.key} className="group flex flex-col gap-4 transition-shadow hover:shadow-md"><span className="flex h-12 w-12 items-center justify-center rounded-xl bg-lav text-plum"><Icon size={25} strokeWidth={1.8}/></span><h3 className="text-xl font-bold">{p.title}</h3><p className="text-grey">{p.text}</p><Link className="mt-auto inline-flex items-center gap-2 font-semibold text-plum" href={`/request?purpose=${p.key}`}>Continue <ArrowRight size={16} className="transition-transform group-hover:translate-x-1"/></Link></Card>})}</div>
-      <p className="mt-5 text-sm text-grey">Choosing a purpose starts a request. It never issues a certificate. Not every employer or institution accepts online medical certificates.</p></Section>
-    <Section><h2 className="mb-8 text-[27px] font-bold md:text-[32px]">How Docvy works</h2>
-      <ol className="grid gap-6 md:grid-cols-4">{steps.map((s, i) => { const Icon = [ClipboardCheck, Stethoscope, ShieldCheck, FileCheck2][i]; return <li key={s.t} className="rounded-card border border-line bg-porc p-5"><span className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-lav text-plum"><Icon size={24}/></span><span className="text-xs font-bold tracking-widest text-mulb">STEP 0{i + 1}</span><h3 className="mt-2 text-xl font-bold">{s.t}</h3><p className="mt-2 text-sm text-grey">{s.d}</p></li>})}</ol></Section>
-    <Section alt><div className="grid items-center gap-10 md:grid-cols-2"><div><h2 className="text-[27px] font-bold md:text-[32px]">Authentic documentation starts with an honest process.</h2><p className="mt-4">Clinical decisions are made by appropriately registered medical practitioners, and certificates are issued only when justified. The receiving organisation may apply its own acceptance requirements.</p></div><Illustration kind="review" /></div></Section>
-    <Section><h2 className="mb-6 text-[27px] font-bold md:text-[32px]">Common questions</h2><Faq limit={5} /><div className="mt-6"><Btn href="/faqs" kind="s">All FAQs</Btn></div></Section>
-    <Section><div className="rounded-card bg-plum px-8 py-14 text-center"><h2 className="!text-porc text-[27px] font-bold md:text-[32px]">Start your medical documentation request.</h2><p className="my-3 text-porc">A clear process, with professional medical review where required.</p><Link href="/request" className="inline-flex min-h-12 items-center rounded-btn bg-porc px-6 font-semibold text-ink">Request a certificate</Link></div></Section>
-  </>);
+  return (
+    <div className="home-shell overflow-hidden bg-[#F6FAF8] text-[#173A37]">
+      <section className="relative isolate min-h-[610px] overflow-hidden bg-[#EAF5F1]">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-24 top-8 hidden h-[490px] w-[490px] rounded-full border border-[#C0DED5] lg:block"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-[-15px] top-[105px] hidden h-[340px] w-[340px] rounded-full bg-[#DDF0E9] lg:block"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-[76px] top-[196px] hidden h-[180px] w-[180px] rounded-full bg-[#16A6A1]/20 blur-[1px] lg:block"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-[126px] top-[246px] hidden h-[80px] w-[80px] rounded-full bg-[#087F83] shadow-[0_18px_60px_rgba(8,127,131,0.22)] lg:block"
+        />
+
+        <div className="relative mx-auto grid min-h-[610px] max-w-[1440px] items-center gap-12 px-6 pb-14 pt-16 md:px-10 lg:grid-cols-[1.08fr_.92fr] lg:px-[72px] lg:pb-20 lg:pt-10">
+          <div className="relative z-10 max-w-[700px]">
+            <p className="mb-6 text-xs font-bold tracking-[0.16em] text-[#087F83]">
+              CARE, CONNECTED
+            </p>
+            <h1 className="max-w-[700px] text-[42px] font-bold leading-[1.08] tracking-[-0.045em] text-[#173A37] sm:text-[52px] lg:text-[60px]">
+              Healthcare,
+              <br />
+              connected around you.
+            </h1>
+            <p className="mt-7 max-w-[590px] text-base leading-8 text-[#526D66] md:text-[17px]">
+              Find trusted care, connect with the right providers, and manage
+              healthcare operations — all through one connected platform.
+            </p>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <Link
+                href="#discovery"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#087F83] px-6 text-sm font-semibold text-white shadow-sm transition hover:bg-[#066D70] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#087F83]"
+              >
+                Explore care <ArrowRight size={17} />
+              </Link>
+              <Link
+                href="#provider-ecosystem"
+                className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#B7D2C9] bg-white/70 px-6 text-sm font-semibold text-[#173A37] transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#087F83]"
+              >
+                Explore DOCVY
+              </Link>
+            </div>
+            <p className="mt-5 text-xs leading-5 text-[#526D66]">
+              A connected healthcare platform in development.
+            </p>
+          </div>
+
+          <div className="relative z-10 mx-auto w-full max-w-[560px] lg:mt-[250px] lg:translate-x-2">
+            <div className="rounded-[22px] border border-[#DCEAE5] bg-white p-5 shadow-[0_24px_70px_rgba(23,58,55,0.12)] sm:p-6">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="text-[11px] font-bold tracking-[0.12em] text-[#526D66]">
+                  DISCOVERY, WITHOUT THE FRICTION
+                </p>
+                <span className="rounded-full bg-[#DDF0E9] px-3 py-1 text-[10px] font-bold tracking-wide text-[#087F83]">
+                  IN DEVELOPMENT
+                </span>
+              </div>
+              <div className="mt-5 flex min-h-[58px] items-center gap-3 rounded-xl border border-[#DCEAE5] bg-[#F6FAF8] px-4 text-sm text-[#789089]">
+                <Search size={19} className="shrink-0 text-[#087F83]" />
+                <span>Doctor, specialty, hospital or clinic</span>
+              </div>
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+                <span className="text-xs leading-5 text-[#526D66]">
+                  Live provider search is not available yet.
+                </span>
+                <span className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-[#EAF5F1] px-4 text-xs font-semibold text-[#087F83]">
+                  Preview <ArrowRight size={14} />
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        aria-label="Platform principles"
+        className="border-b border-[#E4EEE9] bg-white"
+      >
+        <div className="mx-auto grid max-w-[1440px] grid-cols-2 gap-y-7 px-6 py-8 sm:grid-cols-4 lg:px-[72px] lg:py-9">
+          {proofPoints.map(([title, detail], index) => (
+            <div
+              key={title}
+              className={index > 0 ? "sm:border-l sm:border-[#DCEAE5] sm:pl-6 lg:pl-8" : ""}
+            >
+              <p className="text-sm font-bold text-[#173A37]">{title}</p>
+              <p className="mt-1 text-xs text-[#526D66]">{detail}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section
+        id="discovery"
+        className="scroll-mt-24 bg-[#F6FAF8] py-20 md:py-24"
+      >
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-[72px]">
+          <p className="text-xs font-bold tracking-[0.15em] text-[#087F83]">
+            01 / PATIENT DISCOVERY
+          </p>
+          <h2 className="mt-5 max-w-[850px] text-3xl font-bold tracking-[-0.035em] text-[#173A37] md:text-[38px]">
+            Start with what you need.
+          </h2>
+          <p className="mt-4 max-w-[900px] text-sm leading-7 text-[#526D66]">
+            A clear front door to care — whether you know the specialist or are
+            still exploring. Discovery experiences are being developed.
+          </p>
+
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {discoveryCards.map(({ id, category, title, description, icon: Icon }) => (
+              <article
+                id={id}
+                key={id}
+                className="group flex min-h-[210px] scroll-mt-28 flex-col rounded-2xl border border-[#DCEAE5] bg-white p-6 shadow-[0_5px_24px_rgba(23,58,55,0.035)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_16px_36px_rgba(23,58,55,0.08)]"
+              >
+                <div className="mb-6 flex items-center justify-between">
+                  <span className="h-1 w-11 rounded-full bg-[#16A6A1]" />
+                  <Icon size={21} strokeWidth={1.7} className="text-[#087F83]" />
+                </div>
+                <p className="text-[10px] font-bold tracking-[0.13em] text-[#087F83]">
+                  {category}
+                </p>
+                <h3 className="mt-3 text-[19px] font-bold tracking-tight text-[#173A37]">
+                  {title}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-[#526D66]">
+                  {description}
+                </p>
+                <div className="mt-auto flex items-center justify-between pt-5">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-[#789089]">
+                    Planned experience
+                  </span>
+                  <ArrowDownRight
+                    size={18}
+                    className="text-[#087F83] transition-transform group-hover:translate-x-1 group-hover:translate-y-1"
+                  />
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="provider-ecosystem"
+        className="scroll-mt-20 bg-[#123B38] py-20 text-white md:py-24"
+      >
+        <div className="mx-auto grid max-w-[1440px] gap-12 px-6 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:px-[72px]">
+          <div className="max-w-[620px]">
+            <p className="text-xs font-bold tracking-[0.15em] text-[#16A6A1]">
+              02 / THE PROVIDER ECOSYSTEM
+            </p>
+            <h2 className="mt-5 text-3xl font-bold leading-tight tracking-[-0.035em] text-white md:text-[38px]">
+              One connected system.
+              <br />
+              Different ways to deliver care.
+            </h2>
+            <p className="mt-6 max-w-[560px] text-sm leading-7 text-[#D8E9E3]">
+              Purpose-built experiences for the people and organisations behind
+              every patient journey. Provider and operations tools are planned
+              for future releases.
+            </p>
+            <Link
+              href="#discovery"
+              className="mt-8 inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#4D756F] px-5 text-sm font-semibold text-white transition hover:bg-white/10"
+            >
+              Explore the platform <ArrowRight size={16} />
+            </Link>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            {providerCards.map((card) => (
+              <article
+                key={card.number}
+                className="flex min-h-[280px] flex-col rounded-2xl border border-[#315B55] bg-[#1C4D47] p-5 sm:min-h-[300px] sm:p-4 lg:p-5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-[#79BDB1]">
+                    {card.number}
+                  </span>
+                  <CheckCircle2 size={17} className="text-[#79BDB1]" />
+                </div>
+                <h3 className="mt-9 text-sm font-bold leading-6 tracking-wide text-white">
+                  {card.title}
+                </h3>
+                <p className="mt-4 text-xs leading-6 text-[#D8E9E3]">
+                  {card.description}
+                </p>
+                <span className="mt-auto pt-6 text-[10px] font-bold uppercase tracking-[0.12em] text-[#79BDB1]">
+                  Planned experience
+                </span>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white py-12">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-6 text-sm text-[#526D66] sm:flex-row sm:items-center sm:justify-between lg:px-[72px]">
+          <p className="font-semibold text-[#173A37]">
+            Building a more connected healthcare experience.
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 font-semibold text-[#087F83] hover:text-[#066D70]"
+          >
+            Contact DOCVY <Compass size={16} />
+          </Link>
+        </div>
+      </section>
+    </div>
+  );
 }
