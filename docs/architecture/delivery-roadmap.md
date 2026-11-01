@@ -11,7 +11,7 @@
 - [x] Inspect repository structure, framework manifest, public pages, request form/API, payment handlers and persistence helpers.
 - [x] Inventory Supabase public application tables.
 - [x] Inspect Vercel project metadata and recent deployment states.
-- [ ] Decide coexistence/retirement path for the existing medical-documentation request service.
+- [x] Confirm the existing medical-documentation request service remains a separate product module; preserve its implementation and keep it off the new platform homepage for now.
 - [ ] Confirm database environment and data-residency requirements.
 - [ ] Complete competitor and market validation with dated sources.
 - [ ] Approve domain model and security architecture.
