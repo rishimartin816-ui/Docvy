@@ -7,13 +7,15 @@
 
 These are roadmap estimates based on deliverables, not analytics, traffic, patient activity, or search rankings.
 
-- **Public website and search foundation: 88%.** Main pages, clear patient journey, pan-India guide, NCR-only listings, source-linked profiles, metadata, schema, sitemap and internal discovery links are live. Visual review across mobile devices, Search Console query review and broader provider coverage remain.
+- **Public website and search foundation: 90%.** Main pages, clear patient journey, pan-India guide, NCR-only listings, source-linked profiles, metadata, schema, sitemap and internal discovery links are live. The homepage search panel is now a real concern/specialty search. More mobile interaction review, Search Console query review and broader provider coverage remain.
 - **Website enquiry path: 55%.** Form, server validation, private Sheets handoff and token-protected Apps Script source exist. The script is not installed or deployed and Vercel production variables are not configured; the live form must remain closed until end-to-end verification.
 - **Full DOCVY product: 22%.** This reflects a weighted roadmap across public discovery, provider data, enquiry handling, provider operations, hospital software, identity/access and business intelligence. The provider/hospital application, appointment availability engine and operational dashboards are not complete.
 
 ## Implemented in this release
 
 - Rewrote page and form availability copy to distinguish the India-wide guide from the current Delhi, Gurugram and Noida directory.
+- Replaced the homepage's decorative search card with a labeled GET search form to the patient guide; it submits a search term only and does not ask for contact details.
+- Removed a repeated availability strip from the homepage, added a direct FAQ link in the footer, and corrected About copy that suggested the directory was still unopened.
 - Kept doctor cards inside DOCVY and made the request state truthful: when intake is disconnected, the form does not collect details; when connected, it saves only to DOCVY's private intake and does not notify a provider.
 - Added source-backed hyperlocal entry points that filter the existing directory instead of creating unsupported locality pages.
 - Added server checks for same-origin requests, request size and content type, provider/location membership, required consent, basic field validation, a honeypot, a timeout and token-authenticated forwarding.
@@ -27,6 +29,8 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - `pnpm lint` passed after the ESLint configuration fix.
 - `pnpm build` passed with Next.js 14.2.35, TypeScript validation and all 26 static pages generated.
 - `scripts/apps-script/Code.gs` passed a JavaScript syntax parse. This does not prove the script is installed, authorized or deployed in Google Workspace.
+- Mobile first-viewport screenshots at 390px were visually reviewed for the homepage, patient guide, doctor directory and provider plans. No obvious first-viewport clipping appeared; full-page interaction and overflow measurements remain open.
+- Figma account inspection found view-only seats and no DOCVY file reference in repository artifacts or matching Google Drive searches. The current repository `DESIGN.md` palette and components were used as the design reference; no Figma file was edited.
 - `git diff --check` passed; Git reported line-ending normalization warnings only.
 - Before this release, live public-page checks confirmed HTTP 200 and page-specific titles, descriptions, canonical URLs, one H1 and Organization structured data on sampled routes. `/request` is intentionally noindex; `/robots.txt` and `/sitemap.xml` were available.
 - Search Console query data was not available in the checked account state. No rankings, search volume, traffic or indexing outcomes are claimed.

@@ -6,6 +6,7 @@ const platformLinks = [
   ["/care-guide", "Patient guide: conditions & specialties"],
   ["/doctors", "Doctor directory status"],
   ["/how-it-works", "How finding care will work"],
+  ["/faqs", "Patient and provider FAQs"],
 ] as const;
 
 const policyLinks = [

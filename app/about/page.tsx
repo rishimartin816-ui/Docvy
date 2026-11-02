@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const audiences = [
-  { icon: HeartPulse, title: "For patients", text: "A plain-language way to understand medical specialties and, as the directory opens, discover providers by condition or specialty, city and care location." },
+  { icon: HeartPulse, title: "For patients", text: "A plain-language way to understand medical specialties and browse current source-linked provider profiles by specialty, city and care location." },
   { icon: Stethoscope, title: "For doctors", text: "Reviewed provider profiles planned to explain a doctor’s specialties and the clinics or hospitals where they see patients." },
   { icon: Building2, title: "For clinics", text: "Tools planned to keep practice information and appointment enquiries organised for clinic teams." },
   { icon: Hospital, title: "For hospitals", text: "A multi-department workspace planned to connect provider discovery with appointment coordination and operational visibility." },

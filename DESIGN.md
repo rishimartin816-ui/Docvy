@@ -168,3 +168,12 @@ Structured data should describe visible, accurate content only. Google says its 
 - The screenshot review was desktop only. Mobile navigation, keyboard interactions, and real analytics were not measured here.
 - This review does not verify provider credentials, health guidance, domain ranking, or conversion performance. Counts are from the current source data and directory page, not traffic analytics.
 - Google Search guidance consulted: [AI features and your website](https://developers.google.com/search/docs/appearance/ai-features), [Organization structured data](https://developers.google.com/search/docs/appearance/structured-data/organization), and [Google Business Profile eligibility](https://support.google.com/business/answer/13763036?hl=en).
+
+## 3 November mobile and Figma follow-up
+
+- The connected Figma account lists two team plans, both with a view seat. No DOCVY file URL or layer reference is present in this repository; Google Drive searches for “DOCVY Figma” and “DOCVY design” returned no files. No Figma file was edited or used as a visual source of truth.
+- The Windows browser capture timed out twice, so the account's file browser could not be inspected there. The Figma connector confirms the available plan seats; the DOCVY website's existing `DESIGN.md` values remain the implementation reference.
+- Mobile screenshots at a 390px viewport were visually reviewed for the homepage, patient guide, doctor directory and provider plans. The first viewport showed readable headings, contained cards and the expected mobile menu; this was a visual review, not a measured full-page overflow test.
+- The homepage's illustrated “search” panel is now an actual GET search form to `/care-guide`, with a labeled input and keyboard-accessible submit button. It submits only the search term and does not request patient contact details.
+- Removed the repeated availability strip at the bottom of the homepage, added a patient/provider FAQ link to the footer, and corrected About copy that implied the doctor directory had not opened.
+- The new search panel follows the documented palette and components: white surface, mint background, teal primary action, deep-green text, rounded corners, and the existing icon family.
