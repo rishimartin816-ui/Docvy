@@ -58,7 +58,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 
 - The current production project has no `GOOGLE_SHEETS_WEBHOOK_URL` or `GOOGLE_SHEETS_WEBHOOK_TOKEN` configured. The appointment form therefore remains closed and does not collect visitor data.
 - The private target spreadsheet is accessible through Drive. Its `Appointments` header row has the 14 current core columns; no lead rows were read. The Apps Script endpoint must be saved, given a server-only token in Script Properties, deployed as a web app, and connected through server-only Production variables before a live lead test.
-- The DOCVY Chrome profile has an Apps Script editor project open. Its initial editor view showed `Code.gs` nested under `function myFunction()`, which would not expose the required top-level `doPost` handler. A replacement with the reviewed repository source was attempted, but the UI state timed out during verification; whether that edit was saved is unknown. No endpoint was deployed and no token was created. The current Google Drive connector cannot inspect or deploy Apps Script projects.
+- The DOCVY Chrome profile opens an Apps Script editor titled `Untitled project`; its visible file list contains `Code.gs` and the function picker shows `myFunction`. This is not evidence of a deployed `doPost` endpoint. Attempts to capture the editor state timed out, so no code was replaced, no endpoint was deployed and no token was created. The available Google Drive connector has no Apps Script project-edit or deployment action.
 - After that connection, submit one clearly labelled synthetic test lead, verify its reference and status in the private `Appointments` tab, and confirm the email status is `NOT_CONFIGURED`. Do not use real patient data or notify a provider for this test.
 - A successful direct Google Sheets connector write is not an end-to-end website test.
 - Next.js 14 documentation was checked for the opengraph-image.tsx convention and ImageResponse; the image uses the documented next/og import and edge runtime. The runtime is limited to the image route.
@@ -94,9 +94,12 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Added AIIMS Delhi and Healthdirect references to the eye-specialty result for cataract searches.
 - Corrected `/request` social metadata so its title and Open Graph URL describe that noindex route; when intake is disconnected, metadata now says enquiries are paused instead of implying that the form is available.
 - `pnpm lint` and `pnpm build` passed; Next.js prerendered 32 static pages, including all six patient-guide routes. The existing `/opengraph-image` edge-runtime warning remains limited to that image route. `git diff --check` passed.
-- Verified query behavior on production before this change: high blood pressure surfaced General Physician and Cardiology with source links; PCOS surfaced Endocrinology and Gynaecology; arthritis surfaced Orthopaedics and Rheumatology; cataract surfaced Ophthalmology. Those query results were live on release `94c512a`; the six new static pages await the next production publish.
+- Verified query behavior on production before this change: high blood pressure surfaced General Physician and Cardiology with source links; PCOS surfaced Endocrinology and Gynaecology; arthritis surfaced Orthopaedics and Rheumatology; cataract surfaced Ophthalmology. Those query results were live on release `94c512a`.
 - Search/source review used official AIIMS Delhi and VMMC & Safdarjung Hospital pages plus Healthdirect clinical-information pages. The source notes disclose that Australian information explains general specialty roles and does not define Indian referral rules.
-- The private Sheets connection and synthetic end-to-end lead check remain pending. Do not open intake until a complete synthetic submission is confirmed in the private Sheet; current API behavior remains fail-closed with HTTP 503.
+- Live verification after publish: all six patient-guide URLs returned HTTP 200 with page-specific titles/descriptions, canonicals, `index, follow`, exactly one H1, visible source links and `BreadcrumbList` data. `/sitemap.xml` returned HTTP 200 with 23 URLs and included all six guides.
+- Live `/request` returned HTTP 200 with `noindex, nofollow`; its Open Graph URL now points to `/request` and the page metadata correctly says enquiries are paused. A no-person/no-health-data POST safety probe of `/api/appointment-request` returned HTTP 503, confirming the intake is still disconnected and no lead was accepted.
+- The private Sheets connection and synthetic end-to-end lead check remain pending. Do not open intake until a complete synthetic submission is confirmed in the private Sheet.
+- Production commit `9d5731a` is live in Vercel deployment `dpl_9b2G7YCM4dS2wNHWx4HhLhso7Z9N` (`READY`) with aliases `www.docvy.in` and `docvy.in`.
 
 ## Not yet built or verified
 
@@ -117,6 +120,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 
 | Date | Commit / deployment | Result |
 |---|---|---|
+| 3 Nov 2026 | `9d5731a` · Vercel `dpl_9b2G7YCM4dS2wNHWx4HhLhso7Z9N` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Published six crawlable, source-linked patient answer pages and the sitemap entries. All six live pages returned HTTP 200 with page-specific metadata, canonicals, one H1, `index, follow` and breadcrumb data. `/request` remains noindex and intake stays closed; the no-data production API probe returned 503. |
 | 3 Nov 2026 | `a3fbe4f` · Vercel `dpl_C3jSLwNaAQsZXHBavMYEpBdcDE89` | READY on `main`; tracker update deployed to `www.docvy.in` and `docvy.in`. |
 | 3 Nov 2026 | `d6c8b27` · Vercel `dpl_6ykccyGv5BpzCekr7PX8S6hY4n7f` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Live Noida + Orthopaedics interaction showed one matching profile and the corrected “Check enquiry form status” CTA. |
 | 3 Nov 2026 | `ac08c8f` · Vercel `dpl_29dHUAnUi3TsEndqJGghuwak3qgS` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Live city-page checks confirmed 200 responses, page-specific canonicals/titles, breadcrumb markup, city-retaining specialty links and 6/6/4 external source links. The production enquiry API correctly returned 503 while the private intake connection is absent; no lead was saved. |
