@@ -70,8 +70,20 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Added direct homepage links to each currently listed city, with per-city profile and facility counts computed from the same provider data used by the directory. This makes geographic coverage discoverable while stating that the listings are limited and not a complete city directory.
 - Reconciled listing metrics: 12 unique profiles; 16 profile-city placements; 17 hospital-listed facility locations. A profile at two facilities in the same city counts once toward profile-city coverage and twice toward facility locations.
 - Reviewed current official Google Search guidance: Google states its AI Search features use the same foundational SEO practices and do not require special AI markup. Content clarity, original value and trustworthy sourcing remain the focus; no search ranking or traffic outcome is claimed. See [AI features and your website](https://developers.google.com/search/docs/appearance/ai-features) and [people-first content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content).
-- `pnpm lint` passed. `pnpm build` passed, including TypeScript validation and generation of all 26 static pages. Live post-deploy verification remains pending until the new commit is published.
+- `pnpm lint` and `pnpm build` passed for the 3 November design and search update, including TypeScript validation and generation of all 26 static pages. The production verification for the subsequent city-directory update is recorded below.
 - A synthetic appointment-lead test is still pending: the Apps Script is not yet confirmed saved/deployed, and production Vercel secrets are not present. Keep intake closed until a complete live submission has been verified in the private Sheet.
+
+## 3 November city directory, answer support and source transparency
+
+- Fixed specialty links on each city page so choosing a specialty keeps the current city filter instead of unexpectedly expanding to all Delhi NCR listings.
+- Added a visible, keyboard-friendly breadcrumb on each city page and matching `BreadcrumbList` JSON-LD that follows the site's user path: Home → Doctor directory → City. This is structured context, not a promise of a rich search result.
+- Added a direct link from every profile card to its cited public hospital profile. Links open the hospital's own source in a new tab and include accessible names; DOCVY still does not claim independent credential review or current appointment availability.
+- Added concise, city-specific answers on directory completeness, appointment booking, credential review and pan-India guide coverage. The answers are visible on the page; no `FAQPage` rich-result markup was added.
+- Updated city-page descriptions and Twitter cards with the correct profile count, city name and the limited-listing caveat.
+- `pnpm lint`, `pnpm build` and `git diff --check` passed. The production build generated all 26 static pages; the existing Open Graph edge-runtime warning remains limited to that image route.
+- Live verification on `www.docvy.in`: Delhi, Gurugram and Noida city pages returned HTTP 200; canonical URLs and page-specific titles were present; breadcrumb JSON-LD and city-preserving specialty links were present; official hospital-source link counts were 6, 6 and 4, matching the page's unique source-linked profiles.
+- A production API safety probe containing no person or health details returned HTTP 503 while Sheets intake is disconnected. This confirms fail-closed behavior only; no lead was accepted or written. The actual synthetic lead-to-Sheet test remains pending until the approved private endpoint is configured and connected.
+- Current Google Search guidance recommends breadcrumbs that reflect the user path and does not guarantee rich results; FAQ rich results are limited to a subset of authoritative sites. DOCVY uses visible answer copy without promising FAQ enhancements. See [Google breadcrumb structured data](https://developers.google.com/search/docs/appearance/structured-data/breadcrumb) and [Google's FAQ rich-result change](https://developers.google.com/search/blog/2023/08/howto-faq-changes).
 
 ## Not yet built or verified
 
@@ -92,6 +104,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 
 | Date | Commit / deployment | Result |
 |---|---|---|
+| 3 Nov 2026 | `ac08c8f` · Vercel `dpl_29dHUAnUi3TsEndqJGghuwak3qgS` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Live city-page checks confirmed 200 responses, page-specific canonicals/titles, breadcrumb markup, city-retaining specialty links and 6/6/4 external source links. The production enquiry API correctly returned 503 while the private intake connection is absent; no lead was saved. |
 | 3 Nov 2026 | `764ba0c` · Vercel `dpl_6Wp1uwrCwa6kXkgMUFEXacy49o6V` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Live homepage and `/how-it-works` reflect the closed intake and provider confirmation; `robots.txt`, sitemap, share image, city pages and canonical/social metadata checks passed. |
 | 3 Nov 2026 | `193ef6b` · Vercel `dpl_JDXQfyEPi3ofV96hafJhZcJ6yTzf` | READY on `main`; aliases `www.docvy.in` and `docvy.in`; build completed successfully. Homepage city coverage and branded social metadata verified live. The appointment enquiry form remains closed until the private Sheets endpoint is configured and tested. |
 | 3 Nov 2026 | fdb54f9 · Vercel dpl_54bZpuJTD5w6XThhrAsKN6b9rguq | ERROR before build: resource provisioning timed out. No aliases were assigned; the previous READY release remained live. |
