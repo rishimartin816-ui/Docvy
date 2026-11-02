@@ -3,7 +3,6 @@ import { ArrowUpRight, FileText, Mail, ShieldCheck } from "lucide-react";
 
 const platformLinks = [
   ["/#discovery", "Patient discovery"],
-  ["/#doctors", "Doctors"],
   ["/#clinics", "Clinics"],
   ["/#hospitals", "Hospitals"],
 ] as const;
