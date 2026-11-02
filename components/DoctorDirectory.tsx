@@ -6,6 +6,11 @@ import { providerCandidates, providerCities, providerSpecialties, type ProviderC
 
 type CityFilter = "All Delhi NCR" | ProviderCity;
 
+function formatFacility(facility: string, locality?: string) {
+  if (!locality || facility.toLocaleLowerCase().includes(locality.toLocaleLowerCase())) return facility;
+  return `${facility} · ${locality}`;
+}
+
 export default function DoctorDirectory() {
   const [city, setCity] = useState<CityFilter>("All Delhi NCR");
   const [specialty, setSpecialty] = useState("All specialties");
@@ -39,10 +44,10 @@ export default function DoctorDirectory() {
       const cityDoctors = matches.filter((doctor) => doctor.locations.some((location) => location.city === cityName));
       if (!cityDoctors.length) return null;
       return <section key={cityName} className="mt-10 scroll-mt-24" aria-labelledby={`city-${cityName.toLowerCase()}`}>
-        <div className="mb-5 flex flex-wrap items-end justify-between gap-3"><div><p className="text-xs font-extrabold tracking-[0.14em] text-[#087F83]">DOCTORS IN</p><h2 id={`city-${cityName.toLowerCase()}`} className="mt-1 text-2xl font-bold md:text-3xl">{cityName}{cityName === "Gurugram" ? <span className="ml-2 text-base font-medium text-[#789089]">(Gurgaon)</span> : null}</h2></div><span className="rounded-full bg-[#EAF5F1] px-3 py-1.5 text-xs font-bold text-[#087F83]">{cityDoctors.length} profiles listed</span></div>
+        <div className="mb-5 flex flex-wrap items-end justify-between gap-3"><div><p className="text-xs font-extrabold tracking-[0.14em] text-[#087F83]">DOCTORS IN</p><h2 id={`city-${cityName.toLowerCase()}`} className="mt-1 text-2xl font-bold md:text-3xl">{cityName}{cityName === "Gurugram" ? " (Gurgaon)" : ""}</h2></div><span className="rounded-full bg-[#EAF5F1] px-3 py-1.5 text-xs font-bold text-[#087F83]">{cityDoctors.length} profiles listed</span></div>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">{cityDoctors.map((doctor) => {
           const cityLocations = doctor.locations.filter((location) => location.city === cityName);
-          const secondaryLocations = doctor.locations.filter((location) => location.city !== cityName).map((location) => `${location.facility}${location.locality ? `, ${location.locality}` : ""}`);
+          const secondaryLocations = doctor.locations.filter((location) => location.city !== cityName).map((location) => formatFacility(location.facility, location.locality));
           const allListedFacilities = doctor.locations.map((location) => location.facility.toLocaleLowerCase());
           const extraLocations = [...new Set([...secondaryLocations, ...doctor.otherNcrLocations.filter((place) => !allListedFacilities.some((facility) => place.toLocaleLowerCase().includes(facility)))])];
           const isPrimaryCity = cityLocations.some((location) => location.primary);
@@ -52,7 +57,7 @@ export default function DoctorDirectory() {
               <div className="flex flex-wrap items-center justify-between gap-2"><span className="inline-flex items-center gap-1.5 rounded-full bg-[#EAF5F1] px-3 py-1.5 text-[11px] font-bold text-[#087F83]"><MapPin size={13} />{cityName}{cityLocations.some((location) => location.locality) ? ` · ${[...new Set(cityLocations.flatMap((location) => location.locality ? [location.locality] : []))].join(", ")}` : ""}</span>{!isPrimaryCity && <span className="text-[10px] font-semibold uppercase tracking-wide text-[#789089]">Additional source-listed location</span>}</div>
               <h3 className="mt-5 text-xl font-bold tracking-tight text-[#173A37]">{doctor.name}</h3>
               <p className="mt-2 text-sm leading-6 text-[#526D66]">{doctor.specialties.join(" · ")}</p>
-              <div className="mt-5 border-t border-[#E8F0EC] pt-4"><p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#789089]">Hospital profile lists</p><ul className="mt-2 space-y-2">{cityLocations.map((location) => <li key={`${location.facility}-${location.locality ?? ""}`} className="flex gap-2 text-sm font-semibold leading-5 text-[#36564F]"><span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#16A6A1]" /><span>{location.facility}{location.locality ? ` · ${location.locality}` : ""}</span></li>)}</ul></div>
+              <div className="mt-5 border-t border-[#E8F0EC] pt-4"><p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#789089]">Hospital profile lists</p><ul className="mt-2 space-y-2">{cityLocations.map((location) => <li key={`${location.facility}-${location.locality ?? ""}`} className="flex gap-2 text-sm font-semibold leading-5 text-[#36564F]"><span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#16A6A1]" /><span>{formatFacility(location.facility, location.locality)}</span></li>)}</ul></div>
               {extraLocations.length > 0 && <p className="mt-3 text-xs leading-5 text-[#526D66]"><span className="font-semibold">Other NCR locations on source profile:</span> {extraLocations.join("; ")}</p>}
               <div className="mt-5 rounded-xl border border-[#E8F0EC] bg-[#F8FBF9] p-3.5"><div className="flex items-start gap-2"><ShieldCheck size={15} className="mt-0.5 shrink-0 text-[#087F83]" /><p className="text-xs leading-5 text-[#526D66]">Source: {doctor.hospital}. DOCVY review pending; credentials and appointment availability have not been independently checked.</p></div></div>
               <div className="mt-auto pt-5"><a href={doctor.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#087F83] px-4 text-sm font-bold text-white transition hover:bg-[#066D70]">View {doctor.hospital} profile <ArrowUpRight size={16} /></a><p className="mt-2 text-center text-[10px] leading-4 text-[#789089]">Source page checked {doctor.sourceChecked}. Confirm current location and slots with the hospital.</p></div>
