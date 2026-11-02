@@ -40,7 +40,20 @@ const steps = [
   },
 ];
 
-export default function PatientJourneyMap() {
+export default function PatientJourneyMap({ intakeEnabled }: { intakeEnabled: boolean }) {
+  const stepsWithAvailability = steps.map((step) =>
+    step.number === "04"
+      ? {
+          ...step,
+          title: "Confirm details with the care provider",
+          text: intakeEnabled
+            ? "You can send an appointment enquiry to DOCVY. It is saved in DOCVY’s private intake; it does not automatically reach the provider or reserve a slot. Contact the hospital or clinic to confirm."
+            : "DOCVY’s appointment enquiry form is currently closed. Contact the hospital or clinic directly to confirm the doctor, location, time and fee.",
+          label: intakeEnabled ? "ENQUIRY TO DOCVY" : "ENQUIRY FORM CLOSED",
+        }
+      : step,
+  );
+
   return (
     <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
       <div className="relative overflow-hidden rounded-[28px] border border-[#DCEAE5] bg-[#EAF5F1] p-6 sm:p-8">
@@ -77,7 +90,7 @@ export default function PatientJourneyMap() {
       </div>
 
       <ol className="relative space-y-3 before:absolute before:bottom-10 before:left-[22px] before:top-10 before:w-px before:bg-[#B8DCD0]">
-        {steps.map(({ number, icon: Icon, title, text, label }) => (
+        {stepsWithAvailability.map(({ number, icon: Icon, title, text, label }) => (
           <li key={number} className="relative flex gap-4 rounded-2xl border border-[#DCEAE5] bg-white p-4 sm:gap-5 sm:p-5">
             <span className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[#C9E3D9] bg-[#F3FAF6] text-[#087F83]"><Icon size={20} aria-hidden="true" /></span>
             <div className="min-w-0">

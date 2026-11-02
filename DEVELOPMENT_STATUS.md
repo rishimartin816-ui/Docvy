@@ -28,6 +28,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Corrected a directory count label: 12 unique profiles map to 16 profile-city placements and 17 hospital-listed facility locations; multiple facilities in one city are no longer mislabelled as separate city listings.
 - Replaced generic inherited social-preview descriptions that implied an enquiry flow with accurate India-wide guide and current NCR-directory wording.
 - Added a branded 1200 × 630 Open Graph image and connected it to Open Graph and Twitter large-image metadata using the Next.js 14 metadata image route.
+- Made the shared patient-journey step reflect the configured intake state: when closed, it says to contact the provider directly; when open, it explains that enquiries go to DOCVY and are not provider notifications or confirmed bookings.
 
 ## Verification evidence
 
@@ -50,6 +51,8 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - The current homepage city panel is intended to show 6 profiles for Delhi, 6 for Gurugram and 4 for Noida, with counts derived from the source list. These are directory data counts, not verified coverage completeness.
 - Local production-server checks returned HTTP 200 for /, /doctors and /opengraph-image. The generated image returned image/png (115,628 bytes); homepage source contained both og:image and twitter:image, and the city cards linked to the current route set.
 - The first local metadata pass found that route-level Open Graph objects override the shared image. Added one shared image definition to every page-level Open Graph override; a second local check of 10 representative pages and templates returned HTTP 200 with both og:image and twitter:image plus canonicals.
+- Live verification of deployment `193ef6b` (`dpl_JDXQfyEPi3ofV96hafJhZcJ6yTzf`) returned HTTP 200 and confirmed the homepage city-coverage section, 6/6/4 source-linked profiles, 6/7/4 listed locations, canonical URL, Open Graph image, and Twitter `summary_large_image` metadata. `/robots.txt` and `/sitemap.xml` also returned HTTP 200; the sitemap contains 17 URLs.
+- After the journey-step copy update, `pnpm lint` and `pnpm build` passed. The build type-checks the shared component uses on the homepage and `/how-it-works` and generated all 26 static pages. This copy fix is awaiting production publication.
 
 ## Live intake state and safe test
 
@@ -89,6 +92,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 
 | Date | Commit / deployment | Result |
 |---|---|---|
+| 3 Nov 2026 | `193ef6b` · Vercel `dpl_JDXQfyEPi3ofV96hafJhZcJ6yTzf` | READY on `main`; aliases `www.docvy.in` and `docvy.in`; build completed successfully. Homepage city coverage and branded social metadata verified live. The appointment enquiry form remains closed until the private Sheets endpoint is configured and tested. |
 | 3 Nov 2026 | fdb54f9 · Vercel dpl_54bZpuJTD5w6XThhrAsKN6b9rguq | ERROR before build: resource provisioning timed out. No aliases were assigned; the previous READY release remained live. |
 | 3 Nov 2026 | `4c8d365` · Vercel `dpl_HwXkRo4psYPa9CMPC61HBgJfAS9Z`, `dpl_5A5pDqwYrwJFxCzgMLwtyyjqKqwk`, `dpl_xNWyPu9cSnuufhSKeV84mjQu56Kq` | All three production-target attempts failed before build with `Resource provisioning timed out`; the API retry using the Turbo build machine also timed out. None received the custom-domain aliases. The currently public site remains on READY commit `4498bad` (`dpl_8fHyCFx4nG5GboMzUJJQbXJenXtV`). |
 | 3 Nov 2026 | `7bffe2b` · Vercel `dpl_2LKse2bg4MQiRtctcXvzmfhnxyKF` | Git-triggered retry with Vercel's one-deployment Turbo marker also failed before build with `Resource provisioning timed out`; no build events were available and no custom-domain aliases were assigned. Vercel's public status page showed no reported incident at the time checked. The prior READY release remains live. |
