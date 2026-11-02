@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Building2, HeartPulse, Hospital, Stethoscope } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About DOCVY | Healthcare discovery and operations",
+  title: "Healthcare discovery and operations",
   description: "Learn about DOCVY's India-wide healthcare discovery vision, current Delhi NCR doctor listings and planned tools for providers.",
   alternates: { canonical: "/about" },
 };

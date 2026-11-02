@@ -154,6 +154,8 @@ Structured data should describe visible, accurate content only. Google says its 
 - Added an original vector scene to the clinic/hospital plans hero. The art itself states that workflows are planned and not live.
 - Updated the patient guide metadata to use plain-language “what kind of doctor” intent and avoid implying diagnosis.
 - Updated Gurugram city metadata to include the commonly used “Gurgaon” name.
+- Audited supporting-page title tags and removed repeated brand suffixes where the shared Next.js metadata template already appends “DOCVY.” Shortened city-page title tags while keeping the local city intent.
+- Confirmed title-template behavior in the official [Next.js 14 metadata documentation](https://nextjs.org/docs/14/app/api-reference/functions/generate-metadata#title).
 - Figma account access is connected, but no DOCVY design-file URL or node reference was found in the repository or current project artifacts. These changes follow this repository’s documented visual system and existing illustrations; no Figma file was edited or presented as a source of truth.
 - Google Search Central guidance reviewed: AI features use the same foundational SEO practices, and content should be useful to people with clear sourcing; no special AI markup or rankings are promised. See [AI features and your website](https://developers.google.com/search/docs/appearance/ai-features) and [Creating helpful, reliable, people-first content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content).
 

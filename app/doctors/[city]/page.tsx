@@ -19,7 +19,7 @@ export function generateMetadata({ params }: { params: { city: string } }): Meta
   const city = citySlugs[params.city];
   if (!city) return { title: "City not found" };
   const locationName = city === "Gurugram" ? "Gurugram (Gurgaon)" : city;
-  const title = `Doctors in ${locationName} | Search hospital-listed profiles`;
+  const title = `Doctors in ${locationName}`;
   const description = `Browse DOCVY's current hospital-listed doctor profiles in ${locationName}, Delhi NCR. Explore specialties and listed facilities; confirm current details and appointments with the hospital.`;
   return { title, description, alternates: { canonical: `/doctors/${params.city}` }, openGraph: { type: "website", locale: "en_IN", siteName: "DOCVY", title: `${title} | DOCVY`, description, url: `/doctors/${params.city}` } };
 }

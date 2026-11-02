@@ -23,6 +23,7 @@
 - Added a custom provider-workflow SVG to the clinic and hospital plans page; it is visibly labeled “planned · not live.”
 - Added “Gurgaon” as a search-oriented alias in Gurugram page metadata.
 - Updated care-guide titles to use plain-language search intent without implying diagnosis.
+- Audited supporting-page title tags against Next.js 14 title-template behavior and removed repeated brand suffixes; shortened city title tags without dropping city names.
 - Reviewed current Google Search Central guidance. No special AI-search markup or ranking outcome is claimed.
 - Production build passed with Next.js 14.2.35, linting, type validation, and all 26 static pages generated.
 - Live deployment for commit `6463ddd` is READY. Browser review confirmed `/care-guide?q=joint%20pain` shows one specialty match (Orthopaedics) and a link to the relevant directory filter.

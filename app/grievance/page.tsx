@@ -2,7 +2,7 @@ import { MessageSquareWarning, ShieldCheck } from "lucide-react";
 import { PageHero, Section, Card } from "@/components/ui";
 
 export const metadata = {
-  title: "Grievance information – DOCVY",
+  title: "Grievance contact information",
   description: "Current grievance-contact availability for DOCVY.",
   alternates: { canonical: "/grievance" },
   openGraph: {

@@ -4,7 +4,7 @@ import { ArrowRight, CalendarClock, CheckCircle2, ExternalLink } from "lucide-re
 import PatientJourneyMap from "@/components/PatientJourneyMap";
 
 export const metadata: Metadata = {
-  title: "How DOCVY works: from health concern to appointment",
+  title: "How to use the patient guide and doctor directory",
   description: "See how DOCVY's India-wide care discovery is planned. The patient guide is available across India; current source-linked doctor listings start in Delhi NCR.",
   alternates: { canonical: "/how-it-works" },
 };

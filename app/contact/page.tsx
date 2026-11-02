@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Building2, Mail, MapPin, ShieldAlert } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Contact DOCVY",
+  title: "Contact and provider enquiries",
   description: "Contact DOCVY about clinic and hospital plans, provider onboarding, or privacy questions.",
   alternates: { canonical: "/contact" },
   openGraph: {

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { faqs } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "DOCVY FAQs: doctor listings, appointments and provider plans",
+  title: "Doctor listings, appointments and provider plan FAQs",
   description:
     "Clear answers about DOCVY's doctor directory, appointment requests, provider verification, clinic and hospital plans, privacy and emergency care.",
   alternates: { canonical: "/faqs" },

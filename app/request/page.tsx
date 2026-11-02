@@ -1,6 +1,6 @@
 import { PageHero, Section } from "@/components/ui";
 
-export const metadata = { title: "Requests temporarily paused – DOCVY", robots: { index: false, follow: false } };
+export const metadata = { title: "Requests temporarily paused", robots: { index: false, follow: false } };
 
 export default function Request() {
   return (

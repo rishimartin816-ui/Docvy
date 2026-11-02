@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, BadgeCheck, Building2, MapPin, Stethoscope } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "For Doctors Across India | DOCVY Provider Directory",
+  title: "For doctors: profiles and onboarding",
   description: "Contact DOCVY about a doctor profile, correction or future onboarding. Provider discovery is planned across India; current public listings start in Delhi NCR.",
   alternates: { canonical: "/for-doctors" },
   openGraph: {
