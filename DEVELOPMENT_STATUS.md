@@ -89,7 +89,8 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 
 | Date | Commit / deployment | Result |
 |---|---|---|
-| 3 Nov 2026 | fdb54f9 · Vercel dpl_54bZpuJTD5w6XThhrAsKN6b9rguq | ERROR before build: resource provisioning timed out. No aliases were assigned; the previous READY release remained live. Retry is being prepared with the next commit. |
+| 3 Nov 2026 | fdb54f9 · Vercel dpl_54bZpuJTD5w6XThhrAsKN6b9rguq | ERROR before build: resource provisioning timed out. No aliases were assigned; the previous READY release remained live. |
+| 3 Nov 2026 | `4c8d365` · Vercel `dpl_HwXkRo4psYPa9CMPC61HBgJfAS9Z`, `dpl_5A5pDqwYrwJFxCzgMLwtyyjqKqwk`, `dpl_xNWyPu9cSnuufhSKeV84mjQu56Kq` | All three production-target attempts failed before build with `Resource provisioning timed out`; the API retry using the Turbo build machine also timed out. None received the custom-domain aliases. The currently public site remains on READY commit `4498bad` (`dpl_8fHyCFx4nG5GboMzUJJQbXJenXtV`). |
 | 3 Nov 2026 | `986c33e` · Vercel `dpl_G9mavqzeH2DQF8K8CQgGWLuh8Avk` | READY; fresh live page checks passed. Enquiry intake remains closed pending the private Workspace connection. |
 | 3 Nov 2026 | `2fd963a` · Vercel `dpl_BNaQFGFrwhjQafiVGUHzPNisFTfF` | READY; interactive homepage search verified live: “joint pain” opens the guide and returns Orthopaedics. The search submits no contact details. |
 | 3 Nov 2026 | `146daf6` · Vercel `dpl_Gr2zc4xe7mMgSiFV2nTN2Fj36Hkx` | READY; moved the search card into the homepage text flow so it appears in the first mobile viewport. |
