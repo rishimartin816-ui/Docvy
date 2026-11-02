@@ -4,15 +4,15 @@ import { ArrowRight, Building2, CalendarCheck, CheckCircle2, Hospital, MapPin, S
 import HeroIllustration from "@/components/HeroIllustration";
 
 export const metadata: Metadata = {
-  title: "Find a doctor in Delhi NCR | DOCVY patient guide",
-  description: "Understand which doctor specialty to search for and browse source-linked doctor profiles across Delhi NCR. DOCVY booking is not open yet.",
+  title: "Find doctors in India | DOCVY patient guide",
+  description: "Understand which doctor specialty to search for with DOCVY's patient guide for India. Browse source-linked doctor profiles, currently starting in Delhi NCR.",
   alternates: { canonical: "/" },
-  openGraph: { type: "website", locale: "en_IN", siteName: "DOCVY", title: "Find your way to care | DOCVY", description: "A plain-language starting point for doctor, clinic and hospital discovery in Delhi NCR. Directory and booking status explained.", url: "/" },
+  openGraph: { type: "website", locale: "en_IN", siteName: "DOCVY", title: "Find your way to care across India | DOCVY", description: "A plain-language health guide for India, with source-linked doctor listings currently starting in Delhi NCR.", url: "/" },
 };
 
 const journey = [
   { title: "Start with a concern", text: "Search a common condition or go straight to a medical specialty if you already know what you need.", icon: Search },
-  { title: "Choose your area", text: "Narrow by Delhi, Gurugram or Noida, then neighbourhood when confirmed provider locations are available.", icon: Building2 },
+  { title: "Choose a covered city", text: "Doctor listings currently cover Delhi, Gurugram and Noida. DOCVY plans to add cities as provider coverage grows.", icon: Building2 },
   { title: "Compare care locations", text: "See the doctor and the hospital or clinic where they work, so you know where an appointment would take place.", icon: Hospital },
   { title: "Request a time", text: "Choose or suggest a slot. The hospital or clinic must confirm it before the appointment is booked.", icon: CalendarCheck },
 ];
@@ -37,10 +37,10 @@ export default function Home() {
       <div className="relative mx-auto grid min-h-[640px] max-w-[1440px] items-center gap-8 px-6 pb-16 pt-14 md:px-10 lg:grid-cols-[1fr_1fr] lg:px-[72px] lg:pb-20 lg:pt-10">
         <div className="relative z-10 max-w-[700px]">
           <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><span className="h-2 w-2 rounded-full bg-[#F39B72]" />CARE, CONNECTED</p>
-          <h1 className="max-w-[760px] text-[42px] font-black leading-[1.04] tracking-[-0.052em] text-[#173A37] sm:text-[54px] lg:text-[62px]">Find a doctor in Delhi NCR <span className="text-[#087F83]">by what you need.</span></h1>
-          <p className="mt-7 max-w-[620px] text-base leading-8 text-[#526D66] md:text-[17px]">Start with a health concern, search a specialty, or browse hospital-listed doctors in Delhi, Gurugram and Noida. DOCVY helps you understand where to look and links you to the hospital for current details.</p>
+          <h1 className="max-w-[760px] text-[42px] font-black leading-[1.04] tracking-[-0.052em] text-[#173A37] sm:text-[54px] lg:text-[62px]">Find your way to care <span className="text-[#087F83]">across India.</span></h1>
+          <p className="mt-7 max-w-[620px] text-base leading-8 text-[#526D66] md:text-[17px]">Start with a health concern or specialty anywhere in India. Browse source-linked doctor profiles in Delhi NCR today; we’ll add more cities as provider coverage grows.</p>
           <div className="mt-8 flex flex-wrap gap-3"><Link href="/care-guide" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#087F83] px-6 text-sm font-bold text-white shadow-[0_10px_24px_rgba(8,127,131,0.2)] hover:bg-[#066D70]">Search by concern <ArrowRight size={17} /></Link><Link href="/doctors" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#B7D2C9] bg-white/80 px-6 text-sm font-bold text-[#173A37] hover:bg-white">Browse doctors</Link></div>
-          <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#DCEAE5] bg-white/70 px-3 py-2 text-xs leading-5 text-[#526D66]"><MapPin size={14} className="shrink-0 text-[#087F83]" />DOCVY booking is not open; confirm details with the hospital.</p>
+          <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#DCEAE5] bg-white/70 px-3 py-2 text-xs leading-5 text-[#526D66]"><MapPin size={14} className="shrink-0 text-[#087F83]" />Doctor listings start in Delhi NCR. Appointments are arranged with hospitals.</p>
         </div>
         <div className="relative mx-auto w-full max-w-[590px] pb-8"><HeroIllustration /><Link href="/care-guide" className="absolute bottom-0 left-1/2 w-[min(100%,520px)] -translate-x-1/2 rounded-[22px] border border-[#DCEAE5] bg-white/95 p-4 shadow-[0_22px_60px_rgba(23,58,55,0.16)] transition hover:-translate-y-1 hover:shadow-[0_26px_64px_rgba(23,58,55,0.2)] sm:p-5"><div className="flex flex-wrap items-center justify-between gap-3"><p className="text-[11px] font-extrabold tracking-[0.12em] text-[#526D66]">WHAT ARE YOU LOOKING FOR?</p><span className="rounded-full bg-[#DDF0E9] px-3 py-1 text-[10px] font-extrabold tracking-wide text-[#087F83]">PATIENT GUIDE</span></div><div className="mt-4 flex min-h-[54px] items-center gap-3 rounded-xl border border-[#DCEAE5] bg-[#F6FAF8] px-4 text-sm text-[#526D66]"><Search size={19} className="shrink-0 text-[#087F83]" /><span>Diabetes, skin rash, pregnancy, or heart</span><ArrowRight size={17} className="ml-auto shrink-0 text-[#087F83]" /></div><p className="mt-3 text-[11px] leading-5 text-[#526D66]">See which specialties are commonly associated with a concern.</p></Link></div>
       </div>

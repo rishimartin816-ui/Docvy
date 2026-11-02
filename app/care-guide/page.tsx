@@ -5,7 +5,7 @@ import CareGuideSearch from "@/components/CareGuideSearch";
 
 export const metadata: Metadata = {
   title: "What doctor should I see? Disease and specialty guide",
-  description: "Search a health condition, symptom or specialty to understand which doctor may commonly help. A plain-language care guide for Delhi NCR; not a diagnosis or medical advice.",
+  description: "Search a health condition, symptom or specialty to understand which doctor may commonly help. A plain-language patient guide for India; not a diagnosis or medical advice.",
   alternates: { canonical: "/care-guide" },
   openGraph: {
     type: "website", locale: "en_IN", siteName: "DOCVY",
@@ -19,7 +19,7 @@ export default function CareGuidePage() {
   return <div className="bg-[#F6FAF8] text-[#173A37]">
     <section className="bg-[radial-gradient(circle_at_78%_35%,#D5F0E8_0%,#EAF5F1_38%,#F4FAF7_100%)] px-6 py-16 md:py-20">
       <div className="mx-auto max-w-6xl">
-        <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><MapPin size={14} /> PATIENT GUIDE · DELHI NCR</p>
+        <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><MapPin size={14} /> PATIENT GUIDE · INDIA</p>
         <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[56px]">What kind of doctor should I see?</h1>
         <p className="mt-5 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">Search a common condition, symptom or doctor type. The guide explains which specialties are commonly associated with that topic and helps you find a starting point. It cannot diagnose a condition or decide which care is right for you.</p>
         <CareGuideSearch />
@@ -38,7 +38,7 @@ export default function CareGuidePage() {
       <p className="text-xs font-extrabold tracking-[0.13em] text-[#087F83]">HOW DOCVY IS DESIGNED TO HELP</p><h2 className="mt-3 max-w-3xl text-2xl font-bold tracking-tight md:text-3xl">From a concern to a confirmed appointment</h2>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{[
         ["1. Choose a starting point", "Search by a concern or go directly to a specialty if you already know what you need."],
-        ["2. Narrow by location", "Choose Delhi, Gurugram, or Noida, then a neighbourhood when a provider address is available."],
+        ["2. Narrow by location", "Choose a city with current listings. DOCVY starts with Delhi NCR and plans to add cities as provider coverage grows."],
         ["3. Compare a provider and facility", "Review the doctor’s specialty and the hospital or clinic where care is offered."],
         ["4. Request and confirm", "A booking request is complete only after the hospital or clinic confirms the slot with you."],
       ].map(([title, description]) => <article key={title} className="rounded-2xl border border-[#DCEAE5] bg-[#F8FBF9] p-5"><h3 className="font-bold text-[#173A37]">{title}</h3><p className="mt-2 text-sm leading-6 text-[#526D66]">{description}</p></article>)}</div>

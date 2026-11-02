@@ -44,11 +44,11 @@ The guide currently returns all 17 specialties before the patient searches, so a
 
 Build a reviewed concern-to-specialty library for useful, common searches. Each entry should use plain language, explain that it is a general association rather than diagnosis, link to its source/review date, and offer a route to relevant directory categories where those listings exist. Start with a small set of high-intent concerns and expand only after source and clinical review. Do not create thin pages for every keyword.
 
-### 3. Doctor directory: make scale and trust easy to understand
+### 3. Doctor directory: make scale, trust and growth easy to understand
 
 The current dataset represents 12 unique doctor profiles across 16 city placements (Delhi 6, Gurugram 6, Noida 4); a profile can appear under multiple cities. State the unique-profile count separately from location listings. Keep hospital source, city/locality, specialty, source check date and DOCVY review status visible. Use confirmed, public location detail only and continue linking to the official hospital source for current availability.
 
-Next directory improvements should be driven by a repeatable profile record and a human review step. Add locality landing pages only where there is enough current, source-backed information to make them useful to patients.
+DOCVY is a pan-India product; the guide and product purpose should speak to people and care teams nationwide. The live doctor directory is currently limited to Delhi NCR. Add a city only as source-linked provider coverage grows enough to make its listings useful and clear to patients. Keep locality pages limited to current, source-backed information, and never suggest nationwide listings before they exist.
 
 ### 4. Provider pages: give each audience a concrete next step
 
@@ -89,7 +89,7 @@ These are proposed values and art direction, not a finished Figma file. The exis
 
 ### Patient homepage
 
-1. **Hero:** one plain-language promise such as “Find doctors in Delhi NCR by specialty and location.” Include a concern/specialty search and a visible city selector or two clear actions: “Find a specialty” and “Browse doctors.”
+1. **Hero:** make the nationwide purpose clear, such as “Find your way to care across India.” Include a concern/specialty search and a visible directory action that states the current Delhi NCR coverage.
 2. **Quick starts:** “I know the doctor I need,” “I have a health concern,” and “I want to search near a location.” Each route should lead to a working guide or directory state.
 3. **Available today:** explain that the patient guide and hospital-linked directory are usable now; direct patients to the hospital for current appointments. Keep this status in one clear notice.
 4. **How DOCVY is planned to help:** show the future request-and-confirm journey separately and mark it as planned, so patients do not confuse it with a live booking flow.
@@ -104,7 +104,7 @@ These are proposed values and art direction, not a finished Figma file. The exis
 
 ### Doctor directory and profiles
 
-- Provide city pages for Delhi, Gurugram/Gurgaon and Noida, with a locality filter and only source-confirmed facility names.
+- Keep the current city pages for Delhi, Gurugram/Gurgaon and Noida. Add Indian cities in growth-led phases when enough source-backed profiles are available; do not publish empty or thin city pages.
 - Each profile should show the doctor's name, source-listed specialties, facility/city, source hospital, last source-check date, DOCVY review status and a direct hospital-profile action.
 - Explain “12 unique profiles” versus “16 city placements” where a doctor appears in multiple city groups. Do not show a DOCVY booking button or imply live availability while those features are not enabled.
 - Add deeper specialty/locality pages when the underlying source-linked profiles support genuinely useful, non-duplicated results.

@@ -27,11 +27,11 @@ export default function Footer() {
             DOCVY
           </Link>
           <p className="mt-3 max-w-sm text-sm leading-6 text-[#526D66]">
-            DOCVY is building a clearer way to navigate doctor, clinic and hospital discovery in Delhi NCR.
+            DOCVY is building healthcare discovery and provider tools for people and care teams across India.
           </p>
           <p className="mt-5 flex max-w-sm items-start gap-2 text-xs leading-5 text-[#789089]">
             <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#087F83]" />
-            Source-linked doctor listings are available. DOCVY credential review and appointment booking are not live yet.
+            Doctor listings currently start in Delhi NCR. DOCVY review and appointment booking are not live yet.
           </p>
         </div>
 
