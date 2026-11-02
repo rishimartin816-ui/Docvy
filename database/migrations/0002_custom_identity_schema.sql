@@ -15,6 +15,11 @@ CREATE ROLE docvy_auth_fn
 CREATE ROLE docvy_auth_runtime
   NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOBYPASSRLS;
 
+-- Supabase's non-superuser `postgres` role needs membership in a custom owner
+-- role to transfer ownership of the identity tables and set that role's
+-- default privileges. This follows Supabase's documented custom-role pattern.
+GRANT docvy_auth_fn TO postgres;
+
 COMMENT ON ROLE docvy_auth_fn IS
   'Owns DOCVY identity tables and narrowly scoped SECURITY DEFINER authentication functions; never used as a login.';
 COMMENT ON ROLE docvy_auth_runtime IS
