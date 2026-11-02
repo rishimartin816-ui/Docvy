@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AlertTriangle, ArrowRight, MapPin } from "lucide-react";
+import { AlertTriangle, ArrowRight, BookOpenCheck, Building2, ExternalLink, MapPin, Search, ShieldCheck, Stethoscope } from "lucide-react";
 import CareGuideSearch from "@/components/CareGuideSearch";
 
 export const metadata: Metadata = {
@@ -22,6 +22,20 @@ export default function CareGuidePage() {
         <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><MapPin size={14} /> PATIENT GUIDE · INDIA</p>
         <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[56px]">What kind of doctor should I see?</h1>
         <p className="mt-5 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">Search a common condition, symptom or doctor type. The guide explains which specialties are commonly associated with that topic and helps you find a starting point. It cannot diagnose a condition or decide which care is right for you.</p>
+        <div className="mt-7 max-w-5xl rounded-2xl border border-[#DCEAE5] bg-white/80 p-4 sm:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-2"><p className="text-[10px] font-extrabold tracking-[0.14em] text-[#087F83]">YOUR PLACE IN THE JOURNEY</p><span className="rounded-full bg-[#DDF0E9] px-3 py-1 text-[10px] font-extrabold tracking-wide text-[#087F83]">YOU ARE HERE · PATIENT GUIDE</span></div>
+          <ol className="mt-4 grid gap-3 md:grid-cols-4">
+            {[
+              { title: "A question or concern", detail: "What you searched", icon: Search, current: false },
+              { title: "Understand a specialty", detail: "This guide helps orient you", icon: BookOpenCheck, current: true },
+              { title: "Browse current doctors", detail: "Delhi · Gurugram · Noida", icon: Stethoscope, current: false },
+              { title: "Check with the provider", detail: "Use the official hospital link", icon: ExternalLink, current: false },
+            ].map(({ title, detail, icon: Icon, current }, index) => <li key={title} className={`relative flex min-h-[90px] gap-3 rounded-xl p-3 ${current ? "bg-[#EAF5F1] ring-1 ring-[#B8DCD0]" : "bg-[#F8FBF9]"}`}>
+              <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${current ? "bg-[#087F83] text-white" : "bg-white text-[#087F83]"}`}><Icon size={17} aria-hidden="true" /></span>
+              <span><span className="block text-[10px] font-extrabold tracking-[0.1em] text-[#789089]">STEP 0{index + 1}</span><span className="mt-1 block text-xs font-bold leading-5 text-[#173A37]">{title}</span><span className="mt-0.5 block text-[11px] leading-4 text-[#526D66]">{detail}</span></span>
+            </li>)}
+          </ol>
+        </div>
         <CareGuideSearch />
       </div>
     </section>
@@ -35,14 +49,18 @@ export default function CareGuidePage() {
     </section>
 
     <section className="border-y border-[#DCEAE5] bg-white px-6 py-12 md:py-16"><div className="mx-auto max-w-6xl">
-      <p className="text-xs font-extrabold tracking-[0.13em] text-[#087F83]">HOW DOCVY IS DESIGNED TO HELP</p><h2 className="mt-3 max-w-3xl text-2xl font-bold tracking-tight md:text-3xl">From a concern to a confirmed appointment</h2>
+      <p className="text-xs font-extrabold tracking-[0.13em] text-[#087F83]">WHAT YOU CAN DO ON THIS SITE TODAY</p><h2 className="mt-3 max-w-3xl text-2xl font-bold tracking-tight md:text-3xl">A clear route from your question to your next check.</h2><p className="mt-3 max-w-3xl text-sm leading-7 text-[#526D66]">DOCVY helps you understand the directory and find source-linked information. It does not make the medical decision for you or contact a provider on your behalf.</p>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{[
-        ["1. Choose a starting point", "Search by a concern or go directly to a specialty if you already know what you need."],
-        ["2. Narrow by location", "Choose a city with current listings. DOCVY starts with Delhi NCR and plans to add cities as provider coverage grows."],
-        ["3. Compare a provider and facility", "Review the doctor’s specialty and the hospital or clinic where care is offered."],
-        ["4. Request and confirm", "A booking request is complete only after the hospital or clinic confirms the slot with you."],
-      ].map(([title, description]) => <article key={title} className="rounded-2xl border border-[#DCEAE5] bg-[#F8FBF9] p-5"><h3 className="font-bold text-[#173A37]">{title}</h3><p className="mt-2 text-sm leading-6 text-[#526D66]">{description}</p></article>)}</div>
-      <div className="mt-8 rounded-2xl bg-[#123B38] p-6 text-white md:flex md:items-center md:justify-between md:gap-6"><div><h2 className="text-xl font-bold text-white">What is available on DOCVY today?</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-[#D8E9E3]">This guide is informational, and 12 source-linked doctor profiles are available to browse by city and specialty. DOCVY credential review is pending and appointment requests, slot availability, and booking confirmation are not live.</p></div><Link href="/doctors" className="mt-5 inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl bg-white px-5 text-sm font-bold text-[#123B38] hover:bg-[#EAF5F1] md:mt-0">Browse doctors <ArrowRight size={16} /></Link></div>
+        { icon: Search, title: "1. Search in your own words", description: "Enter a concern such as diabetes, a symptom such as joint pain, or a specialty you already know. Try a broader word if the guide has no exact match." },
+        { icon: BookOpenCheck, title: "2. Read the specialty overview", description: "The guide describes what a specialty commonly covers and examples people may search. Similar concerns can have different causes, so this is orientation only." },
+        { icon: MapPin, title: "3. See if a city is covered", description: "Current doctor profiles are in Delhi, Gurugram and Noida. The guide works across India; new listing cities will appear as source-linked provider coverage grows." },
+        { icon: ExternalLink, title: "4. Confirm details at the source", description: "Open the hospital profile linked from a doctor listing. Ask the hospital to confirm the current doctor location, credentials, appointment availability and booking steps." },
+      ].map(({ icon: Icon, title, description }) => <article key={title} className="relative overflow-hidden rounded-2xl border border-[#DCEAE5] bg-[#F8FBF9] p-5"><span aria-hidden="true" className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-[#EAF5F1]" /><div className="relative"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-[#087F83] shadow-sm"><Icon size={20} /></span><h3 className="mt-4 font-bold text-[#173A37]">{title}</h3><p className="mt-2 text-sm leading-6 text-[#526D66]">{description}</p></div></article>)}</div>
+      <div className="mt-8 grid gap-4 lg:grid-cols-2">
+        <article className="flex gap-4 rounded-2xl border border-[#DCEAE5] bg-white p-5 md:p-6"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#EAF5F1] text-[#087F83]"><Building2 size={21} /></span><div><h3 className="font-bold">Where doctor profile details come from</h3><p className="mt-2 text-sm leading-6 text-[#526D66]">The directory links to public doctor profile pages on hospital websites. DOCVY has not independently confirmed the doctors’ credentials, current workplaces or availability. The linked hospital page is the place to check the latest details.</p></div></article>
+        <article className="flex gap-4 rounded-2xl border border-[#DCEAE5] bg-white p-5 md:p-6"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#FFF9EE] text-[#A36A12]"><ShieldCheck size={21} /></span><div><h3 className="font-bold">What happens after you choose a doctor?</h3><p className="mt-2 text-sm leading-6 text-[#526D66]">Today, you leave DOCVY through the source link and contact the hospital or clinic directly. DOCVY does not collect a booking request, reserve a slot, or send a confirmation. A future request-and-confirm flow is planned but is not open yet.</p></div></article>
+      </div>
+      <div className="mt-8 rounded-2xl bg-[#123B38] p-6 text-white md:flex md:items-center md:justify-between md:gap-6"><div><p className="text-xs font-extrabold tracking-[0.13em] text-[#79BDB1]">AVAILABLE NOW</p><h2 className="mt-2 text-xl font-bold text-white">Guide nationwide. Doctor listings in Delhi NCR.</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-[#D8E9E3]">Use this informational guide from anywhere in India. Browse 12 source-linked doctor profiles across Delhi, Gurugram and Noida. DOCVY credential review is pending; appointment requests, slot availability and booking confirmation are not live.</p></div><Link href="/doctors" className="mt-5 inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl bg-white px-5 text-sm font-bold text-[#123B38] hover:bg-[#EAF5F1] md:mt-0">Browse current listings <ArrowRight size={16} /></Link></div>
     </div></section>
 
     <section className="mx-auto max-w-6xl px-6 py-12 md:py-16"><h2 className="text-2xl font-bold">How this guide was prepared</h2><p className="mt-3 max-w-4xl text-sm leading-7 text-[#526D66]">Specialty matches are general examples and can vary by local health system and individual circumstances. A primary-care clinician can help decide when specialist assessment is useful. DOCVY does not diagnose or recommend a specific doctor through this guide.</p><ul className="mt-4 flex flex-col gap-2 text-sm text-[#087F83] sm:flex-row sm:flex-wrap sm:gap-5"><li><a className="underline underline-offset-4" href="https://www.healthdirect.gov.au/healthcare-and-services/roles-and-specialties/the-role-of-a-gp" target="_blank" rel="noreferrer">Healthdirect: the role of a GP</a></li><li><a className="underline underline-offset-4" href="https://www.healthdirect.gov.au/healthcare-and-services/general-health/what-is-a-referral" target="_blank" rel="noreferrer">Healthdirect: specialist referrals</a></li><li><a className="underline underline-offset-4" href="https://112.gov.in/" target="_blank" rel="noreferrer">Government of India: emergency number 112</a></li></ul></section>
