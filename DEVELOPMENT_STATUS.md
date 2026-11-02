@@ -24,6 +24,7 @@
 - Added “Gurgaon” as a search-oriented alias in Gurugram page metadata.
 - Updated care-guide titles to use plain-language search intent without implying diagnosis.
 - Audited supporting-page title tags against Next.js 14 title-template behavior and removed repeated brand suffixes; shortened city title tags without dropping city names.
+- Rewrote the paused request and appointment-status pages with direct patient instructions and links to source-listed doctor profiles; removed internal staff-access wording.
 - Reviewed current Google Search Central guidance. No special AI-search markup or ranking outcome is claimed.
 - Production builds passed with Next.js 14.2.35, linting, type validation, and all 26 static pages generated.
 - Latest live deployment for commit `1579c5f` is READY. Browser review confirmed `/care-guide?q=joint%20pain` shows one specialty match (Orthopaedics) and the question “what doctor should I see for diabetes?” returns one related specialty and explains that no matching DOCVY profile is listed.
