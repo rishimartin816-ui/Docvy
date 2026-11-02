@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ArrowUpRight, MapPin, Search, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, Building2, MapPin, Search } from "lucide-react";
 import { providerCandidates, providerCities, providerSpecialties, type ProviderCity } from "@/lib/provider-candidates";
 
 type CityFilter = "All Delhi NCR" | ProviderCity;
@@ -38,7 +38,7 @@ export default function DoctorDirectory() {
       <p className="mt-4 text-xs leading-5 text-[#789089]">Directory filters run on this page. No patient details are requested or saved.</p>
     </section>
 
-    <p className="mt-7 text-sm font-semibold text-[#36564F]" aria-live="polite">{matches.length} of {providerCandidates.length} doctor profiles match{matches.length === 1 ? "es" : ""} these filters. A doctor may appear in more than one city when the source profile lists multiple facilities.</p>
+    <div className="mt-7 flex flex-wrap items-center justify-between gap-3" aria-live="polite"><p className="text-sm font-semibold text-[#36564F]">Showing <span className="text-[#087F83]">{matches.length}</span> of {providerCandidates.length} profiles <span className="font-normal text-[#789089]">· A doctor may appear in multiple city groups when hospital sources list several facilities.</span></p>{(query || specialty !== "All specialties" || city !== "All Delhi NCR") && <button type="button" onClick={() => { setCity("All Delhi NCR"); setSpecialty("All specialties"); setQuery(""); }} className="rounded-lg px-3 py-2 text-xs font-bold text-[#087F83] underline decoration-[#B8DCD0] underline-offset-4 hover:bg-[#EAF5F1]">Clear filters</button>}</div>
 
     {matches.length === 0 ? <section className="mt-5 rounded-2xl border border-[#DCEAE5] bg-white p-7"><h2 className="text-xl font-bold">No profiles match those filters</h2><p className="mt-2 text-sm leading-6 text-[#526D66]">Try another spelling, specialty, hospital or nearby city.</p><button type="button" onClick={() => { setCity("All Delhi NCR"); setSpecialty("All specialties"); setQuery(""); }} className="mt-5 rounded-xl bg-[#087F83] px-5 py-3 text-sm font-bold text-white hover:bg-[#066D70]">Clear filters</button></section> : visibleCities.map((cityName) => {
       const cityDoctors = matches.filter((doctor) => doctor.locations.some((location) => location.city === cityName));
@@ -51,16 +51,15 @@ export default function DoctorDirectory() {
           const allListedFacilities = doctor.locations.map((location) => location.facility.toLocaleLowerCase());
           const extraLocations = [...new Set([...secondaryLocations, ...doctor.otherNcrLocations.filter((place) => !allListedFacilities.some((facility) => place.toLocaleLowerCase().includes(facility)))])];
           const isPrimaryCity = cityLocations.some((location) => location.primary);
-          return <article key={`${cityName}-${doctor.id}`} className="group flex flex-col overflow-hidden rounded-[22px] border border-[#DCEAE5] bg-white shadow-[0_6px_24px_rgba(23,58,55,0.035)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(23,58,55,0.09)]">
-            <div className="h-1.5 bg-gradient-to-r from-[#087F83] via-[#16A6A1] to-[#B8E1D5]" />
+          return <article key={`${cityName}-${doctor.id}`} className="group flex flex-col overflow-hidden rounded-[22px] border border-[#DCEAE5] bg-white shadow-[0_6px_24px_rgba(23,58,55,0.035)] transition duration-200 hover:-translate-y-0.5 hover:border-[#B8DCD0] hover:shadow-[0_16px_36px_rgba(23,58,55,0.09)]">
+            <div className="h-1 bg-gradient-to-r from-[#087F83] via-[#16A6A1] to-[#B8E1D5]" />
             <div className="flex flex-1 flex-col p-5 md:p-6">
               <div className="flex flex-wrap items-center justify-between gap-2"><span className="inline-flex items-center gap-1.5 rounded-full bg-[#EAF5F1] px-3 py-1.5 text-[11px] font-bold text-[#087F83]"><MapPin size={13} />{cityName}{cityLocations.some((location) => location.locality) ? ` · ${[...new Set(cityLocations.flatMap((location) => location.locality ? [location.locality] : []))].join(", ")}` : ""}</span>{!isPrimaryCity && <span className="text-[10px] font-semibold uppercase tracking-wide text-[#789089]">Additional source-listed location</span>}</div>
-              <h3 className="mt-5 text-xl font-bold tracking-tight text-[#173A37]">{doctor.name}</h3>
-              <p className="mt-2 text-sm leading-6 text-[#526D66]">{doctor.specialties.join(" · ")}</p>
-              <div className="mt-5 border-t border-[#E8F0EC] pt-4"><p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#789089]">Hospital profile lists</p><ul className="mt-2 space-y-2">{cityLocations.map((location) => <li key={`${location.facility}-${location.locality ?? ""}`} className="flex gap-2 text-sm font-semibold leading-5 text-[#36564F]"><span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#16A6A1]" /><span>{formatFacility(location.facility, location.locality)}</span></li>)}</ul></div>
-              {extraLocations.length > 0 && <p className="mt-3 text-xs leading-5 text-[#526D66]"><span className="font-semibold">Other NCR locations on source profile:</span> {extraLocations.join("; ")}</p>}
-              <div className="mt-5 rounded-xl border border-[#E8F0EC] bg-[#F8FBF9] p-3.5"><div className="flex items-start gap-2"><ShieldCheck size={15} className="mt-0.5 shrink-0 text-[#087F83]" /><p className="text-xs leading-5 text-[#526D66]">Source: {doctor.hospital}. DOCVY review pending; credentials and appointment availability have not been independently checked.</p></div></div>
-              <div className="mt-auto pt-5"><a href={doctor.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#087F83] px-4 text-sm font-bold text-white transition hover:bg-[#066D70]">View {doctor.hospital} profile <ArrowUpRight size={16} /></a><p className="mt-2 text-center text-[10px] leading-4 text-[#789089]">Source page checked {doctor.sourceChecked}. Confirm current location and slots with the hospital.</p></div>
+              <h3 className="mt-4 text-[21px] font-bold tracking-tight text-[#173A37]">{doctor.name}</h3>
+              <div className="mt-3 flex flex-wrap gap-1.5" aria-label="Specialties">{doctor.specialties.map((item) => <span key={item} className="rounded-md bg-[#F3F7F5] px-2 py-1 text-[11px] font-medium leading-4 text-[#526D66]">{item}</span>)}</div>
+              <div className="mt-5 border-t border-[#E8F0EC] pt-4"><p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#789089]">Hospital listed at</p><ul className="mt-2 space-y-2">{cityLocations.map((location) => <li key={`${location.facility}-${location.locality ?? ""}`} className="flex gap-2 text-sm font-semibold leading-5 text-[#36564F]"><Building2 size={15} aria-hidden="true" className="mt-0.5 shrink-0 text-[#087F83]" /><span>{formatFacility(location.facility, location.locality)}</span></li>)}</ul></div>
+              {extraLocations.length > 0 && <p className="mt-3 text-xs leading-5 text-[#789089]"><span className="font-semibold text-[#526D66]">Other NCR locations:</span> {extraLocations.join("; ")}</p>}
+              <div className="mt-auto pt-5"><a href={doctor.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#087F83] px-4 text-sm font-bold text-white transition hover:bg-[#066D70] group-hover:bg-[#066D70]">View official profile <ArrowUpRight size={16} /></a><p className="mt-2 text-center text-[10px] leading-4 text-[#789089]">{doctor.hospital} · Source page checked {doctor.sourceChecked}</p></div>
             </div>
           </article>;
         })}</div>
