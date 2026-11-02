@@ -22,9 +22,16 @@ export function generateMetadata({ params }: { params: { city: string } }): Meta
   if (!city) return { title: "City not found" };
   const locationName = city === "Gurugram" ? "Gurugram (Gurgaon)" : city;
   const title = `Doctors in ${locationName}`;
-  const description = `Browse DOCVY's current hospital-listed doctor profiles in ${locationName}, Delhi NCR. Explore specialties and listed facilities; confirm current details and appointments with the hospital.`;
+  const profileCount = providerCandidates.filter((doctor) => doctor.locations.some((location) => location.city === city)).length;
+  const description = `Browse ${profileCount} source-linked doctor profiles currently listed in ${locationName}, Delhi NCR. Filter by specialty and hospital; this is a limited directory, so confirm current details with the hospital.`;
   const cityPath = "/doctors/" + params.city;
-  return { title, description, alternates: { canonical: cityPath }, openGraph: { type: "website", locale: "en_IN", siteName: "DOCVY", title: title + " | DOCVY", description, url: cityPath, images: [docvyOpenGraphImage] } };
+  return {
+    title,
+    description,
+    alternates: { canonical: cityPath },
+    openGraph: { type: "website", locale: "en_IN", siteName: "DOCVY", title: title + " | DOCVY", description, url: cityPath, images: [docvyOpenGraphImage] },
+    twitter: { card: "summary_large_image", title: title + " | DOCVY", description, images: ["/opengraph-image"] },
+  };
 }
 
 export default function CityDoctorsPage({ params }: { params: { city: string } }) {
@@ -36,12 +43,35 @@ export default function CityDoctorsPage({ params }: { params: { city: string } }
   const specialties = [...new Set(listings.flatMap(({ doctor }) => doctor.specialties))].sort((a, b) => a.localeCompare(b));
   const uniqueProfiles = new Set(listings.map(({ doctor }) => doctor.id)).size;
   const locations = [...new Set(listings.map(({ location }) => location.locality).filter(Boolean))] as string[];
+  const canonicalUrl = `https://www.docvy.in/doctors/${params.city}`;
 
   return <div className="bg-[#F6FAF8] text-[#173A37]">
     <section className="relative overflow-hidden bg-[radial-gradient(circle_at_84%_30%,#C9ECE2_0%,#EAF5F1_42%,#F6FAF8_100%)] px-6 py-14 md:py-20">
       <div aria-hidden="true" className="pointer-events-none absolute -right-12 -top-16 h-72 w-72 rounded-full bg-white/50 blur-3xl" />
       <div className="relative mx-auto max-w-6xl">
-        <Link href="/doctors" className="inline-flex items-center gap-2 text-sm font-semibold text-[#087F83] hover:text-[#066D70]">Delhi NCR doctor directory <ArrowRight size={15} /></Link>
+        <nav aria-label="Breadcrumb" className="text-sm font-semibold text-[#087F83]">
+          <ol className="flex flex-wrap items-center gap-2">
+            <li><Link href="/" className="hover:text-[#066D70]">Home</Link></li>
+            <li aria-hidden="true"><ArrowRight size={14} /></li>
+            <li><Link href="/doctors" className="hover:text-[#066D70]">Doctor directory</Link></li>
+            <li aria-hidden="true"><ArrowRight size={14} /></li>
+            <li aria-current="page" className="text-[#526D66]">{city}</li>
+          </ol>
+        </nav>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: "https://www.docvy.in/" },
+                { "@type": "ListItem", position: 2, name: "Doctor directory", item: "https://www.docvy.in/doctors" },
+                { "@type": "ListItem", position: 3, name: `Doctors in ${city}`, item: canonicalUrl },
+              ],
+            }).replace(/</g, "\\u003c"),
+          }}
+        />
         <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><MapPin size={14} /> DOCTORS · {city.toLocaleUpperCase()}</p>
         <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[56px]">Doctors in {city}: browse by specialty and hospital</h1>
         <p className="mt-5 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">Explore {uniqueProfiles} current DOCVY profile{uniqueProfiles === 1 ? "" : "s"} linked to hospital sources in {city}. Filter by specialty or facility, then use the official hospital profile to confirm current location and appointments.</p>
@@ -55,6 +85,31 @@ export default function CityDoctorsPage({ params }: { params: { city: string } }
       <DoctorDirectory key={city} initialCity={city} intakeEnabled={intakeEnabled} />
     </section>
 
-    <section className="border-y border-[#DCEAE5] bg-white px-6 py-12 md:py-14"><div className="mx-auto max-w-6xl"><p className="text-xs font-extrabold tracking-[0.14em] text-[#087F83]">SPECIALTIES IN THESE LISTINGS</p><h2 className="mt-2 text-2xl font-bold">Browse listed specialties in {city}</h2><div className="mt-5 flex flex-wrap gap-2">{specialties.map((specialty) => <Link key={specialty} href={`/doctors?specialty=${encodeURIComponent(specialty)}`} className="rounded-full border border-[#DCEAE5] bg-[#F8FBF9] px-3 py-2 text-sm font-medium text-[#36564F] transition hover:border-[#B8DCD0] hover:text-[#087F83]">{specialty}</Link>)}</div><p className="mt-6 text-sm text-[#526D66]">Also browse <Link className="font-semibold text-[#087F83] underline underline-offset-4" href="/doctors/delhi">Delhi</Link>, <Link className="font-semibold text-[#087F83] underline underline-offset-4" href="/doctors/gurugram">Gurugram (Gurgaon)</Link> and <Link className="font-semibold text-[#087F83] underline underline-offset-4" href="/doctors/noida">Noida</Link>.</p></div></section>
+    <section className="border-y border-[#DCEAE5] bg-white px-6 py-12 md:py-14"><div className="mx-auto max-w-6xl"><p className="text-xs font-extrabold tracking-[0.14em] text-[#087F83]">SPECIALTIES IN THESE LISTINGS</p><h2 className="mt-2 text-2xl font-bold">Browse listed specialties in {city}</h2><div className="mt-5 flex flex-wrap gap-2">{specialties.map((specialty) => <Link key={specialty} href={`/doctors?city=${encodeURIComponent(city)}&specialty=${encodeURIComponent(specialty)}`} className="rounded-full border border-[#DCEAE5] bg-[#F8FBF9] px-3 py-2 text-sm font-medium text-[#36564F] transition hover:border-[#B8DCD0] hover:text-[#087F83]">{specialty}</Link>)}</div><p className="mt-6 text-sm text-[#526D66]">Also browse <Link className="font-semibold text-[#087F83] underline underline-offset-4" href="/doctors/delhi">Delhi</Link>, <Link className="font-semibold text-[#087F83] underline underline-offset-4" href="/doctors/gurugram">Gurugram (Gurgaon)</Link> and <Link className="font-semibold text-[#087F83] underline underline-offset-4" href="/doctors/noida">Noida</Link>.</p></div></section>
+
+    <section className="bg-[#F6FAF8] px-6 py-12 md:py-16" aria-labelledby="city-faq-heading">
+      <div className="mx-auto max-w-6xl">
+        <p className="text-xs font-extrabold tracking-[0.14em] text-[#087F83]">CLEAR ANSWERS BEFORE YOU CONTACT A PROVIDER</p>
+        <h2 id="city-faq-heading" className="mt-2 text-2xl font-bold">Doctor listings in {city}: common questions</h2>
+        <dl className="mt-6 grid gap-4 md:grid-cols-2">
+          <div className="rounded-2xl border border-[#DCEAE5] bg-white p-5">
+            <dt className="font-bold text-[#173A37]">Is this a complete list of doctors in {city}?</dt>
+            <dd className="mt-2 text-sm leading-6 text-[#526D66]">No. DOCVY currently shows a limited set of profiles linked to public hospital pages. It is not a complete city directory.</dd>
+          </div>
+          <div className="rounded-2xl border border-[#DCEAE5] bg-white p-5">
+            <dt className="font-bold text-[#173A37]">Can I book an appointment through DOCVY?</dt>
+            <dd className="mt-2 text-sm leading-6 text-[#526D66]">No. The appointment enquiry form is closed, and DOCVY does not reserve a slot. Open the hospital source profile and contact the provider to confirm the doctor, location, time and fee.</dd>
+          </div>
+          <div className="rounded-2xl border border-[#DCEAE5] bg-white p-5">
+            <dt className="font-bold text-[#173A37]">Has DOCVY independently verified each doctor&apos;s credentials?</dt>
+            <dd className="mt-2 text-sm leading-6 text-[#526D66]">No. The profile is linked to a public listing from {hospitals.join(", ")}. DOCVY&apos;s credential review is pending; use the linked hospital page to check current details.</dd>
+          </div>
+          <div className="rounded-2xl border border-[#DCEAE5] bg-white p-5">
+            <dt className="font-bold text-[#173A37]">Can I use the patient guide outside Delhi NCR?</dt>
+            <dd className="mt-2 text-sm leading-6 text-[#526D66]">Yes. The plain-language patient guide is available across India. Doctor listings currently cover Delhi, Gurugram and Noida, with other cities to be added as source-linked coverage grows.</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
   </div>;
 }
