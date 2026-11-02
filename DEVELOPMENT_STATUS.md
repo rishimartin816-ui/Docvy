@@ -18,7 +18,7 @@
 ## Changes in this pass
 
 - Corrected homepage title and description so the homepage describes healthcare discovery across India rather than only a patient guide.
-- Added real guide-search links for the homepage’s common concern examples. Browser review caught an overly broad “joint pain” match; search now requires all meaningful terms and ignores common question words.
+- Added real guide-search links for the homepage’s common concern examples. Browser review caught an overly broad “joint pain” match; search now requires all meaningful terms, ignores common question words and generic “doctor/specialist” words, and tolerates punctuation.
 - Added a direct explanation of what is available today: nationwide guide, limited Delhi NCR listings, and no DOCVY booking.
 - Added a custom provider-workflow SVG to the clinic and hospital plans page; it is visibly labeled “planned · not live.”
 - Added “Gurgaon” as a search-oriented alias in Gurugram page metadata.

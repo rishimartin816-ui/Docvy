@@ -9,7 +9,7 @@ import { providerCandidates } from "@/lib/provider-candidates";
 const examples = ["diabetes", "skin rash", "pregnancy", "joint pain", "children", "heart"];
 const featuredSpecialties = ["General physician / internal medicine", "Cardiology", "Dermatology", "Diabetology / endocrinology"];
 const featuredIcons = { "General physician / internal medicine": Stethoscope, Cardiology: HeartPulse, Dermatology: Sparkles, "Diabetology / endocrinology": Activity };
-const searchFillers = new Set(["a", "an", "and", "are", "can", "do", "does", "for", "have", "help", "i", "kind", "me", "my", "of", "or", "see", "should", "the", "to", "type", "what", "which", "with"]);
+const searchFillers = new Set(["a", "an", "and", "are", "can", "doctor", "doctors", "do", "does", "for", "have", "help", "i", "kind", "me", "my", "of", "or", "see", "should", "specialist", "specialists", "specialty", "specialties", "the", "to", "type", "what", "which", "with"]);
 
 export default function CareGuideSearch() {
   const [query, setQuery] = useState("");
@@ -19,7 +19,7 @@ export default function CareGuideSearch() {
     if (initialQuery) setQuery(initialQuery);
   }, []);
   const results = useMemo(() => {
-    const term = query.trim().toLocaleLowerCase();
+    const term = query.trim().toLocaleLowerCase().replace(/[^\p{L}\p{N}\s]/gu, " ");
     if (!term) return careGuide;
     const words = term.split(/\s+/).filter(Boolean).filter((word) => !searchFillers.has(word));
     return careGuide.filter((item) => {
