@@ -21,11 +21,11 @@ export default function Contact() {
             <h2 className="mb-2 font-bold">Operating entity</h2>
             <p className="text-sm text-grey">DSS Global Technologies Private Limited</p>
             <p className="mt-2 text-sm text-grey">Business address: 2nd Floor, Capital Cityscape, Sector 66, Gurugram, Haryana – 122101, India.</p>
-            <p className="mt-2 text-xs leading-5 text-grey"></p>
+            <p className="mt-2 text-sm text-grey">Contact: Rishi Raj Martin · rishimartin.16@icloud.com</p>
           </Card>
           <Card>
             <h2 className="mb-2 font-bold">Support availability</h2>
-            <p className="text-sm text-grey">A public support email address and telephone number have not been published. DOCVY is not currently accepting request submissions or support tickets through this website.</p>
+            <p className="text-sm text-grey">For general and privacy enquiries, contact Rishi Raj Martin at rishimartin.16@icloud.com. DOCVY is not currently accepting request submissions or support tickets through this website.</p>
             <p className="mt-2 text-sm text-grey">Please do not send personal documents, payment details or health information through informal channels.</p>
           </Card>
         </div>
