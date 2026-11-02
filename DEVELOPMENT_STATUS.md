@@ -80,9 +80,11 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Added a direct link from every profile card to its cited public hospital profile. Links open the hospital's own source in a new tab and include accessible names; DOCVY still does not claim independent credential review or current appointment availability.
 - Added concise, city-specific answers on directory completeness, appointment booking, credential review and pan-India guide coverage. The answers are visible on the page; no `FAQPage` rich-result markup was added.
 - Updated city-page descriptions and Twitter cards with the correct profile count, city name and the limited-listing caveat.
-- `pnpm lint`, `pnpm build` and `git diff --check` passed. The production build generated all 26 static pages; the existing Open Graph edge-runtime warning remains limited to that image route.
+- Changed the disabled-state doctor-card CTA to “Check enquiry form status”; the previous wording could imply that patients can track a submitted request.
+- `pnpm lint`, `pnpm build` and `git diff --check` passed for the latest code. The production build generated all 26 static pages; the existing Open Graph edge-runtime warning remains limited to that image route.
 - Live verification on `www.docvy.in`: Delhi, Gurugram and Noida city pages returned HTTP 200; canonical URLs and page-specific titles were present; breadcrumb JSON-LD and city-preserving specialty links were present; official hospital-source link counts were 6, 6 and 4, matching the page's unique source-linked profiles.
 - A production API safety probe containing no person or health details returned HTTP 503 while Sheets intake is disconnected. This confirms fail-closed behavior only; no lead was accepted or written. The actual synthetic lead-to-Sheet test remains pending until the approved private endpoint is configured and connected.
+- The Noida + Orthopaedics directory path was checked in a live browser after page hydration; it showed one matching profile (Dr. Atul Mishra), the correct Noida location, hospital source link, paused intake label and updated CTA.
 - Current Google Search guidance recommends breadcrumbs that reflect the user path and does not guarantee rich results; FAQ rich results are limited to a subset of authoritative sites. DOCVY uses visible answer copy without promising FAQ enhancements. See [Google breadcrumb structured data](https://developers.google.com/search/docs/appearance/structured-data/breadcrumb) and [Google's FAQ rich-result change](https://developers.google.com/search/blog/2023/08/howto-faq-changes).
 
 ## Not yet built or verified
@@ -104,6 +106,8 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 
 | Date | Commit / deployment | Result |
 |---|---|---|
+| 3 Nov 2026 | `a3fbe4f` · Vercel `dpl_C3jSLwNaAQsZXHBavMYEpBdcDE89` | READY on `main`; tracker update deployed to `www.docvy.in` and `docvy.in`. |
+| 3 Nov 2026 | `d6c8b27` · Vercel `dpl_6ykccyGv5BpzCekr7PX8S6hY4n7f` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Live Noida + Orthopaedics interaction showed one matching profile and the corrected “Check enquiry form status” CTA. |
 | 3 Nov 2026 | `ac08c8f` · Vercel `dpl_29dHUAnUi3TsEndqJGghuwak3qgS` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Live city-page checks confirmed 200 responses, page-specific canonicals/titles, breadcrumb markup, city-retaining specialty links and 6/6/4 external source links. The production enquiry API correctly returned 503 while the private intake connection is absent; no lead was saved. |
 | 3 Nov 2026 | `764ba0c` · Vercel `dpl_6Wp1uwrCwa6kXkgMUFEXacy49o6V` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Live homepage and `/how-it-works` reflect the closed intake and provider confirmation; `robots.txt`, sitemap, share image, city pages and canonical/social metadata checks passed. |
 | 3 Nov 2026 | `193ef6b` · Vercel `dpl_JDXQfyEPi3ofV96hafJhZcJ6yTzf` | READY on `main`; aliases `www.docvy.in` and `docvy.in`; build completed successfully. Homepage city coverage and branded social metadata verified live. The appointment enquiry form remains closed until the private Sheets endpoint is configured and tested. |
