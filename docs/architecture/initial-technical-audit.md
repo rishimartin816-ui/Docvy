@@ -71,7 +71,7 @@ A READY deployment does not prove that a domain is publicly accessible or that a
 Use a modular monolith first; do not introduce microservices at this stage.
 
 - **Public discovery:** server-rendered directory, provider profiles, specialties, localities and SEO.
-- **Identity and tenancy:** Supabase Auth, profiles, organisations, memberships, roles and branches.
+- **Identity and tenancy:** custom DOCVY authentication on PostgreSQL, with profiles, organisations, memberships, roles, branches and tenant-aware RLS. See `custom-authentication.md` for the approved design.
 - **Provider operations:** appointments, staff, tasks, patient CRM and billing records.
 - **Clinical domain:** consent, encounters, clinical notes and prescriptions behind stricter professional permissions.
 - **Platform administration:** provider verification, moderation, subscriptions and audit events.

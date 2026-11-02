@@ -1,7 +1,6 @@
 -- DOCVY custom identity foundation
 -- Target: PostgreSQL 17
--- Status: prepared for review; NOT applied to any database.
--- Apply only after review, to the intended local development database.
+-- Apply only to non-production development/staging databases after review.
 -- This migration creates identity storage and non-login privilege roles.
 -- Authentication functions, application grants, profile linkage and RLS
 -- policies are separate migrations and are intentionally not included here.

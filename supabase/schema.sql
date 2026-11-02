@@ -1,4 +1,6 @@
--- Run in the Supabase SQL editor. Choose an India (Mumbai) region for the project.
+-- LEGACY SCHEMA — DO NOT APPLY.
+-- Historical documentation-request workflow; it assumes Supabase Auth and is
+-- superseded by the reviewed custom-auth migrations under database/migrations/.
 create extension if not exists pgcrypto;
 create table requests (
   id uuid primary key default gen_random_uuid(),

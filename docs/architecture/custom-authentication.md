@@ -3,7 +3,7 @@
 **Version:** 1.0  
 **Date:** 2026-11-01  
 **Status:** Approved design baseline; implementation in progress  
-**Target:** Next.js 14, PostgreSQL 17, local development first  
+**Target:** Next.js 14, PostgreSQL 17, local development and pre-production staging
 **Production gate:** Separate hosting, privacy, security and deployment approval
 
 ## 1. Decisions
@@ -148,17 +148,20 @@ Public provider discovery is a separate, explicitly allow-listed read model. It 
 
 | Migration | Scope | Execution status |
 |---|---|---|
-| 0001 | Existing organisation, branch, membership, role and audit foundation | Applied to local `docvy_dev` only |
-| 0002 | Identity schema and private authentication roles | Prepared; not applied |
-| 0003 | Profile/identity link and safe backfill | Not prepared |
-| 0004 | Registration, credential, token and session functions | Not prepared |
-| 0005 | Runtime login-role grants and function execution grants | Not prepared |
-| 0006 | Transaction-scoped session identity helper | Not prepared |
-| 0007 | Eight-role permission catalogue and reviewed grants | Not prepared |
-| 0008 | Tenant RLS policies | Not prepared |
-| 0009 | Audit append-only functions and restrictions | Not prepared |
+| 0001 | Organisation, branch, membership, role and audit foundation | Applied to local `docvy_dev` and empty Mumbai Free pre-production project |
+| 0002 | Identity schema, private roles and secure default function ACLs | Applied to disposable PostgreSQL 17 test DB and Mumbai pre-production project; Supabase role grant added in commit `306fb2d` |
+| 0003 | Enable RLS on six private identity tables; no policies | Applied to Mumbai pre-production project; not applied to local `docvy_dev` |
+| 0004 | Profile/identity link and safe backfill | Not prepared |
+| 0005 | Registration, credential, token and session functions | Not prepared |
+| 0006 | Runtime login-role grants and function execution grants | Not prepared |
+| 0007 | Transaction-scoped session identity helper | Not prepared |
+| 0008 | Eight-role permission catalogue and reviewed grants | Not prepared |
+| 0009 | Tenant RLS policies | Not prepared |
+| 0010 | Audit append-only functions and restrictions | Not prepared |
 
-Every migration is reviewed and tested against a disposable PostgreSQL 17 database before applying it to the persistent local development database. Production execution requires separate explicit approval.
+The Mumbai project is on Supabase Free and is pre-production only: it has no application traffic or data. All 17 application tables currently have RLS enabled with no policies, so they fail closed. The `identity` and `docvy_private` schemas have no API-role schema usage. The Free plan has no automatic daily backups and can pause for inactivity; do not put production, patient or staff data there.
+
+Every migration must be reviewed and verified against a disposable PostgreSQL 17 database. Production execution requires separate explicit approval, paid backup/restore coverage, and a reviewed access policy.
 
 ## 8. Security test gates
 

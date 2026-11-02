@@ -18,7 +18,8 @@ This is a development environment, not a production hosting decision. It does no
 - Local credentials are supplied through the ignored `.env.postgres` file.
 - SQL changes are stored as reviewed, ordered files under `database/migrations/` and applied manually after explicit review.
 - Migration `0001_platform_foundation.sql` creates the organisation, branch, membership, role, provider-publication and audit foundation.
-- Migration `0002_custom_identity_schema.sql` is prepared for review and has **not** been applied.
+- The local `docvy_dev` database currently has migration 0001 only. Migrations 0001 and 0002 were applied to the disposable PostgreSQL 17 test database; migrations 0001–0003 were applied to the separate Mumbai Supabase Free pre-production project.
+- The Mumbai Supabase project is not connected to Vercel and receives no application traffic. It is pre-production only; its Free plan has no automatic daily backups and may pause for inactivity.
 
 ## Security posture
 
@@ -34,9 +35,9 @@ The approved direction is documented in `custom-authentication.md`. Identity cre
 
 ## Explicitly not done
 
-- No cloud database or Supabase project was changed.
+- The separate Mumbai Supabase Free project was created and migrations 0001–0003 were applied; this is pre-production only, not a production launch.
 - No production deployment, paid service or data migration was performed.
-- Migration 0002 has not been executed.
+- No migration was applied to local `docvy_dev` after 0001.
 - No patient or clinical tables/data have been added.
 - The existing documentation-request workflow remains unchanged.
 - No production India data-residency or compliance claim is made.
@@ -47,8 +48,8 @@ The approved direction is documented in `custom-authentication.md`. Identity cre
 - [x] Migration 0001 committed successfully on the local database.
 - [x] All 11 foundation tables report RLS enabled.
 - [x] `docvy_app` is NOLOGIN and NOBYPASSRLS.
-- [ ] Review migration 0002 before execution.
-- [ ] Apply migration 0002 to a disposable PostgreSQL 17 database.
+- [x] Review and apply migrations 0001 and 0002 to a disposable PostgreSQL 17 database.
+- [x] Apply migrations 0001–0003 to the empty Mumbai pre-production project; verify all tables have RLS enabled.
 - [ ] Add and test authentication functions and transaction-scoped identity.
 - [ ] Add tenant RLS policies and positive/cross-tenant negative tests.
 - [ ] Never use real patient or clinical data in local fixtures.
