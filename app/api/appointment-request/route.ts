@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 const maxBodyBytes = 8_000;
 const maxText = (value: unknown, limit: number) => typeof value === "string" ? value.trim().replace(/[<>\u0000-\u001f]/g, "").slice(0, limit) : "";
 
-function response(status: number, body: { ok: false; error: string } | { ok: true; referenceId: string }) {
+function response(status: number, body: { ok: false; error: string } | { ok: true; referenceId: string; providerNotified?: boolean }) {
   return NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } });
 }
 
@@ -70,6 +70,7 @@ export async function POST(request: Request) {
     ref: referenceId,
     purpose: "appointment_enquiry",
     submittedAt: new Date().toISOString(),
+    providerId: provider!.id,
     name,
     mobile,
     email,
@@ -101,10 +102,10 @@ export async function POST(request: Request) {
     } finally {
       clearTimeout(timeout);
     }
-    const result = await upstream.json().catch(() => null) as { ok?: boolean; throttled?: boolean } | null;
+    const result = await upstream.json().catch(() => null) as { ok?: boolean; throttled?: boolean; providerNotified?: boolean } | null;
     if (result?.throttled) return response(429, { ok: false, error: "Please wait a few minutes before sending another enquiry." });
     if (!upstream.ok || result?.ok !== true) return response(502, { ok: false, error: "DOCVY could not save your enquiry. Please try again later." });
-    return response(201, { ok: true, referenceId });
+    return response(201, { ok: true, referenceId, providerNotified: result?.providerNotified === true });
   } catch {
     return response(502, { ok: false, error: "DOCVY could not save your enquiry. Please try again later." });
   }

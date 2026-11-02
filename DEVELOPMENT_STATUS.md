@@ -47,12 +47,12 @@
 
 ## 3 November 2026 — appointment enquiry implementation
 
-**Appointment workflow estimate: 55% complete.** The estimate counts user-visible form, server validation, data handling, consent, and live-sheet verification. It is not a measure of patient traffic or appointments.
+**Appointment workflow estimate: 60% complete.** This is a roadmap estimate, not analytics. The form, server validation, sheet handoff and provider-email code are prepared; verified provider contacts, Workspace authorization, Vercel connection and live end-to-end verification remain outstanding.
 
 - Added a DOCVY-hosted appointment enquiry form with selected doctor, facility, city, contact details, and optional requested date/time. It collects no symptoms, diagnosis, records, or payment data.
 - Doctor cards now stay inside DOCVY and open the internal enquiry route. A request is described as an enquiry; provider confirmation is required before an appointment exists.
 - Added a server-only Next.js route with same-origin checking, request-size limits, field validation against the local provider directory, honeypot handling, a 12-second upstream timeout, and a token-protected Apps Script handoff. Network fingerprints are HMAC-hashed and used only for short-lived throttling; raw IP addresses are not written to the sheet.
-- Updated the privacy and terms copy to describe the planned sheet handling, user consent, provider sharing, and direct provider payment. DOCVY payment and provider email notifications are not implemented.
+- Updated the privacy and terms copy to describe the planned sheet handling, user consent, provider sharing, and direct provider payment. DOCVY does not collect patient payment.
 - Updated the private `Appointments` tab to 14 columns, including facility and consent records. Wrote and verified one clearly marked synthetic test row using the connected Google Sheets tool. This verifies direct sheet write/read access only; it does **not** verify the website-to-sheet path.
 - `pnpm build` passed with Next.js 14.2.35 and 26 static pages. `pnpm lint` could not run because the repository's ESLint 8.57.1 install does not export `eslint/config`, which its flat-config file imports. No lint code output was produced.
 - Commit `77a9d66` is published and Vercel READY. The live doctor page no longer sends visitors to hospital websites from its doctor cards. The live enquiry page clearly states that intake is disabled until the private sheet connection is finished.
@@ -60,6 +60,24 @@
 ### Required before enabling real enquiries
 
 1. The production Vercel project has no `GOOGLE_SHEETS_WEBHOOK_URL` or `GOOGLE_SHEETS_WEBHOOK_TOKEN`; the form therefore remains disabled.
-2. A Google Apps Script endpoint must be deployed with a private 32-character token in Script Properties, then the matching URL and token must be added as server-only Vercel variables. The browser session currently visible is a personal GoDaddy profile; the DOCVY Google Workspace profile is not available for deployment from this session.
-3. To email providers, DOCVY still needs verified provider/clinic recipients and an approved notification workflow. The app must never tell a provider that an appointment is booked before the provider confirms it. Paid lead terms and billing are separate and not configured.
-4. After connection, submit a synthetic request through the live website and verify its row and reference ID before enabling real submissions.
+2. A Google Apps Script endpoint must be deployed with a private 32-character token in Script Properties, then the matching URL and token must be added as server-only Vercel variables. The authenticated DOCVY Chrome profile (`contact@docvy.in`) is available, but no deployed endpoint is confirmed and both production variables remain unset.
+3. Provider email logic is now prepared in `GOOGLE_SHEETS_SETUP.md`. It sends only to a single provider contact that DOCVY has verified and enabled in a private `Provider Contacts` tab, after patient sharing consent. It logs `SENT`, `FAILED` or `NOT_CONFIGURED` and never calls an enquiry a confirmed booking.
+4. The provider email includes a link to discuss a DOCVY provider plan, but no provider fee is charged or demanded without a separate plan accepted by that organisation. Provider plan pricing and billing are not configured.
+5. To activate notifications, install the updated Apps Script, authorize its mail scope, register only organisation-confirmed appointment contacts, deploy the web app, and add its URL/token as Sensitive production Vercel variables. The Vercel production project currently has neither webhook variable.
+6. After connection, submit a synthetic request to a DOCVY-controlled test mailbox and verify the email, sheet status and reference ID. No real patient lead has been sent to a provider.
+
+## 3 November 2026 — provider email notification preparation
+
+- Added `providerId` to the server-to-server lead payload and return of a provider notification status to the form.
+- Updated the patient success message: it distinguishes a verified provider email being sent from a saved request where no verified recipient exists.
+- Reworked the Workspace setup guide with an opt-in provider contact registry, provider-specific email content, send authorization, duplicate reference protection, daily quota check, notification status tracking and a synthetic delivery procedure.
+- Provider email states that the request is not confirmed, asks the provider to confirm availability and fee, and directs provider plan enquiries to DOCVY. It does not send an invoice or claim the provider owes a fee.
+- This implementation is local only. The Workspace Apps Script has not been updated/deployed, no provider email contacts are verified, no provider has been emailed, and the production form remains disabled until the two Vercel variables are added.
+- `pnpm build` passed with the notification-status response changes; all 26 pages generated. The embedded Apps Script code passed a JavaScript syntax parse. No live script execution or email delivery was claimed.
+
+## 3 November 2026 — live page metadata and FAQ clarity review
+
+- A fresh HTML fetch (`maxAge: 0`) returned HTTP 200 for `/`, `/care-guide`, `/doctors`, `/pricing`, and `/for-doctors`. Each inspected page has a page-specific title and description, a canonical URL, `index, follow`, one H1, and the site-wide Organization JSON-LD block.
+- `/robots.txt` and `/sitemap.xml` both returned HTTP 200. Robots allows public pages, disallows `/api/`, and references the sitemap. The sitemap lists the current public routes, including the Delhi, Gurugram and Noida directories.
+- This checks delivered HTML only. It does not prove Google indexed the pages, chose the declared canonical, or ranks them. Search Console previously showed data processing; no query or ranking numbers are available.
+- Added direct FAQ answers about whether DOCVY emails a provider after an appointment request. They state that the form is currently disabled and describe the future verified-contact and consent requirements without implying a live booking.

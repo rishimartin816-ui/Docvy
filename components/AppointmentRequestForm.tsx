@@ -6,7 +6,7 @@ import { ArrowRight, CheckCircle2, LoaderCircle } from "lucide-react";
 import type { ProviderCandidate } from "@/lib/provider-candidates";
 
 type Props = { doctors: ProviderCandidate[]; initialProvider: string; initialCity: string; enabled: boolean };
-type Result = { ok?: boolean; referenceId?: string; error?: string };
+type Result = { ok?: boolean; referenceId?: string; providerNotified?: boolean; error?: string };
 
 function keyFor(providerId: string, city: string, facility: string) {
   return `${providerId}::${city}::${facility}`;
@@ -25,6 +25,7 @@ export default function AppointmentRequestForm({ doctors, initialProvider, initi
   const [selection, setSelection] = useState(initialOption);
   const [busy, setBusy] = useState(false);
   const [referenceId, setReferenceId] = useState("");
+  const [providerNotified, setProviderNotified] = useState(false);
   const [error, setError] = useState("");
   const selected = locations.find((item) => item.key === selection);
 
@@ -56,6 +57,7 @@ export default function AppointmentRequestForm({ doctors, initialProvider, initi
       const result = await response.json() as Result;
       if (!response.ok || !result.ok || !result.referenceId) throw new Error(result.error || "We could not send your enquiry. Please try again later.");
       setReferenceId(result.referenceId);
+      setProviderNotified(result.providerNotified === true);
       formElement.reset();
       setSelection(initialOption);
     } catch (cause) {
@@ -69,7 +71,7 @@ export default function AppointmentRequestForm({ doctors, initialProvider, initi
     <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#EAF5F1] text-[#087F83]"><CheckCircle2 size={25}/></span>
     <p className="mt-5 text-xs font-extrabold tracking-[0.14em] text-[#087F83]">ENQUIRY RECEIVED</p>
     <h2 className="mt-2 text-2xl font-bold text-[#173A37]">DOCVY has your request.</h2>
-    <p className="mt-3 text-sm leading-6 text-[#526D66]">Your reference is <strong>{referenceId}</strong>. This is not an appointment confirmation. DOCVY will coordinate with the selected provider and contact you about the next step. The provider confirms availability and any fee.</p>
+    <p className="mt-3 text-sm leading-6 text-[#526D66]">Your reference is <strong>{referenceId}</strong>. This is not an appointment confirmation. {providerNotified ? "Your request details were emailed to the provider’s verified appointment contact. The provider must still confirm availability, the slot and any fee." : "DOCVY received your request, but this provider does not yet have a verified email contact. Please contact the hospital or clinic directly to confirm a slot and fee."}</p>
     <Link href="/doctors" className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#087F83] px-5 text-sm font-bold text-white">Return to doctor listings <ArrowRight size={16}/></Link>
   </section>;
 
