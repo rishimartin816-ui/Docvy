@@ -186,4 +186,7 @@ Structured data should describe visible, accurate content only. Google says its 
 - Kept the visual treatment within the documented DOCVY system: mint/white surfaces, deep-green headings, teal location icons, rounded cards and visible keyboard focus. The cards identify the current directory as limited and direct people to official hospital profiles for current details.
 - Corrected the directory summary so “profile-city placements” is not confused with the 17 facility records. This avoids presenting multiple facilities for one doctor in Gurugram as additional city coverage.
 - Updated inherited social-preview wording after a live HTML audit found it was too generic and could suggest that an enquiry flow was live. The text now matches the current patient-guide and directory scope.
+- Added a 1200 × 630 DOCVY social preview card in the same mint, teal and pine palette. Its search card and three city markers make the nationwide guide/current NCR listings distinction visible when a page is shared.
+- Checked the official Next.js 14 opengraph-image and ImageResponse references; the generated image was verified locally as a PNG and the homepage includes Open Graph and Twitter image tags.
+- Verified the same social image tags and canonical metadata on 10 representative page routes, including city, provider, contact, FAQ and legal pages after aligning their page-level Open Graph metadata.
 - Figma remained view-only and no DOCVY file reference was available. Implementation followed the codebase design reference; no external Figma source was claimed.

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { docvyOpenGraphImage } from "@/lib/metadata";
 
 const docvyFont = DM_Sans({
   subsets: ["latin"],
@@ -27,11 +28,13 @@ export const metadata: Metadata = {
     title: "DOCVY — Healthcare discovery across India",
     description: "A plain-language specialty guide for India, with a limited set of hospital-source doctor profiles in Delhi, Gurugram and Noida.",
     url: "/",
+    images: [docvyOpenGraphImage],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "DOCVY — Healthcare discovery across India",
     description: "Explore medical specialties across India and browse a limited set of hospital-source doctor profiles in Delhi, Gurugram and Noida. Contact providers directly to confirm availability.",
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,

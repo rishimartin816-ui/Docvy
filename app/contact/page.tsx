@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Building2, Mail, MapPin, ShieldAlert } from "lucide-react";
+import { docvyOpenGraphImage } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Contact and provider enquiries",
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
     title: "Contact DOCVY about provider onboarding",
     description: "Contact DOCVY about clinic and hospital plans, provider onboarding, or privacy questions.",
     url: "/contact",
+    images: [docvyOpenGraphImage],
   },
 };
 

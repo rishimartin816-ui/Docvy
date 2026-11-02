@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, Building2, MapPin, Stethoscope } from "lucide-react";
+import { docvyOpenGraphImage } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "For doctors: profiles and onboarding",
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
     title: "For doctors across India | DOCVY",
     description: "DOCVY is building nationwide doctor discovery, starting with source-linked profiles in Delhi NCR. Contact the team about a profile or future onboarding.",
     url: "/for-doctors",
+    images: [docvyOpenGraphImage],
   },
 };
 

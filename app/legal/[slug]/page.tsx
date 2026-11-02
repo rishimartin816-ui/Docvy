@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { docvyOpenGraphImage } from "@/lib/metadata";
 import { notFound } from "next/navigation";
 import { legal } from "@/lib/content";
 import { PageHero, Section } from "@/components/ui";
@@ -19,6 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       type: "website",
       locale: "en_IN",
       siteName: "DOCVY",
+      images: [docvyOpenGraphImage],
       title: `${page.title} | DOCVY`,
       description,
       url: `/legal/${slug}`,

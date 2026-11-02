@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight, Building2, Check, Stethoscope } from "lucide-react";
 import ProviderWorkflowIllustration from "@/components/ProviderWorkflowIllustration";
+import { docvyOpenGraphImage } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Clinic and hospital plans",
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
     title: "Clinic and hospital plans | DOCVY",
     description: "Discuss planned provider tools, onboarding and pricing with DOCVY. There is no online checkout.",
     url: "/pricing",
+    images: [docvyOpenGraphImage],
   },
 };
 

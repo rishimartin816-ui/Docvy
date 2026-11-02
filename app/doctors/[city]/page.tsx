@@ -5,6 +5,7 @@ import { ArrowRight, MapPin } from "lucide-react";
 import DoctorDirectory from "@/components/DoctorDirectory";
 import { providerCandidates, providerCities, type ProviderCity } from "@/lib/provider-candidates";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
+import { docvyOpenGraphImage } from "@/lib/metadata";
 
 const citySlugs: Record<string, ProviderCity> = {
   delhi: "Delhi",
@@ -22,7 +23,8 @@ export function generateMetadata({ params }: { params: { city: string } }): Meta
   const locationName = city === "Gurugram" ? "Gurugram (Gurgaon)" : city;
   const title = `Doctors in ${locationName}`;
   const description = `Browse DOCVY's current hospital-listed doctor profiles in ${locationName}, Delhi NCR. Explore specialties and listed facilities; confirm current details and appointments with the hospital.`;
-  return { title, description, alternates: { canonical: `/doctors/${params.city}` }, openGraph: { type: "website", locale: "en_IN", siteName: "DOCVY", title: `${title} | DOCVY`, description, url: `/doctors/${params.city}` } };
+  const cityPath = "/doctors/" + params.city;
+  return { title, description, alternates: { canonical: cityPath }, openGraph: { type: "website", locale: "en_IN", siteName: "DOCVY", title: title + " | DOCVY", description, url: cityPath, images: [docvyOpenGraphImage] } };
 }
 
 export default function CityDoctorsPage({ params }: { params: { city: string } }) {

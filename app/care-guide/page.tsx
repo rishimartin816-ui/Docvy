@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AlertTriangle, ArrowRight, BookOpenCheck, Building2, CalendarClock, MapPin, Search, ShieldCheck, Stethoscope } from "lucide-react";
 import CareGuideSearch from "@/components/CareGuideSearch";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
+import { docvyOpenGraphImage } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "What kind of doctor should I see? | Patient guide",
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
     title: "What kind of doctor should I see? | DOCVY",
     description: "Search common concerns and learn which doctor specialties may be related, with clear information about DOCVY’s current coverage.",
     url: "/care-guide",
+    images: [docvyOpenGraphImage],
   },
 };
 

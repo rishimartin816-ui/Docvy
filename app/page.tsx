@@ -5,14 +5,15 @@ import HeroIllustration from "@/components/HeroIllustration";
 import PatientSearchCard from "@/components/PatientSearchCard";
 import PatientJourneyMap from "@/components/PatientJourneyMap";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
+import { docvyOpenGraphImage } from "@/lib/metadata";
 import { providerCandidates, providerCities } from "@/lib/provider-candidates";
 
 export const metadata: Metadata = {
   title: "Healthcare discovery across India | DOCVY",
   description: "Use DOCVY’s plain-language patient guide anywhere in India and browse source-linked doctor profiles currently listed in Delhi, Gurugram and Noida.",
   alternates: { canonical: "/" },
-  openGraph: { type: "website", locale: "en_IN", siteName: "DOCVY", title: "Healthcare discovery across India | DOCVY", description: "A plain-language patient guide for India, with source-linked doctor listings currently in Delhi, Gurugram and Noida.", url: "/" },
-  twitter: { card: "summary", title: "Healthcare discovery across India | DOCVY", description: "Explore a plain-language specialty guide across India and a limited set of hospital-source doctor profiles in Delhi, Gurugram and Noida." },
+  openGraph: { type: "website", locale: "en_IN", siteName: "DOCVY", title: "Healthcare discovery across India | DOCVY", description: "A plain-language patient guide for India, with source-linked doctor listings currently in Delhi, Gurugram and Noida.", url: "/", images: [docvyOpenGraphImage] },
+  twitter: { card: "summary_large_image", title: "Healthcare discovery across India | DOCVY", description: "Explore a plain-language specialty guide across India and a limited set of hospital-source doctor profiles in Delhi, Gurugram and Noida.", images: ["/opengraph-image"] },
 };
 
 const guideExamples = [

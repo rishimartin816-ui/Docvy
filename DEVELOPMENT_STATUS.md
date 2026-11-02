@@ -27,6 +27,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Added a homepage city-coverage panel that links directly to Delhi, Gurugram and Noida pages and derives profile and facility counts from the provider data.
 - Corrected a directory count label: 12 unique profiles map to 16 profile-city placements and 17 hospital-listed facility locations; multiple facilities in one city are no longer mislabelled as separate city listings.
 - Replaced generic inherited social-preview descriptions that implied an enquiry flow with accurate India-wide guide and current NCR-directory wording.
+- Added a branded 1200 × 630 Open Graph image and connected it to Open Graph and Twitter large-image metadata using the Next.js 14 metadata image route.
 
 ## Verification evidence
 
@@ -47,6 +48,8 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - The live sitemap lists 17 indexable URLs. The homepage, patient guide, directory and provider-plan pages explain pan-India purpose versus current NCR listings, distinguish informational specialty guidance from diagnosis, and disclose that appointments are not booked. No unreviewed doctor credentials or availability are marked up as verified.
 - Live page content confirms that DOCVY is for India while doctor coverage is currently Delhi NCR, and that enquiries are closed while the private Sheet connection is missing. No provider email is sent.
 - The current homepage city panel is intended to show 6 profiles for Delhi, 6 for Gurugram and 4 for Noida, with counts derived from the source list. These are directory data counts, not verified coverage completeness.
+- Local production-server checks returned HTTP 200 for /, /doctors and /opengraph-image. The generated image returned image/png (115,628 bytes); homepage source contained both og:image and twitter:image, and the city cards linked to the current route set.
+- The first local metadata pass found that route-level Open Graph objects override the shared image. Added one shared image definition to every page-level Open Graph override; a second local check of 10 representative pages and templates returned HTTP 200 with both og:image and twitter:image plus canonicals.
 
 ## Live intake state and safe test
 
@@ -55,6 +58,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - The DOCVY Chrome profile has an Apps Script editor project open. Its initial editor view showed `Code.gs` nested under `function myFunction()`, which would not expose the required top-level `doPost` handler. A replacement with the reviewed repository source was attempted, but the UI state timed out during verification; whether that edit was saved is unknown. No endpoint was deployed and no token was created. The current Google Drive connector cannot inspect or deploy Apps Script projects.
 - After that connection, submit one clearly labelled synthetic test lead, verify its reference and status in the private `Appointments` tab, and confirm the email status is `NOT_CONFIGURED`. Do not use real patient data or notify a provider for this test.
 - A successful direct Google Sheets connector write is not an end-to-end website test.
+- Next.js 14 documentation was checked for the opengraph-image.tsx convention and ImageResponse; the image uses the documented next/og import and edge runtime. The runtime is limited to the image route.
 
 ## 3 November design, search metadata and GEO pass
 
@@ -85,6 +89,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 
 | Date | Commit / deployment | Result |
 |---|---|---|
+| 3 Nov 2026 | fdb54f9 · Vercel dpl_54bZpuJTD5w6XThhrAsKN6b9rguq | ERROR before build: resource provisioning timed out. No aliases were assigned; the previous READY release remained live. Retry is being prepared with the next commit. |
 | 3 Nov 2026 | `986c33e` · Vercel `dpl_G9mavqzeH2DQF8K8CQgGWLuh8Avk` | READY; fresh live page checks passed. Enquiry intake remains closed pending the private Workspace connection. |
 | 3 Nov 2026 | `2fd963a` · Vercel `dpl_BNaQFGFrwhjQafiVGUHzPNisFTfF` | READY; interactive homepage search verified live: “joint pain” opens the guide and returns Orthopaedics. The search submits no contact details. |
 | 3 Nov 2026 | `146daf6` · Vercel `dpl_Gr2zc4xe7mMgSiFV2nTN2Fj36Hkx` | READY; moved the search card into the homepage text flow so it appears in the first mobile viewport. |

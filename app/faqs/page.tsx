@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { faqs } from "@/lib/content";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
+import { docvyOpenGraphImage } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Doctor listings, appointments and provider plan FAQs",
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
     description:
       "Clear answers about DOCVY's doctor directory, appointment requests, provider verification, clinic and hospital plans, privacy and emergency care.",
     url: "/faqs",
+    images: [docvyOpenGraphImage],
   },
 };
 

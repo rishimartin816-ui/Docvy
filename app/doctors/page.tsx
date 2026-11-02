@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, BadgeHelp, Building2, CalendarClock, MapPin, Search, ShieldAlert, Stethoscope } from "lucide-react";
 import DoctorDirectory from "@/components/DoctorDirectory";
+import { docvyOpenGraphImage } from "@/lib/metadata";
 import { providerCandidates, providerCities } from "@/lib/provider-candidates";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
 
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
     title: "Doctors in Delhi NCR | DOCVY",
     description: "Explore source-linked doctor profiles from Delhi, Gurugram and Noida by specialty and hospital. DOCVY review and appointment availability are pending.",
     url: "/doctors",
+    images: [docvyOpenGraphImage],
   },
 };
 

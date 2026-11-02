@@ -1,6 +1,7 @@
 import { MessageSquareWarning, ShieldCheck } from "lucide-react";
 import { PageHero, Section, Card } from "@/components/ui";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
+import { docvyOpenGraphImage } from "@/lib/metadata";
 
 export const metadata = {
   title: "Grievance contact information",
@@ -13,6 +14,7 @@ export const metadata = {
     title: "Grievance contact | DOCVY",
     description: "Find the current grievance contact for DOCVY.",
     url: "/grievance",
+    images: [docvyOpenGraphImage],
   },
 };
 
