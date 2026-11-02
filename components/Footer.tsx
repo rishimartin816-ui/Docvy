@@ -1,10 +1,85 @@
 import Link from "next/link";
-import { ShieldCheck, FileText, Mail, CircleHelp } from "lucide-react";
+import { ArrowUpRight, FileText, Mail, ShieldCheck } from "lucide-react";
+
+const platformLinks = [
+  ["/#discovery", "Patient discovery"],
+  ["/#doctors", "Doctors"],
+  ["/#clinics", "Clinics"],
+  ["/#hospitals", "Hospitals"],
+] as const;
+
+const policyLinks = [
+  ["/legal/privacy", "Privacy policy"],
+  ["/legal/terms", "Terms of service"],
+  ["/legal/refund", "Cancellation and refunds"],
+  ["/legal/disclaimer", "Medical disclaimer"],
+  ["/grievance", "Grievance redressal"],
+] as const;
+
 export default function Footer() {
-  const col = (t: string, items: [string, string][]) => <div><h4 className="mb-3 text-sm font-semibold text-plum">{t}</h4>{items.map(([href, label]) => <Link key={href} href={href} className="block rounded py-1.5 text-grey transition-colors hover:text-plum hover:underline">{label}</Link>)}</div>;
-  return <footer className="border-t border-line bg-porc py-12 text-sm"><div className="mx-auto grid max-w-site gap-8 px-6 md:grid-cols-[1.4fr_1fr_1fr]">
-    <div><p className="font-head text-[22px] font-extrabold tracking-[.06em] text-plum">DOCVY</p><p className="mt-2 text-grey">Medical documentation, made simpler.</p><p className="mt-3 flex items-start gap-2 text-xs leading-5 text-grey"><ShieldCheck size={17} className="mt-0.5 shrink-0 text-mulb"/>Medical decisions remain independent. A certificate is not guaranteed.</p><p className="mt-3 text-xs leading-5 text-grey">Legal entity, registered address and grievance contact must be published here before launch.</p></div>
-    {col("Explore", [["/about", "About Docvy"], ["/how-it-works", "How it works"], ["/faqs", "FAQs"], ["/contact", "Contact and support"], ["/status", "Check request status"]])}
-    <div><h4 className="mb-3 text-sm font-semibold text-plum">Policies & support</h4>{[["/legal/privacy", "Privacy policy", ShieldCheck], ["/legal/terms", "Terms of service", FileText], ["/legal/refund", "Cancellation and refunds", FileText], ["/legal/disclaimer", "Medical disclaimer", CircleHelp], ["/grievance", "Grievance redressal", Mail]].map(([href, label, Icon]: any) => <Link key={href} href={href} className="flex items-center gap-2 rounded py-1.5 text-grey transition-colors hover:text-plum hover:underline"><Icon size={15}/>{label}</Link>)}</div>
-  </div><div className="mx-auto mt-8 max-w-site border-t border-line px-6 pt-5 text-xs text-grey">© {new Date().getFullYear()} Docvy. Policy drafts and service details must be reviewed and completed before public customer launch.</div></footer>;
+  return (
+    <footer className="border-t border-[#DCEAE5] bg-[#F6FAF8] text-sm">
+      <div className="mx-auto grid max-w-[1440px] gap-10 px-6 py-12 md:grid-cols-[1.3fr_.8fr_1fr] lg:px-[72px] lg:py-14">
+        <div>
+          <Link
+            href="/"
+            className="font-head text-[22px] font-extrabold tracking-[0.07em] text-[#123B38]"
+          >
+            DOCVY
+          </Link>
+          <p className="mt-3 max-w-sm text-sm leading-6 text-[#526D66]">
+            Connected healthcare discovery and operations.
+          </p>
+          <p className="mt-5 flex max-w-sm items-start gap-2 text-xs leading-5 text-[#789089]">
+            <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#087F83]" />
+            Provider discovery and management workflows are in development.
+          </p>
+        </div>
+
+        <div>
+          <h2 className="mb-3 text-xs font-bold uppercase tracking-[0.12em] text-[#173A37]">
+            Platform
+          </h2>
+          {platformLinks.map(([href, label]) => (
+            <Link
+              key={href}
+              href={href}
+              className="block rounded py-1.5 text-[#526D66] transition-colors hover:text-[#087F83]"
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
+
+        <div>
+          <h2 className="mb-3 text-xs font-bold uppercase tracking-[0.12em] text-[#173A37]">
+            Policies & support
+          </h2>
+          {policyLinks.map(([href, label]) => (
+            <Link
+              key={href}
+              href={href}
+              className="flex items-center gap-2 rounded py-1.5 text-[#526D66] transition-colors hover:text-[#087F83]"
+            >
+              <FileText size={14} />
+              {label}
+            </Link>
+          ))}
+          <Link
+            href="/contact"
+            className="mt-2 inline-flex items-center gap-2 py-1.5 font-semibold text-[#087F83] hover:text-[#066D70]"
+          >
+            Contact DOCVY <Mail size={14} /> <ArrowUpRight size={13} />
+          </Link>
+        </div>
+      </div>
+
+      <div className="border-t border-[#DCEAE5]">
+        <div className="mx-auto max-w-[1440px] px-6 py-5 text-xs leading-5 text-[#789089] lg:px-[72px]">
+          © {new Date().getFullYear()} DOCVY. Product capabilities are subject to
+          release and operational readiness.
+        </div>
+      </div>
+    </footer>
+  );
 }

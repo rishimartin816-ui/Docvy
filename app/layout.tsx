@@ -1,13 +1,43 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Manrope, Inter } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-const head = Manrope({ subsets: ["latin"], variable: "--font-head", weight: ["600", "700", "800"] });
-const body = Inter({ subsets: ["latin"], variable: "--font-body" });
-export const metadata: Metadata = { title: "Docvy – Medical documentation, made simpler", description: "Request medical documentation online. A registered medical practitioner reviews your case where required. No guaranteed certificate." };
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (<html lang="en-IN" className={`${head.variable} ${body.variable}`}><body>
-    <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:p-3 focus:bg-porc">Skip to content</a>
-    <Nav /><main id="main">{children}</main><Footer /></body></html>);
+
+const docvyFont = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-head",
+  weight: ["400", "500", "600", "700", "800", "900"],
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  title: {
+    default: "DOCVY — Connected healthcare discovery and operations",
+    template: "%s | DOCVY",
+  },
+  description:
+    "DOCVY is building a connected healthcare experience for patient discovery, doctors, clinics and hospitals.",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en-IN" className={docvyFont.variable}>
+      <body>
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-3 focus:rounded-lg focus:bg-white focus:p-3 focus:text-[#173A37]"
+        >
+          Skip to content
+        </a>
+        <Nav />
+        <main id="main">{children}</main>
+        <Footer />
+      </body>
+    </html>
+  );
 }

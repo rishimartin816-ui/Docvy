@@ -1,4 +1,35 @@
-import { Mail, MessageSquareWarning, ShieldCheck } from "lucide-react";
+import { MessageSquareWarning, ShieldCheck } from "lucide-react";
 import { PageHero, Section, Card } from "@/components/ui";
-export const metadata = { title: "Grievance redressal – Docvy", description: "How to raise a service or privacy grievance with Docvy." };
-export default function Grievance() { return <><PageHero eyebrow="HELP & ACCOUNTABILITY" title="Grievance redressal" text="We intend to handle service and privacy concerns clearly and fairly. The responsible officer's verified contact details must be added before launch."/><Section alt><div className="grid max-w-4xl gap-5 md:grid-cols-3"><Card><MessageSquareWarning className="mb-4 text-mulb" size={28}/><h2 className="mb-2 text-lg font-bold">What to include</h2><p className="text-sm text-grey">Describe the issue, the date and your request reference if available. Do not include detailed health information unless it is necessary.</p></Card><Card><Mail className="mb-4 text-mulb" size={28}/><h2 className="mb-2 text-lg font-bold">Where to contact</h2><p className="text-sm text-grey">Grievance officer: [name]. Email: [verified grievance email]. Postal address: [registered business address]. These placeholders must be replaced before launch.</p></Card><Card><ShieldCheck className="mb-4 text-mulb" size={28}/><h2 className="mb-2 text-lg font-bold">Response timeline</h2><p className="text-sm text-grey">Publish a realistic acknowledgement and resolution timeline after confirming the operating process and applicable legal requirements.</p></Card></div></Section></>; }
+
+export const metadata = {
+  title: "Grievance information – DOCVY",
+  description: "Current grievance-contact availability for DOCVY.",
+};
+
+export default function Grievance() {
+  return (
+    <>
+      <PageHero
+        eyebrow="HELP & ACCOUNTABILITY"
+        title="Your grievance contact at DOCVY."
+        text="DOCVY is currently an informational website. Request submissions and service workflows are paused."
+      />
+      <Section alt>
+        <div className="mx-auto grid max-w-4xl gap-5 md:grid-cols-2">
+          <Card>
+            <MessageSquareWarning className="mb-4 text-mulb" size={28} />
+            <h2 className="mb-2 text-lg font-bold">Operating entity</h2>
+            <p className="text-sm text-grey">DSS Global Technologies Private Limited</p>
+            <p className="mt-2 text-sm text-grey">Business address: 2nd Floor, Capital Cityscape, Sector 66, Gurugram, Haryana – 122101, India.</p>
+            <p className="mt-2 text-xs leading-5 text-grey">Grievance contact: Rishi Raj Martin. Rishi Raj Martin has personally accepted responsibility for handling grievances. Email: rishimartin.16@icloud.com. Written grievances may also be sent to the business address above.</p>
+          </Card>
+          <Card>
+            <ShieldCheck className="mb-4 text-mulb" size={28} />
+            <h2 className="mb-2 text-lg font-bold">Please do not submit sensitive information</h2>
+            <p className="text-sm text-grey">The website is not accepting request submissions or complaints through a web form. Please do not send medical records, identity documents or other sensitive personal information through unverified channels.</p>
+          </Card>
+        </div>
+      </Section>
+    </>
+  );
+}
