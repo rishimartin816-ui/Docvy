@@ -101,6 +101,13 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - The private Sheets connection and synthetic end-to-end lead check remain pending. Do not open intake until a complete synthetic submission is confirmed in the private Sheet.
 - Production commit `9d5731a` is live in Vercel deployment `dpl_9b2G7YCM4dS2wNHWx4HhLhso7Z9N` (`READY`) with aliases `www.docvy.in` and `docvy.in`.
 
+## 3 November hyperlocal directory refinement
+
+- Added a visible area/locality filter beside doctor and specialty search. Options come only from locality labels already present in the hospital-source-linked provider records; no new doctor, facility or geographic claim was added.
+- Changed city-page area links to preselect that city and exact locality in the directory. Selecting a different city clears the old locality to avoid empty or misleading results.
+- Clarified that current listings are Delhi NCR only and area labels may be incomplete. Pan-India product scope remains distinct from current provider coverage.
+- `pnpm lint`, `pnpm build` (32 static pages), and `git diff --check` passed. Local GET checks for `/doctors` and `/doctors/delhi` returned HTTP 200 and included the locality filter. Interactive visual check and production publication are pending.
+
 ## Not yet built or verified
 
 - Provider credential review/claiming workflow and wider source-backed provider coverage.

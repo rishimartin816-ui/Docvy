@@ -190,3 +190,11 @@ Structured data should describe visible, accurate content only. Google says its 
 - Checked the official Next.js 14 opengraph-image and ImageResponse references; the generated image was verified locally as a PNG and the homepage includes Open Graph and Twitter image tags.
 - Verified the same social image tags and canonical metadata on 10 representative page routes, including city, provider, contact, FAQ and legal pages after aligning their page-level Open Graph metadata.
 - Figma remained view-only and no DOCVY file reference was available. Implementation followed the codebase design reference; no external Figma source was claimed.
+
+## 3 November hyperlocal directory refinement
+
+- Added an explicit “Area or locality” select beside specialty search. The mint/white filter card, teal location icon, existing spacing and rounded controls follow the repository's DOCVY visual system.
+- Area options are sourced from locality names already attached to provider records. The helper text says the choices are incomplete and current listings are limited to Delhi NCR, preventing the interface from implying nationwide provider coverage.
+- City-page locality chips now open the exact city and locality filter. Changing cities resets the locality selection; clearing filters restores the whole directory.
+- This is a codebase-grounded visual update. Drive search found no DOCVY Figma file, so no external Figma screen or token set is claimed as the source.
+- Lint/build passed and local doctor-directory routes returned HTTP 200. Interactive visual review and production publication are pending.
