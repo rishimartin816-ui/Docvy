@@ -123,6 +123,11 @@ export const careGuide: CareGuideEntry[] = [
     description: "Medical and surgical care for eye conditions and vision health.",
     examples: ["Eye condition review", "Vision changes", "Eye surgery consultation"],
     keywords: ["eye", "eyes", "vision", "cataract", "glaucoma", "conjunctivitis", "diabetic retinopathy", "ophthalmology", "ophthalmologist", "sight"],
+    references: [
+      { label: "AIIMS Delhi: ophthalmology services including cataract care", url: "https://www.aiims.edu/index.php/en/unit-i" },
+      { label: "Healthdirect: cataracts and specialist eye care", url: "https://www.healthdirect.gov.au/conditions/eye-diseases/cataracts" },
+      { label: "Healthdirect: the role of an ophthalmologist", url: "https://www.healthdirect.gov.au/healthcare-and-services/roles-and-specialties/ophthalmologist" },
+    ],
   },
   {
     specialty: "ENT (ear, nose and throat)",

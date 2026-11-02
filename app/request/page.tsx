@@ -3,12 +3,25 @@ import { CalendarClock, ShieldCheck } from "lucide-react";
 import AppointmentRequestForm from "@/components/AppointmentRequestForm";
 import { providerCandidates } from "@/lib/provider-candidates";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
+import { docvyOpenGraphImage } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Request an appointment enquiry",
-  description: "Send DOCVY an appointment enquiry for a listed Delhi NCR doctor. The selected clinic or hospital must confirm availability.",
-  robots: { index: false, follow: false },
-};
+export function generateMetadata(): Metadata {
+  const intakeEnabled = isAppointmentIntakeConfigured();
+  const title = intakeEnabled ? "Appointment enquiry information" : "Appointment enquiries currently paused";
+  const description = intakeEnabled
+    ? "Learn what happens when you send DOCVY an appointment enquiry for a listed Delhi NCR doctor. The selected clinic or hospital must confirm availability."
+    : "DOCVY appointment enquiries are paused while its private intake connection is unavailable. Contact the clinic or hospital directly to confirm availability.";
+  return {
+    title,
+    description,
+    robots: { index: false, follow: false },
+    openGraph: {
+      type: "website", locale: "en_IN", siteName: "DOCVY", title, description,
+      url: "/request", images: [docvyOpenGraphImage],
+    },
+    twitter: { card: "summary_large_image", title, description, images: ["/opengraph-image"] },
+  };
+}
 
 export default async function RequestPage({ searchParams }: { searchParams: Promise<{ provider?: string; city?: string }> }) {
   const params = await searchParams;

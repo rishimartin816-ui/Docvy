@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AlertTriangle, ArrowRight, BookOpenCheck, Building2, CalendarClock, MapPin, Search, ShieldCheck, Stethoscope } from "lucide-react";
+import { Activity, AlertTriangle, ArrowRight, BookOpenCheck, Building2, CalendarClock, Eye, HeartPulse, MapPin, Search, ShieldCheck, Stethoscope, Wind } from "lucide-react";
 import CareGuideSearch from "@/components/CareGuideSearch";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
 import { docvyOpenGraphImage } from "@/lib/metadata";
+import { patientTopicGuides } from "@/lib/patient-topic-guides";
+
+const topicIcons = [HeartPulse, Activity, Stethoscope, Activity, Eye, Wind];
 
 export const metadata: Metadata = {
   title: "What kind of doctor should I see? | Patient guide",
@@ -42,6 +45,14 @@ export default function CareGuidePage() {
         </div>
         <CareGuideSearch />
       </div>
+    </section>
+
+    <section className="mx-auto max-w-6xl px-6 py-10 md:py-14" aria-labelledby="popular-patient-questions">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div><p className="text-xs font-extrabold tracking-[0.13em] text-[#087F83]">POPULAR PATIENT QUESTIONS</p><h2 id="popular-patient-questions" className="mt-3 text-2xl font-bold tracking-tight md:text-3xl">Start with a clear answer</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-[#526D66]">Each guide explains broad doctor specialties, shows current directory coverage and links to its sources. It does not diagnose or recommend a personal clinician.</p></div>
+        <Link href="/doctors" className="inline-flex min-h-10 items-center gap-2 text-sm font-bold text-[#087F83] underline decoration-[#B8DCD0] underline-offset-4">Current doctor listings <ArrowRight size={15} aria-hidden="true" /></Link>
+      </div>
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{patientTopicGuides.map((guide, index) => { const Icon = topicIcons[index] ?? Stethoscope; return <Link key={guide.slug} href={`/patient-guides/${guide.slug}`} className="group flex min-h-36 gap-4 rounded-2xl border border-[#DCEAE5] bg-white p-5 shadow-[0_6px_24px_rgba(23,58,55,0.025)] transition hover:-translate-y-0.5 hover:border-[#B8DCD0] hover:shadow-[0_16px_36px_rgba(23,58,55,0.08)]"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#EAF5F1] text-[#087F83]"><Icon size={20} aria-hidden="true" /></span><span><span className="block font-bold text-[#173A37] group-hover:text-[#087F83]">{guide.topic}</span><span className="mt-2 block text-sm leading-6 text-[#526D66]">{guide.title}</span><span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#087F83]">Read the guide <ArrowRight size={13} aria-hidden="true" /></span></span></Link>; })}</div>
     </section>
 
     <section className="mx-auto max-w-6xl px-6 py-12 md:py-16">

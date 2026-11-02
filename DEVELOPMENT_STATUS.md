@@ -7,7 +7,7 @@
 
 These are roadmap estimates based on deliverables, not analytics, traffic, patient activity, or search rankings.
 
-- **Public website and search foundation: 90%.** Main pages, clear patient journey, pan-India guide, NCR-only listings, source-linked profiles, metadata, schema, sitemap and internal discovery links are live. The homepage search panel is now a real concern/specialty search. More mobile interaction review, Search Console query review and broader provider coverage remain.
+- **Public website and search foundation: 93%.** Main pages, clear patient journey, pan-India guide, NCR-only listings, source-linked profiles, metadata, schema, sitemap, internal discovery links and crawlable patient answer pages are implemented. More mobile interaction review, Search Console query review and broader provider coverage remain.
 - **Website enquiry path: 55%.** Form, server validation, private Sheets handoff and token-protected Apps Script source exist. The script is not installed or deployed and Vercel production variables are not configured; the live form must remain closed until end-to-end verification.
 - **Full DOCVY product: 22%.** This reflects a weighted roadmap across public discovery, provider data, enquiry handling, provider operations, hospital software, identity/access and business intelligence. The provider/hospital application, appointment availability engine and operational dashboards are not complete.
 
@@ -86,6 +86,17 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - A production API safety probe containing no person or health details returned HTTP 503 while Sheets intake is disconnected. This confirms fail-closed behavior only; no lead was accepted or written. The actual synthetic lead-to-Sheet test remains pending until the approved private endpoint is configured and connected.
 - The Noida + Orthopaedics directory path was checked in a live browser after page hydration; it showed one matching profile (Dr. Atul Mishra), the correct Noida location, hospital source link, paused intake label and updated CTA.
 - Current Google Search guidance recommends breadcrumbs that reflect the user path and does not guarantee rich results; FAQ rich results are limited to a subset of authoritative sites. DOCVY uses visible answer copy without promising FAQ enhancements. See [Google breadcrumb structured data](https://developers.google.com/search/docs/appearance/structured-data/breadcrumb) and [Google's FAQ rich-result change](https://developers.google.com/search/blog/2023/08/howto-faq-changes).
+
+## 3 November patient answer pages and crawlable search content
+
+- Added six statically rendered patient guides for high blood pressure, diabetes, PCOS/PCOD, joint pain/arthritis, cataract and asthma. Each starts with a direct answer, names broad related specialties, shows current NCR directory matches by city, explains that the content is not a diagnosis, and links to primary or reputable source material.
+- Added an internally linked set of common patient questions to `/care-guide`, included all six canonical URLs in the sitemap, and added visible `BreadcrumbList` structured data to each guide. No `FAQPage` schema or search ranking claim was added.
+- Added AIIMS Delhi and Healthdirect references to the eye-specialty result for cataract searches.
+- Corrected `/request` social metadata so its title and Open Graph URL describe that noindex route; when intake is disconnected, metadata now says enquiries are paused instead of implying that the form is available.
+- `pnpm lint` and `pnpm build` passed; Next.js prerendered 32 static pages, including all six patient-guide routes. The existing `/opengraph-image` edge-runtime warning remains limited to that image route. `git diff --check` passed.
+- Verified query behavior on production before this change: high blood pressure surfaced General Physician and Cardiology with source links; PCOS surfaced Endocrinology and Gynaecology; arthritis surfaced Orthopaedics and Rheumatology; cataract surfaced Ophthalmology. Those query results were live on release `94c512a`; the six new static pages await the next production publish.
+- Search/source review used official AIIMS Delhi and VMMC & Safdarjung Hospital pages plus Healthdirect clinical-information pages. The source notes disclose that Australian information explains general specialty roles and does not define Indian referral rules.
+- The private Sheets connection and synthetic end-to-end lead check remain pending. Do not open intake until a complete synthetic submission is confirmed in the private Sheet; current API behavior remains fail-closed with HTTP 503.
 
 ## Not yet built or verified
 

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { patientTopicGuides } from "@/lib/patient-topic-guides";
 
 const site = "https://www.docvy.in";
 
@@ -23,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["/pricing", 0.7],
   ] as const;
 
-  return pages.map(([path, priority]) => ({
+  return [...pages, ...patientTopicGuides.map(({ slug }) => [`/patient-guides/${slug}`, 0.7] as const)].map(([path, priority]) => ({
     url: `${site}${path}`,
     changeFrequency: path === "" ? "weekly" : "monthly",
     priority,
