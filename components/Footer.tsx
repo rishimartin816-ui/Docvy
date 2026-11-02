@@ -52,6 +52,9 @@ export default function Footer() {
           <Link href="/pricing" className="block rounded py-1.5 text-[#526D66] transition-colors hover:text-[#087F83]">
             Clinic &amp; hospital plans
           </Link>
+          <Link href="/for-doctors" className="block rounded py-1.5 text-[#526D66] transition-colors hover:text-[#087F83]">
+            For doctors
+          </Link>
         </div>
 
         <div>

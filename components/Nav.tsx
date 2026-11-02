@@ -6,7 +6,7 @@ import { ArrowUpRight, Menu, X } from "lucide-react";
 
 const links = [
   ["/#discovery", "Discover"],
-  ["/#doctors", "For doctors"],
+  ["/for-doctors", "For doctors"],
   ["/#clinics", "For clinics"],
   ["/#hospitals", "For hospitals"],
 ] as const;
