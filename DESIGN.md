@@ -72,14 +72,69 @@ These are implementation recommendations based on the live design; except where 
 | Body text | System fallback in source despite Inter being inferred by capture | Define an explicit body font stack and consistent readable line lengths |
 | Components | Rounded cards, thin mint borders, subtle shadows | Standardize one card radius, one border, button heights, spacing and alert treatments |
 
-## SEO, local discovery and answer-ready content
+## Proposed richer visual direction
 
-- Write one clear page title and answer-first introduction for each actual audience and task.
-- Add useful city and specialty pages only when there is enough verified, distinct directory information. Avoid doorway pages that only swap place names.
-- Use structured data that reflects verified organization, pages and genuine provider data; do not add rating, availability or verification claims that DOCVY cannot substantiate.
-- Keep source links, profile review state, location wording and last-checked date consistent between page copy and the underlying provider records.
-- Make FAQs answer real patient questions and link to the guide or directory. Revisit them whenever booking or verification status changes.
-- Track page and search performance only through connected analytics after its implementation and privacy handling are documented; do not report fabricated metrics.
+Keep the recognizable DOCVY teal, but make the interface feel more like a polished care-navigation product than a simple brochure:
+
+- **Core palette:** deep pine `#123B38` for strong headings and dark sections; teal `#087F83` for primary actions; pale mint `#EAF5F1` for patient-search surfaces; cool white `#FFFFFF` for cards; readable secondary green `#526D66` for body copy. Keep coral `#F39B72` and warm gold for small illustration details and pending notices, respectively.
+- **Use color by meaning:** primary teal means “continue/search”; mint groups patient-facing information; deep pine marks important explanatory sections; gold indicates “pending/not yet available.” Avoid using gold or red for ordinary navigation or decoration.
+- **Illustration system:** build a small set of friendly, flat-vector scenes with rounded shapes and consistent stroke weight: (1) patient choosing a starting point, (2) location search/map pin, (3) doctor/hospital profile, and (4) provider enquiry handoff. Use them as supportive section illustrations beside real text. Avoid busy stock photography and avoid decorative illustrations that look like live appointment confirmations.
+- **Icon system:** use one family of simple outline icons at consistent size and stroke; pair every icon with an explicit text label. Use search, location, specialty, hospital, source and status icons only where they improve scanning. Do not rely on color or an icon alone to convey verified/pending status.
+- **Page hierarchy:** reserve a large, high-contrast hero for one question and one primary task; follow with quick-start choices, a short “available now” explanation, then deeper detail. Use more whitespace between major decisions, denser cards only in the directory.
+- **Motion and depth:** use subtle hover/focus transitions and layered mint backgrounds, not strong parallax or motion that competes with reading. Keep reduced-motion behavior and visible keyboard focus.
+
+These are proposed values and art direction, not a finished Figma file. The existing DOCVY hero illustration is the current visual reference.
+
+## Detailed page and content structure
+
+### Patient homepage
+
+1. **Hero:** one plain-language promise such as “Find doctors in Delhi NCR by specialty and location.” Include a concern/specialty search and a visible city selector or two clear actions: “Find a specialty” and “Browse doctors.”
+2. **Quick starts:** “I know the doctor I need,” “I have a health concern,” and “I want to search near a location.” Each route should lead to a working guide or directory state.
+3. **Available today:** explain that the patient guide and hospital-linked directory are usable now; direct patients to the hospital for current appointments. Keep this status in one clear notice.
+4. **How DOCVY is planned to help:** show the future request-and-confirm journey separately and mark it as planned, so patients do not confuse it with a live booking flow.
+5. **Provider path:** a separate, lower-page path for doctors, clinics and hospitals with a clear contact action.
+
+### Patient guide and condition content
+
+- Search common concerns, conditions and specialty names; make suggested searches clickable and show a focused result instead of all 17 specialty cards by default.
+- For a reviewed topic, explain in everyday language what the term means, which type of specialist is commonly associated with it, what other specialties may be relevant, and when a general physician may be a reasonable starting point.
+- Add “what this page can and cannot tell you,” source links and a content review date. Do not diagnose, promise outcomes or imply that one symptom always maps to one doctor.
+- Link only to relevant doctors or specialties actually present in DOCVY's directory; make the gap visible when no matching listings exist.
+
+### Doctor directory and profiles
+
+- Provide city pages for Delhi, Gurugram/Gurgaon and Noida, with a locality filter and only source-confirmed facility names.
+- Each profile should show the doctor's name, source-listed specialties, facility/city, source hospital, last source-check date, DOCVY review status and a direct hospital-profile action.
+- Explain “12 unique profiles” versus “16 city placements” where a doctor appears in multiple city groups. Do not show a DOCVY booking button or imply live availability while those features are not enabled.
+- Add deeper specialty/locality pages when the underlying source-linked profiles support genuinely useful, non-duplicated results.
+
+### Provider information
+
+- Separate the “For doctors” profile correction/onboarding route from clinic/hospital product discussions.
+- Describe planned capabilities by operational task: manage provider and facility information, route appointment enquiries, coordinate departments/locations, review and confirm a request. Label each as planned until it is operational.
+- Keep pricing as “contact DOCVY” while no public pricing or self-serve purchase is available. Replace duplicated tier cards with audience fit, planned capabilities and one direct contact action.
+
+## SEO, AEO and GEO content plan
+
+These terms describe three user needs, not a promise of rankings:
+
+| Approach | DOCVY content to build | Why it helps |
+|---|---|---|
+| SEO — organic search | Focused, useful pages for concern-to-specialty questions, specialty directory searches, and doctor/hospital profiles | Each page answers a distinct search instead of forcing patients to search a generic homepage. |
+| AEO — answer-ready content | A short direct answer near the top, descriptive headings, concise FAQs, visible sources and review dates | People and answer engines can understand the page quickly; key information is available as normal text. Google says its AI Search features use existing SEO fundamentals and require no special AI markup. |
+| GEO — geographic discovery | Delhi, Gurugram/Gurgaon, Noida and supported locality content tied to actual sourced facilities and providers | Patients often include a city or neighbourhood when looking for in-person care. A location page is useful only if the available listings make it meaningfully different. |
+
+**Initial keyword-intent groups to validate in Search Console:**
+
+- Concern to specialty: “which doctor for [concern]”, “[condition] specialist”, “what kind of doctor treats [condition]”.
+- Local specialty discovery: “[specialty] doctor in Delhi”, “cardiologist in Gurugram/Gurgaon”, “doctor in Noida [locality]”.
+- Named provider/facility navigation: “[doctor name] [hospital]”, “[specialty] at [hospital] [city]”.
+- Provider business intent: “clinic appointment management”, “hospital OPD enquiry management”, “doctor profile correction DOCVY”. Keep software feature pages informational until the product exists.
+
+These are search-intent examples, **not verified keyword-volume data**. Use Google Search Console impressions, clicks, actual queries and landing-page behavior to prioritize additions after enough data is available. Do not invent search volumes or city demand.
+
+Structured data should describe visible, accurate content only. Google says its AI Search experiences have no special markup requirement; ordinary people-first content and technical SEO remain the foundation. Organization markup can help Google understand and disambiguate DOCVY as an organization. Do not mark unverified doctors as verified, invent availability, add fake reviews or assign DOCVY's office address to a doctor/hospital listing.
 
 ## Recommended sequence
 
@@ -89,7 +144,7 @@ These are implementation recommendations based on the live design; except where 
 4. **Provider conversion:** clarify doctor correction/onboarding and differentiate clinic/hospital plan information, while marking future tools as planned.
 5. **Supporting pages and SEO:** reconcile stale/legacy pages, improve titles and internal links, then publish only pages with substantial verified value.
 
-**Recommended next implementation:** finish the shared shell review across responsive breakpoints, then simplify the patient guide's first-visit state. This will establish consistent navigation and make the most important patient task easier to find.
+**Recommended next implementation:** finish the shared shell and mobile navigation, then update the patient guide's first-visit state. After that, add reviewed concern pages and source-supported city/specialty pages based on Search Console query evidence.
 
 ## Evidence and limits
 
@@ -98,3 +153,4 @@ These are implementation recommendations based on the live design; except where 
 - Source repository: DOCVY Next.js application (`app/`, `components/`, `lib/`).
 - The screenshot review was desktop only. Mobile navigation, keyboard interactions, and real analytics were not measured here.
 - This review does not verify provider credentials, health guidance, domain ranking, or conversion performance. Counts are from the current source data and directory page, not traffic analytics.
+- Google Search guidance consulted: [AI features and your website](https://developers.google.com/search/docs/appearance/ai-features), [Organization structured data](https://developers.google.com/search/docs/appearance/structured-data/organization), and [Google Business Profile eligibility](https://support.google.com/business/answer/13763036?hl=en).
