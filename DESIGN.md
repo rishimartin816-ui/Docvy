@@ -2,7 +2,7 @@
 
 **Reviewed:** 2 November 2026  
 **Scope:** Public DOCVY website, desktop first viewport and page content  
-**Status:** Review and implementation brief; no website code or production settings changed by this document.
+**Status:** Review and implementation brief. Shared color and type aliases were aligned and published in commit `23e5d60`; this document itself makes no production changes.
 
 ## Live pages reviewed
 
@@ -12,7 +12,7 @@
 - [Clinic and hospital plans](https://www.docvy.in/pricing) — three planned offer cards and contact calls to action; no online checkout.
 - Shared navigation and footer were inspected on these pages. Source structure for `/for-doctors`, `/how-it-works`, `/about`, `/faqs`, `/contact`, `/status`, `/request`, `/grievance` and legal routes was reviewed.
 
-Live screenshots were visually inspected through the in-app browser at a 1280 × 720 desktop viewport for `/`, `/care-guide`, `/doctors` and `/pricing`. A fresh homepage scrape provided page copy and extracted branding. Mobile layouts and interaction states were not visually captured in this review.
+Live screenshots were visually inspected through the in-app browser at a 1280 × 720 desktop viewport for `/`, `/care-guide`, `/doctors` and `/pricing`; `/grievance` was checked after the shared token update. A fresh homepage scrape provided page copy and extracted branding. Mobile layouts and interaction states were not visually captured in this review.
 
 ## What is working
 
@@ -24,8 +24,8 @@ Live screenshots were visually inspected through the in-app browser at a 1280 ×
 
 ## Site-wide design findings
 
-1. **The visual tokens disagree.** Current pages mostly use mint, teal and green (`#F6FAF8`, `#087F83`, `#173A37`), while the global stylesheet and Tailwind theme still define sand and plum (`#F5EFE6`, `#402442`). The patient-guide heading appears plum while the homepage headline is green. Make one shared token set and migrate all route components to it.
-2. **Typography is not fully defined in code.** DM Sans is loaded for headings. The body font uses `--font-body`, but that variable is not set in the root layout, so the declared body stack falls back to the system font. Define and use one reliable body stack, then confirm wrapping at mobile and desktop widths.
+1. **The shared tokens are now aligned.** Commit `23e5d60` maps the legacy Tailwind color aliases to the live mint, teal and green palette (`#F6FAF8`, `#087F83`, `#173A37`) and sets body and headings to the loaded DM Sans stack with a system fallback. A post-deploy support-page capture confirmed the old plum headings now use the same deep green. Follow-up work can retire misleading legacy alias names when components are refactored.
+2. **Typography now has one explicit stack.** DM Sans is loaded and used for both headings and body copy with a system fallback. The screenshot extraction inferred Inter for body text, but the source does not load Inter; do not claim it is in use. Confirm text wrapping and legibility at mobile widths during the next responsive pass.
 3. **Page shells vary.** Several core pages use the mint gradient hero, while plans/contact/about and older status/request pages use white or legacy sand/plum components. Establish a small set of reusable page patterns: patient discovery, directory/search, provider information, and support/legal.
 4. **Availability language is repeated.** The homepage mentions booking status in its hero, summary strip, patient-journey section, lower banner and footer. State the current availability once near the main action, then use a consistent concise status label elsewhere.
 5. **Navigation mixes audiences.** Patients and providers share the same compact navigation and “Contact now” action. Keep patient tasks prominent and make provider links and their contact path distinct, especially on mobile.
@@ -83,13 +83,13 @@ These are implementation recommendations based on the live design; except where 
 
 ## Recommended sequence
 
-1. **Design foundation:** align global colors, typography, page containers, header/footer, buttons, cards, alerts and mobile spacing.
+1. **Design foundation — started and published:** shared colors and type aliases are aligned. Still unify page containers, header/footer, buttons, cards, alerts and mobile spacing.
 2. **Patient journey:** refine homepage hierarchy and patient-guide search, clickable examples, focused results and reviewed concern content.
 3. **Directory trust:** clarify unique profiles versus city placements; standardize source and review information; improve city/locality navigation based on verified coverage.
 4. **Provider conversion:** clarify doctor correction/onboarding and differentiate clinic/hospital plan information, while marking future tools as planned.
 5. **Supporting pages and SEO:** reconcile stale/legacy pages, improve titles and internal links, then publish only pages with substantial verified value.
 
-**Recommended next implementation:** do step 1 on the shared site shell and then update the homepage. These changes will establish the consistent appearance that the remaining pages can reuse.
+**Recommended next implementation:** finish the shared shell review across responsive breakpoints, then simplify the patient guide's first-visit state. This will establish consistent navigation and make the most important patient task easier to find.
 
 ## Evidence and limits
 
