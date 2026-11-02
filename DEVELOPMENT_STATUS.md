@@ -13,7 +13,7 @@
 | Patient discovery journey and working guide search | 20% | Complete | Patient journey, concern-to-specialty examples, guide search, directory links, and empty-match explanations are implemented. This pass makes homepage examples open a prefilled guide search. |
 | Visual system, icons, and illustrations | 20% | In progress (65%) | Mint/teal/pine system and patient illustration are in production; this pass adds a provider workflow illustration. A DOCVY Figma source file was not located, and mobile visual review is still needed. |
 | SEO/AEO/GEO page clarity | 20% | In progress (75%) | Route titles, descriptions, internal links, sitemap, direct answers, natural-language concern searches, and city names are maintained. Search Console query validation remains open. |
-| Build, production publication, and live verification | 20% | In progress | Existing production commit `a5901cb` is READY. The new internal enquiry flow builds locally, but is not published and cannot accept submissions until the private sheet endpoint is configured. |
+| Build, production publication, and live verification | 20% | In progress | Production commit `f3692c0` is READY. Updated FAQ is live. The enquiry page still shows disabled intake because the private sheet endpoint and provider email service are not configured. |
 
 ## Changes in this pass
 
@@ -27,15 +27,16 @@
 - Rewrote the paused request and appointment-status pages with direct patient instructions and links to source-listed doctor profiles; removed internal staff-access wording.
 - Reviewed current Google Search Central guidance. No special AI-search markup or ranking outcome is claimed.
 - Production builds passed with Next.js 14.2.35, linting, type validation, and all 26 static pages generated.
-- Latest live deployment before the current pass is commit `a5901cb` (Vercel READY). Browser review confirmed `/care-guide?q=joint%20pain` shows one specialty match (Orthopaedics) and the question “what doctor should I see for diabetes?” returns one related specialty and explains that no matching DOCVY profile is listed.
-- Current live deployment: commit `77a9d66` is Vercel READY. Live checks confirmed doctor cards route to `/request` inside DOCVY, and the selected doctor pre-fills correctly. The form stays disabled because the sheet endpoint is not configured.
+- Earlier deployment `a5901cb` passed live guide-search checks: `/care-guide?q=joint%20pain` shows one specialty match (Orthopaedics), and a natural-language diabetes query explains when no matching DOCVY profile is listed.
+- Earlier deployment `77a9d66` verified doctor cards route internally to `/request` and prefill the selected doctor. Intake remained disabled because the sheet endpoint was not configured.
+- Current production deployment `f3692c0` is READY. Live HTML checks confirmed `/faqs` returns HTTP 200 with the provider-email answer, `/request` returns HTTP 200 with the disabled-intake message, and `/robots.txt` returns HTTP 200 and disallows `/api/`.
 - Live metadata checks after commit `80e4b5d` returned HTTP 200 and one DOCVY brand suffix for About, How it works, For doctors, FAQs, Contact, and Gurugram pages.
 - Firecrawl live page checks returned HTTP 200 for `/`, `/care-guide?q=joint%20pain`, `/pricing`, and `/doctors/gurugram`; rendered titles and visible page updates were present.
 
 ## Outstanding work
 
 1. Review mobile layout and keyboard interaction for homepage quick starts, care-guide search, and provider plans.
-2. Locate the intended DOCVY Figma design file. The connected Figma account is available, but the repository and current project artifacts did not contain a DOCVY file/node URL; no Figma file was changed.
+2. Locate the intended DOCVY Figma design file. The connected account has view access to two Figma plans, but no DOCVY file key is present in the repository artifacts. No design file was edited; creating a new file requires choosing which plan should own it.
 3. Use actual Search Console queries when access is available to prioritize future content. Do not infer keyword volume or rankings.
 4. Add condition-specific guidance only after source review and qualified clinical review; avoid thin SEO pages or one-symptom/one-specialty claims.
 
@@ -47,7 +48,7 @@
 
 ## 3 November 2026 — appointment enquiry implementation
 
-**Appointment workflow estimate: 60% complete.** This is a roadmap estimate, not analytics. The form, server validation, sheet handoff and provider-email code are prepared; verified provider contacts, Workspace authorization, Vercel connection and live end-to-end verification remain outstanding.
+**Appointment workflow estimate: 60% complete.** This is a roadmap estimate, not analytics. The form, server validation, sheet handoff and provider-email code are published; verified provider contacts, Workspace authorization, the production webhook connection and live end-to-end verification remain outstanding.
 
 - Added a DOCVY-hosted appointment enquiry form with selected doctor, facility, city, contact details, and optional requested date/time. It collects no symptoms, diagnosis, records, or payment data.
 - Doctor cards now stay inside DOCVY and open the internal enquiry route. A request is described as an enquiry; provider confirmation is required before an appointment exists.
@@ -72,7 +73,7 @@
 - Updated the patient success message: it distinguishes a verified provider email being sent from a saved request where no verified recipient exists.
 - Reworked the Workspace setup guide with an opt-in provider contact registry, provider-specific email content, send authorization, duplicate reference protection, daily quota check, notification status tracking and a synthetic delivery procedure.
 - Provider email states that the request is not confirmed, asks the provider to confirm availability and fee, and directs provider plan enquiries to DOCVY. It does not send an invoice or claim the provider owes a fee.
-- This implementation is local only. The Workspace Apps Script has not been updated/deployed, no provider email contacts are verified, no provider has been emailed, and the production form remains disabled until the two Vercel variables are added.
+- The Next.js notification handling is published, but the Workspace Apps Script has not been updated/deployed. No provider email contacts are verified and no provider has been emailed. The production form remains disabled until both webhook variables are configured.
 - `pnpm build` passed with the notification-status response changes; all 26 pages generated. The embedded Apps Script code passed a JavaScript syntax parse. No live script execution or email delivery was claimed.
 
 ## 3 November 2026 — live page metadata and FAQ clarity review
