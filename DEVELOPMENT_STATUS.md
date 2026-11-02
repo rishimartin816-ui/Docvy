@@ -24,6 +24,9 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Kept provider emails disabled. No `MailApp` code or provider contact registry is included in the current endpoint.
 - Repaired the repository's ESLint configuration for its installed ESLint 8 setup.
 - Updated the private intake setup guide to mark the endpoint and Vercel variables as pending and describe a synthetic-only end-to-end check.
+- Added a homepage city-coverage panel that links directly to Delhi, Gurugram and Noida pages and derives profile and facility counts from the provider data.
+- Corrected a directory count label: 12 unique profiles map to 16 profile-city placements and 17 hospital-listed facility locations; multiple facilities in one city are no longer mislabelled as separate city listings.
+- Replaced generic inherited social-preview descriptions that implied an enquiry flow with accurate India-wide guide and current NCR-directory wording.
 
 ## Verification evidence
 
@@ -43,6 +46,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Live `/robots.txt` and `/sitemap.xml` both returned HTTP 200; robots disallows `/api/` and points crawlers to the sitemap.
 - The live sitemap lists 17 indexable URLs. The homepage, patient guide, directory and provider-plan pages explain pan-India purpose versus current NCR listings, distinguish informational specialty guidance from diagnosis, and disclose that appointments are not booked. No unreviewed doctor credentials or availability are marked up as verified.
 - Live page content confirms that DOCVY is for India while doctor coverage is currently Delhi NCR, and that enquiries are closed while the private Sheet connection is missing. No provider email is sent.
+- The current homepage city panel is intended to show 6 profiles for Delhi, 6 for Gurugram and 4 for Noida, with counts derived from the source list. These are directory data counts, not verified coverage completeness.
 
 ## Live intake state and safe test
 
@@ -51,6 +55,16 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - The DOCVY Chrome profile has an Apps Script editor project open. Its initial editor view showed `Code.gs` nested under `function myFunction()`, which would not expose the required top-level `doPost` handler. A replacement with the reviewed repository source was attempted, but the UI state timed out during verification; whether that edit was saved is unknown. No endpoint was deployed and no token was created. The current Google Drive connector cannot inspect or deploy Apps Script projects.
 - After that connection, submit one clearly labelled synthetic test lead, verify its reference and status in the private `Appointments` tab, and confirm the email status is `NOT_CONFIGURED`. Do not use real patient data or notify a provider for this test.
 - A successful direct Google Sheets connector write is not an end-to-end website test.
+
+## 3 November design, search metadata and GEO pass
+
+- A fresh production-source audit covered `/`, `/care-guide`, `/doctors` and `/pricing`. Each returned HTTP 200 and had a distinct title/description, canonical URL, `index, follow`, one H1 and the current Organization JSON-LD. `/pricing` also had its illustration's SVG title element; this is not an additional page H1.
+- The audit found inherited Twitter text was overly generic and described enquiry behavior on pages where the request form is paused. The shared description was corrected to describe the nationwide guide, the current NCR-only directory and direct provider confirmation; the homepage now has a dedicated social description.
+- Added direct homepage links to each currently listed city, with per-city profile and facility counts computed from the same provider data used by the directory. This makes geographic coverage discoverable while stating that the listings are limited and not a complete city directory.
+- Reconciled listing metrics: 12 unique profiles; 16 profile-city placements; 17 hospital-listed facility locations. A profile at two facilities in the same city counts once toward profile-city coverage and twice toward facility locations.
+- Reviewed current official Google Search guidance: Google states its AI Search features use the same foundational SEO practices and do not require special AI markup. Content clarity, original value and trustworthy sourcing remain the focus; no search ranking or traffic outcome is claimed. See [AI features and your website](https://developers.google.com/search/docs/appearance/ai-features) and [people-first content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content).
+- `pnpm lint` passed. `pnpm build` passed, including TypeScript validation and generation of all 26 static pages. Live post-deploy verification remains pending until the new commit is published.
+- A synthetic appointment-lead test is still pending: the Apps Script is not yet confirmed saved/deployed, and production Vercel secrets are not present. Keep intake closed until a complete live submission has been verified in the private Sheet.
 
 ## Not yet built or verified
 

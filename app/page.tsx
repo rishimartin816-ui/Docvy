@@ -5,12 +5,14 @@ import HeroIllustration from "@/components/HeroIllustration";
 import PatientSearchCard from "@/components/PatientSearchCard";
 import PatientJourneyMap from "@/components/PatientJourneyMap";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
+import { providerCandidates, providerCities } from "@/lib/provider-candidates";
 
 export const metadata: Metadata = {
   title: "Healthcare discovery across India | DOCVY",
   description: "Use DOCVY’s plain-language patient guide anywhere in India and browse source-linked doctor profiles currently listed in Delhi, Gurugram and Noida.",
   alternates: { canonical: "/" },
   openGraph: { type: "website", locale: "en_IN", siteName: "DOCVY", title: "Healthcare discovery across India | DOCVY", description: "A plain-language patient guide for India, with source-linked doctor listings currently in Delhi, Gurugram and Noida.", url: "/" },
+  twitter: { card: "summary", title: "Healthcare discovery across India | DOCVY", description: "Explore a plain-language specialty guide across India and a limited set of hospital-source doctor profiles in Delhi, Gurugram and Noida." },
 };
 
 const guideExamples = [
@@ -25,6 +27,22 @@ const providerAreas = [
   { title: "Clinic coordination", text: "Clinic tools are planned for provider information and appointment enquiries across practice locations." },
   { title: "Hospital operations", text: "Hospital teams are planned to coordinate departments, listed doctors, and incoming appointment requests." },
 ];
+
+const currentCityCoverage = providerCities.map((city) => {
+  const profiles = providerCandidates.filter((doctor) =>
+    doctor.locations.some((location) => location.city === city),
+  );
+  const facilityLocations = profiles.flatMap((doctor) =>
+    doctor.locations.filter((location) => location.city === city),
+  );
+
+  return {
+    city,
+    profileCount: profiles.length,
+    locationCount: facilityLocations.length,
+    href: `/doctors/${city.toLocaleLowerCase()}`,
+  };
+});
 
 export default function Home() {
   const intakeEnabled = isAppointmentIntakeConfigured();
@@ -45,6 +63,8 @@ export default function Home() {
     </section>
 
     <section className="border-b border-[#E4EEE9] bg-white px-6 py-10 md:py-12"><div className="mx-auto max-w-[1296px]"><div className="mb-5 flex flex-wrap items-end justify-between gap-3"><div><p className="text-xs font-extrabold tracking-[0.15em] text-[#087F83]">CHOOSE HOW TO START</p><h2 className="mt-2 text-2xl font-bold tracking-tight text-[#173A37]">What brought you to DOCVY?</h2></div><p className="max-w-md text-sm leading-6 text-[#526D66]">Choose the closest match. No account is needed to read the guide or browse the current directory.</p></div><div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">{[{href:"/care-guide",icon:Search,title:"I have a health concern",text:"Get a plain-language overview of specialties commonly associated with your search."},{href:"/doctors",icon:Stethoscope,title:"I know which specialist I need",text:"Browse current hospital-linked profiles by specialty, city and facility."},{href:"/doctors",icon:MapPin,title:"I want doctors near a place",text:"See current listings in Delhi, Gurugram and Noida. Other cities will be added as coverage grows."},{href:"/pricing",icon:Building2,title:"I am here for my clinic or hospital",text:"Understand planned provider tools and contact DOCVY about your organisation."}].map(({href,icon:Icon,title,text})=><Link key={title} href={href} className="group flex min-h-[158px] items-start gap-4 rounded-2xl border border-[#DCEAE5] bg-[#F8FBF9] p-5 transition hover:-translate-y-0.5 hover:border-[#B8DCD0] hover:bg-white hover:shadow-[0_14px_34px_rgba(23,58,55,0.08)]"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#E3F3ED] text-[#087F83]"><Icon size={20} aria-hidden="true" /></span><span><span className="flex items-center gap-2 font-bold text-[#173A37]">{title}<ArrowRight size={15} aria-hidden="true" className="text-[#087F83] transition group-hover:translate-x-1" /></span><span className="mt-2 block text-sm leading-6 text-[#526D66]">{text}</span></span></Link>)}</div></div></section>
+
+    <section className="border-b border-[#DCEAE5] bg-[#F8FBF9] px-6 py-14 md:py-16" aria-labelledby="city-coverage-heading"><div className="mx-auto max-w-[1296px]"><div className="flex flex-wrap items-end justify-between gap-4"><div className="max-w-3xl"><p className="text-xs font-extrabold tracking-[0.15em] text-[#087F83]">CURRENT CITY COVERAGE</p><h2 id="city-coverage-heading" className="mt-2 text-2xl font-bold tracking-tight text-[#173A37] md:text-3xl">Browse doctor listings by city</h2><p className="mt-3 text-sm leading-7 text-[#526D66]">The patient guide is available across India. Current hospital-source doctor profiles are listed in Delhi, Gurugram and Noida. This is a limited directory, not a complete list of doctors in these cities; check the linked hospital profile for the latest details and appointments.</p></div><Link href="/doctors" className="inline-flex min-h-10 shrink-0 items-center gap-2 text-sm font-bold text-[#087F83] hover:text-[#066D70]">View all current listings <ArrowRight size={16} /></Link></div><div className="mt-7 grid gap-4 md:grid-cols-3">{currentCityCoverage.map(({ city, profileCount, locationCount, href }) => <Link key={city} href={href} className="group relative flex min-h-[190px] flex-col overflow-hidden rounded-2xl border border-[#DCEAE5] bg-white p-5 shadow-[0_8px_26px_rgba(23,58,55,0.04)] transition hover:-translate-y-1 hover:border-[#B8DCD0] hover:shadow-[0_16px_36px_rgba(23,58,55,0.09)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#087F83] focus-visible:ring-offset-2"><span aria-hidden="true" className="absolute -right-7 -top-8 h-28 w-28 rounded-full bg-[#EAF5F1] transition group-hover:scale-110"/><span className="relative flex items-center justify-between"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#E3F3ED] text-[#087F83]"><MapPin size={20} /></span><ArrowRight size={18} aria-hidden="true" className="text-[#087F83] transition group-hover:translate-x-1" /></span><span className="relative mt-5 text-lg font-bold text-[#173A37]">{city}{city === "Gurugram" ? " (Gurgaon)" : ""}</span><span className="relative mt-1 text-sm font-semibold text-[#087F83]">{profileCount} source-linked {profileCount === 1 ? "profile" : "profiles"}</span><span className="relative mt-2 text-xs leading-5 text-[#526D66]">{locationCount} hospital-listed {locationCount === 1 ? "location" : "locations"} · browse by specialty and facility</span></Link>)}</div><p className="mt-4 text-xs leading-5 text-[#789089]">Across these city pages: {providerCandidates.length} unique doctor profiles and {providerCandidates.reduce((total, doctor) => total + doctor.locations.length, 0)} source-listed facility locations. A profile can appear in more than one city or at more than one facility.</p></div></section>
 
     <section id="patient-journey" className="bg-[#F6FAF8] py-16 md:py-20"><div className="mx-auto max-w-[1440px] px-6 lg:px-[72px]"><p className="text-xs font-bold tracking-[0.15em] text-[#087F83]">YOUR NEXT STEPS, MADE CLEAR</p><h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-[-0.035em] md:text-[38px]">Know where you are—and what you can do next.</h2><p className="mt-4 max-w-3xl text-sm leading-7 text-[#526D66]">If you arrived with a question about a condition, start with the guide. If you already know the specialty, open the directory. If you are outside the cities listed today, the guide is still available across India; the doctor directory will grow as source-linked provider coverage grows.</p><div className="mt-9"><PatientJourneyMap /></div></div></section>
 

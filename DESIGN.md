@@ -46,7 +46,7 @@ Build a reviewed concern-to-specialty library for useful, common searches. Each 
 
 ### 3. Doctor directory: make scale, trust and growth easy to understand
 
-The current dataset represents 12 unique doctor profiles across 16 city placements (Delhi 6, Gurugram 6, Noida 4); a profile can appear under multiple cities. State the unique-profile count separately from location listings. Keep hospital source, city/locality, specialty, source check date and DOCVY review status visible. Use confirmed, public location detail only and continue linking to the official hospital source for current availability.
+The current dataset represents 12 unique doctor profiles across 16 profile-city placements (Delhi 6, Gurugram 6, Noida 4) and 17 hospital-listed facility locations. A profile can appear under multiple cities or facilities. State the unique-profile count separately from both measures. Keep hospital source, city/locality, specialty, source check date and DOCVY review status visible. Use confirmed, public location detail only and continue linking to the official hospital source for current availability.
 
 DOCVY is a pan-India product; the guide and product purpose should speak to people and care teams nationwide. The live doctor directory is currently limited to Delhi NCR. Add a city only as source-linked provider coverage grows enough to make its listings useful and clear to patients. Keep locality pages limited to current, source-backed information, and never suggest nationwide listings before they exist.
 
@@ -106,7 +106,7 @@ These are proposed values and art direction, not a finished Figma file. The exis
 
 - Keep the current city pages for Delhi, Gurugram/Gurgaon and Noida. Add Indian cities in growth-led phases when enough source-backed profiles are available; do not publish empty or thin city pages.
 - Each profile should show the doctor's name, source-listed specialties, facility/city, source hospital, last source-check date, DOCVY review status and a direct hospital-profile action.
-- Explain “12 unique profiles” versus “16 city placements” where a doctor appears in multiple city groups. Do not show a DOCVY booking button or imply live availability while those features are not enabled.
+- Explain “12 unique profiles,” “16 profile-city placements,” and “17 facility locations” where a doctor appears in multiple city groups or at more than one same-city facility. Do not show a DOCVY booking button or imply live availability while those features are not enabled.
 - Add deeper specialty/locality pages when the underlying source-linked profiles support genuinely useful, non-duplicated results.
 
 ### Provider information
@@ -179,3 +179,11 @@ Structured data should describe visible, accurate content only. Google says its 
 - Added a city selector to the patient guide using the existing mint-and-white card treatment, teal location icon and documented typography. It offers only currently listed cities and passes the selection into the matching directory link.
 - Removed the repeated availability strip at the bottom of the homepage, added a patient/provider FAQ link to the footer, and corrected About copy that implied the doctor directory had not opened.
 - The new search panel follows the documented palette and components: white surface, mint background, teal primary action, deep-green text, rounded corners, and the existing icon family.
+
+## 3 November homepage GEO and social preview update
+
+- Added an accessible “Browse doctor listings by city” section immediately after the homepage quick starts. Its three cards link to the existing Delhi, Gurugram/Gurgaon and Noida directory pages and show current source-linked profile/facility counts computed from the provider list.
+- Kept the visual treatment within the documented DOCVY system: mint/white surfaces, deep-green headings, teal location icons, rounded cards and visible keyboard focus. The cards identify the current directory as limited and direct people to official hospital profiles for current details.
+- Corrected the directory summary so “profile-city placements” is not confused with the 17 facility records. This avoids presenting multiple facilities for one doctor in Gurugram as additional city coverage.
+- Updated inherited social-preview wording after a live HTML audit found it was too generic and could suggest that an enquiry flow was live. The text now matches the current patient-guide and directory scope.
+- Figma remained view-only and no DOCVY file reference was available. Implementation followed the codebase design reference; no external Figma source was claimed.
