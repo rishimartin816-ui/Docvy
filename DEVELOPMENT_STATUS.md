@@ -29,7 +29,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 
 - `pnpm lint` passed after the ESLint configuration fix.
 - `pnpm build` passed with Next.js 14.2.35, TypeScript validation and all 26 static pages generated.
-- The current city-selector change passed `pnpm lint` and `pnpm build`; the build generated all 26 static pages. Live browser interaction verification is pending the production deployment.
+- The city-selector change passed `pnpm lint` and `pnpm build`; the build generated all 26 static pages. Live interaction on production passed: “joint pain” + Noida showed Orthopaedics and one source-linked profile; “View matching profiles in Noida” opened `/doctors?q=orthopaedics&city=Noida`, where Dr. Atul Mishra appeared in the Noida results.
 - `scripts/apps-script/Code.gs` passed a JavaScript syntax parse. This does not prove the script is installed, authorized or deployed in Google Workspace.
 - Mobile first-viewport screenshots at 390px were visually reviewed for the homepage, patient guide, doctor directory and provider plans. No obvious first-viewport clipping appeared; full-page interaction and overflow measurements remain open.
 - Figma account inspection found view-only seats and no DOCVY file reference in repository artifacts or matching Google Drive searches. The current repository `DESIGN.md` palette and components were used as the design reference; no Figma file was edited.
@@ -75,3 +75,4 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 | 3 Nov 2026 | `2fd963a` · Vercel `dpl_BNaQFGFrwhjQafiVGUHzPNisFTfF` | READY; interactive homepage search verified live: “joint pain” opens the guide and returns Orthopaedics. The search submits no contact details. |
 | 3 Nov 2026 | `146daf6` · Vercel `dpl_Gr2zc4xe7mMgSiFV2nTN2Fj36Hkx` | READY; moved the search card into the homepage text flow so it appears in the first mobile viewport. |
 | 3 Nov 2026 | `784bc0a` · Vercel `dpl_KTY264bS1iyqZtGrBtewUmXxdEh2` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Shortened the mobile search hint. Fresh GET checks for `/` and `/care-guide?q=joint%20pain` returned HTTP 200. |
+| 3 Nov 2026 | `5555e86` · Vercel `dpl_Cs1HEPpkuToojJ2ZtJhYX1qAiRMU` | READY on `main`; added city selection to the patient guide. Live interaction verified joint-pain search → Noida filter → matching Orthopaedics directory result. |
