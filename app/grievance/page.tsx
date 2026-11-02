@@ -11,7 +11,7 @@ export default function Grievance() {
     <>
       <PageHero
         eyebrow="HELP & ACCOUNTABILITY"
-        title="Grievance contact details are being finalised."
+        title="Your grievance contact at DOCVY."
         text="DOCVY is currently an informational website. Request submissions and service workflows are paused."
       />
       <Section alt>
@@ -20,13 +20,13 @@ export default function Grievance() {
             <MessageSquareWarning className="mb-4 text-mulb" size={28} />
             <h2 className="mb-2 text-lg font-bold">Operating entity</h2>
             <p className="text-sm text-grey">DSS Global Technologies Private Limited</p>
-            <p className="mt-2 text-sm text-grey">Business location supplied: Sector 66, Gurugram, Haryana, India.</p>
-            <p className="mt-2 text-xs leading-5 text-grey">This is not a complete postal or registered address. A designated grievance contact name and verified contact channel have not yet been supplied.</p>
+            <p className="mt-2 text-sm text-grey">Business address: 2nd Floor, Capital Cityscape, Sector 66, Gurugram, Haryana – 122101, India.</p>
+            <p className="mt-2 text-xs leading-5 text-grey">The company's designated representative has personally accepted responsibility for handling grievances. A direct email address and telephone number are not currently published. Written grievances may be sent to the business address above.</p>
           </Card>
           <Card>
             <ShieldCheck className="mb-4 text-mulb" size={28} />
             <h2 className="mb-2 text-lg font-bold">Please do not submit sensitive information</h2>
-            <p className="text-sm text-grey">The website is not accepting requests, complaints through a web form, medical records or health information. Do not include sensitive personal information in public comments or unverified channels.</p>
+            <p className="text-sm text-grey">The website is not accepting request submissions or complaints through a web form. Please do not send medical records, identity documents or other sensitive personal information through unverified channels.</p>
           </Card>
         </div>
       </Section>
