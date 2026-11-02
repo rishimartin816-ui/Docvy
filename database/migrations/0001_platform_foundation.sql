@@ -1,9 +1,9 @@
 -- DOCVY platform foundation
 -- Target: PostgreSQL 17+
--- This migration is for a disposable local development database only.
+-- Use only in non-production development/staging databases.
 -- It is intentionally additive and contains no patient or clinical tables.
 -- RLS is enabled without policies: the non-owner application role is denied
--- until a separately reviewed identity/RLS migration is implemented.
+-- until separately reviewed identity and authorization policies are implemented.
 
 BEGIN;
 
