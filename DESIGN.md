@@ -157,7 +157,7 @@ Structured data should describe visible, accurate content only. Google says its 
 - Audited supporting-page title tags and removed repeated brand suffixes where the shared Next.js metadata template already appends “DOCVY.” Shortened city-page title tags while keeping the local city intent.
 - Confirmed title-template behavior in the official [Next.js 14 metadata documentation](https://nextjs.org/docs/14/app/api-reference/functions/generate-metadata#title).
 - Rewrote the paused request and appointment-status pages to explain that DOCVY does not book appointments and to route patients to source-linked hospital profiles; removed internal access-preparation wording from the patient-facing status page.
-- Figma account access is connected, but no DOCVY design-file URL or node reference was found in the repository or current project artifacts. These changes follow this repository’s documented visual system and existing illustrations; no Figma file was edited or presented as a source of truth.
+- The connected Figma app lists a recent file named “DOCVY — Future Healthcare Experience.” The current session does not expose its direct file URL, file key, or node URL, so a design screenshot/context could not be retrieved. No seat was changed and no Figma file was edited. These changes follow the repository’s documented visual system and existing illustrations; they are not presented as Figma-derived.
 - Google Search Central guidance reviewed: AI features use the same foundational SEO practices, and content should be useful to people with clear sourcing; no special AI markup or rankings are promised. See [AI features and your website](https://developers.google.com/search/docs/appearance/ai-features) and [Creating helpful, reliable, people-first content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content).
 
 ## Evidence and limits
@@ -171,8 +171,7 @@ Structured data should describe visible, accurate content only. Google says its 
 
 ## 3 November mobile and Figma follow-up
 
-- The connected Figma account lists two team plans, both with a view seat. No DOCVY file URL or layer reference is present in this repository; Google Drive searches for “DOCVY Figma” and “DOCVY design” returned no files. No Figma file was edited or used as a visual source of truth.
-- The Windows browser capture timed out twice, so the account's file browser could not be inspected there. The Figma connector confirms the available plan seats; the DOCVY website's existing `DESIGN.md` values remain the implementation reference.
+- The connected Figma account lists two team plans with view seats and a recent file named “DOCVY — Future Healthcare Experience.” The Figma MCP app did not expose a file key or node URL for the design-to-code tools. No seat was upgraded and no Figma file was edited; the website's documented design tokens remain the implementation reference.
 - Mobile screenshots at a 390px viewport were visually reviewed for the homepage, patient guide, doctor directory and provider plans. The first viewport showed readable headings, contained cards and the expected mobile menu; this was a visual review, not a measured full-page overflow test.
 - The homepage's illustrated “search” panel is now an actual GET search form to `/care-guide`, with a labeled input and keyboard-accessible submit button. It submits only the search term and does not request patient contact details.
 - The search form now sits in the homepage text column before the status badge, so it is reachable without scrolling in the reviewed 390px first viewport. The shortened mobile hint fits within the input field.
@@ -189,12 +188,20 @@ Structured data should describe visible, accurate content only. Google says its 
 - Added a 1200 × 630 DOCVY social preview card in the same mint, teal and pine palette. Its search card and three city markers make the nationwide guide/current NCR listings distinction visible when a page is shared.
 - Checked the official Next.js 14 opengraph-image and ImageResponse references; the generated image was verified locally as a PNG and the homepage includes Open Graph and Twitter image tags.
 - Verified the same social image tags and canonical metadata on 10 representative page routes, including city, provider, contact, FAQ and legal pages after aligning their page-level Open Graph metadata.
-- Figma remained view-only and no DOCVY file reference was available. Implementation followed the codebase design reference; no external Figma source was claimed.
+- Figma remained view-only. The recent DOCVY file was visible in the Figma app, but no file/node URL was available to retrieve a design context. Implementation followed the codebase design reference; no Figma source was claimed.
 
 ## 3 November hyperlocal directory refinement
 
 - Added an explicit “Area or locality” select beside specialty search. The mint/white filter card, teal location icon, existing spacing and rounded controls follow the repository's DOCVY visual system.
 - Area options are sourced from locality names already attached to provider records. The helper text says the choices are incomplete and current listings are limited to Delhi NCR, preventing the interface from implying nationwide provider coverage.
 - City-page locality chips now open the exact city and locality filter. Changing cities resets the locality selection; clearing filters restores the whole directory.
-- This is a codebase-grounded visual update. Drive search found no DOCVY Figma file, so no external Figma screen or token set is claimed as the source.
+- This is a codebase-grounded visual update. The connected Figma app lists “DOCVY — Future Healthcare Experience,” but its file/node URL is not exposed, so no external Figma screen or token set is claimed as the source.
 - `pnpm lint` and `pnpm build` passed. Production deployment `dpl_FJwJ85KVvgxFhNf1apFQAmfQpVn8` is `READY` for commit `2fced91`. Live `/doctors` and `/doctors/delhi` returned HTTP 200 and retain page-specific canonicals, one H1 and `index, follow`; the city page exposes the locality link and the directory exposes the area filter. The sitemap remains 23 URLs, with no thin locality pages added. A desktop screenshot/interactive visual review is still pending.
+
+## 3 November appointment enquiry closed-state refinement
+
+- A fresh production crawl found that `/request` explained that intake was paused while still rendering disabled name, mobile and consent fields. That presentation could make a patient think DOCVY was collecting an enquiry.
+- Changed the closed state to remove all contact fields and show “No form · no details stored,” the selected doctor and facility when present, a direct link to the hospital's official doctor profile, and a link back to current listings. The `/request` route remains `noindex, nofollow`.
+- Kept the existing DOCVY palette, outline icon family, rounded cards and focus-ring treatment. No new claims about doctor availability, booking, payment or credential review were added.
+- Local production build and live-server smoke check passed: the selected-doctor request page returned HTTP 200, contained no name/mobile inputs, showed the official hospital profile link and closed-state message, and retained `noindex, nofollow`. A no-data local API probe returned HTTP 503 because the private intake is not connected; no lead was created.
+- Google Search Central's current generative-search guide recommends foundational SEO and useful, unique content; it says no special GEO schema is required. No unsupported FAQ or doctor-verification markup was added. See [Google's generative AI Search guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) and [people-first content guidance](https://developers.google.com/search/docs/fundamentals/creating-helpful-content).
