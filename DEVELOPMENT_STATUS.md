@@ -36,6 +36,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Search Console query data was not available in the checked account state. No rankings, search volume, traffic or indexing outcomes are claimed.
 - Commit `986c33e` is live in Vercel production as deployment `dpl_G9mavqzeH2DQF8K8CQgGWLuh8Avk` (`READY`), with aliases `www.docvy.in` and `docvy.in`.
 - Fresh live checks returned HTTP 200 for `/`, `/doctors`, `/care-guide`, `/request`, `/faqs`, `/pricing` and `/doctors/gurugram`. The checked pages have page-specific titles, one H1 and correct canonical URLs; `/request` intentionally has no canonical and is `noindex, nofollow`.
+- After the latest homepage search update, live GET checks returned HTTP 200 for `/` and `/care-guide?q=joint%20pain`; the homepage response contains the shortened mobile search hint. Search results render client-side, so this HTTP check does not independently verify the specialty-card interaction.
 - Live `/robots.txt` and `/sitemap.xml` both returned HTTP 200; robots disallows `/api/` and points crawlers to the sitemap.
 - Live page content confirms that DOCVY is for India while doctor coverage is currently Delhi NCR, and that enquiries are closed while the private Sheet connection is missing. No provider email is sent.
 
@@ -67,3 +68,5 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 |---|---|---|
 | 3 Nov 2026 | `986c33e` · Vercel `dpl_G9mavqzeH2DQF8K8CQgGWLuh8Avk` | READY; fresh live page checks passed. Enquiry intake remains closed pending the private Workspace connection. |
 | 3 Nov 2026 | `2fd963a` · Vercel `dpl_BNaQFGFrwhjQafiVGUHzPNisFTfF` | READY; interactive homepage search verified live: “joint pain” opens the guide and returns Orthopaedics. The search submits no contact details. |
+| 3 Nov 2026 | `146daf6` · Vercel `dpl_Gr2zc4xe7mMgSiFV2nTN2Fj36Hkx` | READY; moved the search card into the homepage text flow so it appears in the first mobile viewport. |
+| 3 Nov 2026 | `784bc0a` · Vercel `dpl_KTY264bS1iyqZtGrBtewUmXxdEh2` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Shortened the mobile search hint. Fresh GET checks for `/` and `/care-guide?q=joint%20pain` returned HTTP 200. |
