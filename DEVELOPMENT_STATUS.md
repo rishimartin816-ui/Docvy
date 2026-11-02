@@ -106,7 +106,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Added a visible area/locality filter beside doctor and specialty search. Options come only from locality labels already present in the hospital-source-linked provider records; no new doctor, facility or geographic claim was added.
 - Changed city-page area links to preselect that city and exact locality in the directory. Selecting a different city clears the old locality to avoid empty or misleading results.
 - Clarified that current listings are Delhi NCR only and area labels may be incomplete. Pan-India product scope remains distinct from current provider coverage.
-- `pnpm lint`, `pnpm build` (32 static pages), and `git diff --check` passed. Local GET checks for `/doctors` and `/doctors/delhi` returned HTTP 200 and included the locality filter. Interactive visual check and production publication are pending.
+- `pnpm lint`, `pnpm build` (32 static pages), and `git diff --check` passed. Local GET checks for `/doctors` and `/doctors/delhi` returned HTTP 200. Production deployment `dpl_FJwJ85KVvgxFhNf1apFQAmfQpVn8` is `READY` for `2fced91`; live `/doctors`, `/doctors/delhi` and `docvy.in/doctors` checks returned HTTP 200 with the filter. Both pages retain canonical URLs, one H1 and `index, follow`; the sitemap remains 23 URLs. Interactive visual review remains pending.
 
 ## Not yet built or verified
 
@@ -127,6 +127,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 
 | Date | Commit / deployment | Result |
 |---|---|---|
+| 3 Nov 2026 | `2fced91` · Vercel `dpl_FJwJ85KVvgxFhNf1apFQAmfQpVn8` | READY on `main`; live on `www.docvy.in` and `docvy.in`. Added the source-backed area/locality filter and exact city-page links; live HTML, canonical, robots and heading checks passed for `/doctors` and `/doctors/delhi`. |
 | 3 Nov 2026 | `9d5731a` · Vercel `dpl_9b2G7YCM4dS2wNHWx4HhLhso7Z9N` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Published six crawlable, source-linked patient answer pages and the sitemap entries. All six live pages returned HTTP 200 with page-specific metadata, canonicals, one H1, `index, follow` and breadcrumb data. `/request` remains noindex and intake stays closed; the no-data production API probe returned 503. |
 | 3 Nov 2026 | `a3fbe4f` · Vercel `dpl_C3jSLwNaAQsZXHBavMYEpBdcDE89` | READY on `main`; tracker update deployed to `www.docvy.in` and `docvy.in`. |
 | 3 Nov 2026 | `d6c8b27` · Vercel `dpl_6ykccyGv5BpzCekr7PX8S6hY4n7f` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Live Noida + Orthopaedics interaction showed one matching profile and the corrected “Check enquiry form status” CTA. |
