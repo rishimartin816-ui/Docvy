@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight, Building2, Check, Stethoscope } from "lucide-react";
+import ProviderWorkflowIllustration from "@/components/ProviderWorkflowIllustration";
 
 export const metadata: Metadata = {
   title: "Clinic and hospital plans",
@@ -29,10 +30,12 @@ function ContactLink({ children = "Contact now" }: { children?: ReactNode }) {
 
 export default function PricingPage() {
   return <div className="bg-[#F6FAF8] text-[#173A37]">
-    <section className="bg-white py-16 md:py-20"><div className="mx-auto max-w-[1440px] px-6 lg:px-[72px]">
-      <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-[#F8FBF9] px-4 py-2 text-[11px] font-extrabold tracking-[0.15em] text-[#087F83]">PROVIDER TOOLS · PLANNED</p>
+    <section className="overflow-hidden bg-[radial-gradient(circle_at_82%_48%,#DDF0E9_0%,#F6FAF8_36%,#fff_75%)] py-14 md:py-20"><div className="mx-auto grid max-w-[1440px] items-center gap-8 px-6 lg:grid-cols-[1.1fr_.9fr] lg:px-[72px]">
+      <div><p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/85 px-4 py-2 text-[11px] font-extrabold tracking-[0.15em] text-[#087F83]">PROVIDER TOOLS · PLANNED</p>
       <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[56px]">Tools for clinics and hospitals to organize provider discovery and enquiries.</h1>
       <p className="mt-5 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">DOCVY is planning workflows for provider profiles, locations and appointment enquiries. Tell us about your team and how it handles enquiries today; we’ll discuss fit, scope and pricing directly. No dashboard or online checkout is open yet.</p>
+      <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold text-[#526D66]"><span>For independent clinics</span><span>For multi-location groups</span><span>For hospitals</span></div></div>
+      <div className="mx-auto w-full max-w-[500px]"><ProviderWorkflowIllustration /></div>
     </div></section>
     <section className="mx-auto max-w-[1440px] px-6 py-12 lg:px-[72px] md:py-16">
       <div className="grid gap-5 lg:grid-cols-3">{plans.map((plan, index) => <article key={plan.name} className={`group relative flex flex-col overflow-hidden rounded-[24px] border bg-white p-6 shadow-[0_12px_40px_rgba(23,58,55,0.04)] transition hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(23,58,55,0.1)] md:p-7 ${index === 2 ? "border-[#087F83] ring-1 ring-[#087F83]" : "border-[#DCEAE5]"}`}>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Activity, ArrowRight, HeartPulse, MapPin, Search, Sparkles, Stethoscope, X } from "lucide-react";
 import { careGuide } from "@/lib/care-guide";
@@ -13,6 +13,10 @@ const featuredIcons = { "General physician / internal medicine": Stethoscope, Ca
 export default function CareGuideSearch() {
   const [query, setQuery] = useState("");
   const [showAll, setShowAll] = useState(false);
+  useEffect(() => {
+    const initialQuery = new URLSearchParams(window.location.search).get("q");
+    if (initialQuery) setQuery(initialQuery);
+  }, []);
   const results = useMemo(() => {
     const term = query.trim().toLocaleLowerCase();
     if (!term) return careGuide;

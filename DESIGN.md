@@ -146,6 +146,17 @@ Structured data should describe visible, accurate content only. Google says its 
 
 **Recommended next implementation:** review the deployed city pages and search interactions at mobile widths, then refine the shared navigation and add reviewed concern content based on actual Search Console queries. Do not invent search demand when Search Console query data is unavailable.
 
+## 3 November implementation pass
+
+- Replaced the homepage title/description that framed the entire site as only a patient guide with accurate pan-India discovery wording and current Delhi NCR directory coverage.
+- Made the four homepage concern examples open the guide with a real initial search (`/care-guide?q=...`) instead of acting as static illustrations.
+- Added a visible “What can I use on DOCVY today?” section that separates nationwide guide access, the limited Delhi NCR directory, and the fact that booking is not available.
+- Added an original vector scene to the clinic/hospital plans hero. The art itself states that workflows are planned and not live.
+- Updated the patient guide metadata to use plain-language “what kind of doctor” intent and avoid implying diagnosis.
+- Updated Gurugram city metadata to include the commonly used “Gurgaon” name.
+- Figma account access is connected, but no DOCVY design-file URL or node reference was found in the repository or current project artifacts. These changes follow this repository’s documented visual system and existing illustrations; no Figma file was edited or presented as a source of truth.
+- Google Search Central guidance reviewed: AI features use the same foundational SEO practices, and content should be useful to people with clear sourcing; no special AI markup or rankings are promised. See [AI features and your website](https://developers.google.com/search/docs/appearance/ai-features) and [Creating helpful, reliable, people-first content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content).
+
 ## Evidence and limits
 
 - Source website: [https://www.docvy.in](https://www.docvy.in), reviewed 2 November 2026.

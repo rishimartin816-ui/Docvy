@@ -4,13 +4,13 @@ import { AlertTriangle, ArrowRight, BookOpenCheck, Building2, ExternalLink, MapP
 import CareGuideSearch from "@/components/CareGuideSearch";
 
 export const metadata: Metadata = {
-  title: "What doctor should I see? Disease and specialty guide",
-  description: "Search a health condition, symptom or specialty to understand which doctor may commonly help. A plain-language patient guide for India; not a diagnosis or medical advice.",
+  title: "What kind of doctor should I see? | Patient guide",
+  description: "Search a health condition, symptom or specialty to explore doctor types commonly associated with that topic. A plain-language guide for India; not a diagnosis or medical advice.",
   alternates: { canonical: "/care-guide" },
   openGraph: {
     type: "website", locale: "en_IN", siteName: "DOCVY",
-    title: "Disease and symptom to specialty guide | DOCVY",
-    description: "A plain-language guide to common concerns and medical specialties, with clear information about DOCVY availability.",
+    title: "What kind of doctor should I see? | DOCVY",
+    description: "Search common concerns and learn which doctor specialties may be related, with clear information about DOCVY’s current coverage.",
     url: "/care-guide",
   },
 };

@@ -18,8 +18,9 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: { params: { city: string } }): Metadata {
   const city = citySlugs[params.city];
   if (!city) return { title: "City not found" };
-  const title = `Doctors in ${city} | Search hospital-listed profiles`;
-  const description = `Browse DOCVY's current hospital-listed doctor profiles in ${city}, Delhi NCR. Explore specialties and listed facilities; confirm current details and appointments with the hospital.`;
+  const locationName = city === "Gurugram" ? "Gurugram (Gurgaon)" : city;
+  const title = `Doctors in ${locationName} | Search hospital-listed profiles`;
+  const description = `Browse DOCVY's current hospital-listed doctor profiles in ${locationName}, Delhi NCR. Explore specialties and listed facilities; confirm current details and appointments with the hospital.`;
   return { title, description, alternates: { canonical: `/doctors/${params.city}` }, openGraph: { type: "website", locale: "en_IN", siteName: "DOCVY", title: `${title} | DOCVY`, description, url: `/doctors/${params.city}` } };
 }
 
