@@ -31,7 +31,7 @@ export default function Footer() {
           </p>
           <p className="mt-5 flex max-w-sm items-start gap-2 text-xs leading-5 text-[#789089]">
             <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#087F83]" />
-            The patient guide is informational. Doctor listings and appointment booking are not live yet.
+            Source-linked doctor listings are available. DOCVY credential review and appointment booking are not live yet.
           </p>
         </div>
 

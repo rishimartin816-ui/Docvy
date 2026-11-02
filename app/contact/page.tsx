@@ -20,7 +20,7 @@ export default function ContactPage() {
     <section className="bg-white py-16 md:py-20"><div className="mx-auto max-w-[1440px] px-6 lg:px-[72px]">
       <p className="text-[11px] font-extrabold tracking-[0.15em] text-[#087F83]">CONTACT DOCVY</p>
       <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-[-0.04em] md:text-[52px]">Let’s talk about your clinic or hospital.</h1>
-      <p className="mt-5 max-w-2xl text-base leading-7 text-[#526D66]">Reach out about provider plans, organisation verification, onboarding or privacy. Patient search and appointment requests are being prepared and are currently paused.</p>
+      <p className="mt-5 max-w-2xl text-base leading-7 text-[#526D66]">Reach out about provider plans, organisation verification, onboarding, a doctor profile or privacy. You can browse the source-linked directory; DOCVY appointment requests and booking are not open.</p>
     </div></section>
     <section className="mx-auto grid max-w-[1440px] gap-5 px-6 py-12 md:grid-cols-2 lg:px-[72px] md:py-16">
       <article className="rounded-[24px] border border-[#DCEAE5] bg-white p-7"><Building2 className="mb-5 text-[#087F83]" size={25} /><h2 className="text-xl font-bold">Provider partnerships</h2><p className="mt-3 text-sm leading-6 text-[#526D66]">For clinic and hospital plan enquiries, email DOCVY. Please include your organisation name and preferred contact details only. Do not email patient or health information.</p><a href="mailto:contact@docvy.in?subject=DOCVY%20provider%20enquiry" className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#087F83] px-5 text-sm font-bold text-white hover:bg-[#066D70]"><Mail size={16} />Contact now</a></article>

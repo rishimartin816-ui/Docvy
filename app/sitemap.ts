@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["/about", 0.6],
     ["/care-guide", 0.9],
     ["/contact", 0.7],
+    ["/doctors", 0.9],
     ["/for-doctors", 0.7],
     ["/faqs", 0.6],
     ["/grievance", 0.3],

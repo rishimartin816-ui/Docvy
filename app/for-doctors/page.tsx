@@ -4,26 +4,26 @@ import { ArrowRight, BadgeCheck, Building2, MapPin, Stethoscope } from "lucide-r
 
 export const metadata: Metadata = {
   title: "For Doctors in Delhi NCR | DOCVY Provider Directory",
-  description: "Learn about DOCVY's planned doctor directory for Delhi, Gurugram and Noida. Ask about a profile or provider listing; verification and publication are reviewed by DOCVY.",
+  description: "See source-linked doctor profiles in Delhi NCR and contact DOCVY to correct a profile or discuss provider onboarding. DOCVY credential review and self-service claims are not open.",
   alternates: { canonical: "/for-doctors" },
   openGraph: {
     type: "website", locale: "en_IN", siteName: "DOCVY",
     title: "For doctors in Delhi NCR | DOCVY",
-    description: "DOCVY is preparing a reviewed doctor directory for Delhi, Gurugram and Noida. Contact the team about a future profile.",
+    description: "DOCVY shows source-linked doctor profile candidates in Delhi NCR. Contact the team about a profile correction or future provider onboarding.",
     url: "/for-doctors",
   },
 };
 
 const reviewSteps = [
-  { icon: Stethoscope, title: "Share your public professional details", text: "Email DOCVY your name, specialty, city and a link to an official or professional profile. Do not email patient information or identity documents." },
-  { icon: BadgeCheck, title: "DOCVY reviews the information", text: "Provider verification and profile publication are reviewed by DOCVY. Self-submitted details are not automatically treated as verified or published." },
-  { icon: MapPin, title: "Listings open after source and review checks", text: "The public directory is still being prepared. DOCVY will publish profiles only when the source, reuse permission and provider details have been reviewed." },
+  { icon: Stethoscope, title: "Check the source-linked profile", text: "The directory includes profiles from hospital websites. Email DOCVY the profile link, your specialty and the city if information needs to be corrected." },
+  { icon: BadgeCheck, title: "DOCVY handles profile review", text: "DOCVY credential review is pending for the current listings. A source page or submitted correction is not itself a DOCVY verification." },
+  { icon: MapPin, title: "Profile claims are handled by DOCVY", text: "There is no self-service claim or edit portal. Contact DOCVY; profile changes and verification are reviewed manually before the directory status is updated." },
 ];
 
 const answers = [
-  ["Is the DOCVY doctor directory live?", "Not yet. Doctor search and appointment requests are being prepared for Delhi, Gurugram and Noida. No doctor profiles are currently available to book through DOCVY."],
-  ["Can a doctor claim or edit a profile now?", "Self-service claiming is not open. Contact DOCVY about a future profile; DOCVY reviews verification and publication."],
-  ["Does DOCVY charge doctors to appear in search?", "There is no active listing offer or online checkout. Contact DOCVY to discuss future provider plans and terms."],
+  ["Is the DOCVY doctor directory live?", "Yes. DOCVY displays 12 profiles linked to official hospital pages and groups them under Delhi, Gurugram and Noida. DOCVY credential review and appointment booking are not live; current availability must be confirmed with the hospital."],
+  ["Can a doctor claim or correct a profile now?", "There is no self-service claim or edit portal. Contact DOCVY with the official profile link and the correction or profile request. DOCVY reviews updates manually; submitted details are not automatically treated as verified."],
+  ["Does DOCVY charge doctors to appear in search?", "There is no active listing offer or online checkout. Contact DOCVY to discuss provider plans and terms."],
 ];
 
 export default function ForDoctorsPage() {
@@ -33,7 +33,7 @@ export default function ForDoctorsPage() {
         <div className="mx-auto max-w-5xl">
           <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><Stethoscope size={15} /> FOR DOCTORS · DELHI NCR</p>
           <h1 className="mt-6 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[58px]">A doctor directory for Delhi, Gurugram and Noida is in the works.</h1>
-          <p className="mt-6 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">DOCVY is preparing a reviewed provider directory for patients looking for doctors and clinics near them. Search, profile claims and appointment requests are not open yet. We are preparing provider details before inviting patients to use the directory.</p>
+          <p className="mt-6 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">DOCVY currently displays 12 source-linked doctor profile candidates across Delhi, Gurugram and Noida. DOCVY credential review is pending; self-service claims and appointment requests are not open yet. Contact us if a profile needs correction or you want to discuss provider onboarding.</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a href="mailto:contact@docvy.in?subject=DOCVY%20doctor%20profile%20enquiry" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#087F83] px-5 text-sm font-bold text-white hover:bg-[#066D70]">Ask about a doctor profile <ArrowRight size={16} /></a>
             <Link href="/doctors" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-[#B7D2C9] bg-white/80 px-5 text-sm font-bold text-[#173A37] hover:bg-white">Directory status <ArrowRight size={16} /></Link>
@@ -46,7 +46,7 @@ export default function ForDoctorsPage() {
         <div className="flex items-start gap-4"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#E2F2EC] text-[#087F83]"><MapPin size={21} /></span><div>
           <p className="text-xs font-extrabold tracking-[0.14em] text-[#087F83]">LOCAL DISCOVERY</p>
           <h2 className="mt-2 text-2xl font-bold tracking-tight md:text-3xl">One Delhi NCR directory, organized by city and neighbourhood.</h2>
-          <p className="mt-4 max-w-3xl text-sm leading-7 text-[#526D66]">The planned directory separates Delhi, Gurugram and Noida, with neighbourhood-level discovery where provider locations are confirmed. A city or specialty search will not imply that a doctor is accepting appointments.</p>
+          <p className="mt-4 max-w-3xl text-sm leading-7 text-[#526D66]">The directory separates Delhi, Gurugram and Noida. Neighbourhood names appear only where the linked hospital source lists a specific locality. A profile or specialty search does not mean a doctor is accepting appointments.</p>
           <div className="mt-5 flex flex-wrap gap-2 text-xs font-semibold text-[#36564F]">{["Delhi", "Gurugram (Gurgaon)", "Noida", "Neighbourhoods after review"].map((place) => <span key={place} className="rounded-full border border-[#DCEAE5] bg-white px-3 py-2">{place}</span>)}</div>
         </div></div>
       </section>
