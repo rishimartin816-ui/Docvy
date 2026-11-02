@@ -37,9 +37,10 @@ export default function Home() {
           <h1 className="max-w-[760px] text-[42px] font-black leading-[1.04] tracking-[-0.052em] text-[#173A37] sm:text-[54px] lg:text-[62px]">Find your way to care <span className="text-[#087F83]">across India.</span></h1>
           <p className="mt-7 max-w-[620px] text-base leading-8 text-[#526D66] md:text-[17px]">Start with a health concern or specialty anywhere in India. Browse source-linked doctor profiles in Delhi NCR today; we’ll add more cities as provider coverage grows.</p>
           <div className="mt-8 flex flex-wrap gap-3"><Link href="/care-guide" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#087F83] px-6 text-sm font-bold text-white shadow-[0_10px_24px_rgba(8,127,131,0.2)] hover:bg-[#066D70]">Search by concern <ArrowRight size={17} /></Link><Link href="/doctors" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#B7D2C9] bg-white/80 px-6 text-sm font-bold text-[#173A37] hover:bg-white">Browse doctors</Link></div>
+          <PatientSearchCard />
           <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#DCEAE5] bg-white/70 px-3 py-2 text-xs leading-5 text-[#526D66]"><MapPin size={14} className="shrink-0 text-[#087F83]" />Doctor listings start in Delhi NCR. Contact the hospital directly about appointments.</p>
         </div>
-        <div className="relative mx-auto w-full max-w-[590px] pb-8"><HeroIllustration /><PatientSearchCard /></div>
+        <div className="relative mx-auto w-full max-w-[590px] pb-8"><HeroIllustration /></div>
       </div>
     </section>
 

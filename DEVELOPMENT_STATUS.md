@@ -53,7 +53,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Staff identity, tenant administration and role-based access rollout.
 - Clinic/hospital management software and business intelligence dashboards.
 - Provider notification, verified appointment inboxes, fees and billing.
-- Mobile visual review and actual Search Console query analysis.
+- Full mobile interaction/overflow review and actual Search Console query analysis.
 
 ## Change controls
 
@@ -66,3 +66,4 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 | Date | Commit / deployment | Result |
 |---|---|---|
 | 3 Nov 2026 | `986c33e` · Vercel `dpl_G9mavqzeH2DQF8K8CQgGWLuh8Avk` | READY; fresh live page checks passed. Enquiry intake remains closed pending the private Workspace connection. |
+| 3 Nov 2026 | `2fd963a` · Vercel `dpl_BNaQFGFrwhjQafiVGUHzPNisFTfF` | READY; interactive homepage search verified live: “joint pain” opens the guide and returns Orthopaedics. The search submits no contact details. |
