@@ -15,6 +15,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 
 - Rewrote page and form availability copy to distinguish the India-wide guide from the current Delhi, Gurugram and Noida directory.
 - Replaced the homepage's decorative search card with a labeled GET search form to the patient guide; it submits a search term only and does not ask for contact details.
+- Added a city selector to the patient guide. Choosing Delhi, Gurugram or Noida narrows related profile counts and carries the selected city plus specialty query into the existing doctor-directory filters; a city with no related specialty profiles still links to all of that city's listings.
 - Removed a repeated availability strip from the homepage, added a direct FAQ link in the footer, and corrected About copy that suggested the directory was still unopened.
 - Kept doctor cards inside DOCVY and made the request state truthful: when intake is disconnected, the form does not collect details; when connected, it saves only to DOCVY's private intake and does not notify a provider.
 - Added source-backed hyperlocal entry points that filter the existing directory instead of creating unsupported locality pages.
@@ -28,6 +29,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 
 - `pnpm lint` passed after the ESLint configuration fix.
 - `pnpm build` passed with Next.js 14.2.35, TypeScript validation and all 26 static pages generated.
+- The current city-selector change passed `pnpm lint` and `pnpm build`; the build generated all 26 static pages. Live browser interaction verification is pending the production deployment.
 - `scripts/apps-script/Code.gs` passed a JavaScript syntax parse. This does not prove the script is installed, authorized or deployed in Google Workspace.
 - Mobile first-viewport screenshots at 390px were visually reviewed for the homepage, patient guide, doctor directory and provider plans. No obvious first-viewport clipping appeared; full-page interaction and overflow measurements remain open.
 - Figma account inspection found view-only seats and no DOCVY file reference in repository artifacts or matching Google Drive searches. The current repository `DESIGN.md` palette and components were used as the design reference; no Figma file was edited.
