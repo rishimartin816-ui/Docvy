@@ -28,6 +28,7 @@
 - Reviewed current Google Search Central guidance. No special AI-search markup or ranking outcome is claimed.
 - Production builds passed with Next.js 14.2.35, linting, type validation, and all 26 static pages generated.
 - Latest live deployment before the current pass is commit `a5901cb` (Vercel READY). Browser review confirmed `/care-guide?q=joint%20pain` shows one specialty match (Orthopaedics) and the question “what doctor should I see for diabetes?” returns one related specialty and explains that no matching DOCVY profile is listed.
+- Current live deployment: commit `77a9d66` is Vercel READY. Live checks confirmed doctor cards route to `/request` inside DOCVY, and the selected doctor pre-fills correctly. The form stays disabled because the sheet endpoint is not configured.
 - Live metadata checks after commit `80e4b5d` returned HTTP 200 and one DOCVY brand suffix for About, How it works, For doctors, FAQs, Contact, and Gurugram pages.
 - Firecrawl live page checks returned HTTP 200 for `/`, `/care-guide?q=joint%20pain`, `/pricing`, and `/doctors/gurugram`; rendered titles and visible page updates were present.
 
@@ -54,7 +55,7 @@
 - Updated the privacy and terms copy to describe the planned sheet handling, user consent, provider sharing, and direct provider payment. DOCVY payment and provider email notifications are not implemented.
 - Updated the private `Appointments` tab to 14 columns, including facility and consent records. Wrote and verified one clearly marked synthetic test row using the connected Google Sheets tool. This verifies direct sheet write/read access only; it does **not** verify the website-to-sheet path.
 - `pnpm build` passed with Next.js 14.2.35 and 26 static pages. `pnpm lint` could not run because the repository's ESLint 8.57.1 install does not export `eslint/config`, which its flat-config file imports. No lint code output was produced.
-- These changes are local and **not published**. Current production remains commit `a5901cb` (Vercel deployment was previously verified READY).
+- Commit `77a9d66` is published and Vercel READY. The live doctor page no longer sends visitors to hospital websites from its doctor cards. The live enquiry page clearly states that intake is disabled until the private sheet connection is finished.
 
 ### Required before enabling real enquiries
 
