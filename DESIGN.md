@@ -97,7 +97,7 @@ These are proposed values and art direction, not a finished Figma file. The exis
 
 ### Patient guide and condition content
 
-- Search common concerns, conditions and specialty names; make suggested searches clickable and show a focused result instead of all 17 specialty cards by default.
+- Search common concerns, conditions and specialty names; make suggested searches clickable and show a focused result instead of all 17 specialty cards by default. The current guide now shows current source-linked profiles for mapped specialties, links to filtered directory results, and clearly says when no matching profile is listed.
 - For a reviewed topic, explain in everyday language what the term means, which type of specialist is commonly associated with it, what other specialties may be relevant, and when a general physician may be a reasonable starting point.
 - Add “what this page can and cannot tell you,” source links and a content review date. Do not diagnose, promise outcomes or imply that one symptom always maps to one doctor.
 - Link only to relevant doctors or specialties actually present in DOCVY's directory; make the gap visible when no matching listings exist.
@@ -139,12 +139,12 @@ Structured data should describe visible, accurate content only. Google says its 
 ## Recommended sequence
 
 1. **Design foundation — started and published:** shared colors and type aliases and the patient-first homepage are live. Still unify page shells, mobile navigation, cards, alerts and mobile spacing.
-2. **Patient journey — in progress:** simplify the guide's first visit with clickable examples, focused specialty cards and clearer explanations.
+2. **Patient journey — guide interaction delivered; mobile review remains:** clickable examples, focused specialty cards, exact current-directory matches, filtered profile links, and explicit “no matching profiles” guidance are implemented. Review the interaction and layout at mobile widths before adding further health topics.
 3. **Directory trust and GEO — in progress:** add source-backed city pages and city navigation; distinguish unique profiles from repeated city placements.
 4. **Provider conversion — in progress:** clarify clinic/hospital use cases and keep planned capabilities clearly labeled.
 5. **Supporting pages and SEO:** reconcile stale/legacy pages, improve titles and internal links, then publish only pages with substantial verified value.
 
-**Recommended next implementation:** review the deployed city pages and search interactions at mobile widths, then refine the shared navigation and add reviewed concern content based on actual Search Console queries.
+**Recommended next implementation:** review the deployed city pages and search interactions at mobile widths, then refine the shared navigation and add reviewed concern content based on actual Search Console queries. Do not invent search demand when Search Console query data is unavailable.
 
 ## Evidence and limits
 

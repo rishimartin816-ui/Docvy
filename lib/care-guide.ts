@@ -3,6 +3,10 @@ export type CareGuideEntry = {
   description: string;
   examples: string[];
   keywords: string[];
+  /** Exact source-listed provider specialty labels that belong in this directory category. */
+  directorySpecialties?: string[];
+  /** Query used to open the live directory with matching profiles. */
+  directoryQuery?: string;
 };
 
 /** General navigation examples only; not a diagnostic or triage tool. */
@@ -12,12 +16,16 @@ export const careGuide: CareGuideEntry[] = [
     description: "A practical first contact when a concern is new, unclear, or involves more than one part of your health.",
     examples: ["A new or unclear health concern", "Several ongoing conditions", "A first review before specialist care"],
     keywords: ["general doctor", "general physician", "internal medicine", "fever", "weakness", "check up", "checkup", "unclear", "not sure"],
+    directorySpecialties: ["General physician", "Internal medicine"],
+    directoryQuery: "general physician",
   },
   {
     specialty: "Cardiology",
     description: "Specialist care for conditions affecting the heart and circulation.",
     examples: ["Known heart condition follow-up", "Heart rhythm concerns", "High blood pressure review"],
     keywords: ["heart", "cardiology", "blood pressure", "bp", "palpitation", "rhythm", "circulation"],
+    directorySpecialties: ["Cardiology", "Interventional cardiology", "Cardiac electrophysiology and pacemakers"],
+    directoryQuery: "cardiology",
   },
   {
     specialty: "Dermatology",
@@ -48,6 +56,8 @@ export const careGuide: CareGuideEntry[] = [
     description: "Specialist care for bones, joints, muscles, and injuries affecting movement.",
     examples: ["Joint or bone concerns", "Back or knee pain review", "Injury follow-up"],
     keywords: ["bone", "joint", "back pain", "knee", "fracture", "injury", "orthopaedic", "orthopedic", "movement"],
+    directorySpecialties: ["Orthopaedics", "Joint replacement"],
+    directoryQuery: "orthopaedics",
   },
   {
     specialty: "Obstetrics and gynaecology",
@@ -84,6 +94,8 @@ export const careGuide: CareGuideEntry[] = [
     description: "Specialist care for the urinary system and conditions involving the bladder or prostate.",
     examples: ["Bladder concerns", "Urinary symptoms", "Prostate-related care"],
     keywords: ["urinary", "urine", "bladder", "prostate", "urology", "urologist"],
+    directorySpecialties: ["Urology", "Kidney transplant"],
+    directoryQuery: "urology",
   },
   {
     specialty: "Ophthalmology",
