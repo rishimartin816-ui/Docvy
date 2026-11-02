@@ -21,7 +21,7 @@ export default function Grievance() {
             <h2 className="mb-2 text-lg font-bold">Operating entity</h2>
             <p className="text-sm text-grey">DSS Global Technologies Private Limited</p>
             <p className="mt-2 text-sm text-grey">Business address: 2nd Floor, Capital Cityscape, Sector 66, Gurugram, Haryana – 122101, India.</p>
-            <p className="mt-2 text-xs leading-5 text-grey">Grievance contact: Rishi Raj Martin. He has personally accepted responsibility for handling grievances. Email: rishimartin.16@icloud.com. Written grievances may also be sent to the business address above.</p>
+            <p className="mt-2 text-xs leading-5 text-grey">Grievance contact: Rishi Raj Martin. Rishi Raj Martin has personally accepted responsibility for handling grievances. Email: rishimartin.16@icloud.com. Written grievances may also be sent to the business address above.</p>
           </Card>
           <Card>
             <ShieldCheck className="mb-4 text-mulb" size={28} />
