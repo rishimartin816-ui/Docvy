@@ -14,24 +14,24 @@ const docvyFont = DM_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.docvy.in"),
   title: {
-    default: "DOCVY — Connected healthcare discovery and operations",
+    default: "DOCVY — Find your way to care in Delhi NCR",
     template: "%s | DOCVY",
   },
   description:
-    "DOCVY is developing healthcare discovery and operations for patients, doctors, clinics and hospitals in India. Public listings and appointment requests are not open yet.",
+    "Use DOCVY's plain-language patient guide to understand medical specialties. Doctor listings and appointment requests for Delhi NCR are being prepared and are not open yet.",
   applicationName: "DOCVY",
   openGraph: {
     type: "website",
     locale: "en_IN",
     siteName: "DOCVY",
-    title: "DOCVY — Connected healthcare discovery and operations",
-    description: "Healthcare discovery and operations are in development. Public provider listings and patient appointment requests are not open yet.",
+    title: "DOCVY — Find your way to care in Delhi NCR",
+    description: "A plain-language guide to medical specialties and a clearer way to discover doctors, clinics and hospitals in Delhi NCR. Doctor listings and booking are not open yet.",
     url: "/",
   },
   twitter: {
     card: "summary",
-    title: "DOCVY — Healthcare discovery and operations",
-    description: "Provider discovery and operations for India are in development. Patient search and appointment requests are not open yet.",
+    title: "DOCVY — Healthcare discovery in Delhi NCR",
+    description: "Understand medical specialties and how DOCVY is preparing doctor discovery for Delhi NCR. Patient search and appointment requests are not live yet.",
   },
   robots: {
     index: true,

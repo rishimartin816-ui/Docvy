@@ -26,7 +26,7 @@ export default function FaqsPage() {
           <p className="text-[11px] font-extrabold tracking-[0.15em] text-[#087F83]">DOCVY HELP</p>
           <h1 className="mt-4 text-4xl font-bold leading-tight tracking-[-0.04em] md:text-[50px]">Frequently asked questions</h1>
           <p className="mt-5 max-w-2xl text-base leading-7 text-[#526D66]">
-            Straight answers about what DOCVY offers today, what is still being prepared, and how clinics and hospitals can get in touch.
+            Straight answers about the patient guide, doctor directory, appointment journey, and what patients, doctors, clinics and hospitals can use today.
           </p>
         </div>
       </section>
@@ -43,6 +43,9 @@ export default function FaqsPage() {
           ))}
         </div>
         <p className="mt-8 text-sm leading-7 text-[#526D66]">
+          Not sure which specialty to search? Start with the <Link className="font-semibold text-[#087F83] underline underline-offset-4" href="/care-guide">patient guide</Link>. It offers general directory information, not diagnosis or medical advice.
+        </p>
+        <p className="mt-4 text-sm leading-7 text-[#526D66]">
           For clinic or hospital onboarding, visit <Link className="font-semibold text-[#087F83] underline underline-offset-4" href="/pricing">provider plans</Link> or <Link className="font-semibold text-[#087F83] underline underline-offset-4" href="/contact">contact DOCVY</Link>. Do not send patient health information by email.
         </p>
       </section>

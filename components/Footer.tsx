@@ -2,9 +2,9 @@ import Link from "next/link";
 import { ArrowUpRight, FileText, Mail, ShieldCheck } from "lucide-react";
 
 const platformLinks = [
-  ["/#discovery", "Patient discovery"],
-  ["/#clinics", "Clinics"],
-  ["/#hospitals", "Hospitals"],
+  ["/care-guide", "Patient guide: conditions & specialties"],
+  ["/doctors", "Doctor directory status"],
+  ["/how-it-works", "How finding care will work"],
 ] as const;
 
 const policyLinks = [
@@ -27,11 +27,11 @@ export default function Footer() {
             DOCVY
           </Link>
           <p className="mt-3 max-w-sm text-sm leading-6 text-[#526D66]">
-            Connected healthcare discovery and operations.
+            DOCVY is building a clearer way to navigate doctor, clinic and hospital discovery in Delhi NCR.
           </p>
           <p className="mt-5 flex max-w-sm items-start gap-2 text-xs leading-5 text-[#789089]">
             <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#087F83]" />
-            Provider discovery and management workflows are in development.
+            The patient guide is informational. Doctor listings and appointment booking are not live yet.
           </p>
         </div>
 

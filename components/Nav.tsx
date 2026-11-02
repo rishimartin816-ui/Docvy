@@ -5,10 +5,10 @@ import { useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 
 const links = [
-  ["/#discovery", "Discover"],
+  ["/care-guide", "Patient guide"],
+  ["/doctors", "Doctor directory"],
   ["/for-doctors", "For doctors"],
-  ["/#clinics", "For clinics"],
-  ["/#hospitals", "For hospitals"],
+  ["/pricing", "Clinic & hospital plans"],
 ] as const;
 
 export default function Nav() {
@@ -41,7 +41,7 @@ export default function Nav() {
           href="/contact"
           className="hidden min-h-11 items-center justify-center gap-2 rounded-xl bg-[#087F83] px-5 text-sm font-semibold text-white transition hover:bg-[#066D70] md:inline-flex"
         >
-          Provider plans <ArrowUpRight size={16} />
+          Contact now <ArrowUpRight size={16} />
         </Link>
 
         <button
@@ -77,7 +77,7 @@ export default function Nav() {
             onClick={() => setOpen(false)}
             className="mt-4 flex min-h-11 items-center justify-center rounded-xl bg-[#087F83] text-sm font-semibold text-white"
           >
-            Provider plans
+            Contact now
           </Link>
         </nav>
       )}

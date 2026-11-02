@@ -1,9 +1,14 @@
 export const faqs = [
-  ["Can I make an appointment through DOCVY today?", "No. Patient search and appointment requests are currently paused while provider verification and secure provider access are prepared."],
-  ["Are providers already listed?", "No fictional providers are shown. The directory will publish providers only after verification and review."],
-  ["Does DOCVY charge patients or take a consultation commission?", "No patient payment or consultation commission is part of the current product plan. The website has no patient checkout."],
-  ["How can a clinic or hospital discuss pricing?", "Use the Contact now link on the provider plans page. Prices are for discussion; confirm the current features, taxes and terms with DOCVY."],
-  ["Can providers manage appointments in the dashboard?", "Provider access requires a verified organisation account. Staff provisioning and the tenant-protected appointment queue are still being prepared."],
+  ["What is DOCVY?", "DOCVY is building a healthcare discovery and operations platform. The goal is to help patients move from a health concern or specialty to a doctor and the clinic or hospital where that doctor sees patients. Provider tools are planned for clinics and hospitals. The current public website is informational; search and booking are not live."],
+  ["Can I book a doctor through DOCVY today?", "No. Doctor search and appointment requests are not open yet. A booking is not made through DOCVY unless a future live workflow is available and the hospital or clinic confirms your appointment."],
+  ["How can I find which type of doctor to look for?", "Use the Patient Guide to search common concerns and see the specialties commonly associated with them. It is a general directory guide, not a diagnosis or a recommendation for your specific situation. If you are unsure, speak with a general physician."],
+  ["Does the Patient Guide diagnose a disease?", "No. A symptom or condition can have different causes, and the right care depends on a clinician's assessment. The guide only explains common specialty categories to help people understand how a directory may be organized."],
+  ["Can I see doctors near me in Delhi NCR?", "Not yet. DOCVY is preparing a directory organized separately for Delhi, Gurugram (Gurgaon), and Noida, with neighbourhood details where provider locations are confirmed. Search and location filters are not live."],
+  ["Are doctors on DOCVY verified?", "The public doctor directory is not open yet. Profiles will be reviewed before publication. The Patient Guide contains specialty information, not doctor listings or DOCVY endorsements."],
+  ["What happens after a future appointment request?", "The planned journey is: select a provider and facility, choose or request a time, then wait for that clinic or hospital to review and confirm directly. A request would not itself mean an appointment is confirmed."],
+  ["Does DOCVY charge patients or take a consultation commission?", "The current website has no patient checkout or payment facility. No patient payment or consultation commission is being collected through DOCVY."],
+  ["How can a clinic or hospital discuss pricing?", "Use Contact now on the clinic and hospital plans page. Pricing and product availability are discussed directly with DOCVY; no online subscription or checkout is available."],
+  ["Can providers manage appointments in a dashboard?", "Provider dashboards and appointment management are planned and are not open for use yet. DOCVY will review provider and organisation access before any operational tools are enabled."],
   ["Does DOCVY provide medical advice or emergency care?", "No. DOCVY does not diagnose or treat through this website and is not an emergency service. In India, call 112 or go to the nearest emergency department for urgent medical help."],
 ] as const;
 
