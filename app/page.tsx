@@ -94,6 +94,17 @@ const proofPoints = [
 export default function Home() {
   return (
     <div className="home-shell overflow-hidden bg-[#F6FAF8] text-[#173A37]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "DOCVY",
+            url: "https://www.docvy.in/",
+          }).replace(/</g, "\\u003c"),
+        }}
+      />
       <section className="relative isolate overflow-hidden bg-[radial-gradient(circle_at_78%_35%,#D5F0E8_0%,#EAF5F1_38%,#F4FAF7_100%)]">
         <div aria-hidden="true" className="pointer-events-none absolute -left-24 top-24 h-64 w-64 rounded-full bg-[#DDF0E9]/80 blur-3xl" />
         <div aria-hidden="true" className="pointer-events-none absolute right-[8%] top-8 h-24 w-24 rounded-full bg-[#F6C9A9]/40 blur-2xl" />
