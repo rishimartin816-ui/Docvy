@@ -152,6 +152,11 @@ REVOKE ALL ON ALL SEQUENCES IN SCHEMA identity FROM PUBLIC;
 REVOKE ALL ON ALL FUNCTIONS IN SCHEMA identity FROM PUBLIC;
 
 -- Future objects created as docvy_auth_fn must not become PUBLIC by default.
+-- Function EXECUTE is granted to PUBLIC by default. Revoke it globally because
+-- per-schema default privileges cannot remove privileges granted globally.
+ALTER DEFAULT PRIVILEGES FOR ROLE docvy_auth_fn
+  REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;
+
 ALTER DEFAULT PRIVILEGES FOR ROLE docvy_auth_fn IN SCHEMA identity
   REVOKE ALL ON TABLES FROM PUBLIC;
 ALTER DEFAULT PRIVILEGES FOR ROLE docvy_auth_fn IN SCHEMA identity
