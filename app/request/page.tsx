@@ -18,7 +18,7 @@ export default async function RequestPage({ searchParams }: { searchParams: Prom
       <section className="pt-2">
         <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><CalendarClock size={14}/> APPOINTMENT ENQUIRY · DELHI NCR</p>
         <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.045em] text-[#173A37] md:text-[48px]">Tell DOCVY which doctor you want to see.</h1>
-        <p className="mt-5 max-w-xl text-base leading-8 text-[#526D66]">Send an appointment enquiry to DOCVY. Our team will use the selected doctor and hospital details to coordinate with the provider and contact you using the details you share.</p>
+        <p className="mt-5 max-w-xl text-base leading-8 text-[#526D66]">Appointment enquiries are not open yet. DOCVY is finishing the private data connection and confirming provider email contacts. This page is not collecting your details; when it opens, you can choose a listed doctor and ask DOCVY to coordinate a request.</p>
         <div className="mt-6 rounded-2xl border border-[#DCEAE5] bg-white p-5">
           <div className="flex gap-3"><ShieldCheck size={20} className="mt-0.5 shrink-0 text-[#087F83]"/><div><h2 className="font-bold text-[#173A37]">A request is not a confirmed appointment</h2><p className="mt-2 text-sm leading-6 text-[#526D66]">The clinic or hospital must confirm the doctor, time and any consultation fee. DOCVY does not take patient payment or guarantee a slot.</p></div></div>
         </div>
