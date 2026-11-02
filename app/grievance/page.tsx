@@ -4,6 +4,15 @@ import { PageHero, Section, Card } from "@/components/ui";
 export const metadata = {
   title: "Grievance information – DOCVY",
   description: "Current grievance-contact availability for DOCVY.",
+  alternates: { canonical: "/grievance" },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    siteName: "DOCVY",
+    title: "Grievance contact | DOCVY",
+    description: "Find the current grievance contact for DOCVY.",
+    url: "/grievance",
+  },
 };
 
 export default function Grievance() {
@@ -21,7 +30,7 @@ export default function Grievance() {
             <h2 className="mb-2 text-lg font-bold">Operating entity</h2>
             <p className="text-sm text-grey">DSS Global Technologies Private Limited</p>
             <p className="mt-2 text-sm text-grey">Business address: 2nd Floor, Capital Cityscape, Sector 66, Gurugram, Haryana – 122101, India.</p>
-            <p className="mt-2 text-xs leading-5 text-grey">Grievance contact: Rishi Raj Martin. Rishi Raj Martin has personally accepted responsibility for handling grievances. Email: rishimartin.16@icloud.com. Written grievances may also be sent to the business address above.</p>
+            <p className="mt-2 text-xs leading-5 text-grey">Grievance contact: Rishi Raj Martin. Rishi Raj Martin has personally accepted responsibility for handling grievances. Email: contact@docvy.in. Written grievances may also be sent to the business address above.</p>
           </Card>
           <Card>
             <ShieldCheck className="mb-4 text-mulb" size={28} />

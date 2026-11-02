@@ -1,10 +1,9 @@
-import { db } from "@/lib/store";
-import { PageHero, Section } from "@/components/ui";
-export const metadata = { title: "Status – Docvy" };
-const labels = { awaiting_payment: "Awaiting payment", payment_verified: "Payment verified", doctor_review_pending: "Doctor review pending", outcome_shared: "Outcome shared" } as const;
-export default function Status({ searchParams }: { searchParams: { ref?: string } }) {
-  const ref = (searchParams.ref ?? "").toUpperCase(); const r = ref ? db.get(ref) : undefined;
-  return (<><PageHero eyebrow="STATUS" title="Check your request status" text="Enter your reference ID. No health details are shown here." />
-    <Section alt><form className="mb-6 flex max-w-md gap-3"><label htmlFor="ref" className="sr-only">Reference ID</label><input id="ref" name="ref" defaultValue={ref} placeholder="DVY-XXXXXX" className="min-h-12 flex-1 rounded-btn border-[1.5px] border-line bg-porc px-3.5" /><button className="min-h-12 rounded-btn bg-plum px-6 font-semibold text-porc">Check</button></form>
-      {ref && (r ? <div className="max-w-md rounded-card border border-line bg-porc p-6"><p className="font-head text-2xl font-extrabold text-plum">{r.ref}</p><p className="mt-2 font-semibold">{labels[r.status]}</p><p className="mt-2 text-sm text-grey">A registered practitioner makes any clinical decision independently.</p></div> : <p role="alert" className="text-[#B42318]">No request found for that reference.</p>)}</Section></>);
+import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowRight, Info } from "lucide-react";
+
+export const metadata: Metadata = { title: "Appointment status", description: "DOCVY appointment requests are not open yet.", robots: { index: false, follow: false } };
+
+export default function StatusPage() {
+  return <div className="min-h-[70vh] bg-[#F6FAF8] px-6 py-16"><div className="mx-auto max-w-2xl rounded-[24px] border border-[#DCEAE5] bg-white p-7 shadow-sm md:p-10"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#EAF5F1] text-[#087F83]"><Info size={21} /></span><h1 className="mt-5 text-3xl font-bold tracking-tight text-[#173A37]">Appointment requests are paused.</h1><p className="mt-3 text-sm leading-7 text-[#526D66]">DOCVY is preparing provider verification and secure staff access. No appointment has been made unless a provider directly confirms it with you.</p><div className="mt-6 flex flex-wrap gap-3"><Link href="/doctors" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#087F83] px-5 text-sm font-bold text-white">Search for care <ArrowRight size={16} /></Link><Link href="/contact" className="inline-flex min-h-11 items-center rounded-xl border border-[#B8D2C9] px-5 text-sm font-bold text-[#087F83]">Contact DOCVY</Link></div></div></div>;
 }

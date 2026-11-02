@@ -1,52 +1,49 @@
-export const purposes = [
-  { key: "work", title: "Work leave", text: "Request documentation for a health concern affecting your ability to work.", icon: "briefcase-medical" },
-  { key: "college", title: "College or university", text: "Understand the process for documentation related to an absence or academic requirement.", icon: "graduation-cap" },
-  { key: "other", title: "Other medical documentation", text: "Tell us the legitimate purpose so the appropriate next steps can be explained.", icon: "file-check" },
-];
-export const steps = [
-  { t: "Tell us what you need", d: "Choose a purpose and provide only the information needed to route your request." },
-  { t: "Complete the required process", d: "If clinical assessment is needed, follow the instructions for assessment by a registered medical practitioner." },
-  { t: "Professional review", d: "The practitioner independently determines whether a certificate is clinically appropriate and what it can accurately state." },
-  { t: "Receive the outcome", d: "If approved, the document should be delivered through a secure channel. If not, the applicable outcome and refund terms should be explained." },
-];
 export const faqs = [
-  ["How does Docvy work?", "Choose a purpose and share the minimum information needed to route the request. Where required, a registered medical practitioner assesses the case and independently decides the appropriate outcome."],
-  ["Can I request a medical certificate for sick leave?", "You can request documentation for a health concern affecting work. Whether a certificate is issued depends on the practitioner's assessment and clinical judgement."],
-  ["Can students request documentation for college absence?", "Students can start a request related to an absence or academic requirement. A certificate is not automatic and is subject to the same independent clinical review."],
-  ["Will my employer or college accept the certificate?", "We cannot guarantee acceptance. Employers and educational institutions set their own requirements; check those requirements before requesting documentation."],
-  ["Is a certificate guaranteed after payment?", "No. Payment does not guarantee a certificate. A registered medical practitioner must independently determine whether issuing one is clinically justified."],
-  ["Will a doctor review my case?", "The intended service includes professional review where a clinical assessment is required. The operating workflow and practitioner availability must be confirmed before the service is launched."],
-  ["What happens if a certificate is not issued?", "The outcome should be communicated clearly. Any refund depends on the final published refund policy, which must be available before payment."],
-  ["How is my information handled?", "Docvy should collect only information necessary to provide the service, restrict access, and explain retention, deletion and sharing in its Privacy Policy. Do not submit sensitive health information until the secure workflow is operational."],
-  ["What does the proposed ₹299 price include?", "₹299 is a proposed price only until the exact service inclusions, any assessment fee and refund terms are confirmed and displayed before checkout."],
-  ["Can I cancel or request a refund?", "The final cancellation and refund terms must be reviewed and published before checkout is enabled. Contact details should be provided on the Contact page."],
+  ["Can I make an appointment through DOCVY today?", "No. Patient search and appointment requests are currently paused while provider verification and secure provider access are prepared."],
+  ["Are providers already listed?", "No fictional providers are shown. The directory will publish providers only after verification and review."],
+  ["Does DOCVY charge patients or take a consultation commission?", "No patient payment or consultation commission is part of the current product plan. The website has no patient checkout."],
+  ["How can a clinic or hospital discuss pricing?", "Use the Contact now link on the provider plans page. Prices are for discussion; confirm the current features, taxes and terms with DOCVY."],
+  ["Can providers manage appointments in the dashboard?", "Provider access requires a verified organisation account. Staff provisioning and the tenant-protected appointment queue are still being prepared."],
+  ["Does DOCVY provide medical advice or emergency care?", "No. DOCVY does not diagnose or treat through this website and is not an emergency service. In India, call 112 or go to the nearest emergency department for urgent medical help."],
 ] as const;
+
 export const legal: Record<string, { title: string; intro: string; sections: { heading: string; body: string[] }[] }> = {
-  privacy: { title: "Privacy Policy", intro: "This policy describes the DOCVY informational website as currently available. Features that would accept requests, appointments, payments or health information are not currently operational.", sections: [
-    { heading: "Who operates Docvy", body: ["DOCVY is operated by DSS Global Technologies Private Limited. The business address is 2nd Floor, Capital Cityscape, Sector 66, Gurugram, Haryana – 122101, India. For privacy questions and requests, contact Rishi Raj Martin at rishimartin.16@icloud.com."] },
-    { heading: "Information we may collect", body: ["The public website does not currently accept request submissions, appointments or payments, and it does not ask visitors to submit health information. The hosting and security infrastructure may automatically process limited technical data such as IP address, browser/device information, request timestamps and diagnostic logs.", "Do not collect identity documents, medical records or other sensitive details unless they are necessary, the secure workflow is ready, and the user has received the relevant notice. Never request passwords or payment-card details by email or chat."] },
-    { heading: "Why information is used", body: ["Technical information may be used to deliver the website, maintain availability, diagnose errors, protect against abuse and meet applicable legal obligations. Future service-related purposes will be explained before any relevant information is collected."] },
-    { heading: "Sharing and service providers", body: ["Technical information may be processed by the website hosting and security providers to operate the site. The current informational website does not offer a patient, appointment, payment or clinical-data workflow. Any future sharing with service providers will be described before those features are activated."] },
-    { heading: "Security and retention", body: ["Website infrastructure and its providers apply technical and organisational safeguards appropriate to hosting a public website. Technical logs may be retained for operational, security and legal purposes under the applicable provider settings and policies. No online service can promise absolute security."] },
-    { heading: "Your choices and requests", body: ["Subject to applicable law, you may raise a privacy concern or request regarding personal information. For privacy questions and requests, contact Rishi Raj Martin at rishimartin.16@icloud.com, or write to DSS Global Technologies Private Limited, 2nd Floor, Capital Cityscape, Sector 66, Gurugram, Haryana – 122101, India. Do not send original identity documents or sensitive health information by email or post."] },
-    { heading: "Cookies, updates and complaints", body: ["Your browser and hosting infrastructure may use essential technical mechanisms needed to deliver and secure the website. Any non-essential analytics or advertising technologies, if introduced, should be disclosed and configured in accordance with applicable requirements. The designated grievance contact is Rishi Raj Martin, who has personally accepted this responsibility. Grievances may be sent to rishimartin.16@icloud.com or by written correspondence to the business address stated in this policy. This policy is limited to the current informational website and should be reviewed by qualified Indian counsel before any patient-facing or data-collecting service is activated."] },
-  ] },
-  terms: { title: "Terms of Service", intro: "These terms apply to the current DOCVY informational website only. Patient discovery, provider tools, appointments, clinic/hospital management and other service workflows are in development and are not currently offered for use.", sections: [
-    { heading: "Service and eligibility", body: ["The website is operated by DSS Global Technologies Private Limited, with its business address at 2nd Floor, Capital Cityscape, Sector 66, Gurugram, Haryana – 122101, India. The website currently provides general product information only. Request submissions, appointments, paid services and clinical services are not available through this website."] },
-    { heading: "Independent clinical decision", body: ["DOCVY does not provide medical advice, diagnosis, treatment or emergency services through this informational website. No doctor consultation, medical certificate or clinical outcome is offered or guaranteed here."] },
-    { heading: "Acceptance by third parties", body: ["Employers, colleges, insurers and other organisations may have their own rules and may reject online or remote medical documentation. Docvy does not guarantee acceptance. Users should check the receiving organisation's requirements before placing a request."] },
-    { heading: "Price and payment", body: ["The current website does not offer checkout or accept payments. Any future paid service will display its price, inclusions, applicable taxes and payment terms before a transaction can be made."] },
-    { heading: "Cancellation, availability and contact", body: ["No purchase or paid service can currently be made through this website. If DOCVY introduces paid services, the applicable availability, cancellation, refund and support terms will be published before checkout is enabled. These terms do not replace professional medical advice."] },
-  ] },
-  refund: { title: "Cancellation and Refund Policy", intro: "The current DOCVY website is informational only. It does not offer checkout, accept payments or sell services. This page describes the current position; a transaction-specific cancellation and refund policy will be published before paid services are enabled.", sections: [
-    { heading: "Before payment", body: ["There is no checkout or payment facility on the current website, so no purchase can be made through it."] },
-    { heading: "No guaranteed certificate", body: ["If paid services are introduced in the future, the applicable refund conditions will be displayed before payment. No clinical outcome or certificate will be guaranteed by payment."] },
-    { heading: "Requesting cancellation or refund", body: ["No paid transaction can currently be initiated through this website. Do not send payment credentials, identity documents or medical records to DOCVY through informal channels."] },
-    { heading: "Processing and disputes", body: ["If a paid service is introduced, its refund handling and grievance process will be published before checkout is enabled. No refund timeline is promised by this informational website."] },
-  ] },
-  disclaimer: { title: "Medical Disclaimer", intro: "Please read this before starting a request.", sections: [
-    { heading: "Not an emergency service", body: ["Docvy is not an emergency service and does not replace urgent or in-person medical care. In India, call 112 for emergencies or go to the nearest emergency department if you may be experiencing a medical emergency."] },
-    { heading: "No guaranteed outcome", body: ["A request or payment does not guarantee a certificate. A registered medical practitioner must independently assess the case where required and decide whether a document is clinically justified. Documents must accurately reflect the assessment and available records."] },
-    { heading: "Third-party requirements", body: ["An employer, college or other receiving organisation may decline a certificate or require a particular format, in-person assessment or additional evidence. Check its rules before submitting a request."] },
-  ] },
+  privacy: {
+    title: "Privacy Policy",
+    intro: "Patient search and appointment requests are currently paused. DOCVY will not accept appointment details until the verified directory, provider handling workflow and privacy review are ready.",
+    sections: [
+      { heading: "Who operates DOCVY", body: ["DOCVY is operated by DSS Global Technologies Private Limited, 2nd Floor, Capital Cityscape, Sector 66, Gurugram, Haryana – 122101, India. For privacy questions, contact DOCVY at contact@docvy.in."] },
+      { heading: "Information used", body: ["The current release does not accept appointment requests or display real provider listings. Website hosting and security infrastructure may process limited technical information such as IP address, browser/device information, request timestamps and diagnostic logs."] },
+      { heading: "Future appointment requests", body: ["Before appointment intake is enabled, DOCVY will update this policy with the exact data collected, purposes and recipients, retention periods, rights and contact route. The planned form may ask for a patient's name and mobile number, with optional email and a brief visit reason. Do not submit those details while requests are paused."] },
+      { heading: "Retention and your choices", body: ["Technical logs may be retained under hosting-provider settings and policies. For privacy enquiries, email contact@docvy.in. Do not send health records or identity documents by email."] },
+    ],
+  },
+  terms: {
+    title: "Terms of Service",
+    intro: "DOCVY's patient search and appointment requests are currently paused while provider verification and secure provider access are prepared.",
+    sections: [
+      { heading: "Provider information", body: ["DOCVY intends to publish provider profiles only after verification and publication review. Directory information does not replace independent care decisions or direct confirmation with a provider."] },
+      { heading: "No medical or emergency service", body: ["DOCVY does not provide diagnosis, treatment or medical advice through this website. It is not an emergency service. In India, call 112 for emergencies or go to the nearest emergency department."] },
+      { heading: "Provider plans and payment", body: ["The provider plans page describes planned product areas. Pricing is discussed directly with DOCVY; no fixed subscription price is published. There is no checkout or payment facility on this website."] },
+      { heading: "Availability and contact", body: ["Patient appointments and provider dashboards are not currently open. For provider and privacy enquiries, use the Contact page or email contact@docvy.in."] },
+    ],
+  },
+  refund: {
+    title: "Cancellation and Refund Policy",
+    intro: "The current DOCVY website has no patient fees, subscription checkout or payment facility. No purchase can be made through this site.",
+    sections: [
+      { heading: "Patient appointments", body: ["Appointment requests are paused. DOCVY does not charge patients through this website."] },
+      { heading: "Provider plans", body: ["Provider plan prices are for discussion only. Contact DOCVY to confirm commercial terms before any subscription is offered. No online payment is accepted here."] },
+      { heading: "Questions", body: ["For questions about a future provider agreement, contact contact@docvy.in. Do not send payment credentials, identity documents or health records through informal channels."] },
+    ],
+  },
+  disclaimer: {
+    title: "Healthcare Disclaimer",
+    intro: "DOCVY is not a healthcare provider and does not diagnose or treat through this website.",
+    sections: [
+      { heading: "Provider information", body: ["The patient directory is currently paused. When listings become available, verify a provider's suitability and appointment directly with that provider. Directory information is not medical advice."] },
+      { heading: "No medical advice or emergency service", body: ["DOCVY does not diagnose or treat through this site. For urgent medical help in India, call 112 or go to the nearest emergency department."] },
+      { heading: "No appointment service currently", body: ["Appointment requests are paused. No appointment is reserved or confirmed through DOCVY at this time."] },
+    ],
+  },
 };

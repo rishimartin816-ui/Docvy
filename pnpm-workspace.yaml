@@ -1,0 +1,4 @@
+allowBuilds:
+  argon2: true
+overrides:
+  zod: 4.6.7

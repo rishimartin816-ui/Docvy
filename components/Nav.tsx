@@ -38,10 +38,10 @@ export default function Nav() {
         </nav>
 
         <Link
-          href="/#provider-ecosystem"
+          href="/contact"
           className="hidden min-h-11 items-center justify-center gap-2 rounded-xl bg-[#087F83] px-5 text-sm font-semibold text-white transition hover:bg-[#066D70] md:inline-flex"
         >
-          Get started <ArrowUpRight size={16} />
+          Provider plans <ArrowUpRight size={16} />
         </Link>
 
         <button
@@ -73,11 +73,11 @@ export default function Nav() {
             </Link>
           ))}
           <Link
-            href="/#provider-ecosystem"
+            href="/contact"
             onClick={() => setOpen(false)}
             className="mt-4 flex min-h-11 items-center justify-center rounded-xl bg-[#087F83] text-sm font-semibold text-white"
           >
-            Get started
+            Provider plans
           </Link>
         </nav>
       )}

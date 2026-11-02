@@ -16,7 +16,16 @@ import HeroIllustration from "@/components/HeroIllustration";
 export const metadata: Metadata = {
   title: "DOCVY — Connected healthcare discovery and operations",
   description:
-    "DOCVY is building a connected healthcare experience for patient discovery, doctors, clinics and hospitals.",
+    "DOCVY is developing healthcare discovery and operations for patients, doctors, clinics and hospitals in India. Patient search and appointment requests are not open yet.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    siteName: "DOCVY",
+    title: "DOCVY — Connected healthcare discovery and operations",
+    description: "Provider discovery and operations for India are in development. Patient search and appointment requests are not open yet.",
+    url: "/",
+  },
 };
 
 const discoveryCards = [
@@ -102,8 +111,9 @@ export default function Home() {
               <span className="text-[#087F83]">better connection.</span>
             </h1>
             <p className="mt-7 max-w-[590px] text-base leading-8 text-[#526D66] md:text-[17px]">
-              Find trusted care, connect with the right providers, and manage
-              healthcare operations — all through one connected platform.
+              DOCVY is developing a connected platform for provider discovery
+              and healthcare operations in India. Patient search and appointment
+              booking are not open yet.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Link
@@ -120,7 +130,7 @@ export default function Home() {
               </Link>
             </div>
             <p className="mt-5 text-xs leading-5 text-[#526D66]">
-              A connected healthcare platform in development.
+            The provider directory and patient services are still in development.
             </p>
           </div>
 
@@ -281,12 +291,14 @@ export default function Home() {
           <p className="font-semibold text-[#173A37]">
             Building a more connected healthcare experience.
           </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 font-semibold text-[#087F83] hover:text-[#066D70]"
-          >
-            Contact DOCVY <Compass size={16} />
-          </Link>
+          <div className="flex flex-wrap gap-5">
+            <Link href="/pricing" className="inline-flex items-center gap-2 font-semibold text-[#087F83] hover:text-[#066D70]">
+              Clinic &amp; hospital plans <ArrowRight size={16} />
+            </Link>
+            <Link href="/contact" className="inline-flex items-center gap-2 font-semibold text-[#087F83] hover:text-[#066D70]">
+              Contact DOCVY <Compass size={16} />
+            </Link>
+          </div>
         </div>
       </section>
     </div>
