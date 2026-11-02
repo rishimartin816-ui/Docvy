@@ -11,7 +11,7 @@ export default function PatientSearchCard() {
         <label htmlFor="homepage-guide-search" className="sr-only">Search a health concern, condition, or specialty</label>
         <div className="flex min-h-[54px] items-center gap-3 rounded-xl border border-[#C9DDD5] bg-[#F6FAF8] px-4 focus-within:ring-2 focus-within:ring-[#087F83]">
           <Search size={19} aria-hidden="true" className="shrink-0 text-[#087F83]" />
-          <input id="homepage-guide-search" name="q" type="search" maxLength={100} placeholder="Diabetes, skin rash, joint pain…" className="min-w-0 flex-1 bg-transparent py-3 text-sm text-[#173A37] outline-none placeholder:text-[#789089]" />
+          <input id="homepage-guide-search" name="q" type="search" maxLength={100} placeholder="Try diabetes or joint pain" className="min-w-0 flex-1 bg-transparent py-3 text-sm text-[#173A37] outline-none placeholder:text-[#789089]" />
           <button type="submit" aria-label="Search patient guide" className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#087F83] text-white transition hover:bg-[#066D70]">
             <ArrowRight size={18} aria-hidden="true" />
           </button>
