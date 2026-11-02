@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Activity, ArrowRight, HeartPulse, MapPin, Search, Sparkles, Stethoscope, X } from "lucide-react";
+import { Activity, ArrowRight, ExternalLink, HeartPulse, MapPin, Search, Sparkles, Stethoscope, X } from "lucide-react";
 import { careGuide } from "@/lib/care-guide";
 import { providerCandidates, providerCities, type ProviderCity } from "@/lib/provider-candidates";
 
@@ -72,6 +72,7 @@ export default function CareGuideSearch() {
         <p className="mt-2 text-sm leading-6 text-[#526D66]">{item.description}</p>
         <h3 className="mt-5 text-xs font-bold uppercase tracking-[0.1em] text-[#087F83]">Examples people may search</h3>
         <ul className="mt-2 space-y-2">{item.examples.map((example) => <li key={example} className="flex gap-2 text-sm leading-6 text-[#36564F]"><span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#16A6A1]" />{example}</li>)}</ul>
+        {item.references?.length ? <div className="mt-4 rounded-xl border border-[#DCEAE5] bg-white/80 p-3"><p className="text-[10px] font-extrabold uppercase tracking-[0.1em] text-[#789089]">Health information references</p><ul className="mt-2 space-y-2">{item.references.map((reference) => <li key={reference.url}><a href={reference.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-semibold leading-5 text-[#087F83] underline decoration-[#B8DCD0] underline-offset-2 hover:text-[#066D70]">{reference.label}<ExternalLink size={12} aria-hidden="true" /></a></li>)}</ul></div> : null}
         <div className="mt-5 flex-1 rounded-xl bg-[#F5FAF7] p-4">
           <div className="flex items-center gap-2 text-xs font-extrabold tracking-wide text-[#087F83]"><MapPin size={15} aria-hidden="true" />CURRENT DIRECTORY COVERAGE</div>
           {cityMatches.length ? <><p className="mt-2 text-sm leading-6 text-[#36564F]">{cityMatches.length} source-linked {cityMatches.length === 1 ? "profile lists" : "profiles list"} a related specialty in {coverageLabel}.</p><p className="mt-1 text-xs leading-5 text-[#789089]">These are directory matches, not recommendations. DOCVY review and appointment availability are pending.</p><Link href={directoryHref} className="mt-3 inline-flex min-h-10 items-center gap-2 text-sm font-bold text-[#087F83] hover:text-[#066D70]">View matching profiles{city !== anyCurrentCity ? ` in ${city}` : ""} <ArrowRight size={15} aria-hidden="true" /></Link></> : <><p className="mt-2 text-sm leading-6 text-[#36564F]">{profileMatches.length ? `No related profiles are currently listed in ${city}.` : "No related profiles are listed in DOCVY today."}</p><p className="mt-1 text-xs leading-5 text-[#789089]">The guide is available across India; current doctor listings cover Delhi, Gurugram and Noida.</p><Link href={browseCityHref} className="mt-3 inline-flex min-h-10 items-center gap-2 text-sm font-bold text-[#087F83] hover:text-[#066D70]">{city === anyCurrentCity ? "Browse current cities" : `Browse all doctors in ${city}`} <ArrowRight size={15} aria-hidden="true" /></Link></>}
