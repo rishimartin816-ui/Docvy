@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, MapPin, ShieldCheck } from "lucide-react";
 import DoctorDirectory from "@/components/DoctorDirectory";
-import { providerCandidates } from "@/lib/provider-candidates";
+import { providerCandidates, providerCities } from "@/lib/provider-candidates";
 
 export const metadata: Metadata = {
-  title: "Doctors in Delhi NCR | Search by specialty and location | DOCVY",
+  title: "Doctors in Delhi NCR | Search by specialty and location",
   description: "Browse 12 source-linked doctor profiles across Delhi, Gurugram and Noida. Filter by specialty, hospital or locality; DOCVY credential review and appointment availability are pending.",
   alternates: { canonical: "/doctors" },
   openGraph: {
@@ -17,13 +17,15 @@ export const metadata: Metadata = {
 };
 
 export default function DoctorsPage() {
+  const cityPlacements = providerCandidates.reduce((total, doctor) => total + doctor.locations.length, 0);
   return <div className="bg-[#F6FAF8] text-[#173A37]">
     <section className="bg-[radial-gradient(circle_at_78%_35%,#D5F0E8_0%,#EAF5F1_38%,#F4FAF7_100%)] px-6 py-14 md:py-20">
       <div className="mx-auto max-w-6xl">
         <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><MapPin size={14} /> DOCTORS · DELHI NCR</p>
         <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[56px]">Find doctors by specialty, city and hospital.</h1>
         <p className="mt-5 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">Browse 12 doctor profiles linked to their official hospital pages. Filter Delhi, Gurugram or Noida by specialty, hospital or locality. Where the source lists additional NCR facilities, the same doctor appears in those city groups too.</p>
-        <div className="mt-7 flex flex-wrap gap-2"><span className="rounded-full bg-white/85 px-4 py-2 text-xs font-bold text-[#087F83]">{providerCandidates.length} source-linked profiles</span><span className="rounded-full bg-white/85 px-4 py-2 text-xs font-bold text-[#526D66]">Delhi · Gurugram · Noida</span><span className="rounded-full bg-[#FFF9EE] px-4 py-2 text-xs font-bold text-[#80672E]">DOCVY review pending</span></div>
+        <div className="mt-7 flex flex-wrap gap-2"><span className="rounded-full bg-white/85 px-4 py-2 text-xs font-bold text-[#087F83]">{providerCandidates.length} unique profiles</span><span className="rounded-full bg-white/85 px-4 py-2 text-xs font-bold text-[#526D66]">{cityPlacements} city listings · Delhi, Gurugram, Noida</span><span className="rounded-full bg-[#FFF9EE] px-4 py-2 text-xs font-bold text-[#80672E]">DOCVY review pending</span></div>
+        <nav className="mt-6 flex flex-wrap gap-2" aria-label="Browse doctor listings by city">{providerCities.map((city) => <Link key={city} href={`/doctors/${city.toLocaleLowerCase()}`} className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/80 px-4 py-2 text-sm font-semibold text-[#36564F] transition hover:border-[#087F83] hover:text-[#087F83]"><MapPin size={14}/>{city} doctors <ArrowRight size={14}/></Link>)}</nav>
       </div>
     </section>
 

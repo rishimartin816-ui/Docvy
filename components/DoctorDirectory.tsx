@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, Building2, MapPin, Search } from "lucide-react";
 import { providerCandidates, providerCities, providerSpecialties, type ProviderCity } from "@/lib/provider-candidates";
 
@@ -11,10 +11,20 @@ function formatFacility(facility: string, locality?: string) {
   return `${facility} · ${locality}`;
 }
 
-export default function DoctorDirectory() {
-  const [city, setCity] = useState<CityFilter>("All Delhi NCR");
+export default function DoctorDirectory({ initialCity = "All Delhi NCR" }: { initialCity?: CityFilter }) {
+  const [city, setCity] = useState<CityFilter>(initialCity);
   const [specialty, setSpecialty] = useState("All specialties");
   const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const requestedSpecialty = params.get("specialty");
+    const requestedCity = params.get("city");
+    const requestedQuery = params.get("q");
+    if (requestedSpecialty && providerSpecialties.includes(requestedSpecialty)) setSpecialty(requestedSpecialty);
+    if (requestedCity && providerCities.includes(requestedCity as ProviderCity)) setCity(requestedCity as ProviderCity);
+    if (requestedQuery) setQuery(requestedQuery);
+  }, []);
 
   const matches = useMemo(() => {
     const words = query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);

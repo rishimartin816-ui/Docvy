@@ -5,7 +5,7 @@ import CareGuideSearch from "@/components/CareGuideSearch";
 
 export const metadata: Metadata = {
   title: "What doctor should I see? Disease and specialty guide",
-  description: "Search common diseases, conditions, symptoms, and specialties to understand what kind of doctor is commonly involved. This is not a diagnosis; DOCVY booking is not open yet.",
+  description: "Search a health condition, symptom or specialty to understand which doctor may commonly help. A plain-language care guide for Delhi NCR; not a diagnosis or medical advice.",
   alternates: { canonical: "/care-guide" },
   openGraph: {
     type: "website", locale: "en_IN", siteName: "DOCVY",
@@ -21,9 +21,8 @@ export default function CareGuidePage() {
       <div className="mx-auto max-w-6xl">
         <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><MapPin size={14} /> PATIENT GUIDE · DELHI NCR</p>
         <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[56px]">What kind of doctor should I see?</h1>
-        <p className="mt-5 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">Search a common disease, condition, symptom, or specialty to see the type of clinician commonly associated with it. This disease-to-specialty guide helps explain directory categories; it cannot tell you what condition you have or which care is right for you.</p>
+        <p className="mt-5 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">Search a common condition, symptom or doctor type. The guide explains which specialties are commonly associated with that topic and helps you find a starting point. It cannot diagnose a condition or decide which care is right for you.</p>
         <CareGuideSearch />
-        <div className="mt-6 flex flex-wrap gap-2" aria-label="Example searches">{["diabetes", "skin rash", "pregnancy", "joint pain", "children", "heart"].map((term) => <span key={term} className="rounded-full border border-[#C9DDD5] bg-white/80 px-3 py-1.5 text-xs font-semibold text-[#36564F]">{term}</span>)}</div>
       </div>
     </section>
 

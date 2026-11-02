@@ -2,7 +2,7 @@
 
 **Reviewed:** 2 November 2026  
 **Scope:** Public DOCVY website, desktop first viewport and page content  
-**Status:** Review and implementation brief. Shared color and type aliases were aligned and published in commit `23e5d60`; this document itself makes no production changes.
+**Status:** Review and implementation brief. Shared color and type aliases and the patient-first homepage were published in early design passes. The guide search, city listing pages, and provider-plan refinements are the current implementation pass.
 
 ## Live pages reviewed
 
@@ -138,13 +138,13 @@ Structured data should describe visible, accurate content only. Google says its 
 
 ## Recommended sequence
 
-1. **Design foundation — started and published:** shared colors and type aliases are aligned. Still unify page containers, header/footer, buttons, cards, alerts and mobile spacing.
-2. **Patient journey:** refine homepage hierarchy and patient-guide search, clickable examples, focused results and reviewed concern content.
-3. **Directory trust:** clarify unique profiles versus city placements; standardize source and review information; improve city/locality navigation based on verified coverage.
-4. **Provider conversion:** clarify doctor correction/onboarding and differentiate clinic/hospital plan information, while marking future tools as planned.
+1. **Design foundation — started and published:** shared colors and type aliases and the patient-first homepage are live. Still unify page shells, mobile navigation, cards, alerts and mobile spacing.
+2. **Patient journey — in progress:** simplify the guide's first visit with clickable examples, focused specialty cards and clearer explanations.
+3. **Directory trust and GEO — in progress:** add source-backed city pages and city navigation; distinguish unique profiles from repeated city placements.
+4. **Provider conversion — in progress:** clarify clinic/hospital use cases and keep planned capabilities clearly labeled.
 5. **Supporting pages and SEO:** reconcile stale/legacy pages, improve titles and internal links, then publish only pages with substantial verified value.
 
-**Recommended next implementation:** finish the shared shell and mobile navigation, then update the patient guide's first-visit state. After that, add reviewed concern pages and source-supported city/specialty pages based on Search Console query evidence.
+**Recommended next implementation:** review the deployed city pages and search interactions at mobile widths, then refine the shared navigation and add reviewed concern content based on actual Search Console queries.
 
 ## Evidence and limits
 

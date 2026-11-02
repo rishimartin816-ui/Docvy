@@ -18,9 +18,9 @@ export const metadata: Metadata = {
 };
 
 const plans = [
-  { name: "Starter", price: "Discuss pricing", audience: "Independent clinics", details: ["Provider profile and location presence", "Appointment enquiry workflow", "Basic enquiry overview"] },
-  { name: "Growth", price: "Discuss pricing", audience: "Growing clinics and groups", details: ["Multi-doctor profile management", "Appointment and enquiry workflow", "Location-level overview"] },
-  { name: "Hospital", price: "Discuss pricing", audience: "Hospitals and health systems", details: ["Hospital and branch profile workflow", "Department and provider management", "Central appointment queue"] },
+  { name: "Independent clinic", price: "Single practice", audience: "For a clinic preparing to organise its public profile and patient enquiries.", details: ["Clinic and location information", "Doctor and specialty listings", "A clear path for patient enquiries"] },
+  { name: "Clinic group", price: "Multiple locations", audience: "For teams coordinating providers and enquiries across several sites.", details: ["Shared doctor and facility information", "Enquiries organized by location", "Team review and follow-up workflow"] },
+  { name: "Hospital", price: "Departments and branches", audience: "For hospital teams planning a coordinated discovery and enquiry workflow.", details: ["Hospital and branch information", "Department and provider coordination", "A central enquiry review workflow"] },
 ];
 
 function ContactLink({ children = "Contact now" }: { children?: ReactNode }) {
@@ -30,19 +30,21 @@ function ContactLink({ children = "Contact now" }: { children?: ReactNode }) {
 export default function PricingPage() {
   return <div className="bg-[#F6FAF8] text-[#173A37]">
     <section className="bg-white py-16 md:py-20"><div className="mx-auto max-w-[1440px] px-6 lg:px-[72px]">
-      <p className="text-[11px] font-extrabold tracking-[0.15em] text-[#087F83]">PLANNED PROVIDER OFFER · NO ONLINE CHECKOUT</p>
-      <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-[-0.04em] md:text-[54px]">A clearer way to manage discovery and appointment enquiries.</h1>
-      <p className="mt-5 max-w-2xl text-base leading-7 text-[#526D66]">Planned options for clinics and hospitals. Contact DOCVY to discuss requirements, onboarding and pricing; there is no payment gateway or self-serve subscription checkout.</p>
+      <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-[#F8FBF9] px-4 py-2 text-[11px] font-extrabold tracking-[0.15em] text-[#087F83]">PROVIDER TOOLS · PLANNED</p>
+      <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[56px]">Tools for clinics and hospitals to organize provider discovery and enquiries.</h1>
+      <p className="mt-5 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">DOCVY is planning workflows for provider profiles, locations and appointment enquiries. Tell us about your team and how it handles enquiries today; we’ll discuss fit, scope and pricing directly. No dashboard or online checkout is open yet.</p>
     </div></section>
     <section className="mx-auto max-w-[1440px] px-6 py-12 lg:px-[72px] md:py-16">
-      <div className="grid gap-5 lg:grid-cols-3">{plans.map((plan, index) => <article key={plan.name} className={`flex flex-col rounded-[24px] border bg-white p-6 shadow-[0_12px_40px_rgba(23,58,55,0.04)] md:p-7 ${index === 2 ? "border-[#087F83] ring-1 ring-[#087F83]" : "border-[#DCEAE5]"}`}>
-        <div className="flex items-center justify-between"><span className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#087F83]">{plan.name}</span>{index === 2 ? <Building2 size={19} className="text-[#087F83]" /> : <Stethoscope size={19} className="text-[#087F83]" />}</div>
+      <div className="grid gap-5 lg:grid-cols-3">{plans.map((plan, index) => <article key={plan.name} className={`group relative flex flex-col overflow-hidden rounded-[24px] border bg-white p-6 shadow-[0_12px_40px_rgba(23,58,55,0.04)] transition hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(23,58,55,0.1)] md:p-7 ${index === 2 ? "border-[#087F83] ring-1 ring-[#087F83]" : "border-[#DCEAE5]"}`}>
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#087F83] via-[#16A6A1] to-[#B8E1D5]" />
+        <div className="flex items-center justify-between"><span className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#087F83]">{plan.name}</span><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#EAF5F1] text-[#087F83]">{index === 2 ? <Building2 size={19} /> : <Stethoscope size={19} />}</span></div>
         <h2 className="mt-6 text-2xl font-bold tracking-tight">{plan.price}</h2>
-        <p className="mt-2 text-sm text-[#526D66]">{plan.audience}</p>
-        <ul className="my-7 flex-1 space-y-3 border-t border-[#E8F0EC] pt-6">{plan.details.map((detail) => <li key={detail} className="flex gap-2.5 text-sm leading-6 text-[#36564F]"><Check size={17} className="mt-0.5 shrink-0 text-[#087F83]" />{detail}</li>)}</ul>
-        <ContactLink />
+        <p className="mt-2 min-h-[72px] text-sm leading-6 text-[#526D66]">{plan.audience}</p>
+        <p className="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-[#789089]">Potential workflow</p>
+        <ul className="my-4 flex-1 space-y-3 border-t border-[#E8F0EC] pt-5">{plan.details.map((detail) => <li key={detail} className="flex gap-2.5 text-sm leading-6 text-[#36564F]"><Check size={17} className="mt-0.5 shrink-0 text-[#087F83]" />{detail}</li>)}</ul>
+        <ContactLink>Discuss this setup</ContactLink>
       </article>)}</div>
-      <p className="mt-6 text-xs leading-5 text-[#789089]">These are planned product areas, not an active subscription offer. Provider workflows are still being developed. No payment is collected here. Confirm availability, pricing, taxes, terms and onboarding with DOCVY before subscribing.</p>
+      <p className="mt-6 rounded-xl border border-[#E7C99A] bg-[#FFF9EE] p-4 text-xs leading-5 text-[#6E5B39]">These workflows are planned and are not available as a service yet. There is no subscription checkout or payment collection on this website. Please contact DOCVY to discuss scope and future availability.</p>
     </section>
     <section className="border-y border-[#DCEAE5] bg-white py-12"><div className="mx-auto flex max-w-[1440px] flex-col gap-5 px-6 md:flex-row md:items-center md:justify-between lg:px-[72px]"><div><h2 className="text-2xl font-bold">Want to discuss a clinic or hospital setup?</h2><p className="mt-2 text-sm text-[#526D66]">Share your organisation details through the contact channel; do not send patient information.</p></div><ContactLink>Contact sales</ContactLink></div></section>
   </div>;
