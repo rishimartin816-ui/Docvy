@@ -13,7 +13,7 @@
 | Patient discovery journey and working guide search | 20% | Complete | Patient journey, concern-to-specialty examples, guide search, directory links, and empty-match explanations are implemented. This pass makes homepage examples open a prefilled guide search. |
 | Visual system, icons, and illustrations | 20% | In progress (65%) | Mint/teal/pine system and patient illustration are in production; this pass adds a provider workflow illustration. A DOCVY Figma source file was not located, and mobile visual review is still needed. |
 | SEO/AEO/GEO page clarity | 20% | In progress (75%) | Route titles, descriptions, internal links, sitemap, direct answers, natural-language concern searches, and city names are maintained. Search Console query validation remains open. |
-| Build, production publication, and live verification | 20% | In progress | Production commit `83b04f2` is READY. Updated FAQ is live. The enquiry page still shows disabled intake because the private sheet endpoint and provider email service are not configured. |
+| Build, production publication, and live verification | 20% | In progress | Production commit `8c2fe67` is READY. The latest enquiry availability copy is live. Intake remains disabled because the private sheet endpoint and provider email service are not configured. |
 
 ## Changes in this pass
 
@@ -89,4 +89,4 @@
 - Updated the `/request`, `/doctors`, `/care-guide`, and `/how-it-works` explanations to say the enquiry workflow is closed while private intake and verified provider contacts are prepared. The request page explicitly says it is not collecting visitor details.
 - Aligned FAQ, privacy and terms copy with the consent-gated, provider-confirmed workflow. Future data-handling descriptions are phrased as intended behavior rather than claiming a live intake configuration.
 - `pnpm build` passed with Next.js 14.2.35 and all 26 generated pages. `git diff --check` passed; only line-ending normalization warnings were reported.
-- These edits are local and have not yet been published or checked against production HTML. Overall website estimate remains 88% until the updated deployment is live-verified.
+- Production commit `8c2fe67` reached READY. Fresh live page retrieval confirmed the doctor directory's paused CTA, the request page's no-data-collection notice, and aligned care-guide/privacy copy. Overall website estimate remains 88%; the design-reference and Search Console gaps are still open.
