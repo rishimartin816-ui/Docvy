@@ -129,6 +129,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 
 | Date | Commit / deployment | Result |
 |---|---|---|
+| 3 Nov 2026 | `890febc` · Vercel `dpl_8EetN7FZQTD9KKn7JGiFDoB5wCjJ` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Updated the paused `/request` state to remove contact fields and show the selected doctor's official hospital profile. Live route returned 200 with no name/mobile fields and `noindex, nofollow`; a no-data API probe returned 503 and created no lead. |
 | 3 Nov 2026 | `2fced91` · Vercel `dpl_FJwJ85KVvgxFhNf1apFQAmfQpVn8` | READY on `main`; live on `www.docvy.in` and `docvy.in`. Added the source-backed area/locality filter and exact city-page links; live HTML, canonical, robots and heading checks passed for `/doctors` and `/doctors/delhi`. |
 | 3 Nov 2026 | `9d5731a` · Vercel `dpl_9b2G7YCM4dS2wNHWx4HhLhso7Z9N` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Published six crawlable, source-linked patient answer pages and the sitemap entries. All six live pages returned HTTP 200 with page-specific metadata, canonicals, one H1, `index, follow` and breadcrumb data. `/request` remains noindex and intake stays closed; the no-data production API probe returned 503. |
 | 3 Nov 2026 | `a3fbe4f` · Vercel `dpl_C3jSLwNaAQsZXHBavMYEpBdcDE89` | READY on `main`; tracker update deployed to `www.docvy.in` and `docvy.in`. |
