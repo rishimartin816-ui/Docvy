@@ -20,8 +20,8 @@ export default function Contact() {
             <MapPin className="mb-4 text-mulb" size={26} />
             <h2 className="mb-2 font-bold">Operating entity</h2>
             <p className="text-sm text-grey">DSS Global Technologies Private Limited</p>
-            <p className="mt-2 text-sm text-grey">Business location: Sector 66, Gurugram, Haryana, India.</p>
-            <p className="mt-2 text-xs leading-5 text-grey">The location above is the locality supplied for publication. It is not represented as a complete registered or postal address.</p>
+            <p className="mt-2 text-sm text-grey">Business address: 2nd Floor, Capital Cityscape, Sector 66, Gurugram, Haryana – 122101, India.</p>
+            <p className="mt-2 text-xs leading-5 text-grey"></p>
           </Card>
           <Card>
             <h2 className="mb-2 font-bold">Support availability</h2>
