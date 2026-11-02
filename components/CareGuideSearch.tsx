@@ -9,6 +9,7 @@ import { providerCandidates } from "@/lib/provider-candidates";
 const examples = ["diabetes", "skin rash", "pregnancy", "joint pain", "children", "heart"];
 const featuredSpecialties = ["General physician / internal medicine", "Cardiology", "Dermatology", "Diabetology / endocrinology"];
 const featuredIcons = { "General physician / internal medicine": Stethoscope, Cardiology: HeartPulse, Dermatology: Sparkles, "Diabetology / endocrinology": Activity };
+const searchFillers = new Set(["a", "an", "and", "are", "can", "do", "does", "for", "have", "help", "i", "kind", "me", "my", "of", "or", "see", "should", "the", "to", "type", "what", "which", "with"]);
 
 export default function CareGuideSearch() {
   const [query, setQuery] = useState("");
@@ -20,10 +21,10 @@ export default function CareGuideSearch() {
   const results = useMemo(() => {
     const term = query.trim().toLocaleLowerCase();
     if (!term) return careGuide;
-    const words = term.split(/\s+/).filter(Boolean);
+    const words = term.split(/\s+/).filter(Boolean).filter((word) => !searchFillers.has(word));
     return careGuide.filter((item) => {
       const searchable = [item.specialty, item.description, ...item.examples, ...item.keywords].join(" ").toLocaleLowerCase();
-      return words.some((word) => searchable.includes(word));
+      return words.length === 0 || words.every((word) => searchable.includes(word));
     });
   }, [query]);
   const visibleResults = query.trim() || showAll ? results : careGuide.filter((item) => featuredSpecialties.includes(item.specialty));
