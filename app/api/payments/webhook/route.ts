@@ -4,6 +4,7 @@ import { db, seenEvents } from "@/lib/store";
 import { emit } from "@/lib/events";
 // Razorpay-style signature check. UNTESTED: verify against your gateway's docs and test with real test-mode credentials.
 export async function POST(req: Request) {
+  if (process.env.DOCVY_PAYMENTS_ENABLED !== "true") return NextResponse.json({ error: "Payments are not enabled." }, { status: 503 });
   const secret = process.env.PAYMENT_WEBHOOK_SECRET;
   if (!secret) return NextResponse.json({ error: "Not configured" }, { status: 503 });
   const raw = await req.text();

@@ -5,6 +5,7 @@ import { limited, ip } from "@/lib/rate";
 // Browser callback: checks the signature and records the payment id. It does NOT mark the request paid.
 // The signed webhook is the source of truth for status changes.
 export async function POST(req: Request) {
+  if (process.env.DOCVY_PAYMENTS_ENABLED !== "true") return NextResponse.json({ error: "Payments are not enabled." }, { status: 503 });
   if (limited("ver:" + ip(req), 20)) return NextResponse.json({ error: "Too many attempts" }, { status: 429 });
   const b = await req.json().catch(() => null);
   if (!b || ![b.orderId, b.paymentId, b.signature].every(s => typeof s === "string")) return NextResponse.json({ error: "Invalid" }, { status: 400 });

@@ -3,6 +3,10 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
+  if (process.env.DOCVY_REQUESTS_ENABLED !== "true") {
+    return NextResponse.json({ error: "Request submissions are currently paused." }, { status: 503 });
+  }
+
   const b = await req.json().catch(() => null);
   const ok = b && ["work", "college", "other"].includes(b.purpose)
     && typeof b.name === "string" && b.name.trim().length >= 2
