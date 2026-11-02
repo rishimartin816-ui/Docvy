@@ -37,13 +37,16 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Commit `986c33e` is live in Vercel production as deployment `dpl_G9mavqzeH2DQF8K8CQgGWLuh8Avk` (`READY`), with aliases `www.docvy.in` and `docvy.in`.
 - Fresh live checks returned HTTP 200 for `/`, `/doctors`, `/care-guide`, `/request`, `/faqs`, `/pricing` and `/doctors/gurugram`. The checked pages have page-specific titles, one H1 and correct canonical URLs; `/request` intentionally has no canonical and is `noindex, nofollow`.
 - After the latest homepage search update, live GET checks returned HTTP 200 for `/` and `/care-guide?q=joint%20pain`; the homepage response contains the shortened mobile search hint. Search results render client-side, so this HTTP check does not independently verify the specialty-card interaction.
+- On 3 Nov, a current Firecrawl audit covered all 17 URLs in the sitemap plus `/request` and `/status`. All 19 returned HTTP 200. The 17 sitemap pages have page-specific titles and descriptions, canonical URLs, `index, follow`, and one H1 each. `/request` and `/status` intentionally use `noindex, nofollow` and have no canonical. This confirms page delivery and markup, not search indexing or rankings.
 - Live `/robots.txt` and `/sitemap.xml` both returned HTTP 200; robots disallows `/api/` and points crawlers to the sitemap.
+- The live sitemap lists 17 indexable URLs. The homepage, patient guide, directory and provider-plan pages explain pan-India purpose versus current NCR listings, distinguish informational specialty guidance from diagnosis, and disclose that appointments are not booked. No unreviewed doctor credentials or availability are marked up as verified.
 - Live page content confirms that DOCVY is for India while doctor coverage is currently Delhi NCR, and that enquiries are closed while the private Sheet connection is missing. No provider email is sent.
 
 ## Live intake state and safe test
 
 - The current production project has no `GOOGLE_SHEETS_WEBHOOK_URL` or `GOOGLE_SHEETS_WEBHOOK_TOKEN` configured. The appointment form therefore remains closed and does not collect visitor data.
-- The target spreadsheet is private. The Apps Script endpoint must be installed, given a server-only token in Script Properties, deployed as a web app, and connected through server-only Production variables before a live lead test.
+- The private target spreadsheet is accessible through Drive. Its `Appointments` header row has the 14 current core columns; no lead rows were read. The Apps Script endpoint must be saved, given a server-only token in Script Properties, deployed as a web app, and connected through server-only Production variables before a live lead test.
+- The DOCVY Chrome profile has an Apps Script editor project open. Its initial editor view showed `Code.gs` nested under `function myFunction()`, which would not expose the required top-level `doPost` handler. A replacement with the reviewed repository source was attempted, but the UI state timed out during verification; whether that edit was saved is unknown. No endpoint was deployed and no token was created. The current Google Drive connector cannot inspect or deploy Apps Script projects.
 - After that connection, submit one clearly labelled synthetic test lead, verify its reference and status in the private `Appointments` tab, and confirm the email status is `NOT_CONFIGURED`. Do not use real patient data or notify a provider for this test.
 - A successful direct Google Sheets connector write is not an end-to-end website test.
 
