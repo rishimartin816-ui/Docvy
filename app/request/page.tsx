@@ -1,21 +1,30 @@
-import Link from "next/link";
-import { ArrowRight, Building2, Search } from "lucide-react";
+import type { Metadata } from "next";
+import { CalendarClock, ShieldCheck } from "lucide-react";
+import AppointmentRequestForm from "@/components/AppointmentRequestForm";
+import { providerCandidates } from "@/lib/provider-candidates";
 
-export const metadata = { title: "Requests temporarily paused", robots: { index: false, follow: false } };
+export const metadata: Metadata = {
+  title: "Request an appointment enquiry",
+  description: "Send DOCVY an appointment enquiry for a listed Delhi NCR doctor. The selected clinic or hospital must confirm availability.",
+  robots: { index: false, follow: false },
+};
 
-export default function Request() {
-  return (
-    <div className="min-h-[70vh] bg-[#F6FAF8] px-6 py-14 md:py-20">
-      <div className="mx-auto max-w-4xl">
-        <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]">PATIENT APPOINTMENTS · NOT OPEN</p>
-        <h1 className="mt-5 max-w-3xl text-4xl font-black leading-tight tracking-[-0.045em] text-[#173A37] md:text-[52px]">DOCVY is not accepting appointment requests yet.</h1>
-        <p className="mt-5 max-w-3xl text-base leading-8 text-[#526D66]">This request page is paused. DOCVY does not receive booking details, reserve appointment slots, or send appointment confirmations. You can still browse the current source-linked doctor profiles and contact a hospital or clinic directly.</p>
-        <div className="mt-9 grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-[#DCEAE5] bg-white p-6"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#EAF5F1] text-[#087F83]"><Search size={20}/></span><h2 className="mt-4 text-lg font-bold text-[#173A37]">Find a current listing</h2><p className="mt-2 text-sm leading-6 text-[#526D66]">Browse doctor profiles in Delhi, Gurugram and Noida. Listings are limited and DOCVY has not confirmed appointment availability.</p><Link href="/doctors" className="mt-4 inline-flex min-h-10 items-center gap-2 text-sm font-bold text-[#087F83]">Open the doctor directory <ArrowRight size={15}/></Link></article>
-          <article className="rounded-2xl border border-[#DCEAE5] bg-white p-6"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#EAF5F1] text-[#087F83]"><Building2 size={20}/></span><h2 className="mt-4 text-lg font-bold text-[#173A37]">Contact the provider directly</h2><p className="mt-2 text-sm leading-6 text-[#526D66]">Open the official hospital profile linked from a listing to ask about appointments, current location and availability.</p><Link href="/doctors" className="mt-4 inline-flex min-h-10 items-center gap-2 text-sm font-bold text-[#087F83]">See hospital-linked profiles <ArrowRight size={15}/></Link></article>
+export default async function RequestPage({ searchParams }: { searchParams: Promise<{ provider?: string; city?: string }> }) {
+  const params = await searchParams;
+  const intakeEnabled = Boolean(process.env.GOOGLE_SHEETS_WEBHOOK_URL && process.env.GOOGLE_SHEETS_WEBHOOK_TOKEN);
+
+  return <div className="min-h-[70vh] bg-[#F6FAF8] px-6 py-12 md:py-16">
+    <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[.8fr_1.2fr] lg:items-start">
+      <section className="pt-2">
+        <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><CalendarClock size={14}/> APPOINTMENT ENQUIRY · DELHI NCR</p>
+        <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.045em] text-[#173A37] md:text-[48px]">Tell DOCVY which doctor you want to see.</h1>
+        <p className="mt-5 max-w-xl text-base leading-8 text-[#526D66]">Send an appointment enquiry to DOCVY. Our team will use the selected doctor and hospital details to coordinate with the provider and contact you using the details you share.</p>
+        <div className="mt-6 rounded-2xl border border-[#DCEAE5] bg-white p-5">
+          <div className="flex gap-3"><ShieldCheck size={20} className="mt-0.5 shrink-0 text-[#087F83]"/><div><h2 className="font-bold text-[#173A37]">A request is not a confirmed appointment</h2><p className="mt-2 text-sm leading-6 text-[#526D66]">The clinic or hospital must confirm the doctor, time and any consultation fee. DOCVY does not take patient payment or guarantee a slot.</p></div></div>
         </div>
-        <p className="mt-6 rounded-xl border border-[#E7C99A] bg-[#FFF9EE] p-4 text-sm leading-6 text-[#6E5B39]">Do not enter patient contact details or health information here. No information is collected through this paused page.</p>
-      </div>
+        <p className="mt-4 text-xs leading-5 text-[#789089]">Please do not include symptoms, diagnoses, medical records or other health details in this form. For urgent or emergency care, call 112 in India or go to the nearest emergency department.</p>
+      </section>
+      <AppointmentRequestForm doctors={providerCandidates} initialProvider={params.provider ?? ""} initialCity={params.city ?? ""} enabled={intakeEnabled}/>
     </div>
-  );
+  </div>;
 }

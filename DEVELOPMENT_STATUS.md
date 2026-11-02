@@ -13,7 +13,7 @@
 | Patient discovery journey and working guide search | 20% | Complete | Patient journey, concern-to-specialty examples, guide search, directory links, and empty-match explanations are implemented. This pass makes homepage examples open a prefilled guide search. |
 | Visual system, icons, and illustrations | 20% | In progress (65%) | Mint/teal/pine system and patient illustration are in production; this pass adds a provider workflow illustration. A DOCVY Figma source file was not located, and mobile visual review is still needed. |
 | SEO/AEO/GEO page clarity | 20% | In progress (75%) | Route titles, descriptions, internal links, sitemap, direct answers, natural-language concern searches, and city names are maintained. Search Console query validation remains open. |
-| Build, production publication, and live verification | 20% | Complete for this pass | Production build passed; commits `8077445` and `6463ddd` are live in Vercel READY production deployment. Homepage, guide query, pricing, and Gurugram pages returned 200; the `joint pain` browser result showed one relevant specialty. |
+| Build, production publication, and live verification | 20% | In progress | Existing production commit `a5901cb` is READY. The new internal enquiry flow builds locally, but is not published and cannot accept submissions until the private sheet endpoint is configured. |
 
 ## Changes in this pass
 
@@ -27,7 +27,7 @@
 - Rewrote the paused request and appointment-status pages with direct patient instructions and links to source-listed doctor profiles; removed internal staff-access wording.
 - Reviewed current Google Search Central guidance. No special AI-search markup or ranking outcome is claimed.
 - Production builds passed with Next.js 14.2.35, linting, type validation, and all 26 static pages generated.
-- Latest live deployment for commit `1579c5f` is READY. Browser review confirmed `/care-guide?q=joint%20pain` shows one specialty match (Orthopaedics) and the question “what doctor should I see for diabetes?” returns one related specialty and explains that no matching DOCVY profile is listed.
+- Latest live deployment before the current pass is commit `a5901cb` (Vercel READY). Browser review confirmed `/care-guide?q=joint%20pain` shows one specialty match (Orthopaedics) and the question “what doctor should I see for diabetes?” returns one related specialty and explains that no matching DOCVY profile is listed.
 - Live metadata checks after commit `80e4b5d` returned HTTP 200 and one DOCVY brand suffix for About, How it works, For doctors, FAQs, Contact, and Gurugram pages.
 - Firecrawl live page checks returned HTTP 200 for `/`, `/care-guide?q=joint%20pain`, `/pricing`, and `/doctors/gurugram`; rendered titles and visible page updates were present.
 
@@ -43,3 +43,22 @@
 - No production database, authentication, SSO, or security-setting changes.
 - No claims that listings are verified, complete, bookable, or available unless current evidence supports them.
 - No fabricated rankings, traffic, search volume, analytics, or doctor credential checks.
+
+## 3 November 2026 — appointment enquiry implementation
+
+**Appointment workflow estimate: 55% complete.** The estimate counts user-visible form, server validation, data handling, consent, and live-sheet verification. It is not a measure of patient traffic or appointments.
+
+- Added a DOCVY-hosted appointment enquiry form with selected doctor, facility, city, contact details, and optional requested date/time. It collects no symptoms, diagnosis, records, or payment data.
+- Doctor cards now stay inside DOCVY and open the internal enquiry route. A request is described as an enquiry; provider confirmation is required before an appointment exists.
+- Added a server-only Next.js route with same-origin checking, request-size limits, field validation against the local provider directory, honeypot handling, a 12-second upstream timeout, and a token-protected Apps Script handoff. Network fingerprints are HMAC-hashed and used only for short-lived throttling; raw IP addresses are not written to the sheet.
+- Updated the privacy and terms copy to describe the planned sheet handling, user consent, provider sharing, and direct provider payment. DOCVY payment and provider email notifications are not implemented.
+- Updated the private `Appointments` tab to 14 columns, including facility and consent records. Wrote and verified one clearly marked synthetic test row using the connected Google Sheets tool. This verifies direct sheet write/read access only; it does **not** verify the website-to-sheet path.
+- `pnpm build` passed with Next.js 14.2.35 and 26 static pages. `pnpm lint` could not run because the repository's ESLint 8.57.1 install does not export `eslint/config`, which its flat-config file imports. No lint code output was produced.
+- These changes are local and **not published**. Current production remains commit `a5901cb` (Vercel deployment was previously verified READY).
+
+### Required before enabling real enquiries
+
+1. The production Vercel project has no `GOOGLE_SHEETS_WEBHOOK_URL` or `GOOGLE_SHEETS_WEBHOOK_TOKEN`; the form therefore remains disabled.
+2. A Google Apps Script endpoint must be deployed with a private 32-character token in Script Properties, then the matching URL and token must be added as server-only Vercel variables. The browser session currently visible is a personal GoDaddy profile; the DOCVY Google Workspace profile is not available for deployment from this session.
+3. To email providers, DOCVY still needs verified provider/clinic recipients and an approved notification workflow. The app must never tell a provider that an appointment is booked before the provider confirms it. Paid lead terms and billing are separate and not configured.
+4. After connection, submit a synthetic request through the live website and verify its row and reference ID before enabling real submissions.

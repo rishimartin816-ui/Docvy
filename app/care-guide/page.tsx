@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AlertTriangle, ArrowRight, BookOpenCheck, Building2, ExternalLink, MapPin, Search, ShieldCheck, Stethoscope } from "lucide-react";
+import { AlertTriangle, ArrowRight, BookOpenCheck, Building2, CalendarClock, MapPin, Search, ShieldCheck, Stethoscope } from "lucide-react";
 import CareGuideSearch from "@/components/CareGuideSearch";
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ export default function CareGuidePage() {
               { title: "A question or concern", detail: "What you searched", icon: Search, current: false },
               { title: "Understand a specialty", detail: "This guide helps orient you", icon: BookOpenCheck, current: true },
               { title: "Browse current doctors", detail: "Delhi · Gurugram · Noida", icon: Stethoscope, current: false },
-              { title: "Check with the provider", detail: "Use the official hospital link", icon: ExternalLink, current: false },
+              { title: "Send an enquiry to DOCVY", detail: "Form connection in progress", icon: CalendarClock, current: false },
             ].map(({ title, detail, icon: Icon, current }, index) => <li key={title} className={`relative flex min-h-[90px] gap-3 rounded-xl p-3 ${current ? "bg-[#EAF5F1] ring-1 ring-[#B8DCD0]" : "bg-[#F8FBF9]"}`}>
               <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${current ? "bg-[#087F83] text-white" : "bg-white text-[#087F83]"}`}><Icon size={17} aria-hidden="true" /></span>
               <span><span className="block text-[10px] font-extrabold tracking-[0.1em] text-[#789089]">STEP 0{index + 1}</span><span className="mt-1 block text-xs font-bold leading-5 text-[#173A37]">{title}</span><span className="mt-0.5 block text-[11px] leading-4 text-[#526D66]">{detail}</span></span>
@@ -54,7 +54,7 @@ export default function CareGuidePage() {
         { icon: Search, title: "1. Search in your own words", description: "Enter a concern such as diabetes, a symptom such as joint pain, or a specialty you already know. Try a broader word if the guide has no exact match." },
         { icon: BookOpenCheck, title: "2. Read the specialty overview", description: "The guide describes what a specialty commonly covers and examples people may search. Similar concerns can have different causes, so this is orientation only." },
         { icon: MapPin, title: "3. See if a city is covered", description: "Current doctor profiles are in Delhi, Gurugram and Noida. The guide works across India; new listing cities will appear as source-linked provider coverage grows." },
-        { icon: ExternalLink, title: "4. Confirm details at the source", description: "Open the hospital profile linked from a doctor listing. Ask the hospital to confirm the current doctor location, credentials, appointment availability and booking steps." },
+        { icon: CalendarClock, title: "4. Ask DOCVY to coordinate", description: "Choose a listed doctor and send an enquiry through DOCVY once the private form connection is active. The provider must confirm the current location, appointment availability, time and fee." },
       ].map(({ icon: Icon, title, description }) => <article key={title} className="relative overflow-hidden rounded-2xl border border-[#DCEAE5] bg-[#F8FBF9] p-5"><span aria-hidden="true" className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-[#EAF5F1]" /><div className="relative"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-[#087F83] shadow-sm"><Icon size={20} /></span><h3 className="mt-4 font-bold text-[#173A37]">{title}</h3><p className="mt-2 text-sm leading-6 text-[#526D66]">{description}</p></div></article>)}</div>
       <div className="mt-8 grid gap-4 lg:grid-cols-2">
         <article className="flex gap-4 rounded-2xl border border-[#DCEAE5] bg-white p-5 md:p-6"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#EAF5F1] text-[#087F83]"><Building2 size={21} /></span><div><h3 className="font-bold">Where doctor profile details come from</h3><p className="mt-2 text-sm leading-6 text-[#526D66]">The directory links to public doctor profile pages on hospital websites. DOCVY has not independently confirmed the doctors’ credentials, current workplaces or availability. The linked hospital page is the place to check the latest details.</p></div></article>

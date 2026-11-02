@@ -1,22 +1,27 @@
-# Docvy — Next.js 14 + TypeScript + Tailwind
+# DOCVY — Next.js 14 + TypeScript + Tailwind
 
-## Current request flow
-- No payment gateway, checkout, or payment API routes are included.
-- Visitors choose a request purpose, enter their name/email/mobile, accept the notices, and submit.
-- The server forwards the request to a Google Apps Script web app, which appends it to Google Sheets.
-- Form submissions will fail safely until `GOOGLE_SHEETS_WEBHOOK_URL` is configured in Vercel.
+DOCVY currently provides a pan-India patient guide and a limited Delhi NCR doctor directory. Appointment enquiry intake is being connected to the DOCVY APPOINTMENT LEADS Google Sheet. Enquiries are not appointments until the selected provider confirms availability, timing and fees.
 
-## Setup
-1. Install Node.js LTS.
-2. In this folder, run `npm install`.
-3. Follow `GOOGLE_SHEETS_SETUP.md` to create and deploy the Google Apps Script endpoint.
-4. In Vercel → Project Settings → Environment Variables, set `GOOGLE_SHEETS_WEBHOOK_URL` to the deployed `/exec` URL. Add it for Production and Preview as needed.
-5. Redeploy the project.
-6. Run `npm run build` locally before publishing and submit a dummy test request to verify that a row appears in the sheet.
+## Local setup
 
-## Important production notes
-- Keep the Google Sheet private and restrict access to staff who need it. The Apps Script web app accepts public POST requests, so use it only for this limited intake form and monitor for spam.
-- Do not ask users to send medical reports or detailed health information through this form.
-- Update the Privacy Policy to clearly explain Google Sheets processing, the information collected, purpose, retention period and contact for privacy requests before accepting real user data.
-- Replace contact/legal placeholders and have the policies reviewed before launch.
-- The success screen means the configured Google Apps Script confirmed the submission; it does not indicate a medical assessment or certificate approval.
+1. Install Node.js LTS and pnpm.
+2. Run `pnpm install`.
+3. Set the server-only variables in `.env.local` using `.env.example` as a name-only template. Do not commit values.
+4. Follow [GOOGLE_SHEETS_SETUP.md](./GOOGLE_SHEETS_SETUP.md) to deploy the token-protected Apps Script endpoint and connect the private sheet.
+5. Run `pnpm dev` to start the site.
+
+The appointment form stays disabled when either sheet connection variable is missing. Do not collect real visitor details until the live form, policy, provider handling and consent have been reviewed.
+
+## Build and publish
+
+- `pnpm build` validates the production build.
+- Production publishes through the existing Vercel project connected to the GitHub `main` branch. Do not change production database, authentication, SSO or security settings without separate approval.
+- Submit one synthetic test enquiry after configuration and verify the matching row in the private sheet before enabling real submissions.
+
+## Current operational boundaries
+
+- The guide is available across India; current doctor listings are limited to Delhi, Gurugram and Noida.
+- The directory does not claim credential verification or live appointment availability.
+- The enquiry form collects no symptoms, diagnoses, medical records or payment data.
+- DOCVY does not take patient payment. A provider confirms any consultation fee and receives payment directly from the patient.
+- Provider paid plans or lead/referral charges require a separate written agreement; no charge or provider email notification is configured by this workflow.
