@@ -18,20 +18,20 @@ export const metadata: Metadata = {
     template: "%s | DOCVY",
   },
   description:
-    "Use DOCVY's plain-language health guide across India. Doctor listings currently start in Delhi NCR, with more cities planned as provider coverage grows. DOCVY review and booking are not live yet.",
+    "Use DOCVY's plain-language health guide across India and browse source-linked doctor profiles in Delhi NCR. DOCVY enquiry requests do not reserve or confirm appointments.",
   applicationName: "DOCVY",
   openGraph: {
     type: "website",
     locale: "en_IN",
     siteName: "DOCVY",
     title: "DOCVY — Healthcare discovery across India",
-    description: "A plain-language health guide for India, with source-linked doctor profiles currently starting in Delhi NCR. DOCVY review and appointment booking are not live yet.",
+    description: "A plain-language health guide for India, with source-linked doctor profiles currently starting in Delhi NCR. DOCVY enquiries do not reserve or confirm appointments.",
     url: "/",
   },
   twitter: {
     card: "summary",
     title: "DOCVY — Healthcare discovery across India",
-    description: "Understand medical specialties across India and browse source-linked doctor profiles currently available in Delhi NCR. DOCVY review and appointment requests are not live yet.",
+    description: "Understand medical specialties across India and browse source-linked doctor profiles in Delhi NCR. DOCVY enquiries do not reserve or confirm appointments.",
   },
   robots: {
     index: true,

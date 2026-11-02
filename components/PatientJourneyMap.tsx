@@ -35,7 +35,7 @@ const steps = [
     number: "04",
     icon: Building2,
     title: "Continue with the hospital or clinic",
-    text: "Choose a listed doctor and send DOCVY an enquiry when the form is enabled. The clinic or hospital must confirm the doctor, location, time and any fee before an appointment exists.",
+    text: "Choose a listed doctor. If DOCVY’s enquiry form is open, your details go to DOCVY, not directly to the provider. Contact the clinic or hospital to confirm the doctor, location, time and fee.",
     label: "YOU CHOOSE THE NEXT STEP",
   },
 ];

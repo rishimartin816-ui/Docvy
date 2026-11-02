@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight, FileText, Mail, ShieldCheck } from "lucide-react";
+import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
 
 const platformLinks = [
   ["/care-guide", "Patient guide: conditions & specialties"],
@@ -16,6 +17,7 @@ const policyLinks = [
 ] as const;
 
 export default function Footer() {
+  const intakeEnabled = isAppointmentIntakeConfigured();
   return (
     <footer className="border-t border-[#DCEAE5] bg-[#F6FAF8] text-sm">
       <div className="mx-auto grid max-w-[1440px] gap-10 px-6 py-12 md:grid-cols-[1.3fr_.8fr_1fr] lg:px-[72px] lg:py-14">
@@ -31,7 +33,7 @@ export default function Footer() {
           </p>
           <p className="mt-5 flex max-w-sm items-start gap-2 text-xs leading-5 text-[#789089]">
             <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#087F83]" />
-            Doctor listings currently start in Delhi NCR. DOCVY review and appointment booking are not live yet.
+            Doctor listings currently start in Delhi NCR. {intakeEnabled ? "Enquiries go to DOCVY; bookings are not confirmed here." : "Appointment enquiries are currently closed."}
           </p>
         </div>
 

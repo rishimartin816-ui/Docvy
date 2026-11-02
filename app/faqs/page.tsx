@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { faqs } from "@/lib/content";
+import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
 
 export const metadata: Metadata = {
   title: "Doctor listings, appointments and provider plan FAQs",
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
 };
 
 export default function FaqsPage() {
+  const intakeEnabled = isAppointmentIntakeConfigured();
   return (
     <div className="bg-[#F6FAF8] text-[#173A37]">
       <section className="border-b border-[#DCEAE5] bg-white py-16 md:py-20">
@@ -28,6 +30,7 @@ export default function FaqsPage() {
           <p className="mt-5 max-w-2xl text-base leading-7 text-[#526D66]">
             Straight answers about the patient guide, doctor directory, appointment journey, and what patients, doctors, clinics and hospitals can use today.
           </p>
+          <p className="mt-4 inline-flex rounded-full bg-[#EAF5F1] px-3 py-2 text-sm font-semibold text-[#087F83]">Appointment enquiry form: {intakeEnabled ? "open · requests go to DOCVY, not directly to providers" : "currently closed"}</p>
         </div>
       </section>
       <section className="mx-auto max-w-4xl px-6 py-12 lg:px-10 md:py-16" aria-label="DOCVY questions and answers">

@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 const maxBodyBytes = 8_000;
 const maxText = (value: unknown, limit: number) => typeof value === "string" ? value.trim().replace(/[<>\u0000-\u001f]/g, "").slice(0, limit) : "";
 
-function response(status: number, body: { ok: false; error: string } | { ok: true; referenceId: string; providerNotified?: boolean }) {
+function response(status: number, body: { ok: false; error: string } | { ok: true; referenceId: string }) {
   return NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } });
 }
 
@@ -28,7 +28,9 @@ export async function POST(request: Request) {
   try {
     const raw = await request.text();
     if (new TextEncoder().encode(raw).byteLength > maxBodyBytes) return response(413, { ok: false, error: "The form is too large." });
-    body = JSON.parse(raw) as Record<string, unknown>;
+    const parsed: unknown = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return response(400, { ok: false, error: "The form could not be read." });
+    body = parsed as Record<string, unknown>;
   } catch {
     return response(400, { ok: false, error: "The form could not be read." });
   }
@@ -55,7 +57,7 @@ export async function POST(request: Request) {
   let endpoint: URL;
   try {
     endpoint = new URL(webhookUrl);
-    if (endpoint.protocol !== "https:" || endpoint.hostname !== "script.google.com") throw new Error("Unsupported webhook host");
+    if (endpoint.protocol !== "https:" || endpoint.hostname !== "script.google.com" || !/^\/macros\/s\/.+\/exec$/.test(endpoint.pathname)) throw new Error("Unsupported webhook URL");
   } catch {
     return response(503, { ok: false, error: "Appointment enquiries are not connected yet. Please try again later." });
   }
@@ -63,7 +65,7 @@ export async function POST(request: Request) {
   const referenceId = `DV-${randomUUID().slice(0, 8).toUpperCase()}`;
   const forwardedFor = request.headers.get("x-forwarded-for") ?? "unknown";
   const forwardedParts = forwardedFor.split(",");
-  const networkHint = forwardedParts[forwardedParts.length - 1]?.trim() || "unknown";
+  const networkHint = forwardedParts[0]?.trim() || "unknown";
   const ipFingerprint = createHmac("sha256", webhookToken).update(networkHint).digest("hex");
   const payload = {
     token: webhookToken,
@@ -102,10 +104,10 @@ export async function POST(request: Request) {
     } finally {
       clearTimeout(timeout);
     }
-    const result = await upstream.json().catch(() => null) as { ok?: boolean; throttled?: boolean; providerNotified?: boolean } | null;
+    const result = await upstream.json().catch(() => null) as { ok?: boolean; throttled?: boolean } | null;
     if (result?.throttled) return response(429, { ok: false, error: "Please wait a few minutes before sending another enquiry." });
     if (!upstream.ok || result?.ok !== true) return response(502, { ok: false, error: "DOCVY could not save your enquiry. Please try again later." });
-    return response(201, { ok: true, referenceId, providerNotified: result?.providerNotified === true });
+    return response(201, { ok: true, referenceId });
   } catch {
     return response(502, { ok: false, error: "DOCVY could not save your enquiry. Please try again later." });
   }

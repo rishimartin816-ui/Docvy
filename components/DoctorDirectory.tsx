@@ -12,7 +12,7 @@ function formatFacility(facility: string, locality?: string) {
   return `${facility} · ${locality}`;
 }
 
-export default function DoctorDirectory({ initialCity = "All Delhi NCR" }: { initialCity?: CityFilter }) {
+export default function DoctorDirectory({ initialCity = "All Delhi NCR", intakeEnabled = false }: { initialCity?: CityFilter; intakeEnabled?: boolean }) {
   const [city, setCity] = useState<CityFilter>(initialCity);
   const [specialty, setSpecialty] = useState("All specialties");
   const [query, setQuery] = useState("");
@@ -70,7 +70,7 @@ export default function DoctorDirectory({ initialCity = "All Delhi NCR" }: { ini
               <div className="mt-3 flex flex-wrap gap-1.5" aria-label="Specialties">{doctor.specialties.map((item) => <span key={item} className="rounded-md bg-[#F3F7F5] px-2 py-1 text-[11px] font-medium leading-4 text-[#526D66]">{item}</span>)}</div>
               <div className="mt-5 border-t border-[#E8F0EC] pt-4"><p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#789089]">Hospital listed at</p><ul className="mt-2 space-y-2">{cityLocations.map((location) => <li key={`${location.facility}-${location.locality ?? ""}`} className="flex gap-2 text-sm font-semibold leading-5 text-[#36564F]"><Building2 size={15} aria-hidden="true" className="mt-0.5 shrink-0 text-[#087F83]" /><span>{formatFacility(location.facility, location.locality)}</span></li>)}</ul></div>
               {extraLocations.length > 0 && <p className="mt-3 text-xs leading-5 text-[#789089]"><span className="font-semibold text-[#526D66]">Other NCR locations:</span> {extraLocations.join("; ")}</p>}
-              <div className="mt-auto pt-5"><Link href={`/request?provider=${encodeURIComponent(doctor.id)}&city=${encodeURIComponent(cityName)}`} className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#087F83] px-4 text-sm font-bold text-white transition hover:bg-[#066D70] group-hover:bg-[#066D70]">See why enquiries are paused <CalendarClock size={16} /></Link><p className="mt-2 text-center text-[10px] leading-4 text-[#789089]">Listed by {doctor.hospital} · Source checked {doctor.sourceChecked} · Enquiry form currently paused</p></div>
+              <div className="mt-auto pt-5"><Link href={`/request?provider=${encodeURIComponent(doctor.id)}&city=${encodeURIComponent(cityName)}`} className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#087F83] px-4 text-sm font-bold text-white transition hover:bg-[#066D70] group-hover:bg-[#066D70]">{intakeEnabled ? "Ask DOCVY about this doctor" : "View enquiry status"} <CalendarClock size={16} /></Link><p className="mt-2 text-center text-[10px] leading-4 text-[#789089]">Listed by {doctor.hospital} · Source checked {doctor.sourceChecked} · {intakeEnabled ? "Enquiry goes to DOCVY; provider confirmation is separate" : "Enquiry form currently paused"}</p></div>
             </div>
           </article>;
         })}</div>

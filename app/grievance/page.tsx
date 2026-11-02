@@ -1,5 +1,6 @@
 import { MessageSquareWarning, ShieldCheck } from "lucide-react";
 import { PageHero, Section, Card } from "@/components/ui";
+import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
 
 export const metadata = {
   title: "Grievance contact information",
@@ -16,12 +17,13 @@ export const metadata = {
 };
 
 export default function Grievance() {
+  const intakeEnabled = isAppointmentIntakeConfigured();
   return (
     <>
       <PageHero
         eyebrow="HELP & ACCOUNTABILITY"
         title="Your grievance contact at DOCVY."
-        text="DOCVY is currently an informational website. Request submissions and service workflows are paused."
+        text={intakeEnabled ? "DOCVY provides an informational guide and limited listings. Patient enquiries are recorded by DOCVY; no appointment is confirmed here." : "DOCVY is currently an informational website. Appointment enquiries are paused."}
       />
       <Section alt>
         <div className="mx-auto grid max-w-4xl gap-5 md:grid-cols-2">
@@ -35,7 +37,7 @@ export default function Grievance() {
           <Card>
             <ShieldCheck className="mb-4 text-mulb" size={28} />
             <h2 className="mb-2 text-lg font-bold">Please do not submit sensitive information</h2>
-            <p className="text-sm text-grey">The website is not accepting request submissions or complaints through a web form. Please do not send medical records, identity documents or other sensitive personal information through unverified channels.</p>
+            <p className="text-sm text-grey">Complaints are not submitted through a web form. Please do not send medical records, identity documents or other sensitive personal information through unverified channels.</p>
           </Card>
         </div>
       </Section>
