@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, CalendarCheck, HeartPulse, MapPin } from "lucide-react";
+import { ArrowUpRight, CalendarCheck, ClipboardList, HeartPulse, MapPin, MessageSquare, Stethoscope } from "lucide-react";
 import DiscoverySearch, { DemoProvider } from "@/components/DiscoverySearch";
 import { HealthTopicIcon, healthTopics } from "@/components/HealthTopicIcon";
 import { buildPageSocialMetadata } from "@/lib/metadata";
@@ -45,6 +45,21 @@ export default function Home() {
         <figcaption className="px-2 pt-2 text-xs text-[#41584d]">Illustrative photo by the National Cancer Institute.</figcaption>
       </figure>
     </section>
+    <section className="mx-auto max-w-[1320px] px-5 pb-8 sm:px-9" aria-labelledby="care-paths">
+      <h2 id="care-paths" className="mb-4 text-3xl font-bold tracking-tight">What would you like help with?</h2>
+      <div className="grid gap-4 md:grid-cols-3">
+        {[
+          { title: "Find a doctor", text: "Choose a city and specialty, then see how an in-clinic appointment works.", href: "/doctors", label: "Browse consultations", icon: Stethoscope },
+          { title: "Planning for surgery", text: "Get your questions ready about treatment options, hospital costs, and recovery.", href: "/surgery-guide", label: "Read the surgery guide", icon: ClipboardList },
+          { title: "Start with a concern", text: "Use everyday words to learn which specialists may be involved and what to ask at a visit.", href: "/care-guide", label: "Explore patient guides", icon: HeartPulse },
+        ].map(({ title, text, href, label, icon: Icon }) => <Link href={href} key={href} className="docvy-glass flex flex-col items-start p-6 transition hover:bg-white">
+          <span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#e0efe5] text-[#245a46]"><Icon size={23} aria-hidden="true" /></span>
+          <h3 className="mt-4 text-2xl font-bold">{title}</h3>
+          <p className="mb-4 mt-2 flex-1 text-[#41584d]">{text}</p>
+          <span className="flex items-center gap-2 text-sm font-bold text-[#245a46]">{label} <ArrowUpRight size={16} aria-hidden="true" /></span>
+        </Link>)}
+      </div>
+    </section>
     <section className="mx-auto max-w-[1320px] px-5 py-10 sm:px-9" aria-labelledby="specialties">
       <p className="docvy-eyebrow">START WITH A CONCERN</p>
       <h2 id="specialties" className="mt-3 text-3xl font-bold tracking-tight text-[#1e3028] sm:text-5xl">Which doctor should I see?</h2>
@@ -74,6 +89,10 @@ export default function Home() {
       <p className="docvy-eyebrow">TRY THE WORKFLOW</p>
       <h2 id="demo" className="mb-5 mt-3 flex items-center gap-3 text-3xl font-bold text-[#1e3028]"><CalendarCheck aria-hidden="true" /> Clinic appointment demo</h2>
       <DemoProvider bookingHref={demo ? "/book" : "https://docvy-clinic-demo.vercel.app/book"} />
+      <details className="docvy-glass mt-5 p-5 text-[#41584d]">
+        <summary className="flex cursor-pointer items-center gap-2 font-semibold text-[#1e3028]"><MessageSquare size={18} aria-hidden="true" /> How to read patient reviews</summary>
+        <p className="mt-3 max-w-2xl text-sm">Look at the number of reviews as well as the score. Read recent stories for details that matter to you, like communication, waiting time, and how clearly costs were explained. Confirm fees, location, and availability with the clinic before visiting.</p>
+      </details>
       <Link href={demo ? "/crm/clinic" : "https://docvy-clinic-demo.vercel.app/crm/clinic"} className="docvy-pill mt-4">Open the clinic CRM <ArrowUpRight size={17} aria-hidden="true" /></Link>
     </section>
   </div>;

@@ -21,7 +21,7 @@ export default function DoctorsPage({ searchParams }: { searchParams: { city?: s
       <p className="mb-7 mt-4 max-w-2xl leading-7 text-[#41584d]">Try the search with fictional clinic data. Real provider listings are currently paused.</p>
       <DiscoverySearch city={city} specialty={specialty} />
       <div className="mt-7">
-        {hasDemo ? <DemoProvider bookingHref={clinicCrmConfig()?.staging === true ? "/book" : "https://docvy-clinic-demo.vercel.app/book"} /> :
+        {hasDemo ? <section aria-labelledby="consultations"><h2 id="consultations" className="mb-3 text-2xl font-bold">Demo consultations</h2><DemoProvider bookingHref={clinicCrmConfig()?.staging === true ? "/book" : "https://docvy-clinic-demo.vercel.app/book"} /></section> :
           <section className="docvy-glass p-6">
             <h2 className="text-2xl font-bold text-[#1e3028]">No demo listings match this search</h2>
             <p className="mt-2 text-[#41584d]">Try General medicine in Delhi to see the fictional clinic workflow.</p>
