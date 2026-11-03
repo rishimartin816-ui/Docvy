@@ -7,7 +7,7 @@
 
 These are roadmap estimates based on deliverables, not analytics, traffic, patient activity, or search rankings.
 
-- **Public website and search foundation: 95%.** Main pages, clear patient journey, pan-India guide, NCR-only listings, source-linked profiles, page-specific search and sharing metadata, schema, sitemap, internal discovery links and crawlable patient answer pages are implemented. More mobile interaction review, Search Console query review and broader provider coverage remain.
+- **Public website and search foundation: 96%.** Main pages, clear patient journey, pan-India guide, NCR-only listings, source-linked profiles, page-specific search and sharing metadata, schema, sitemap, internal discovery links and crawlable patient answer pages are implemented. A fresh full sitemap check passed. More mobile interaction review, Search Console query review and broader provider coverage remain.
 - **Website enquiry path: 55%.** Form, server validation, private Sheets handoff and token-protected Apps Script source exist. The script is not installed or deployed and Vercel production variables are not configured; the live form must remain closed until end-to-end verification.
 - **Full DOCVY product: 22%.** This reflects a weighted roadmap across public discovery, provider data, enquiry handling, provider operations, hospital software, identity/access and business intelligence. The provider/hospital application, appointment availability engine and operational dashboards are not complete.
 
@@ -251,8 +251,13 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Commit `6d8c353` is READY in Vercel production as `dpl_4T1Y1tn5MXtn995Zqmio1PPSDZ19`. Live `/grievance` returned HTTP 200, the updated 143-character description, its page-specific canonical, and one H1.
 - A new complete sitemap smoke check returned HTTP 200 and passed 23/23 URLs for title, description, exact canonical, `index, follow` and one H1. These checks do not prove indexing, rankings, or traffic.
 
-## 3 November grievance page visual refresh — publication pending
+## 3 November grievance page visual refresh — published and rechecked
 
 - Replaced the older grievance-page shell with the current mint/teal/deep-green design, clear email and postal contact cards, an anchor to the address, and a separate privacy warning. Public contact details and the no-form rule are preserved.
 - Local lint and the Next.js production build passed (32 routes). Generated HTML has one H1, two email actions, the postal anchor, and the no-form/privacy notices. `git diff --check` passed.
-- The change follows the repository design reference; no direct Figma context was retrieved and no Figma file was edited. Publish, then verify `/grievance` live and rerun the sitemap smoke check.
+- The change follows the repository design reference; no direct Figma context was retrieved and no Figma file was edited.
+- Commit `e98ee53` is live in Vercel production as deployment `dpl_AfbjhtJjcYrU9x2kyKg5u7MEzzcR` (`READY`) with aliases `www.docvy.in` and `docvy.in`. Live `/grievance` returned HTTP 200 with the refreshed contact cards, address anchor, privacy notice, page-specific title and one H1.
+- A fresh production crawl of all 23 sitemap URLs passed HTTP 200, page title, description of at least 70 characters, exact canonical, `index, follow`, exactly one H1, Open Graph image and Twitter image. No ranking, indexing or traffic outcome is claimed.
+- Live `/request` returned HTTP 200 with `noindex, nofollow` and no patient contact fields; `/status` returned HTTP 200. A no-data POST to the public enquiry API returned the expected HTTP 503 because the private endpoint is not configured. No lead was submitted.
+- The private Google Sheet and `Appointments` tab are accessible. Only its 14 header cells (`A1:N1`) were checked; no lead rows were read or written. The Apps Script endpoint remains uninstalled/undeployed, and the two Vercel Production variables are still unavailable, so the appointment form stays closed. No provider email is configured or sent.
+- The connected Chrome profile shows an open Apps Script project window, but Computer Use stopped before it could inspect the editor because it could not verify the current browser URL. No UI changes, endpoint deployment or secret handling occurred.
