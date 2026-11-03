@@ -15,6 +15,8 @@ type Enquiry = {
   booking_id?: string | null;
 };
 type AppointmentHistory = {
+  reference?: string;
+  contact?: { enquiry_reference: string; name: string; mobile: string; email: string | null } | null;
   status: string;
   starts_at: string;
   events: { action: string; at: string; appointment_at: string | null }[];
@@ -328,6 +330,13 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
               </form>
               {history && <div className="mt-4">
                 <p className="font-semibold capitalize">{history.status.replace("_", " ")} · {dateLabel.format(new Date(history.starts_at))}</p>
+                {history.reference && <p className="break-all text-sm text-grey">{history.reference}</p>}
+                {history.contact && <dl className="mt-3 rounded-btn bg-sand p-3 text-sm">
+                  <dt className="font-semibold">Patient contact</dt>
+                  <dd>{history.contact.name}</dd>
+                  <dd className="break-words">{history.contact.mobile}{history.contact.email ? " · " + history.contact.email : ""}</dd>
+                  <dd className="text-grey">Enquiry {history.contact.enquiry_reference}</dd>
+                </dl>}
                 <ol className="mt-2 divide-y divide-line">
                   {history.events.map((event) => <li key={event.at + event.action} className="py-2 text-sm">
                     <span className="capitalize">{event.action.replace("_", " ")}</span> · {dateLabel.format(new Date(event.at))}
