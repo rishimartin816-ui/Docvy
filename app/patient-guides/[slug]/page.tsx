@@ -137,7 +137,8 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
       <section className="mt-12 rounded-3xl border border-[#DCEAE5] bg-white p-6 md:p-8" aria-labelledby="guide-sources">
         <p className="text-xs font-extrabold tracking-[0.13em] text-[#087F83]">SOURCES AND LIMITS</p>
         <h2 id="guide-sources" className="mt-3 text-2xl font-bold tracking-tight">Read the source information</h2>
-        <p className="mt-3 max-w-4xl text-sm leading-7 text-[#526D66]">These pages describe general specialty roles and selected public-hospital services. Some health-information references are from Australia; they explain broad clinical specialties but do not define Indian referral rules. Local services and care pathways vary across India.</p>
+        <p className="mt-3 max-w-4xl text-sm leading-7 text-[#526D66]">These Government of India and public-hospital sources document national guidance or examples of services at the named institutions. They do not prescribe a referral route for you. Services can change; confirm current availability directly with the hospital or clinic. This guide is for directory navigation, not diagnosis or personal medical advice.</p>
+        <p className="mt-3 text-xs font-semibold text-[#789089]">Source links checked 3 November 2026.</p>
         <ul className="mt-5 flex flex-col gap-3">{guide.references.map((reference) => <li key={reference.url}><a href={reference.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-[#087F83] underline decoration-[#B8DCD0] underline-offset-4 hover:text-[#066D70]">{reference.label}<ExternalLink size={14} aria-hidden="true" /></a></li>)}</ul>
       </section>
 

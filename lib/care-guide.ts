@@ -26,8 +26,8 @@ export const careGuide: CareGuideEntry[] = [
     examples: ["Known heart condition follow-up", "Heart rhythm or palpitations", "High blood pressure or hypertension review"],
     keywords: ["heart", "cardiology", "blood pressure", "high blood pressure", "hypertension", "bp", "palpitation", "palpitations", "rhythm", "arrhythmia", "heart failure", "coronary artery disease", "circulation"],
     references: [
-      { label: "Healthdirect: high blood pressure and specialist care", url: "https://www.healthdirect.gov.au/conditions/heart-diseases/high-blood-pressure-hypertension" },
-      { label: "Healthdirect: the role of a cardiologist", url: "https://www.healthdirect.gov.au/healthcare-and-services/roles-and-specialties/the-role-of-a-cardiologist" },
+      { label: "National Health Mission, Government of India: 2025–26 medical-officer training module on hypertension", url: "https://nhm.gov.in/New-Update-2025-26/Whats-new/NCD-Medical-Officers.pdf" },
+      { label: "AIIMS Delhi: Department of Cardiology", url: "https://aiims.edu/index.php/en/centre_home?id=642" },
     ],
     directorySpecialties: ["Cardiology", "Interventional cardiology", "Cardiac electrophysiology and pacemakers"],
     directoryQuery: "cardiology",
@@ -67,8 +67,7 @@ export const careGuide: CareGuideEntry[] = [
     directorySpecialties: ["Orthopaedics", "Joint replacement"],
     directoryQuery: "orthopaedics",
     references: [
-      { label: "Healthdirect: arthritis and possible care teams", url: "https://www.healthdirect.gov.au/conditions/joint-and-muscle-diseases/arthritis" },
-      { label: "Healthdirect: osteoarthritis", url: "https://www.healthdirect.gov.au/osteoarthritis" },
+      { label: "AIIMS Delhi: Orthopaedics and joint services", url: "https://www.aiims.edu/index.php/en/orthopaedics_intro" },
     ],
   },
   {
@@ -76,7 +75,7 @@ export const careGuide: CareGuideEntry[] = [
     description: "Specialist care for inflammatory and autoimmune conditions that can affect joints and connective tissue. Several kinds of clinicians may be involved, depending on the condition.",
     examples: ["Rheumatoid or psoriatic arthritis follow-up", "Persistent joint swelling or stiffness", "Known gout or lupus care"],
     keywords: ["arthritis", "rheumatoid arthritis", "rheumatoid", "psoriatic arthritis", "autoimmune joint", "joint swelling", "stiffness", "gout", "lupus", "ankylosing spondylitis", "rheumatology", "rheumatologist"],
-    references: [{ label: "Healthdirect: arthritis and when a rheumatologist may help", url: "https://www.healthdirect.gov.au/conditions/joint-and-muscle-diseases/arthritis" }],
+    references: [{ label: "AIIMS Delhi: Rheumatology and inflammatory arthritis services", url: "https://www.aiims.edu/index.php/en/component/content/article?id=6188" }],
   },
   {
     specialty: "Obstetrics and gynaecology",
@@ -96,7 +95,10 @@ export const careGuide: CareGuideEntry[] = [
     description: "Specialist care for lung and breathing conditions.",
     examples: ["Asthma follow-up", "COPD care", "Ongoing respiratory concerns"],
     keywords: ["lung", "breathing", "asthma", "copd", "bronchitis", "pneumonia", "respiratory", "pulmonology", "chronic cough", "sleep apnea", "sleep apnoea"],
-    references: [{ label: "Healthdirect: asthma and respiratory specialist care", url: "https://www.healthdirect.gov.au/conditions/lung-and-respiratory-diseases/asthma-in-adolescents-and-adults" }],
+    references: [
+      { label: "National Health Mission, Government of India: medical-officer training module on asthma", url: "https://nhm.gov.in/New-Update-2025-26/Whats-new/NCD-Medical-Officers.pdf" },
+      { label: "AIIMS Delhi: Pulmonary, Critical Care & Sleep Medicine", url: "https://aiims.edu/index.php/en/pulmonary-intro" },
+    ],
   },
   {
     specialty: "Mental health",
@@ -125,8 +127,6 @@ export const careGuide: CareGuideEntry[] = [
     keywords: ["eye", "eyes", "vision", "cataract", "glaucoma", "conjunctivitis", "diabetic retinopathy", "ophthalmology", "ophthalmologist", "sight"],
     references: [
       { label: "AIIMS Delhi: ophthalmology services including cataract care", url: "https://www.aiims.edu/index.php/en/unit-i" },
-      { label: "Healthdirect: cataracts and specialist eye care", url: "https://www.healthdirect.gov.au/conditions/eye-diseases/cataracts" },
-      { label: "Healthdirect: the role of an ophthalmologist", url: "https://www.healthdirect.gov.au/healthcare-and-services/roles-and-specialties/ophthalmologist" },
     ],
   },
   {
