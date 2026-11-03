@@ -44,10 +44,16 @@ export async function GET(request: NextRequest) {
   if (!config()) return reply({ error: "Staging CRM unavailable" }, 404);
   try {
     const admin = request.nextUrl.searchParams.has("admin");
-    const clinic = admin || request.nextUrl.searchParams.has("clinic");
+    const enquiries = request.nextUrl.searchParams.has("enquiries");
+    const clinic = admin || enquiries || request.nextUrl.searchParams.has("clinic");
     if (clinic) {
       const access = await staff(requestToken(request));
       if (!access || (admin && access.role !== "owner")) return reply({ error: "Staff access required" }, 403);
+      if (enquiries) {
+        const result = await database("/rest/v1/rpc/crm_list_enquiries", { actor: access.id, clinic: stagingClinic });
+        if (result.status === 403) return reply({ error: "Enquiry access required" }, 403);
+        return result.ok ? reply(await result.json()) : reply({ error: "Enquiries unavailable" }, 503);
+      }
     }
     const query = "/rest/v1/crm_calendar?clinic_id=eq." + stagingClinic;
     const path = clinic

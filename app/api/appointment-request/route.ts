@@ -1,5 +1,6 @@
 import { createHmac, randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
+import { crmIntakeConfig } from "@/lib/appointment-intake";
 import { providerCandidates } from "@/lib/provider-candidates";
 
 export const runtime = "nodejs";
@@ -22,7 +23,10 @@ export async function POST(request: Request) {
 
   const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
   const webhookToken = process.env.GOOGLE_SHEETS_WEBHOOK_TOKEN;
-  if (!webhookUrl || !webhookToken) return response(503, { ok: false, error: "Appointment enquiries are not connected yet. Please try again later." });
+  const crm = crmIntakeConfig();
+  if (!crm && (process.env.DOCVY_CRM_INTAKE_ENABLED === "true" || !webhookUrl || !webhookToken)) {
+    return response(503, { ok: false, error: "Appointment enquiries are not connected yet. Please try again later." });
+  }
 
   let body: Record<string, unknown>;
   try {
@@ -54,6 +58,31 @@ export async function POST(request: Request) {
     return response(400, { ok: false, error: "Check the preferred date and time, then try again." });
   }
 
+  const referenceId = `DV-${randomUUID().slice(0, 8).toUpperCase()}`;
+  if (crm) {
+    try {
+      const result = await fetch(new URL("/rest/v1/rpc/crm_submit_enquiry", crm.url), {
+        method: "POST",
+        headers: { apikey: crm.key, Authorization: "Bearer " + crm.key, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ref: referenceId, provider: providerId, location_city: city, location_facility: facility,
+          name, phone: "+91" + mobile.replace(/^\+?91(?=\d{10}$)/, ""), contact_email: email || null,
+          requested_date: requestedDate || null, requested_time: requestedTime || null,
+        }),
+        cache: "no-store",
+        signal: AbortSignal.timeout(8000),
+      });
+      if (result.status === 404) return response(422, { ok: false, error: "Online enquiries are unavailable for this location." });
+      if (result.status === 429) return response(429, { ok: false, error: "Please wait a few minutes before sending another enquiry." });
+      if (result.status === 400) return response(400, { ok: false, error: "Check the preferred date and time, then try again." });
+      if (result.ok) return response(201, { ok: true, referenceId });
+    } catch {
+      return response(502, { ok: false, error: "DOCVY could not save your enquiry. Please try again later." });
+    }
+    return response(502, { ok: false, error: "DOCVY could not save your enquiry. Please try again later." });
+  }
+
+  if (!webhookUrl || !webhookToken) return response(503, { ok: false, error: "Appointment enquiries are not connected yet. Please try again later." });
   let endpoint: URL;
   try {
     endpoint = new URL(webhookUrl);
@@ -62,7 +91,6 @@ export async function POST(request: Request) {
     return response(503, { ok: false, error: "Appointment enquiries are not connected yet. Please try again later." });
   }
 
-  const referenceId = `DV-${randomUUID().slice(0, 8).toUpperCase()}`;
   const forwardedFor = request.headers.get("x-forwarded-for") ?? "unknown";
   const forwardedParts = forwardedFor.split(",");
   const networkHint = forwardedParts[0]?.trim() || "unknown";

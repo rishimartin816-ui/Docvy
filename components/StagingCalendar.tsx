@@ -5,12 +5,21 @@ import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 
 type Slot = { id: string; starts_at: string; ends_at: string; blocked?: boolean; booking_id?: string; booking_status?: "confirmed" | "completed" | "no_show" };
+type Enquiry = {
+  reference: string;
+  patient_name: string;
+  mobile: string;
+  email: string | null;
+  facility: string;
+  status: string;
+};
 const dateLabel = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" });
 const calendarDay = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" });
 
 export default function StagingCalendar({ clinic = false, admin = false }: { clinic?: boolean; admin?: boolean }) {
   const [session, setSession] = useState("");
   const [slots, setSlots] = useState<Slot[]>([]);
+  const [enquiries, setEnquiries] = useState<Enquiry[] | null>(null);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [day, setDay] = useState(calendarDay.format(new Date()));
@@ -68,6 +77,24 @@ export default function StagingCalendar({ clinic = false, admin = false }: { cli
       setBusy(false);
     }
   }
+  async function loadEnquiries() {
+    setBusy(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/crm?enquiries" + (admin ? "&admin" : ""), {
+        headers: { Authorization: "Bearer " + session },
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+      setEnquiries(data);
+    } catch (error) {
+      setEnquiries(null);
+      setMessage(error instanceof Error ? error.message : "Enquiries unavailable.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function change(slot: Slot, status?: "cancelled" | "completed" | "no_show", destination?: string) {
     if (status === "cancelled" && !window.confirm("Cancel this appointment and release its slot?")) return;
     setBusy(true);
@@ -110,8 +137,9 @@ export default function StagingCalendar({ clinic = false, admin = false }: { cli
           {session && <nav aria-label="Clinic workspace" className="mt-6 flex flex-wrap gap-2 lg:flex-col">
             <a className="rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-overview">Overview</a>
             <a className="rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-calendar">Appointments & availability</a>
+            <a className="rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-enquiries">Enquiries</a>
             <button className="flex items-center gap-2 rounded-btn px-3 py-2 text-left text-sm hover:bg-white/10 disabled:opacity-50"
-              disabled={busy} onClick={() => { setSession(""); setSlots([]); setMessage(""); }}>
+              disabled={busy} onClick={() => { setSession(""); setSlots([]); setEnquiries(null); setMessage(""); }}>
               <LogOut size={16} aria-hidden="true" /> Close session
             </button>
           </nav>}
@@ -186,6 +214,20 @@ export default function StagingCalendar({ clinic = false, admin = false }: { cli
                       <button className={button} disabled={busy} onClick={() => void change(slot)}>{slot.blocked ? "Unblock" : "Block"}</button>}
                   </li>
                 ))}</ul>}
+            </section>
+            <section id="crm-enquiries" className="mt-5 rounded-card border border-line bg-white p-4 sm:p-6">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <h2 className="text-xl font-bold">Appointment enquiries</h2>
+                <button className={button} disabled={busy} onClick={() => void loadEnquiries()}>Load enquiries</button>
+              </div>
+              {enquiries?.length === 0 && <p className="mt-3 text-sm text-grey">No enquiries for this clinic.</p>}
+              {enquiries && <ul className="divide-y divide-line">
+                {enquiries.map((item) => <li key={item.reference} className="break-words py-3">
+                  <p className="font-semibold">{item.patient_name} · {item.reference}</p>
+                  <p className="text-sm text-grey">{item.facility} · {item.status}</p>
+                  <p className="text-sm">{item.mobile}{item.email ? " · " + item.email : ""}</p>
+                </li>)}
+              </ul>}
             </section>
           </>}
           <p role="status" className="mt-3 text-sm text-grey">{message}</p>
