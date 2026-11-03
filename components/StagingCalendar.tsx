@@ -1,5 +1,6 @@
 "use client";
 
+import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 
 type Slot = { id: string; starts_at: string; ends_at: string; blocked?: boolean; booking_id?: string };
@@ -7,7 +8,6 @@ const dateLabel = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeSt
 const calendarDay = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" });
 
 export default function StagingCalendar({ clinic = false, admin = false }: { clinic?: boolean; admin?: boolean }) {
-  const [token, setToken] = useState("");
   const [session, setSession] = useState("");
   const [slots, setSlots] = useState<Slot[]>([]);
   const [message, setMessage] = useState("");
@@ -40,6 +40,33 @@ export default function StagingCalendar({ clinic = false, admin = false }: { cli
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
+  async function signIn(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const fields = new FormData(form);
+    setBusy(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/crm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "sign-in",
+          email: fields.get("email"),
+          password: fields.get("password"),
+          admin,
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+      setSession(data.token);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Sign-in unavailable.");
+    } finally {
+      form.reset();
+      setBusy(false);
+    }
+  }
   async function change(slot: Slot) {
     setBusy(true);
     setMessage("");
@@ -66,13 +93,10 @@ export default function StagingCalendar({ clinic = false, admin = false }: { cli
   return <section className="mx-auto max-w-3xl space-y-4 p-8">
     <h1 className="text-3xl font-bold">{admin ? "DOCVY owner console" : clinic ? "DOCVY Test Hospital calendar" : "Book with DOCVY Test Doctor"}</h1>
     <p>Fictional staging clinic. Times shown in India Standard Time.</p>
-    {clinic && !session && <form className="space-y-2" onSubmit={(event) => {
-      event.preventDefault();
-      setSession(token.trim());
-      setToken("");
-    }}>
-      <label className="block">Staging staff access token <input className="border p-2" type="password" required value={token} onChange={(event) => setToken(event.target.value)} /></label>
-      <button className="rounded border p-2">Open calendar</button>
+    {clinic && !session && <form className="space-y-2" onSubmit={signIn}>
+      <label className="block">Staff email <input className="border p-2" type="email" name="email" autoComplete="username" required /></label>
+      <label className="block">Password <input className="border p-2" type="password" name="password" autoComplete="current-password" required /></label>
+      <button className="rounded border p-2" disabled={busy}>Sign in</button>
     </form>}
     {clinic && session && <div className="flex flex-wrap gap-4">
       <label>Start date <input type="date" required value={day} onChange={(event) => setDay(event.target.value)} /></label>

@@ -24,8 +24,11 @@ async function database(path: string, body?: object, token?: string) {
   });
 }
 
-async function staff(request: NextRequest) {
-  const token = request.headers.get("authorization")?.match(/^Bearer (\S+)$/i)?.[1];
+function requestToken(request: NextRequest) {
+  return request.headers.get("authorization")?.match(/^Bearer (\S+)$/i)?.[1];
+}
+
+async function staff(token?: string) {
   if (!token) return null;
   const user = await database("/auth/v1/user", undefined, token);
   if (!user.ok) return null;
@@ -43,7 +46,7 @@ export async function GET(request: NextRequest) {
     const admin = request.nextUrl.searchParams.has("admin");
     const clinic = admin || request.nextUrl.searchParams.has("clinic");
     if (clinic) {
-      const access = await staff(request);
+      const access = await staff(requestToken(request));
       if (!access || (admin && access.role !== "owner")) return reply({ error: "Staff access required" }, 403);
     }
     const query = "/rest/v1/crm_calendar?clinic_id=eq." + stagingClinic;
@@ -67,11 +70,35 @@ export async function POST(request: NextRequest) {
   } catch {
     return reply({ error: "Invalid request" }, 400);
   }
+  if (input?.action === "sign-in") {
+    if (typeof input.email !== "string" || !input.email.trim() ||
+        typeof input.password !== "string" || !input.password) {
+      return reply({ error: "Email and password required" }, 400);
+    }
+    try {
+      const auth = await database("/auth/v1/token?grant_type=password", {
+        email: input.email.trim(),
+        password: input.password,
+      });
+      if (auth.status === 429) return reply({ error: "Too many attempts. Try again later." }, 429);
+      if (auth.status >= 500) return reply({ error: "Sign-in unavailable" }, 503);
+      if (!auth.ok) return reply({ error: "Staff sign-in failed" }, 403);
+      const { access_token: token } = await auth.json();
+      if (typeof token !== "string") return reply({ error: "Sign-in unavailable" }, 503);
+      const access = await staff(token);
+      if (!access || (input.admin === true && access.role !== "owner")) {
+        return reply({ error: "Staff sign-in failed" }, 403);
+      }
+      return reply({ token });
+    } catch {
+      return reply({ error: "Sign-in unavailable" }, 503);
+    }
+  }
   if (typeof input?.slot !== "string" || !uuid.test(input.slot)) return reply({ error: "Invalid slot" }, 400);
   try {
     let response;
     if (typeof input.blocked === "boolean") {
-      const actor = await staff(request);
+      const actor = await staff(requestToken(request));
       if (!actor) return reply({ error: "Staff access required" }, 403);
       response = await database("/rest/v1/rpc/crm_set_block", { actor: actor.id, clinic: stagingClinic, slot: input.slot, desired: input.blocked });
     } else {
