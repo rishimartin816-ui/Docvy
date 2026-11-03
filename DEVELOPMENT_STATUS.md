@@ -281,3 +281,17 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - `pnpm lint`, `pnpm build` (32 generated pages) and `git diff --check` passed. A local production-server check returned `/pricing` HTTP 200, one H1 and three distinct plan-specific email drafts.
 - Commit `ecca766` is live in Vercel production as deployment `dpl_92LexFurDMvbnHxvfMf8FRRb98V1` (`READY`) with aliases `www.docvy.in` and `docvy.in`. Live `/pricing` returned HTTP 200 with one H1 and three plan-specific email drafts; no email was sent. The appointment enquiry form remains closed and the private Sheets integration remains unconfigured; no patient lead was created.
 - After this release, the live sitemap check again passed 23/23 URLs for HTTP 200, one title, one H1, canonical URL and `index, follow`; this confirms delivery/markup only, not indexing or rankings.
+
+## 3 November lead integration access check
+
+- Read-only Google Drive search reconfirmed the DOCVY appointment Sheet. The connected Drive tools did not return an Apps Script project, so they cannot provide its editor URL or deploy the script.
+- Chrome shows an open Apps Script editor window titled `Untitled project`. Computer Use stopped before it could inspect the window because it could not verify the active Chrome URL on Windows. No script properties, Vercel environment variables, access settings, Sheet headers, or Sheet rows were changed.
+- The latest Vercel production deployment remains `READY` for commit `e17ee3e`. Live GET checks for `/request` and `/sitemap.xml` returned HTTP 200. The previously recorded full sitemap check passed 23/23 URLs for the checked metadata and response criteria.
+- The synthetic end-to-end lead test is still blocked. No test lead was submitted and no provider email was sent. The appointment form remains closed until the token-protected Apps Script endpoint and Vercel settings can be installed and verified.
+
+## 3 November homepage care-team clarity update
+
+- Aligned the homepage provider section with the connected Figma brand foundation: dark navy/blue surface, electric-cyan accents, DM Sans headings and readable Inter body copy. The patient discovery surfaces remain mint, matching the responsive homepage concept.
+- Replaced the provider cards' checkmarks with clock icons and explicit `Planned · not live` labels. The text now distinguishes the existing owner-reviewed doctor profile correction route from future provider dashboards, appointment routing and slot booking; added direct links to doctor profile help and clinic/hospital plans.
+- `pnpm lint` and `pnpm build` passed (32 routes; existing non-blocking Open Graph edge-runtime notice). Local production-server smoke check returned HTTP 200, one H1, both CTAs, and the updated status language. `git diff --check` passed.
+- Production release and live verification are pending.

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Baby, Bone, Building2, CheckCircle2, HeartPulse, MapPin, Search, Sparkles, Stethoscope } from "lucide-react";
+import { ArrowRight, Baby, Bone, Building2, CheckCircle2, Clock3, HeartPulse, MapPin, Search, Sparkles, Stethoscope } from "lucide-react";
 import PatientSearchCard from "@/components/PatientSearchCard";
 import PatientJourneyMap from "@/components/PatientJourneyMap";
 import ProviderSourceGuide from "@/components/ProviderSourceGuide";
@@ -25,9 +25,9 @@ const guideExamples = [
 ];
 
 const providerAreas = [
-  { title: "Doctor profiles", text: "Profiles are planned to explain a doctor's specialty, credentials review status, and care locations." },
-  { title: "Clinic coordination", text: "Clinic tools are planned for provider information and appointment enquiries across practice locations." },
-  { title: "Hospital operations", text: "Hospital teams are planned to coordinate departments, listed doctors, and incoming appointment requests." },
+  { title: "Doctor profile review", text: "Doctors can request a public profile correction today. Self-service claims are not open; the DOCVY owner reviews and approves every published change." },
+  { title: "Clinic team workspace", text: "Planned tools for clinic teams to manage practice locations, provider details and appointment enquiries. A clinic dashboard is not live." },
+  { title: "Hospital operations", text: "Planned tools for hospital teams to coordinate departments, listed doctors and incoming enquiries. Slot booking and a hospital dashboard are not live." },
 ];
 
 const currentCityCoverage = providerCities.map((city) => {
@@ -108,7 +108,28 @@ export default function Home() {
 
     <ProviderSourceGuide />
 
-    <section className="bg-[#123B38] py-16 text-white md:py-20"><div className="mx-auto grid max-w-[1440px] gap-8 px-6 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:px-[72px]"><div><p className="text-xs font-bold tracking-[0.15em] text-[#79BDB1]">FOR CARE TEAMS</p><h2 className="mt-4 text-3xl font-bold leading-tight tracking-[-0.035em] text-white md:text-[38px]">One connected system for patients and providers.</h2><p className="mt-5 max-w-xl text-sm leading-7 text-[#D8E9E3]">DOCVY is also building practical tools for doctors, clinics and hospitals. Provider profiles and appointment enquiries are intended to connect with the teams who deliver care.</p><Link href="/pricing" className="mt-7 inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#4D756F] px-5 text-sm font-semibold text-white hover:bg-white/10">Clinic &amp; hospital plans <ArrowRight size={16} /></Link></div><div className="grid gap-3 sm:grid-cols-3">{providerAreas.map((card, index) => <article key={card.title} className="flex min-h-[230px] flex-col rounded-2xl border border-[#315B55] bg-[#1C4D47] p-5"><div className="flex items-center justify-between"><span className="text-xs font-semibold text-[#79BDB1]">0{index + 1}</span><CheckCircle2 size={17} className="text-[#79BDB1]" /></div><h3 className="mt-8 text-sm font-bold leading-6 text-white">{card.title}</h3><p className="mt-3 text-xs leading-6 text-[#D8E9E3]">{card.text}</p><span className="mt-auto pt-5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#79BDB1]">In development</span></article>)}</div></div></section>
+    <section className="relative isolate overflow-hidden bg-[radial-gradient(circle_at_82%_12%,#102B46_0%,#071426_58%)] py-16 text-white md:py-20">
+      <div aria-hidden="true" className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full border border-[#17C8E5]/20" />
+      <div className="relative mx-auto grid max-w-[1440px] gap-8 px-6 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:px-[72px]">
+        <div>
+          <p className="text-xs font-bold tracking-[0.15em] text-[#17C8E5]">FOR DOCTORS, CLINICS &amp; HOSPITALS</p>
+          <h2 className="mt-4 text-3xl font-bold leading-tight tracking-[-0.035em] text-white md:text-[38px]">Practical tools for care teams are in development.</h2>
+          <p className="mt-5 max-w-xl text-sm leading-7 text-[#D4E0EB]">Doctors can request a public profile correction today. Clinics and hospitals can contact DOCVY to discuss planned workflows. Self-service claims, provider dashboards, appointment routing and slot booking are not live.</p>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <Link href="/for-doctors" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#17C8E5] px-5 text-sm font-semibold text-[#071426] transition hover:bg-[#41D5EC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#071426]">Doctor profile help <ArrowRight size={16} /></Link>
+            <Link href="/pricing" className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#60748A] px-5 text-sm font-semibold text-white transition hover:border-[#17C8E5] hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#17C8E5]">Clinic &amp; hospital plans <ArrowRight size={16} /></Link>
+          </div>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-3">
+          {providerAreas.map((card, index) => <article key={card.title} className="flex min-h-[230px] flex-col rounded-2xl border border-[#29445D] bg-[#102B46]/90 p-5 shadow-[0_12px_36px_rgba(0,0,0,0.15)]">
+            <div className="flex items-center justify-between"><span className="text-xs font-semibold text-[#17C8E5]">0{index + 1}</span><Clock3 size={17} aria-hidden="true" className="text-[#17C8E5]" /></div>
+            <h3 className="mt-8 text-sm font-bold leading-6 text-white">{card.title}</h3>
+            <p className="mt-3 text-xs leading-6 text-[#D4E0EB]">{card.text}</p>
+            <span className="mt-auto pt-5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#17C8E5]">Planned · not live</span>
+          </article>)}
+        </div>
+      </div>
+    </section>
 
   </div>;
 }

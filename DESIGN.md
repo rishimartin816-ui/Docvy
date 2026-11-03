@@ -312,3 +312,11 @@ Structured data should describe visible, accurate content only. Google says its 
 - Local production-page verification confirmed three unique plan subjects, the business-details prompts and the privacy reminder. The page remains clear that these are future workflows, not purchasable plans or a live dashboard.
 - Published with commit `ecca766`; Vercel deployment `dpl_92LexFurDMvbnHxvfMf8FRRb98V1` is `READY`. The live pricing page returned HTTP 200 with its title and one H1, and the three plan-specific draft subjects were verified on the published page.
 - A post-release check of all 23 live sitemap URLs passed HTTP 200, one title, one H1, canonical URL and `index, follow`.
+
+## 3 November provider section aligned to Figma brand system
+
+- Reopened Figma file `4mPJkaKad7ZUc4CW1zWbGs` in a read-only design session and inspected `DOCVY Brand System` (node `2:13`) and `Mobile — Homepage concept` (node `2:704`). The brand foundation specifies Midnight `#071426`, Deep Blue `#102B46`, Electric Cyan `#17C8E5`, Medical Teal `#13BFA5`, Cloud White `#F4F8FC`, DM Sans headings and Inter body text. The mobile concept keeps a calm mint surface with a cyan primary action.
+- Applied the deep navy/blue and electric-cyan treatment to the homepage care-team section, keeping the patient discovery pages' mint surfaces. Changed the provider cards' checkmarks to clock icons and explicit `Planned · not live` labels, then separated the existing doctor profile-correction route from future clinic/hospital workspaces and booking tools.
+- Added direct links to doctor profile help and clinic/hospital plans. This corrects the impression that provider tools are already operational and makes audience-specific next steps easier to find.
+- No Figma file was edited. `pnpm lint` passed; `pnpm build` passed with 32 routes and the existing non-blocking Open Graph edge-runtime notice. A local production-server check returned HTTP 200, one H1, the two provider CTAs, the updated planned status and no obsolete “One connected system” claim. `git diff --check` passed.
+- Production release and live verification are pending.
