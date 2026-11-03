@@ -20,6 +20,7 @@ const calendarDay = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" 
 export default function StagingCalendar({ clinic = false, admin = false, clinicName = "DOCVY Test Hospital", staging = true }: { clinic?: boolean; admin?: boolean; clinicName?: string; staging?: boolean }) {
   const [session, setSession] = useState("");
   const [slots, setSlots] = useState<Slot[]>([]);
+  const [destinations, setDestinations] = useState<Slot[]>([]);
   const [enquiries, setEnquiries] = useState<Enquiry[] | null>(null);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
@@ -28,17 +29,24 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
   const keys = useRef(new Map<string, string>());
 
   async function refresh(access: string, signal?: AbortSignal) {
-    if (clinic && !access) return;
+    if (clinic && (!access || !day)) return;
     try {
-      const response = await fetch("/api/crm" + (admin ? "?admin" : clinic ? "?clinic" : ""), {
-        headers: access ? { Authorization: "Bearer " + access } : {},
-        signal,
-      });
+      const options: RequestInit = { headers: access ? { Authorization: "Bearer " + access } : undefined, signal };
+      const path = "/api/crm" + (admin ? "?admin" : clinic ? "?clinic" : "");
+      const calendar = clinic ? path + "&day=" + encodeURIComponent(day) + "&days=" + days : path;
+      const [response, upcoming] = await Promise.all([
+        fetch(calendar, options),
+        clinic ? fetch(path + "&upcoming", options) : null,
+      ]);
       if (!response.ok) throw new Error(response.status === 403 ? "Staff access required." : "Calendar unavailable.");
-      setSlots(await response.json());
+      const [rows, upcomingRows] = await Promise.all([response.json(), upcoming?.ok ? upcoming.json() : []]);
+      if (signal?.aborted) return;
+      setSlots(rows);
+      setDestinations(upcomingRows);
     } catch (error) {
       if (signal?.aborted) return;
       setSlots([]);
+      setDestinations([]);
       setMessage(error instanceof Error ? error.message : "Calendar unavailable.");
     }
   }
@@ -49,8 +57,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
     return () => controller.abort();
     // The page mode is fixed for the lifetime of this component.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session]);
-
+  }, [session, day, days]);
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
@@ -188,7 +195,6 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
   const appointments = visible.filter((slot) => slot.booking_id).length;
   const blocked = visible.filter((slot) => slot.blocked && !slot.booking_id).length;
   const isAvailable = (slot: Slot) => !slot.booking_id && !slot.blocked && Date.parse(slot.starts_at) > Date.now();
-  const destinations = clinic ? slots.filter(isAvailable) : [];
   const available = visible.filter(isAvailable).length;
   const title = admin ? "Owner console" : "Clinic workspace";
   const field = "block w-full rounded-btn border border-line bg-white px-3 py-2 text-ink";
@@ -205,7 +211,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
             <a className="rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-calendar">Appointments & availability</a>
             <a className="rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-enquiries">Enquiries</a>
             <button className="flex items-center gap-2 rounded-btn px-3 py-2 text-left text-sm hover:bg-white/10 disabled:opacity-50"
-              disabled={busy} onClick={() => { setSession(""); setSlots([]); setEnquiries(null); setMessage(""); }}>
+              disabled={busy} onClick={() => { setSession(""); setSlots([]); setDestinations([]); setEnquiries(null); setMessage(""); }}>
               <LogOut size={16} aria-hidden="true" /> Close session
             </button>
           </nav>}
@@ -245,8 +251,8 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                 </button>
               </div>
               <div className="my-4 flex flex-wrap gap-3 text-sm">
-                <label>Start date <input className={field} type="date" required value={day} onChange={(event) => setDay(event.target.value)} /></label>
-                <label>View <select className={field} value={days} onChange={(event) => setDays(Number(event.target.value))}><option value={1}>Day</option><option value={7}>Week</option></select></label>
+                <label>Start date <input className={field} type="date" required disabled={busy} value={day} onChange={(event) => setDay(event.target.value)} /></label>
+                <label>View <select className={field} disabled={busy} value={days} onChange={(event) => setDays(Number(event.target.value))}><option value={1}>Day</option><option value={7}>Week</option></select></label>
               </div>
               <details className="mb-4 rounded-btn border border-line bg-sand p-3">
                 <summary className="cursor-pointer font-semibold">Add appointment slot</summary>

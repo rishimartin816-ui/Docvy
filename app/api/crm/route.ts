@@ -53,9 +53,22 @@ export async function GET(request: NextRequest) {
       }
     }
     const query = "/rest/v1/crm_calendar?clinic_id=eq." + clinicId;
-    const path = clinic
-      ? query + "&order=starts_at&limit=500"
-      : query + "&select=id,starts_at,ends_at&blocked=eq.false&booking_id=is.null&order=starts_at&limit=100&starts_at=gt." + new Date().toISOString();
+    const available = "&select=id,starts_at,ends_at&blocked=eq.false&booking_id=is.null&order=starts_at&limit=100&starts_at=gt." + new Date().toISOString();
+    let path = query + available;
+    if (clinic && !request.nextUrl.searchParams.has("upcoming")) {
+      const day = request.nextUrl.searchParams.get("day");
+      const days = request.nextUrl.searchParams.get("days") ?? "7";
+      if (!day || !/^\d{4}-\d{2}-\d{2}$/.test(day) || !["1", "7"].includes(days)) {
+        return reply({ error: "Choose a valid calendar day and view" }, 400);
+      }
+      const start = Date.parse(day + "T00:00:00+05:30");
+      const utcDay = Date.parse(day + "T00:00:00Z");
+      if (!Number.isFinite(start) || new Date(utcDay).toISOString().slice(0, 10) !== day) {
+        return reply({ error: "Choose a valid calendar day" }, 400);
+      }
+      const end = new Date(start + Number(days) * 86400000).toISOString();
+      path = query + "&order=starts_at&starts_at=gte." + new Date(start).toISOString() + "&starts_at=lt." + end;
+    }
     const response = await database(path);
     return response.ok ? reply(await response.json()) : reply({ error: "Calendar unavailable" }, 503);
   } catch {
