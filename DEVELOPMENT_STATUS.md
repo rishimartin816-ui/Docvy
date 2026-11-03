@@ -226,9 +226,10 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - The private enquiry connection is still unconfigured, and no synthetic lead has been submitted.
 - Progress estimates remain 95% public website/search foundation, 55% enquiry path and 22% full product; these are roadmap estimates, not analytics.
 
-## 3 November profile correction email template — publication pending
+## 3 November profile correction email template — published
 
 - Updated `/for-doctors` so its main action opens a prefilled email for a profile correction request. Fields: official public profile URL, doctor name, city and public detail to correct.
 - Local generated HTML contains the correct current profile count, email destination/action and all four fields. This is a manual email path; it does not submit a lead to the Google Sheet or book an appointment.
 - The latest provider-page lint/build passed locally before this copy-only follow-up; a compact generated-output check passed after it. `git diff --check` passed before documentation updates.
-- This follow-up is not yet confirmed live. Enquiry intake remains closed; no test lead has been submitted. Do not describe this mailto link as a working Sheet connection.
+- Commit `5797d54` is READY in Vercel production as deployment `dpl_ENZwxwghcpLqhroV2DtXThFy5LHj`. Live `/for-doctors` returned HTTP 200 with the expected page title and one H1. After URL decoding, the live email link contains the official profile URL, doctor name, city and correction-detail fields; the page retains its no-patient-information notice.
+- Enquiry intake remains closed; no test lead has been submitted. Do not describe this mailto link as a working Sheet connection.
