@@ -26,6 +26,7 @@ const calendarDay = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" 
 
 export default function StagingCalendar({ clinic = false, admin = false, clinicName = "DOCVY Test Hospital", staging = true }: { clinic?: boolean; admin?: boolean; clinicName?: string; staging?: boolean }) {
   const [session, setSession] = useState("");
+  const [canSchedule, setCanSchedule] = useState(false);
   const [slots, setSlots] = useState<Slot[]>([]);
   const [destinations, setDestinations] = useState<Slot[]>([]);
   const [history, setHistory] = useState<AppointmentHistory | null>(null);
@@ -85,6 +86,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
+      setCanSchedule(data.canSchedule === true);
       setSession(data.token);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Sign-in unavailable.");
@@ -236,9 +238,9 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
           {session && <nav aria-label="Clinic workspace" className="mt-6 flex flex-wrap gap-2 lg:flex-col">
             <a className="rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-overview">Overview</a>
             <a className="rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-calendar">Appointments & availability</a>
-            <a className="rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-enquiries">Enquiries</a>
+            {canSchedule && <a className="rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-enquiries">Enquiries</a>}
             <button className="flex items-center gap-2 rounded-btn px-3 py-2 text-left text-sm hover:bg-white/10 disabled:opacity-50"
-              disabled={busy} onClick={() => { setSession(""); setSlots([]); setDestinations([]); setEnquiries(null); setHistory(null); setMessage(""); }}>
+              disabled={busy} onClick={() => { setSession(""); setCanSchedule(false); setSlots([]); setDestinations([]); setEnquiries(null); setHistory(null); setMessage(""); }}>
               <LogOut size={16} aria-hidden="true" /> Close session
             </button>
           </nav>}
@@ -271,7 +273,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <h2 className="flex items-center gap-2 text-xl font-bold"><CalendarDays size={22} aria-hidden="true" /> Appointments & availability</h2>
-                  <p className="text-sm text-grey">Selected period · India Standard Time</p>
+                  <p className="text-sm text-grey">Selected period · India Standard Time{canSchedule ? "" : " · View only"}</p>
                 </div>
                 <button className={button} disabled={busy} onClick={() => void refresh(session)}>
                   <RefreshCw size={16} aria-hidden="true" /> Refresh calendar
@@ -281,14 +283,14 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                 <label>Start date <input className={field} type="date" required disabled={busy} value={day} onChange={(event) => setDay(event.target.value)} /></label>
                 <label>View <select className={field} disabled={busy} value={days} onChange={(event) => setDays(Number(event.target.value))}><option value={1}>Day</option><option value={7}>Week</option></select></label>
               </div>
-              <details className="mb-4 rounded-btn border border-line bg-sand p-3">
+              {canSchedule && <details className="mb-4 rounded-btn border border-line bg-sand p-3">
                 <summary className="cursor-pointer font-semibold">Add appointment slot</summary>
                 <form className="mt-3 flex flex-wrap items-end gap-3 text-sm" onSubmit={createSlot}>
                   <label>Starts (IST)<input className={field} type="datetime-local" name="starts" required /></label>
                   <label>Ends (IST)<input className={field} type="datetime-local" name="ends" required /></label>
                   <button className={button} disabled={busy}>Add slot</button>
                 </form>
-              </details>
+              </details>}
               {visible.length === 0 ? <p className="rounded-btn bg-sand p-4 text-grey">No slots in this period.</p> :
                 <ul className="divide-y divide-line">{visible.map((slot) => (
                   <li className="flex flex-wrap items-center justify-between gap-3 py-3" key={slot.id}>
@@ -296,7 +298,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                       <p className="font-semibold">{dateLabel.format(new Date(slot.starts_at))} – {dateLabel.format(new Date(slot.ends_at))}</p>
                       <p className="break-all text-sm text-grey">{slot.booking_id ? (slot.booking_status === "completed" ? "Completed" : slot.booking_status === "no_show" ? "No-show" : "Booked") + " · " + slot.booking_id : slot.blocked ? "Blocked" : Date.parse(slot.starts_at) <= Date.now() ? "Past slot" : "Available"}</p>
                     </div>
-                    {slot.booking_id && slot.booking_status === "confirmed" && (
+                    {canSchedule && slot.booking_id && slot.booking_status === "confirmed" && (
                       <div className="flex flex-wrap gap-2">
                         {Date.parse(slot.starts_at) <= Date.now() ? <>
                           <button className={button} disabled={busy} onClick={() => void change(slot, "completed")}>Complete</button>
@@ -317,11 +319,12 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                         </>}
                       </div>
                     )}
-                    {!slot.booking_id && Date.parse(slot.starts_at) > Date.now() &&
+                    {canSchedule && !slot.booking_id && Date.parse(slot.starts_at) > Date.now() &&
                       <button className={button} disabled={busy} onClick={() => void change(slot)}>{slot.blocked ? "Unblock" : "Block"}</button>}
                   </li>
                 ))}</ul>}
             </section>
+            {canSchedule && <>
             <section className="mt-5 rounded-card border border-line bg-white p-4 sm:p-6">
               <h2 className="text-xl font-bold">Appointment history</h2>
               <form className="mt-3 flex flex-wrap items-end gap-2 text-sm" onSubmit={loadHistory}>
@@ -372,6 +375,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                 </li>)}
               </ul>}
             </section>
+            </>}
           </>}
           <p role="status" className="mt-3 text-sm text-grey">{message}</p>
         </div>

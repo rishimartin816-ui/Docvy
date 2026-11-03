@@ -115,7 +115,8 @@ export async function POST(request: NextRequest) {
       if (!access || (input.admin === true && access.role !== "owner")) {
         return reply({ error: "Staff sign-in failed" }, 403);
       }
-      return reply({ token });
+      const canSchedule = ["owner", "clinic_admin", "manager", "receptionist", "scheduler"].includes(access.role);
+      return reply({ token, canSchedule });
     } catch {
       return reply({ error: "Sign-in unavailable" }, 503);
     }
