@@ -351,3 +351,9 @@ Structured data should describe visible, accurate content only. Google says its 
 - Clarified the public profile-correction path and added visible answers on source links, DOCVY credential review, self-service claims, listing coverage and charges. The page distinguishes the India-wide product purpose from current Delhi, Gurugram and Noida listings. Patient-request status is configuration-aware so the copy remains accurate when intake setup changes.
 - Added a page-specific title and description, a canonical URL, one H1 and direct visible answers. Did not add FAQ rich-result markup, credential-verification claims, ranking claims or special AI markup.
 - The connected Figma account uses a View seat. Figma denied Code Connect access for that seat, so no mapping was available. No Figma file or seat was changed.
+
+## 3 November patient guide visual and search order
+
+- Applied the Figma brand system's navy, blue, cyan and teal palette to an original editorial illustration showing a patient and care navigator exploring broad guide topics. This is a new code asset, not a copied Figma frame; no Figma file was edited.
+- Reworked the patient guide's opening for a clearer visual hierarchy: direct patient question and explanation, supportive illustration, then the searchable guide before the four-step journey card. The search and city selector remain usable and server-rendered specialty results remain in the page markup.
+- Used responsive `next/image` sizing, alt text describing the illustration, and a short figure caption. The visual is decorative context and does not suggest a diagnosis or confirmed appointment.

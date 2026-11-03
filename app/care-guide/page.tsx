@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { Activity, AlertTriangle, ArrowRight, BookOpenCheck, Building2, CalendarClock, Eye, HeartPulse, MapPin, Search, ShieldCheck, Stethoscope, Wind } from "lucide-react";
 import CareGuideSearch from "@/components/CareGuideSearch";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
@@ -19,26 +20,44 @@ export const metadata: Metadata = {
 export default function CareGuidePage() {
   const intakeEnabled = isAppointmentIntakeConfigured();
   return <div className="bg-[#F6FAF8] text-[#173A37]">
-    <section className="bg-[radial-gradient(circle_at_78%_35%,#D5F0E8_0%,#EAF5F1_38%,#F4FAF7_100%)] px-6 py-16 md:py-20">
-      <div className="mx-auto max-w-6xl">
-        <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><MapPin size={14} /> PATIENT GUIDE · INDIA</p>
-        <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[56px]">What kind of doctor should I see?</h1>
-        <p className="mt-5 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">Search a common condition, symptom or doctor type. The guide explains which specialties are commonly associated with that topic and helps you find a starting point. It cannot diagnose a condition or decide which care is right for you.</p>
-        <div className="mt-7 max-w-5xl rounded-2xl border border-[#DCEAE5] bg-white/80 p-4 sm:p-5">
-          <div className="flex flex-wrap items-center justify-between gap-2"><p className="text-[10px] font-extrabold tracking-[0.14em] text-[#087F83]">YOUR PLACE IN THE JOURNEY</p><span className="rounded-full bg-[#DDF0E9] px-3 py-1 text-[10px] font-extrabold tracking-wide text-[#087F83]">YOU ARE HERE · PATIENT GUIDE</span></div>
-          <ol className="mt-4 grid gap-3 md:grid-cols-4">
-            {[
-              { title: "A question or concern", detail: "What you searched", icon: Search, current: false },
-              { title: "Understand a specialty", detail: "This guide helps orient you", icon: BookOpenCheck, current: true },
-              { title: "Browse current doctors", detail: providerCityListLabel, icon: Stethoscope, current: false },
-              { title: intakeEnabled ? "Send an enquiry to DOCVY" : "Contact the provider directly", detail: intakeEnabled ? "DOCVY intake is open" : "Form currently paused", icon: CalendarClock, current: false },
-            ].map(({ title, detail, icon: Icon, current }, index) => <li key={title} className={`relative flex min-h-[90px] gap-3 rounded-xl p-3 ${current ? "bg-[#EAF5F1] ring-1 ring-[#B8DCD0]" : "bg-[#F8FBF9]"}`}>
-              <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${current ? "bg-[#087F83] text-white" : "bg-white text-[#087F83]"}`}><Icon size={17} aria-hidden="true" /></span>
-              <span><span className="block text-[10px] font-extrabold tracking-[0.1em] text-[#789089]">STEP 0{index + 1}</span><span className="mt-1 block text-xs font-bold leading-5 text-[#173A37]">{title}</span><span className="mt-0.5 block text-[11px] leading-4 text-[#526D66]">{detail}</span></span>
-            </li>)}
-          </ol>
+    <section className="bg-[radial-gradient(circle_at_78%_35%,#D5F0E8_0%,#EAF5F1_38%,#F4FAF7_100%)] px-6 py-12 md:py-16">
+      <div className="mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-[1.02fr_.98fr] lg:gap-12">
+        <div>
+          <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><MapPin size={14} /> PATIENT GUIDE · INDIA</p>
+          <h1 className="mt-5 max-w-2xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[56px]">What kind of doctor should I see?</h1>
+          <p className="mt-5 max-w-2xl text-base leading-8 text-[#526D66] md:text-lg">Search a common condition, symptom or doctor type. Explore the specialties commonly associated with that topic, then check whether DOCVY has current listings in your city. This guide cannot diagnose a condition or decide which care is right for you.</p>
+          <Link href="/doctors" className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#102B46] px-5 text-sm font-bold text-white transition hover:bg-[#071426]">Browse current doctor listings <ArrowRight size={16} aria-hidden="true" /></Link>
         </div>
+        <figure className="relative mx-auto w-full max-w-[600px] overflow-hidden rounded-[28px] border border-white/80 bg-[#F4F8FC] shadow-[0_24px_70px_rgba(7,20,38,0.14)]">
+          <Image src="/images/docvy-patient-care-guide.png" alt="Illustration of a patient and care navigator exploring health guide topics represented by heart, skin and doctor specialty icons" width={1536} height={1024} priority sizes="(max-width: 1024px) 100vw, 50vw" className="h-auto w-full" />
+          <figcaption className="border-t border-[#DCEAE5] bg-white/90 px-4 py-3 text-center text-xs font-semibold text-[#526D66]">A starting point for better questions, not a diagnosis.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section className="bg-white px-6 py-10 md:py-14" aria-labelledby="find-a-starting-point">
+      <div className="mx-auto max-w-6xl">
+        <p className="text-xs font-extrabold tracking-[0.13em] text-[#087F83]">SEARCH THE PATIENT GUIDE</p>
+        <h2 id="find-a-starting-point" className="mt-2 text-2xl font-bold tracking-tight md:text-3xl">Find a useful starting point</h2>
+        <p className="mt-2 max-w-3xl text-sm leading-6 text-[#526D66]">Use a health topic, symptom or specialty in your own words. Results explain broad directory categories and current listing coverage; they are not personal recommendations.</p>
         <CareGuideSearch />
+      </div>
+    </section>
+
+    <section className="bg-[#F6FAF8] px-6 py-8 md:py-10" aria-label="How to use this guide">
+      <div className="mx-auto max-w-6xl rounded-2xl border border-[#DCEAE5] bg-white/90 p-4 sm:p-5">
+        <div className="flex flex-wrap items-center justify-between gap-2"><p className="text-[10px] font-extrabold tracking-[0.14em] text-[#087F83]">YOUR PLACE IN THE JOURNEY</p><span className="rounded-full bg-[#DDF0E9] px-3 py-1 text-[10px] font-extrabold tracking-wide text-[#087F83]">YOU ARE HERE · PATIENT GUIDE</span></div>
+        <ol className="mt-4 grid gap-3 md:grid-cols-4">
+          {[
+            { title: "A question or concern", detail: "What you searched", icon: Search, current: false },
+            { title: "Understand a specialty", detail: "This guide helps orient you", icon: BookOpenCheck, current: true },
+            { title: "Browse current doctors", detail: providerCityListLabel, icon: Stethoscope, current: false },
+            { title: intakeEnabled ? "Send an enquiry to DOCVY" : "Contact the provider directly", detail: intakeEnabled ? "DOCVY intake is open" : "Form currently paused", icon: CalendarClock, current: false },
+          ].map(({ title, detail, icon: Icon, current }, index) => <li key={title} className={`relative flex min-h-[90px] gap-3 rounded-xl p-3 ${current ? "bg-[#EAF5F1] ring-1 ring-[#B8DCD0]" : "bg-[#F8FBF9]"}`}>
+            <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${current ? "bg-[#087F83] text-white" : "bg-white text-[#087F83]"}`}><Icon size={17} aria-hidden="true" /></span>
+            <span><span className="block text-[10px] font-extrabold tracking-[0.1em] text-[#789089]">STEP 0{index + 1}</span><span className="mt-1 block text-xs font-bold leading-5 text-[#173A37]">{title}</span><span className="mt-0.5 block text-[11px] leading-4 text-[#526D66]">{detail}</span></span>
+          </li>)}
+        </ol>
       </div>
     </section>
 
