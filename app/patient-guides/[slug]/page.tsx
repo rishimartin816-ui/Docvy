@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowRight, BookOpenCheck, ExternalLink, MapPin, ShieldCheck, Stethoscope } from "lucide-react";
 import { patientTopicGuides } from "@/lib/patient-topic-guides";
 import { careGuide } from "@/lib/care-guide";
-import { providerCandidates, providerCities } from "@/lib/provider-candidates";
+import { providerCandidates, providerCities, providerCityListLabel } from "@/lib/provider-candidates";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 
 const site = "https://www.docvy.in";
@@ -87,7 +87,7 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
             <p className="mt-2 text-sm leading-7 text-[#36564F]">This page explains broad specialty roles, not a diagnosis or a personal referral. The same concern can have different causes and care routes.</p>
             <div className="mt-5 rounded-2xl bg-[#F8FBF9] p-4">
               <div className="flex items-center gap-2 text-xs font-extrabold tracking-wide text-[#087F83]"><MapPin size={15} aria-hidden="true" /> CURRENT LISTING AREA</div>
-              <p className="mt-2 text-sm leading-6 text-[#36564F]">The guide is for people across India. DOCVY’s limited, source-linked doctor directory currently covers Delhi, Gurugram and Noida.</p>
+              <p className="mt-2 text-sm leading-6 text-[#36564F]">The guide is for people across India. DOCVY’s limited, source-linked doctor directory currently covers {providerCityListLabel}.</p>
             </div>
           </aside>
         </div>
@@ -142,7 +142,7 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
         <ul className="mt-5 flex flex-col gap-3">{guide.references.map((reference) => <li key={reference.url}><a href={reference.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-[#087F83] underline decoration-[#B8DCD0] underline-offset-4 hover:text-[#066D70]">{reference.label}<ExternalLink size={14} aria-hidden="true" /></a></li>)}</ul>
       </section>
 
-      <div className="mt-10 flex flex-col gap-4 rounded-3xl bg-[#123B38] p-6 text-white md:flex-row md:items-center md:justify-between md:p-8"><div><p className="text-xs font-extrabold tracking-[0.13em] text-[#79BDB1]">DOCVY COVERAGE TODAY</p><h2 className="mt-2 text-2xl font-bold text-white">India-wide guide. Limited NCR directory.</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-[#D8E9E3]">Use the guide from anywhere in India. Provider profiles currently cover Delhi, Gurugram and Noida; credentials and appointment availability have not been independently verified by DOCVY.</p></div><Link href="/care-guide" className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl bg-white px-5 text-sm font-bold text-[#123B38] hover:bg-[#EAF5F1]">Explore the patient guide <ArrowRight size={16} aria-hidden="true" /></Link></div>
+      <div className="mt-10 flex flex-col gap-4 rounded-3xl bg-[#123B38] p-6 text-white md:flex-row md:items-center md:justify-between md:p-8"><div><p className="text-xs font-extrabold tracking-[0.13em] text-[#79BDB1]">DOCVY COVERAGE TODAY</p><h2 className="mt-2 text-2xl font-bold text-white">India-wide guide. Limited city directory.</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-[#D8E9E3]">Use the guide from anywhere in India. Provider profiles currently cover {providerCityListLabel}; credentials and appointment availability have not been independently verified by DOCVY.</p></div><Link href="/care-guide" className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl bg-white px-5 text-sm font-bold text-[#123B38] hover:bg-[#EAF5F1]">Explore the patient guide <ArrowRight size={16} aria-hidden="true" /></Link></div>
     </section>
   </div>;
 }

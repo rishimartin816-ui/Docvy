@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, Building2, MapPin, Stethoscope } from "lucide-react";
 import { buildPageSocialMetadata } from "@/lib/metadata";
+import { providerCityListLabel, providerProfileCount } from "@/lib/provider-candidates";
+
+const directoryCoverage = `Current listings are in ${providerCityListLabel}.`;
 
 export const metadata: Metadata = {
   title: "For doctors: profile corrections and onboarding",
-  description: "Request a doctor profile correction or discuss future onboarding with DOCVY. The DOCVY owner reviews public sources; current listings are in Delhi, Gurugram and Noida.",
+  description: `Request a doctor profile correction or discuss future onboarding with DOCVY. The DOCVY owner reviews public sources; ${directoryCoverage}`,
   alternates: { canonical: "/for-doctors" },
-  ...buildPageSocialMetadata("For doctors: profile corrections and onboarding | DOCVY", "Request a doctor profile correction or discuss future onboarding with DOCVY. The DOCVY owner reviews public sources; current listings are in Delhi, Gurugram and Noida.", "/for-doctors"),
+  ...buildPageSocialMetadata("For doctors: profile corrections and onboarding | DOCVY", `Request a doctor profile correction or discuss future onboarding with DOCVY. The DOCVY owner reviews public sources; ${directoryCoverage}`, "/for-doctors"),
 };
 
 const reviewSteps = [
@@ -17,7 +20,7 @@ const reviewSteps = [
 ];
 
 const answers = [
-  ["Is the DOCVY doctor directory live across India?", "DOCVY is being built for discovery across India. The current 12 source-linked profiles are grouped under Delhi, Gurugram and Noida. Additional city listings are planned when enough useful, source-linked provider coverage is available; no expansion date has been announced. DOCVY credential review and appointment booking are not live."],
+  ["Is the DOCVY doctor directory live across India?", `DOCVY is being built for discovery across India. The current ${providerProfileCount} source-linked profiles are grouped under ${providerCityListLabel}. Additional city listings are planned when enough useful, source-linked provider coverage is available; no expansion date has been announced. DOCVY credential review and appointment booking are not live.`],
   ["How can a doctor request a profile correction on DOCVY?", "Email contact@docvy.in with the official hospital or clinic profile link, the doctor's name and city, and the specific public detail to correct. There is no self-service claim portal. The DOCVY owner reviews each request against public sources and approves any update before it is published. This is a source review, not a claim that clinical credentials have been independently verified. Do not email patient information, identity documents or registration certificates."],
   ["Does DOCVY charge doctors to appear in search?", "There is no active listing offer or online checkout. Contact DOCVY to discuss provider plans and terms."],
 ];
@@ -30,7 +33,7 @@ export default function ForDoctorsPage() {
           <div>
           <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><Stethoscope size={15} /> FOR DOCTORS · INDIA</p>
           <h1 className="mt-6 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[58px]">Request a correction to a DOCVY doctor profile.</h1>
-          <p className="mt-6 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">DOCVY is being built for provider discovery across India. The current 12 source-linked doctor profiles are in Delhi, Gurugram and Noida. Additional city listings are planned when enough useful source-linked coverage is ready; no expansion date has been announced. Credential review and self-service claims are not open yet; any patient enquiry submitted to DOCVY is not automatically delivered to a doctor or hospital. Contact us if a profile needs correction or you want to discuss future onboarding.</p>
+          <p className="mt-6 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">DOCVY is being built for provider discovery across India. The current {providerProfileCount} source-linked doctor profiles are in {providerCityListLabel}. Additional city listings are planned when enough useful source-linked coverage is ready; no expansion date has been announced. Credential review and self-service claims are not open yet; any patient enquiry submitted to DOCVY is not automatically delivered to a doctor or hospital. Contact us if a profile needs correction or you want to discuss future onboarding.</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a href="mailto:contact@docvy.in?subject=DOCVY%20doctor%20profile%20correction&body=Official%20public%20hospital%20or%20clinic%20profile%20URL%3A%0D%0ADoctor%20name%3A%0D%0ACity%3A%0D%0APublic%20detail%20to%20correct%3A%0D%0A" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#087F83] px-5 text-sm font-bold text-white hover:bg-[#066D70]">Email a profile correction request <ArrowRight size={16} /></a>
             <Link href="/doctors" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-[#B7D2C9] bg-white/80 px-5 text-sm font-bold text-[#173A37] hover:bg-white">Directory status <ArrowRight size={16} /></Link>
@@ -60,7 +63,7 @@ export default function ForDoctorsPage() {
         <div className="flex items-start gap-4"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#E2F2EC] text-[#087F83]"><MapPin size={21} /></span><div>
           <p className="text-xs font-extrabold tracking-[0.14em] text-[#087F83]">LOCAL DISCOVERY</p>
           <h2 className="mt-2 text-2xl font-bold tracking-tight md:text-3xl">India-wide discovery; current listings in three NCR cities.</h2>
-          <p className="mt-4 max-w-3xl text-sm leading-7 text-[#526D66]">Current listings cover Delhi, Gurugram and Noida. DOCVY plans to expand city coverage when enough useful, source-linked provider information is ready; no expansion date has been announced. Neighbourhood names appear only where a hospital source lists a specific locality. A profile or specialty search does not mean a doctor is accepting appointments.</p>
+          <p className="mt-4 max-w-3xl text-sm leading-7 text-[#526D66]">Current listings cover {providerCityListLabel}. DOCVY plans to expand city coverage when enough useful, source-linked provider information is ready; no expansion date has been announced. Neighbourhood names appear only where a hospital source lists a specific locality. A profile or specialty search does not mean a doctor is accepting appointments.</p>
           <nav aria-label="Current doctor listings by city" className="mt-5 flex flex-wrap gap-2 text-xs font-semibold text-[#36564F]">
             <Link href="/doctors/delhi" className="rounded-full border border-[#DCEAE5] bg-white px-3 py-2 transition hover:border-[#087F83] hover:text-[#087F83]">Delhi doctor listings</Link>
             <Link href="/doctors/gurugram" className="rounded-full border border-[#DCEAE5] bg-white px-3 py-2 transition hover:border-[#087F83] hover:text-[#087F83]">Gurugram (Gurgaon) doctor listings</Link>
@@ -76,7 +79,7 @@ export default function ForDoctorsPage() {
       </div></section>
 
       <section className="mx-auto max-w-6xl px-6 py-16 md:py-20"><div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr]">
-        <div><p className="text-xs font-extrabold tracking-[0.14em] text-[#087F83]">COMMON QUESTIONS</p><h2 className="mt-3 text-2xl font-bold tracking-tight md:text-3xl">For doctors and clinics</h2><p className="mt-4 text-sm leading-7 text-[#526D66]">DOCVY is preparing provider discovery across India, beginning with the current Delhi NCR listings. This page explains the status and how to contact the team.</p><Link href="/pricing" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#087F83] hover:text-[#066D70]">Clinic and hospital plans <Building2 size={16} /></Link></div>
+        <div><p className="text-xs font-extrabold tracking-[0.14em] text-[#087F83]">COMMON QUESTIONS</p><h2 className="mt-3 text-2xl font-bold tracking-tight md:text-3xl">For doctors and clinics</h2><p className="mt-4 text-sm leading-7 text-[#526D66]">DOCVY is preparing provider discovery across India, with current source-linked profiles in {providerCityListLabel}. This page explains the status and how to contact the team.</p><Link href="/pricing" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#087F83] hover:text-[#066D70]">Clinic and hospital plans <Building2 size={16} /></Link></div>
         <div className="space-y-3">{answers.map(([question, answer]) => <details key={question} className="group rounded-2xl border border-[#DCEAE5] bg-white p-5 open:shadow-sm"><summary className="cursor-pointer list-none pr-6 text-base font-bold marker:hidden">{question}</summary><p className="mt-3 text-sm leading-7 text-[#526D66]">{answer}</p></details>)}</div>
       </div></section>
 

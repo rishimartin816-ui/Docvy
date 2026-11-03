@@ -109,5 +109,10 @@ export const providerCandidates: ProviderCandidate[] = [
 
 export const providerCities: ProviderCity[] = ["Delhi", "Gurugram", "Noida"];
 
+export const providerProfileCount = providerCandidates.length;
+export const providerCityListLabel = providerCities.length < 2
+  ? providerCities[0] ?? "no cities yet"
+  : `${providerCities.slice(0, -1).join(", ")} and ${providerCities[providerCities.length - 1]}`;
+
 export const providerSpecialties = Array.from(new Set(providerCandidates.flatMap((doctor) => doctor.specialties)))
   .sort((a, b) => a.localeCompare(b));

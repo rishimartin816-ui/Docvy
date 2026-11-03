@@ -3,14 +3,16 @@ import Link from "next/link";
 import { ArrowRight, BadgeHelp, Building2, CalendarClock, MapPin, Search, ShieldAlert, Stethoscope } from "lucide-react";
 import DoctorDirectory from "@/components/DoctorDirectory";
 import { buildPageSocialMetadata } from "@/lib/metadata";
-import { providerCandidates, providerCities } from "@/lib/provider-candidates";
+import { providerCandidates, providerCities, providerCityListLabel, providerProfileCount } from "@/lib/provider-candidates";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
+
+const directoryDescription = `Browse ${providerProfileCount} source-linked doctor profiles across ${providerCityListLabel}. Filter by specialty, hospital or locality; DOCVY credential review and appointment availability are pending.`;
 
 export const metadata: Metadata = {
   title: "Doctors in Delhi NCR | Search by specialty and location",
-  description: "Browse 12 source-linked doctor profiles across Delhi, Gurugram and Noida. Filter by specialty, hospital or locality; DOCVY credential review and appointment availability are pending.",
+  description: directoryDescription,
   alternates: { canonical: "/doctors" },
-  ...buildPageSocialMetadata("Doctors in Delhi NCR | Search by specialty and location | DOCVY", "Browse 12 source-linked doctor profiles across Delhi, Gurugram and Noida. Filter by specialty, hospital or locality; DOCVY credential review and appointment availability are pending.", "/doctors"),
+  ...buildPageSocialMetadata("Doctors in Delhi NCR | Search by specialty and location | DOCVY", directoryDescription, "/doctors"),
 };
 
 export default function DoctorsPage() {
@@ -25,7 +27,7 @@ export default function DoctorsPage() {
       <div className="mx-auto max-w-6xl">
         <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><MapPin size={14} /> DOCTORS · DELHI NCR</p>
         <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[56px]">Find doctors by specialty, city and hospital.</h1>
-        <p className="mt-5 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">Browse 12 doctor profiles sourced from official hospital listings. Filter Delhi, Gurugram or Noida by specialty, hospital or locality. {intakeEnabled ? "The enquiry form sends your details to DOCVY’s private intake; it does not automatically notify the provider." : "The appointment enquiry form is paused until DOCVY’s private intake is connected."}</p>
+        <p className="mt-5 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">Browse {providerProfileCount} doctor profiles sourced from official hospital listings. Filter {providerCityListLabel} by specialty, hospital or locality. {intakeEnabled ? "The enquiry form sends your details to DOCVY’s private intake; it does not automatically notify the provider." : "The appointment enquiry form is paused until DOCVY’s private intake is connected."}</p>
         <div className="mt-7 flex flex-wrap gap-2"><span className="inline-flex items-center gap-2 rounded-full bg-white/85 px-4 py-2 text-xs font-bold text-[#087F83]"><Stethoscope size={14}/>{providerCandidates.length} unique profiles</span><span className="inline-flex items-center gap-2 rounded-full bg-white/85 px-4 py-2 text-xs font-bold text-[#526D66]"><MapPin size={14}/>{cityPlacements} profile-city placements · {facilityLocations} facility locations</span><span className="inline-flex items-center gap-2 rounded-full bg-[#FFF9EE] px-4 py-2 text-xs font-bold text-[#80672E]"><BadgeHelp size={14}/>DOCVY review pending</span></div>
         <nav className="mt-6 flex flex-wrap gap-2" aria-label="Browse doctor listings by city">{providerCities.map((city) => <Link key={city} href={`/doctors/${city.toLocaleLowerCase()}`} className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/80 px-4 py-2 text-sm font-semibold text-[#36564F] transition hover:border-[#087F83] hover:text-[#087F83]"><MapPin size={14}/>{city} doctors <ArrowRight size={14}/></Link>)}</nav>
       </div>

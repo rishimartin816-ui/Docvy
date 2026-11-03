@@ -5,7 +5,8 @@ import Link from "next/link";
 import { Building2, CalendarClock, ExternalLink, MapPin, Search } from "lucide-react";
 import { providerCandidates, providerCities, providerSpecialties, type ProviderCity } from "@/lib/provider-candidates";
 
-type CityFilter = "All Delhi NCR" | ProviderCity;
+const allCitiesLabel = "All current cities";
+type CityFilter = typeof allCitiesLabel | ProviderCity;
 type LocalityOption = { value: string; label: string };
 
 function formatFacility(facility: string, locality?: string) {
@@ -13,7 +14,7 @@ function formatFacility(facility: string, locality?: string) {
   return `${facility} · ${locality}`;
 }
 
-export default function DoctorDirectory({ initialCity = "All Delhi NCR", intakeEnabled = false }: { initialCity?: CityFilter; intakeEnabled?: boolean }) {
+export default function DoctorDirectory({ initialCity = allCitiesLabel, intakeEnabled = false }: { initialCity?: CityFilter; intakeEnabled?: boolean }) {
   const [city, setCity] = useState<CityFilter>(initialCity);
   const [specialty, setSpecialty] = useState("All specialties");
   const [query, setQuery] = useState("");
@@ -22,9 +23,9 @@ export default function DoctorDirectory({ initialCity = "All Delhi NCR", intakeE
   const localityOptions = useMemo(() => {
     const options = new Map<string, string>();
     providerCandidates.forEach((doctor) => doctor.locations.forEach((location) => {
-      if (!location.locality || (city !== "All Delhi NCR" && location.city !== city)) return;
+      if (!location.locality || (city !== allCitiesLabel && location.city !== city)) return;
       const value = `${location.city}::${location.locality}`;
-      const label = city === "All Delhi NCR" ? `${location.locality} · ${location.city}` : location.locality;
+      const label = city === allCitiesLabel ? `${location.locality} · ${location.city}` : location.locality;
       options.set(value, label);
     }));
     return [...options].map(([value, label]): LocalityOption => ({ value, label })).sort((a, b) => a.label.localeCompare(b.label));
@@ -48,7 +49,7 @@ export default function DoctorDirectory({ initialCity = "All Delhi NCR", intakeE
   const matches = useMemo(() => {
     const words = query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
     return providerCandidates.filter((doctor) => {
-      const inCity = city === "All Delhi NCR" || doctor.locations.some((location) => location.city === city);
+      const inCity = city === allCitiesLabel || doctor.locations.some((location) => location.city === city);
       const inSpecialty = specialty === "All specialties" || doctor.specialties.includes(specialty);
       const inLocality = locality === "All listed areas" || doctor.locations.some((location) => `${location.city}::${location.locality ?? ""}` === locality);
       const searchable = [doctor.name, doctor.hospital, ...doctor.specialties, ...doctor.locations.map((location) => `${location.city} ${location.locality ?? ""} ${location.facility}`), ...doctor.otherNcrLocations].join(" ").toLocaleLowerCase();
@@ -56,7 +57,7 @@ export default function DoctorDirectory({ initialCity = "All Delhi NCR", intakeE
     });
   }, [city, locality, specialty, query]);
 
-  const visibleCities = city === "All Delhi NCR" ? providerCities : [city];
+  const visibleCities = city === allCitiesLabel ? providerCities : [city];
 
   return <div>
     <section className="rounded-[24px] border border-[#DCEAE5] bg-white p-5 shadow-[0_10px_32px_rgba(23,58,55,0.04)] md:p-7" aria-label="Filter doctor profiles">
@@ -65,13 +66,13 @@ export default function DoctorDirectory({ initialCity = "All Delhi NCR", intakeE
         <div><label htmlFor="specialty-filter" className="mb-2 block text-sm font-bold text-[#173A37]">Specialty</label><select id="specialty-filter" value={specialty} onChange={(event) => setSpecialty(event.target.value)} className="min-h-12 w-full rounded-xl border border-[#C9DDD5] bg-white px-4 text-sm text-[#173A37] focus:outline-none focus:ring-2 focus:ring-[#087F83]"><option>All specialties</option>{providerSpecialties.map((item) => <option key={item}>{item}</option>)}</select></div>
         <div><label htmlFor="locality-filter" className="mb-2 flex items-center gap-2 text-sm font-bold text-[#173A37]"><MapPin size={15} aria-hidden="true" className="text-[#087F83]" />Area or locality</label><select id="locality-filter" value={locality} onChange={(event) => setLocality(event.target.value)} className="min-h-12 w-full rounded-xl border border-[#C9DDD5] bg-white px-4 text-sm text-[#173A37] focus:outline-none focus:ring-2 focus:ring-[#087F83]"><option>All listed areas</option>{localityOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></div>
       </div>
-      <div className="mt-5"><p className="mb-2 text-sm font-bold text-[#173A37]">City</p><div className="flex flex-wrap gap-2" role="group" aria-label="Filter by city">{(["All Delhi NCR", ...providerCities] as CityFilter[]).map((option) => <button key={option} type="button" aria-pressed={city === option} onClick={() => { setCity(option); setLocality("All listed areas"); }} className={`min-h-10 rounded-full px-4 text-sm font-semibold transition ${city === option ? "bg-[#087F83] text-white" : "border border-[#C9DDD5] bg-white text-[#36564F] hover:bg-[#EAF5F1]"}`}>{option}</button>)}</div></div>
-      <p className="mt-4 text-xs leading-5 text-[#789089]">Area choices appear only where a hospital source names a locality. Current doctor listings are limited to Delhi NCR; filters run on this page and no patient details are requested or saved.</p>
+      <div className="mt-5"><p className="mb-2 text-sm font-bold text-[#173A37]">City</p><div className="flex flex-wrap gap-2" role="group" aria-label="Filter by city">{([allCitiesLabel, ...providerCities] as CityFilter[]).map((option) => <button key={option} type="button" aria-pressed={city === option} onClick={() => { setCity(option); setLocality("All listed areas"); }} className={`min-h-10 rounded-full px-4 text-sm font-semibold transition ${city === option ? "bg-[#087F83] text-white" : "border border-[#C9DDD5] bg-white text-[#36564F] hover:bg-[#EAF5F1]"}`}>{option}</button>)}</div></div>
+      <p className="mt-4 text-xs leading-5 text-[#789089]">Area choices appear only where a hospital source names a locality. City filters reflect the current source-linked listings; they run on this page and no patient details are requested or saved.</p>
     </section>
 
-    <div className="mt-7 flex flex-wrap items-center justify-between gap-3" aria-live="polite"><p className="text-sm font-semibold text-[#36564F]">Showing <span className="text-[#087F83]">{matches.length}</span> of {providerCandidates.length} profiles <span className="font-normal text-[#789089]">· A doctor may appear in multiple city groups when hospital sources list several facilities.</span></p>{(query || specialty !== "All specialties" || city !== "All Delhi NCR" || locality !== "All listed areas") && <button type="button" onClick={() => { setCity("All Delhi NCR"); setSpecialty("All specialties"); setQuery(""); setLocality("All listed areas"); }} className="rounded-lg px-3 py-2 text-xs font-bold text-[#087F83] underline decoration-[#B8DCD0] underline-offset-4 hover:bg-[#EAF5F1]">Clear filters</button>}</div>
+    <div className="mt-7 flex flex-wrap items-center justify-between gap-3" aria-live="polite"><p className="text-sm font-semibold text-[#36564F]">Showing <span className="text-[#087F83]">{matches.length}</span> of {providerCandidates.length} profiles <span className="font-normal text-[#789089]">· A doctor may appear in multiple city groups when hospital sources list several facilities.</span></p>{(query || specialty !== "All specialties" || city !== allCitiesLabel || locality !== "All listed areas") && <button type="button" onClick={() => { setCity(allCitiesLabel); setSpecialty("All specialties"); setQuery(""); setLocality("All listed areas"); }} className="rounded-lg px-3 py-2 text-xs font-bold text-[#087F83] underline decoration-[#B8DCD0] underline-offset-4 hover:bg-[#EAF5F1]">Clear filters</button>}</div>
 
-    {matches.length === 0 ? <section className="mt-5 rounded-2xl border border-[#DCEAE5] bg-white p-7"><h2 className="text-xl font-bold">No profiles match those filters</h2><p className="mt-2 text-sm leading-6 text-[#526D66]">Try another spelling, specialty, hospital, listed area or nearby city.</p><button type="button" onClick={() => { setCity("All Delhi NCR"); setSpecialty("All specialties"); setQuery(""); setLocality("All listed areas"); }} className="mt-5 rounded-xl bg-[#087F83] px-5 py-3 text-sm font-bold text-white hover:bg-[#066D70]">Clear filters</button></section> : visibleCities.map((cityName) => {
+    {matches.length === 0 ? <section className="mt-5 rounded-2xl border border-[#DCEAE5] bg-white p-7"><h2 className="text-xl font-bold">No profiles match those filters</h2><p className="mt-2 text-sm leading-6 text-[#526D66]">Try another spelling, specialty, hospital, listed area or nearby city.</p><button type="button" onClick={() => { setCity(allCitiesLabel); setSpecialty("All specialties"); setQuery(""); setLocality("All listed areas"); }} className="mt-5 rounded-xl bg-[#087F83] px-5 py-3 text-sm font-bold text-white hover:bg-[#066D70]">Clear filters</button></section> : visibleCities.map((cityName) => {
       const cityDoctors = matches.filter((doctor) => doctor.locations.some((location) => location.city === cityName && (locality === "All listed areas" || `${location.city}::${location.locality ?? ""}` === locality)));
       if (!cityDoctors.length) return null;
       return <section key={cityName} className="mt-10 scroll-mt-24" aria-labelledby={`city-${cityName.toLowerCase()}`}>

@@ -4,8 +4,9 @@ import { ArrowRight, Building2, CalendarClock, ChevronDown, MapPin, Search, Shie
 import { faqs } from "@/lib/content";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
 import { buildPageSocialMetadata } from "@/lib/metadata";
+import { providerCityListLabel } from "@/lib/provider-candidates";
 
-const pageDescription = "Find clear answers about DOCVY's patient guide, Delhi NCR doctor listings, appointment enquiry status, provider verification, and future clinic and hospital plans.";
+const pageDescription = `Find clear answers about DOCVY's patient guide, current doctor listings in ${providerCityListLabel}, appointment enquiry status, provider verification, and future clinic and hospital plans.`;
 
 export const metadata: Metadata = {
   title: "FAQs about doctor listings, appointments and clinic plans",
@@ -57,7 +58,7 @@ export default function FaqsPage() {
       id: "find-care",
       label: "PATIENT GUIDE & DIRECTORY",
       title: "Finding care and choosing a starting point",
-      description: "DOCVY's guide is available across India. Current source-linked doctor listings are in Delhi, Gurugram and Noida.",
+      description: `DOCVY's guide is available across India. Current source-linked doctor listings are in ${providerCityListLabel}.`,
       icon: Search,
       questions: faqs.filter(([question]) => discoveryQuestions.has(question)),
     },
@@ -90,7 +91,7 @@ export default function FaqsPage() {
             What can I do on DOCVY today?
           </h1>
           <p className="mt-5 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">
-            Get a clear answer about the patient guide, current doctor listings, appointment enquiries and planned clinic or hospital tools. DOCVY is built for people across India; current doctor profiles are limited to Delhi NCR.
+            Get a clear answer about the patient guide, current doctor listings, appointment enquiries and planned clinic or hospital tools. DOCVY is built for people across India; current doctor profiles are limited to {providerCityListLabel}.
           </p>
           <div role="status" className={`mt-6 flex max-w-4xl items-start gap-3 rounded-2xl border p-4 ${intakeEnabled ? "border-[#B8DCD0] bg-white/90" : "border-[#E7C99A] bg-[#FFF9EE]"}`}>
             <CalendarClock size={20} aria-hidden="true" className={`mt-0.5 shrink-0 ${intakeEnabled ? "text-[#087F83]" : "text-[#A36A12]"}`} />
@@ -107,7 +108,7 @@ export default function FaqsPage() {
         <div className="grid gap-3 md:grid-cols-3">
           {[
             { href: "/care-guide", title: "I have a health question", text: "Search a concern or specialty in the India-wide patient guide.", icon: Search },
-            { href: "/doctors", title: "I want to find a doctor", text: "Browse hospital-source profiles in Delhi, Gurugram and Noida.", icon: MapPin },
+            { href: "/doctors", title: "I want to find a doctor", text: `Browse hospital-source profiles in ${providerCityListLabel}.`, icon: MapPin },
             { href: "/pricing", title: "I represent a care team", text: "Review planned clinic and hospital workflows and contact DOCVY.", icon: Building2 },
           ].map(({ href, title, text, icon: Icon }) => (
             <Link key={href} href={href} className="group flex min-h-[136px] items-start gap-4 rounded-2xl border border-[#DCEAE5] bg-white p-5 shadow-[0_8px_26px_rgba(23,58,55,0.04)] transition hover:-translate-y-0.5 hover:border-[#B8DCD0] hover:shadow-[0_14px_34px_rgba(23,58,55,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#087F83] focus-visible:ring-offset-2">

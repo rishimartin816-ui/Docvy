@@ -8,6 +8,7 @@ import {
   Search,
   ShieldAlert,
 } from "lucide-react";
+import { providerCityListLabel } from "@/lib/provider-candidates";
 
 const steps = [
   {
@@ -28,8 +29,8 @@ const steps = [
     number: "03",
     icon: MapPin,
     title: "Check whether listings cover your city",
-    text: "The current directory has source-linked profiles in Delhi, Gurugram and Noida. If you are elsewhere in India, you can still use the guide; other city listings are planned when useful, source-linked coverage is ready. No expansion date has been announced.",
-    label: "CURRENT LISTINGS: DELHI NCR",
+    text: `The current directory has source-linked profiles in ${providerCityListLabel}. If you are elsewhere in India, you can still use the guide; other city listings are planned when useful, source-linked coverage is ready. No expansion date has been announced.`,
+    label: "CURRENT LISTINGS",
   },
   {
     number: "04",
@@ -77,7 +78,7 @@ export default function PatientJourneyMap({ intakeEnabled }: { intakeEnabled: bo
             <div className="ml-5 flex h-8 items-center border-l-2 border-dashed border-[#91C9B8]"><ArrowDown size={16} className="-ml-[9px] rounded-full bg-white text-[#087F83]" /></div>
             <div className="flex items-center gap-3">
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#EAF5F1] text-[#087F83]"><MapPin size={20} /></span>
-              <div><p className="text-[10px] font-extrabold tracking-[0.13em] text-[#789089]">CURRENT DIRECTORY</p><p className="mt-1 font-bold text-[#173A37]">Delhi · Gurugram · Noida</p></div>
+              <div><p className="text-[10px] font-extrabold tracking-[0.13em] text-[#789089]">CURRENT DIRECTORY</p><p className="mt-1 font-bold text-[#173A37]">{providerCityListLabel}</p></div>
             </div>
           </div>
 

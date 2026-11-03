@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, MapPin } from "lucide-react";
 import DoctorDirectory from "@/components/DoctorDirectory";
-import { providerCandidates, providerCities, type ProviderCity } from "@/lib/provider-candidates";
+import { providerCandidates, providerCities, providerCityListLabel, type ProviderCity } from "@/lib/provider-candidates";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
 import { docvyOpenGraphImage } from "@/lib/metadata";
 
@@ -106,7 +106,7 @@ export default function CityDoctorsPage({ params }: { params: { city: string } }
           </div>
           <div className="rounded-2xl border border-[#DCEAE5] bg-white p-5">
             <dt className="font-bold text-[#173A37]">Can I use the patient guide outside Delhi NCR?</dt>
-            <dd className="mt-2 text-sm leading-6 text-[#526D66]">Yes. The plain-language patient guide is available across India. Doctor listings currently cover Delhi, Gurugram and Noida. Other city listings are planned when useful, source-linked coverage is ready; no expansion date has been announced.</dd>
+            <dd className="mt-2 text-sm leading-6 text-[#526D66]">Yes. The plain-language patient guide is available across India. Doctor listings currently cover {providerCityListLabel}. Other city listings are planned when useful, source-linked coverage is ready; no expansion date has been announced.</dd>
           </div>
         </dl>
       </div>
