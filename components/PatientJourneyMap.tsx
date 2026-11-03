@@ -28,7 +28,7 @@ const steps = [
     number: "03",
     icon: MapPin,
     title: "Check whether listings cover your city",
-    text: "The current directory has source-linked profiles in Delhi, Gurugram and Noida. If you are elsewhere in India, you can still use the guide; more city listings will follow as coverage grows.",
+    text: "The current directory has source-linked profiles in Delhi, Gurugram and Noida. If you are elsewhere in India, you can still use the guide; other city listings are planned when useful, source-linked coverage is ready. No expansion date has been announced.",
     label: "CURRENT LISTINGS: DELHI NCR",
   },
   {

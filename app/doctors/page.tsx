@@ -33,7 +33,7 @@ export default function DoctorsPage() {
 
     <section className="mx-auto max-w-6xl px-6 py-10 md:py-14" aria-label="Doctor directory">
       <div className="mb-8 rounded-[24px] border border-[#DCEAE5] bg-white p-5 md:p-7">
-        <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end"><div><p className="text-xs font-extrabold tracking-[0.14em] text-[#087F83]">HOW TO USE THESE RESULTS</p><h2 className="mt-2 text-2xl font-bold tracking-tight text-[#173A37]">Know what you are viewing and what to check next.</h2></div><p className="max-w-xl text-sm leading-6 text-[#526D66]">DOCVY is building directory coverage across India. These are the cities with source-linked profiles today; the list will grow as coverage grows.</p></div>
+        <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end"><div><p className="text-xs font-extrabold tracking-[0.14em] text-[#087F83]">HOW TO USE THESE RESULTS</p><h2 className="mt-2 text-2xl font-bold tracking-tight text-[#173A37]">Know what you are viewing and what to check next.</h2></div><p className="max-w-xl text-sm leading-6 text-[#526D66]">DOCVY is built for discovery across India. These are the cities with source-linked profiles today. Other city listings are planned when enough useful coverage is ready; no expansion date has been announced.</p></div>
         <ol className="mt-6 grid gap-3 md:grid-cols-3">
           {[
             { icon: Search, title: "Find a profile", detail: "Filter by doctor name, specialty, city, hospital or listed locality. A match means a profile is listed; it does not confirm availability." },

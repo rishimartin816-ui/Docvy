@@ -106,7 +106,7 @@ export default function CityDoctorsPage({ params }: { params: { city: string } }
           </div>
           <div className="rounded-2xl border border-[#DCEAE5] bg-white p-5">
             <dt className="font-bold text-[#173A37]">Can I use the patient guide outside Delhi NCR?</dt>
-            <dd className="mt-2 text-sm leading-6 text-[#526D66]">Yes. The plain-language patient guide is available across India. Doctor listings currently cover Delhi, Gurugram and Noida, with other cities to be added as source-linked coverage grows.</dd>
+            <dd className="mt-2 text-sm leading-6 text-[#526D66]">Yes. The plain-language patient guide is available across India. Doctor listings currently cover Delhi, Gurugram and Noida. Other city listings are planned when useful, source-linked coverage is ready; no expansion date has been announced.</dd>
           </div>
         </dl>
       </div>
