@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, BadgeHelp, Building2, CalendarClock, MapPin, Search, ShieldAlert, Stethoscope } from "lucide-react";
 import DoctorDirectory from "@/components/DoctorDirectory";
-import { docvyOpenGraphImage } from "@/lib/metadata";
+import { buildPageSocialMetadata } from "@/lib/metadata";
 import { providerCandidates, providerCities } from "@/lib/provider-candidates";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
 
@@ -10,13 +10,7 @@ export const metadata: Metadata = {
   title: "Doctors in Delhi NCR | Search by specialty and location",
   description: "Browse 12 source-linked doctor profiles across Delhi, Gurugram and Noida. Filter by specialty, hospital or locality; DOCVY credential review and appointment availability are pending.",
   alternates: { canonical: "/doctors" },
-  openGraph: {
-    type: "website", locale: "en_IN", siteName: "DOCVY",
-    title: "Doctors in Delhi NCR | DOCVY",
-    description: "Explore source-linked doctor profiles from Delhi, Gurugram and Noida by specialty and hospital. DOCVY review and appointment availability are pending.",
-    url: "/doctors",
-    images: [docvyOpenGraphImage],
-  },
+  ...buildPageSocialMetadata("Doctors in Delhi NCR | Search by specialty and location | DOCVY", "Browse 12 source-linked doctor profiles across Delhi, Gurugram and Noida. Filter by specialty, hospital or locality; DOCVY credential review and appointment availability are pending.", "/doctors"),
 };
 
 export default function DoctorsPage() {

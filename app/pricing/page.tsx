@@ -3,21 +3,13 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight, Building2, Check, Stethoscope } from "lucide-react";
 import ProviderWorkflowIllustration from "@/components/ProviderWorkflowIllustration";
-import { docvyOpenGraphImage } from "@/lib/metadata";
+import { buildPageSocialMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Clinic and hospital plans",
   description: "Explore planned DOCVY tools for clinics and hospitals. Contact the team to discuss onboarding and pricing; online payment is not available.",
   alternates: { canonical: "/pricing" },
-  openGraph: {
-    type: "website",
-    locale: "en_IN",
-    siteName: "DOCVY",
-    title: "Clinic and hospital plans | DOCVY",
-    description: "Discuss planned provider tools, onboarding and pricing with DOCVY. There is no online checkout.",
-    url: "/pricing",
-    images: [docvyOpenGraphImage],
-  },
+  ...buildPageSocialMetadata("Clinic and hospital plans | DOCVY", "Explore planned DOCVY tools for clinics and hospitals. Contact the team to discuss onboarding and pricing; online payment is not available.", "/pricing"),
 };
 
 const plans = [

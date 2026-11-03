@@ -1,20 +1,12 @@
 import type { Metadata } from "next";
 import { Building2, Mail, MapPin, ShieldAlert } from "lucide-react";
-import { docvyOpenGraphImage } from "@/lib/metadata";
+import { buildPageSocialMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Contact and provider enquiries",
   description: "Contact DOCVY about clinic and hospital plans, provider onboarding, or privacy questions.",
   alternates: { canonical: "/contact" },
-  openGraph: {
-    type: "website",
-    locale: "en_IN",
-    siteName: "DOCVY",
-    title: "Contact DOCVY about provider onboarding",
-    description: "Contact DOCVY about clinic and hospital plans, provider onboarding, or privacy questions.",
-    url: "/contact",
-    images: [docvyOpenGraphImage],
-  },
+  ...buildPageSocialMetadata("Contact and provider enquiries | DOCVY", "Contact DOCVY about clinic and hospital plans, provider onboarding, or privacy questions.", "/contact"),
 };
 
 export default function ContactPage() {

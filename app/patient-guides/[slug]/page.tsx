@@ -5,7 +5,7 @@ import { ArrowRight, BookOpenCheck, ExternalLink, MapPin, ShieldCheck, Stethosco
 import { patientTopicGuides } from "@/lib/patient-topic-guides";
 import { careGuide } from "@/lib/care-guide";
 import { providerCandidates, providerCities } from "@/lib/provider-candidates";
-import { docvyOpenGraphImage } from "@/lib/metadata";
+import { buildPageSocialMetadata } from "@/lib/metadata";
 
 const site = "https://www.docvy.in";
 
@@ -21,21 +21,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
     title: guide.title,
     description: guide.metaDescription,
     alternates: { canonical: url },
-    openGraph: {
-      type: "article",
-      locale: "en_IN",
-      siteName: "DOCVY",
-      title: guide.title,
-      description: guide.metaDescription,
-      url,
-      images: [docvyOpenGraphImage],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: guide.title,
-      description: guide.metaDescription,
-      images: ["/opengraph-image"],
-    },
+    ...buildPageSocialMetadata(`${guide.title} | DOCVY`, guide.metaDescription, url, "article"),
   };
 }
 

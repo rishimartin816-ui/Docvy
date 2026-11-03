@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, Building2, MapPin, Stethoscope } from "lucide-react";
-import { docvyOpenGraphImage } from "@/lib/metadata";
+import { buildPageSocialMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "For doctors: profiles and onboarding",
   description: "Contact DOCVY about a doctor profile, correction or future onboarding. Provider discovery is planned across India; current public listings start in Delhi NCR.",
   alternates: { canonical: "/for-doctors" },
-  openGraph: {
-    type: "website", locale: "en_IN", siteName: "DOCVY",
-    title: "For doctors across India | DOCVY",
-    description: "DOCVY is building nationwide doctor discovery, starting with source-linked profiles in Delhi NCR. Contact the team about a profile or future onboarding.",
-    url: "/for-doctors",
-    images: [docvyOpenGraphImage],
-  },
+  ...buildPageSocialMetadata("For doctors: profiles and onboarding | DOCVY", "Contact DOCVY about a doctor profile, correction or future onboarding. Provider discovery is planned across India; current public listings start in Delhi NCR.", "/for-doctors"),
 };
 
 const reviewSteps = [

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Activity, AlertTriangle, ArrowRight, BookOpenCheck, Building2, CalendarClock, Eye, HeartPulse, MapPin, Search, ShieldCheck, Stethoscope, Wind } from "lucide-react";
 import CareGuideSearch from "@/components/CareGuideSearch";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
-import { docvyOpenGraphImage } from "@/lib/metadata";
+import { buildPageSocialMetadata } from "@/lib/metadata";
 import { patientTopicGuides } from "@/lib/patient-topic-guides";
 
 const topicIcons = [HeartPulse, Activity, Stethoscope, Activity, Eye, Wind];
@@ -12,13 +12,7 @@ export const metadata: Metadata = {
   title: "What kind of doctor should I see? | Patient guide",
   description: "Search a health condition, symptom or specialty to explore doctor types commonly associated with that topic. A plain-language guide for India; not a diagnosis or medical advice.",
   alternates: { canonical: "/care-guide" },
-  openGraph: {
-    type: "website", locale: "en_IN", siteName: "DOCVY",
-    title: "What kind of doctor should I see? | DOCVY",
-    description: "Search common concerns and learn which doctor specialties may be related, with clear information about DOCVY’s current coverage.",
-    url: "/care-guide",
-    images: [docvyOpenGraphImage],
-  },
+  ...buildPageSocialMetadata("What kind of doctor should I see? | Patient guide | DOCVY", "Search a health condition, symptom or specialty to explore doctor types commonly associated with that topic. A plain-language guide for India; not a diagnosis or medical advice.", "/care-guide"),
 };
 
 export default function CareGuidePage() {

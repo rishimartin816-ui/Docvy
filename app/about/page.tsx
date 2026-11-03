@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Building2, HeartPulse, Hospital, Stethoscope } from "lucide-react";
+import { buildPageSocialMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Healthcare discovery and operations",
   description: "Learn about DOCVY's India-wide healthcare discovery vision, current Delhi NCR doctor listings and planned tools for providers.",
   alternates: { canonical: "/about" },
+  ...buildPageSocialMetadata("Healthcare discovery and operations | DOCVY", "Learn about DOCVY's India-wide healthcare discovery vision, current Delhi NCR doctor listings and planned tools for providers.", "/about"),
 };
 
 const audiences = [

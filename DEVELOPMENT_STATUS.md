@@ -7,7 +7,7 @@
 
 These are roadmap estimates based on deliverables, not analytics, traffic, patient activity, or search rankings.
 
-- **Public website and search foundation: 94%.** Main pages, clear patient journey, pan-India guide, NCR-only listings, source-linked profiles, metadata, schema, sitemap, internal discovery links and crawlable patient answer pages are implemented. More mobile interaction review, Search Console query review and broader provider coverage remain.
+- **Public website and search foundation: 95%.** Main pages, clear patient journey, pan-India guide, NCR-only listings, source-linked profiles, page-specific search and sharing metadata, schema, sitemap, internal discovery links and crawlable patient answer pages are implemented. More mobile interaction review, Search Console query review and broader provider coverage remain.
 - **Website enquiry path: 55%.** Form, server validation, private Sheets handoff and token-protected Apps Script source exist. The script is not installed or deployed and Vercel production variables are not configured; the live form must remain closed until end-to-end verification.
 - **Full DOCVY product: 22%.** This reflects a weighted roadmap across public discovery, provider data, enquiry handling, provider operations, hospital software, identity/access and business intelligence. The provider/hospital application, appointment availability engine and operational dashboards are not complete.
 
@@ -118,7 +118,16 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - `pnpm lint`, `pnpm build` (32 generated routes) and `git diff --check` passed. Production deployment `dpl_A4jQaqkBMcLPgY9NGFnsDcNUGF2H` for `bce4e7b` is `READY` on `www.docvy.in` and `docvy.in`.
 - Live `/` verification confirmed the updated title and description, canonical URL, one H1, the new source-check section, and valid `Organization` + `WebSite` JSON-LD linked by entity ID. The new responsive section was visually reviewed at desktop and 390px; a 390px layout-width check found no horizontal overflow.
 - A read-only Workspace check confirmed the `DOCVY APPOINTMENT LEADS` spreadsheet and its `Appointments` tab. Its existing header row has 14 expected columns; the Apps Script source adds the separately named provider-notification-status header. No lead rows or patient data were read.
-- The Apps Script endpoint and Vercel webhook settings are not installed/configured, so the live enquiry form remains closed. No synthetic lead was created. One synthetic end-to-end test still requires the pending action-time confirmation for creating/storing the private webhook token and publishing the token-protected endpoint.
+- The user approved the private webhook-token setup and a synthetic end-to-end lead check. The Apps Script endpoint and Vercel webhook settings are not installed/configured, so the live enquiry form remains closed. No synthetic lead has been created.
+
+## 3 November social metadata consistency
+
+- Fixed a production-audit finding: several internal pages had correct search titles but inherited generic homepage copy for social previews. Added one shared metadata helper and applied page-specific Open Graph and X card titles/descriptions to the patient guide, directory, provider plans, FAQs, contact, about, onboarding, how-it-works, grievance, legal and patient-answer pages. Request and status routes remain noindex; city pages and homepage retain their existing specific metadata.
+- This changes link-sharing previews and metadata, not page layout. It preserves the documented DOCVY color/illustration system and makes no search ranking or conversion claim.
+- `pnpm lint` passed. `pnpm build` passed and generated 32 routes; Next.js emitted the existing non-blocking Edge runtime notice for `/opengraph-image`.
+- Local production-server checks returned HTTP 200 for nine representative routes and confirmed that page titles, Open Graph titles and X card titles agree; patient guide and legal pages carry their own descriptions, and `/request` remains `noindex, nofollow`.
+- Production release is pending. The prior production deployment remains the latest verified release until a new Vercel deployment is READY and live pages are checked.
+- Intake setup has explicit user approval, but is still not deployed. The Chrome window capture failed twice with `window capture timed out: timed out waiting on channel`, and a Google Drive search did not surface the Apps Script project. No webhook secret or Vercel webhook variables were created; the form remains closed and no synthetic lead was submitted.
 
 ## Not yet built or verified
 

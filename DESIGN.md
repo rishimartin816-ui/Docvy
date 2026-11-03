@@ -214,3 +214,10 @@ Structured data should describe visible, accurate content only. Google says its 
 - Added homepage `WebSite` structured data for the preferred site name and connected it to the existing `Organization` entity. This follows [Google’s site-name guidance](https://developers.google.com/search/docs/appearance/site-names); the content does not add unsupported AI-specific markup, which Google says is unnecessary for generative search in its [AI optimization guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide).
 - Codebase-grounded design update; the connected Figma account still does not expose a direct file/node URL for a design-context review. No Figma design file was edited.
 - Local `pnpm lint` and `pnpm build` passed (32 generated routes); `git diff --check` passed. Production deployment `dpl_A4jQaqkBMcLPgY9NGFnsDcNUGF2H` for `bce4e7b` is `READY` on both custom domains. Live title, description, canonical, one-H1 count and linked `Organization`/`WebSite` entities were verified. The new section was visually reviewed at desktop and 390px; measured page width did not exceed the mobile viewport.
+
+## 3 November page-share metadata consistency
+
+- A fresh production page-source check found that several internal URLs inherited the generic homepage X card even when their search title and description were specific. Added a shared social-metadata helper and applied each page's accurate title/description to Open Graph and X metadata across directory, patient guide, provider, support, legal and patient-answer routes.
+- The shared 1200 × 630 illustration remains aligned with the DOCVY mint, teal and deep-green visual system. This pass improves how a route is presented when shared; it does not alter the page layout or assert a ranking gain.
+- Lint, production build and local HTML metadata checks passed. Production publication and live metadata verification are pending.
+- Figma did not expose a direct file/node URL, so this codebase-grounded change is not described as Figma-derived.

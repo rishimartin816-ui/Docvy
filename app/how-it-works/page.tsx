@@ -3,11 +3,13 @@ import Link from "next/link";
 import { ArrowRight, CalendarClock, CheckCircle2, Search } from "lucide-react";
 import PatientJourneyMap from "@/components/PatientJourneyMap";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
+import { buildPageSocialMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "How to use the patient guide and doctor directory",
   description: "See how DOCVY's India-wide care discovery is planned. The patient guide is available across India; current source-linked doctor listings start in Delhi NCR.",
   alternates: { canonical: "/how-it-works" },
+  ...buildPageSocialMetadata("How to use the patient guide and doctor directory | DOCVY", "See how DOCVY's India-wide care discovery is planned. The patient guide is available across India; current source-linked doctor listings start in Delhi NCR.", "/how-it-works"),
 };
 
 export default function HowItWorksPage() {

@@ -2,23 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { faqs } from "@/lib/content";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
-import { docvyOpenGraphImage } from "@/lib/metadata";
+import { buildPageSocialMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Doctor listings, appointments and provider plan FAQs",
   description:
     "Clear answers about DOCVY's doctor directory, appointment requests, provider verification, clinic and hospital plans, privacy and emergency care.",
   alternates: { canonical: "/faqs" },
-  openGraph: {
-    type: "website",
-    locale: "en_IN",
-    siteName: "DOCVY",
-    title: "DOCVY FAQs: doctor listings, appointments and provider plans",
-    description:
-      "Clear answers about DOCVY's doctor directory, appointment requests, provider verification, clinic and hospital plans, privacy and emergency care.",
-    url: "/faqs",
-    images: [docvyOpenGraphImage],
-  },
+  ...buildPageSocialMetadata("Doctor listings, appointments and provider plan FAQs | DOCVY", "Clear answers about DOCVY's doctor directory, appointment requests, provider verification, clinic and hospital plans, privacy and emergency care.", "/faqs"),
 };
 
 export default function FaqsPage() {
