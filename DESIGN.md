@@ -222,3 +222,12 @@ Structured data should describe visible, accurate content only. Google says its 
 - Lint and production build passed (32 routes). Local and live HTML checks confirmed page-specific social titles; live checks returned HTTP 200 for 16 representative routes, and the 12 indexable sample routes retained canonicals, one H1 and `index, follow`. `/request` and `/status` remain noindex.
 - Commit `e7d59d8` is live on both `www.docvy.in` and `docvy.in` through Vercel deployment `dpl_7qwNRSboP9q4yDwqrFM8MhyY6eWB` (`READY`).
 - Figma did not expose a direct file/node URL, so this codebase-grounded change is not described as Figma-derived.
+
+## 3 November navigation refinement
+
+- Split the shared navigation into patient and provider groups so visitors can quickly identify which part of DOCVY serves them. Desktop uses a divider; mobile adds visible group headings.
+- Highlight the current section for doctor directory routes, patient guide routes, provider pages and contact. The mobile menu is always present in the document tree but hidden when closed, so its toggle controls a stable element; selecting a destination closes the menu.
+- Use “Contact DOCVY” as the site-wide action label, with a distinct current-page state on the contact route.
+- Reuse the established DOCVY palette, type scale, rounded surfaces and visible focus rings. This is grounded in the repository design reference; a direct Figma file/node reference was unavailable, so this update is not claimed as Figma-derived.
+- Checked the mobile menu interaction locally from `/for-doctors` to `/pricing`; the menu closed after navigation. Production markup for `/doctors`, `/for-doctors`, `/pricing`, `/contact` and `/patient-guides/diabetes` returned HTTP 200 and showed the expected current-page links.
+- This update supports clarity and internal navigation. It does not claim higher rankings, AI citations or conversion gains. Existing page-specific metadata, patient answer pages, source citations, sitemap and structured data remain the SEO/AEO/GEO foundation.

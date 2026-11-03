@@ -167,3 +167,16 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 | 3 Nov 2026 | `146daf6` · Vercel `dpl_Gr2zc4xe7mMgSiFV2nTN2Fj36Hkx` | READY; moved the search card into the homepage text flow so it appears in the first mobile viewport. |
 | 3 Nov 2026 | `784bc0a` · Vercel `dpl_KTY264bS1iyqZtGrBtewUmXxdEh2` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Shortened the mobile search hint. Fresh GET checks for `/` and `/care-guide?q=joint%20pain` returned HTTP 200. |
 | 3 Nov 2026 | `5555e86` · Vercel `dpl_Cs1HEPpkuToojJ2ZtJhYX1qAiRMU` | READY on `main`; added city selection to the patient guide. Live interaction verified joint-pain search → Noida filter → matching Orthopaedics directory result. |
+
+## 3 November navigation clarity release
+
+- Grouped the shared navigation into clearly labeled patient and provider sections. Desktop uses a visual divider; mobile shows “For patients” and “For providers” headings.
+- Added current-section styling and `aria-current="page"` to patient guides, doctor directory routes, provider pages and contact. The mobile menu remains connected to its toggle, exposes the expanded state and closes after navigation.
+- Renamed the generic “Contact now” header action to “Contact DOCVY.”
+- This is based on the repository's documented mint, teal and deep-green design system. The connected Figma file still has no available direct design URL/node for a design-context comparison; no Figma-origin claim is made.
+- Local `pnpm lint` and `pnpm build` passed; the production build generated 32 routes. The existing Open Graph edge-runtime notice remains non-blocking. Local route checks returned HTTP 200 for `/doctors`, `/for-doctors`, `/pricing`, `/contact` and `/patient-guides/diabetes`; the active navigation link appeared on the expected routes. A mobile browser interaction opened the menu, navigated to clinic plans and closed the menu.
+- Production commit `93ad606` is live as Vercel deployment `dpl_51puTUqN4DsEs2o3hQvDnBLygrHL` (`READY`) with `www.docvy.in` and `docvy.in` aliases.
+- Fresh live checks on `/doctors`, `/for-doctors`, `/pricing`, `/contact`, `/patient-guides/diabetes` and `/request` returned HTTP 200. Indexable pages had one H1, page-specific canonical URLs, `index, follow` and the expected active-link markup. `/request` remains `noindex, nofollow` and has no patient contact fields.
+- Live `/robots.txt` and `/sitemap.xml` returned HTTP 200; the sitemap contains 23 URLs and robots.txt references it and disallows `/api/`. No Search Console query or ranking outcome is claimed. This nav release adds no special AEO/GEO schema; the existing answer pages, source links, city caveats and structured data remain in place.
+- The live appointment enquiry form remains closed. The Apps Script project is not open in the available Chrome window, which is the personal GoDaddy setup profile; the Workspace sign-in tabs visible in the in-app browser are signed out. No token was created, no form lead was submitted and no Sheet row was written. Keep the form closed until the Workspace Apps Script endpoint and Vercel variables are connected and a synthetic end-to-end lead is verified.
+- Roadmap estimates remain unchanged: public website/search foundation 95%, website enquiry path 55%, full DOCVY product 22%. These are deliverable estimates, not traffic or analytics.
