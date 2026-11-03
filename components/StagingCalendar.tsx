@@ -12,6 +12,7 @@ type Enquiry = {
   email: string | null;
   facility: string;
   status: "new" | "contacted" | "closed";
+  booking_id?: string | null;
 };
 const dateLabel = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" });
 const calendarDay = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" });
@@ -117,6 +118,30 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
     }
   }
 
+  async function bookEnquiry(event: FormEvent<HTMLFormElement>, item: Enquiry) {
+    event.preventDefault();
+    const slot = new FormData(event.currentTarget).get("slot");
+    if (typeof slot !== "string" || !slot) return;
+    setBusy(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/crm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + session },
+        body: JSON.stringify({ action: "book-enquiry", reference: item.reference, slot, admin }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+      setEnquiries((current) => current?.map((entry) =>
+        entry.reference === item.reference ? { ...entry, status: "closed", booking_id: data.bookingId } : entry) ?? null);
+      setMessage("Appointment confirmed.");
+      await refresh(session);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Enquiry booking unavailable.");
+    } finally {
+      setBusy(false);
+    }
+  }
   async function updateEnquiry(item: Enquiry, status: "contacted" | "closed") {
     setBusy(true);
     setMessage("");
@@ -275,6 +300,15 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                   <p className="font-semibold">{item.patient_name} · {item.reference}</p>
                   <p className="text-sm text-grey">{item.facility} · {item.status}</p>
                   <p className="text-sm">{item.mobile}{item.email ? " · " + item.email : ""}</p>
+                  {item.booking_id && <p className="text-sm text-grey">Appointment reference {item.booking_id}</p>}
+                  {item.status !== "closed" && destinations.length > 0 &&
+                    <form className="mt-2 flex flex-wrap items-center gap-2" onSubmit={(event) => void bookEnquiry(event, item)}>
+                      <select aria-label="Appointment time" name="slot" className={button} defaultValue="" required disabled={busy}>
+                        <option value="">Choose an appointment time</option>
+                        {destinations.map((slot) => <option key={slot.id} value={slot.id}>{dateLabel.format(new Date(slot.starts_at))}</option>)}
+                      </select>
+                      <button className={button} disabled={busy}>Confirm appointment</button>
+                    </form>}
                   {item.status !== "closed" && <div className="mt-2 flex flex-wrap gap-2">
                     {item.status === "new" && <button className={button} disabled={busy} onClick={() => void updateEnquiry(item, "contacted")}>Mark contacted</button>}
                     <button className={button} disabled={busy} onClick={() => void updateEnquiry(item, "closed")}>Close enquiry</button>

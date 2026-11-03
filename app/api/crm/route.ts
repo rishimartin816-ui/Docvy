@@ -119,6 +119,25 @@ export async function POST(request: NextRequest) {
       return reply({ error: "Slot could not be saved" }, 503);
     }
   }
+  if (input?.action === "book-enquiry") {
+    if (typeof input.reference !== "string" || !/^DV-[0-9A-F]{8}$/.test(input.reference) ||
+        typeof input.slot !== "string" || !uuid.test(input.slot)) {
+      return reply({ error: "Invalid enquiry booking" }, 400);
+    }
+    try {
+      const actor = await staff(clinicId, requestToken(request));
+      if (!actor || (input.admin === true && actor.role !== "owner")) return reply({ error: "Staff access required" }, 403);
+      const result = await database("/rest/v1/rpc/crm_book_enquiry", {
+        actor: actor.id, clinic: clinicId, ref: input.reference, slot: input.slot,
+      });
+      if (result.status === 403) return reply({ error: "Scheduling access required" }, 403);
+      if (result.status === 404) return reply({ error: "Enquiry not found" }, 404);
+      if (result.status === 409) return reply({ error: "Slot unavailable or enquiry already closed. Refresh and try again." }, 409);
+      return result.ok ? reply({ bookingId: await result.json() }) : reply({ error: "Enquiry booking unavailable" }, 503);
+    } catch {
+      return reply({ error: "Enquiry booking unavailable" }, 503);
+    }
+  }
   if (input?.action === "enquiry-status") {
     if (typeof input.reference !== "string" || !/^DV-[0-9A-F]{8}$/.test(input.reference) ||
         !["new", "contacted"].includes(input.expected) || !["contacted", "closed"].includes(input.status)) {
