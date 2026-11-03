@@ -239,3 +239,11 @@ Structured data should describe visible, accurate content only. Google says its 
 - Four visible answer disclosures address availability, pricing, appointment management and safe business-enquiry details. Answers appear directly on the page for readers and crawlers. No FAQ rich-result schema is added, and the page makes no claim that a feature or subscription is live.
 - Google guidance supports clear, helpful content and foundational SEO for generative search; it does not call for a special GEO markup checklist. Sources: [Google AI optimization guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide), [people-first content guidance](https://developers.google.com/search/docs/fundamentals/creating-helpful-content), [FAQ/How-to result changes](https://developers.google.com/search/blog/2023/08/howto-faq-changes).
 - This implementation follows the repository's documented visual system. A Figma file/node link is still required for a direct design-context comparison; no Figma design was changed.
+
+## 3 November patient and provider FAQ page
+
+- The `/faqs` hero asks what a visitor can do today and makes the current enquiry-form state visible before the answers. Three large route cards send visitors to the patient guide, current doctor directory or provider plan page.
+- Grouped 13 questions into patient discovery, appointment/payment/safety, and provider operations. Each group has its own icon, heading and short description; individual answers use native, keyboard-operable disclosure elements.
+- Directly answers current availability and appointment questions, names pan-India guide scope alongside Delhi NCR directory coverage, and removes an unannounced city-expansion date. The emergency answer links to the Government of India's [112 Emergency Response Support System](https://112.gov.in/).
+- Metadata matches the visible scope. No `FAQPage` structured data was added; the answers are visible and understandable without depending on a rich result.
+- This codebase-grounded update keeps the DOCVY mint, teal and deep-green design language. A Figma file/node URL remains necessary for direct visual comparison; no Figma-origin claim is made.
