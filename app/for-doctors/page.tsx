@@ -4,13 +4,13 @@ import { ArrowRight, BadgeCheck, Building2, MapPin, Stethoscope } from "lucide-r
 import { buildPageSocialMetadata } from "@/lib/metadata";
 import { providerCityListLabel, providerProfileCount } from "@/lib/provider-candidates";
 
-const directoryCoverage = `Current listings are in ${providerCityListLabel}.`;
+const providerPageDescription = `Request a doctor profile correction or discuss future onboarding with DOCVY. The DOCVY owner reviews public sources, and current listings are in ${providerCityListLabel}.`;
 
 export const metadata: Metadata = {
   title: "For doctors: profile corrections and onboarding",
-  description: `Request a doctor profile correction or discuss future onboarding with DOCVY. The DOCVY owner reviews public sources; ${directoryCoverage}`,
+  description: providerPageDescription,
   alternates: { canonical: "/for-doctors" },
-  ...buildPageSocialMetadata("For doctors: profile corrections and onboarding | DOCVY", `Request a doctor profile correction or discuss future onboarding with DOCVY. The DOCVY owner reviews public sources; ${directoryCoverage}`, "/for-doctors"),
+  ...buildPageSocialMetadata("For doctors: profile corrections and onboarding | DOCVY", providerPageDescription, "/for-doctors"),
 };
 
 const reviewSteps = [
