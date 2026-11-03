@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight, ClipboardList, HeartPulse, Stethoscope } from "lucide-react";
+import { ArrowUpRight, ClipboardList, HeartPulse, Stethoscope, Video } from "lucide-react";
 import CareLibrarySearch from "@/components/CareLibrarySearch";
-import DiscoverySearch from "@/components/DiscoverySearch";
+import DiscoverySearch, { DemoProvider } from "@/components/DiscoverySearch";
 import { HealthTopicIcon, healthTopics } from "@/components/HealthTopicIcon";
 import { procedures, specialties, surgeryGroups } from "@/lib/care-directory";
 import SpecialtyIcon from "@/components/SpecialtyIcon";
+import { clinicCrmConfig } from "@/lib/clinic-crm-config";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
@@ -24,6 +25,13 @@ const libraryEntries = [
   ...healthTopics.map(({ slug, label, description }) => ({ title: label, category: "Condition guide", href: "/patient-guides/" + slug, terms: description + " " + slug.replaceAll("-", " ") + (slug === "high-blood-pressure" ? " hypertension" : "") })),
   ...specialties.map(({ slug, name, plain }) => ({ title: name, category: "Medical specialty", href: "/specialties/" + slug, terms: plain })),
   ...procedures.map(({ name, specialty }) => ({ title: name, category: "Procedure · Find doctors", href: "/doctors?" + new URLSearchParams({ specialty, procedure: name }).toString(), terms: specialty })),
+];
+
+const doctorPaths = [
+  { title: "General physician", description: "Start here for a general health check or when you’re unsure which specialist to see.", label: "Find a physician", href: "/doctors?specialty=General+medicine", icon: Stethoscope },
+  { title: "Surgeon", description: "Find the surgical specialty for the procedure your doctor mentioned.", label: "Browse surgical specialties", href: "#surgery-directory", icon: ClipboardList },
+  { title: "Specialist", description: "Explore doctors by area of care, from children’s health and skin to bones, joints and eyes.", label: "Browse medical specialties", href: "#specialty-directory", icon: HeartPulse },
+  { title: "Video consultation", description: "Learn what to ask a clinic before arranging a remote visit.", label: "Explore video consultations", href: "#video-consultations", icon: Video },
 ];
 
 export default function Home() {
@@ -73,6 +81,25 @@ export default function Home() {
         </ul>
       </aside>
     </section>
+    <section id="doctor-options" aria-labelledby="doctor-options-heading" className="mx-auto max-w-[1320px] scroll-mt-28 px-5 pb-10 sm:px-9">
+      <p className="docvy-eyebrow">FIND A DOCTOR</p>
+      <h2 id="doctor-options-heading" className="mt-3 text-3xl font-bold tracking-tight sm:text-5xl">Which doctor do you need?</h2>
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {doctorPaths.map(({ title, description, label, href, icon: Icon }) => <article key={href} className="docvy-glass flex flex-col items-start p-5">
+          <span className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-[#edf4df] to-[#b9dfd2] text-[#245a46]"><Icon size={27} aria-hidden="true" /></span>
+          <h3 className="mt-4 text-xl font-bold">{title}</h3>
+          <p className="mb-5 mt-2 flex-1 text-sm leading-6 text-[#41584d]">{description}</p>
+          <Link href={href} className="docvy-pill">{label} <ArrowUpRight size={15} aria-hidden="true" /></Link>
+        </article>)}
+      </div>
+      <details className="docvy-glass mt-5 p-4 sm:p-5">
+        <summary className="cursor-pointer py-2 font-bold text-[#245a46]">See a sample doctor profile and try demo booking</summary>
+        <div className="mt-3">
+          <DemoProvider bookingHref={clinicCrmConfig()?.staging === true ? "/book" : "https://docvy-clinic-demo.vercel.app/book"} />
+        </div>
+      </details>
+    </section>
+
     <section id="care-library" aria-labelledby="care-library-heading" className="mx-auto max-w-[1320px] scroll-mt-28 px-5 pb-10 sm:px-9">
       <p className="docvy-eyebrow">PATIENT LIBRARY</p>
       <h2 id="care-library-heading" className="mb-4 mt-3 text-3xl font-bold tracking-tight sm:text-4xl">What would you like to look up?</h2>
@@ -137,6 +164,18 @@ export default function Home() {
         </div>
       </div>
     </section>
+    <section id="video-consultations" aria-labelledby="video-heading" className="mx-auto max-w-[1320px] scroll-mt-28 px-5 pb-10 sm:px-9">
+      <div className="docvy-glass flex flex-col gap-5 p-6 sm:flex-row sm:items-start sm:p-8">
+        <span className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#edf4df] to-[#b9dfd2] text-[#245a46]"><Video size={32} aria-hidden="true" /></span>
+        <div>
+          <h2 id="video-heading" className="text-3xl font-bold tracking-tight">Talk to a doctor by video</h2>
+          <p className="mt-3 max-w-2xl leading-7 text-[#41584d]">Ask your clinic whether it offers video appointments and whether your concern needs an in-person visit. Before booking, check the fee, how to join the call, and how to share any reports securely.</p>
+          <p className="mt-3 text-sm font-semibold text-[#183e31]">Video booking through DOCVY is currently unavailable.</p>
+          <Link href="/specialties" className="docvy-pill docvy-pill-primary mt-5">Find the right type of doctor <ArrowUpRight size={16} aria-hidden="true" /></Link>
+        </div>
+      </div>
+    </section>
+
     <section className="mx-auto max-w-[1320px] px-5 pb-16 sm:px-9" aria-labelledby="visit-heading">
       <div className="rounded-3xl bg-[#183e31] p-6 text-white sm:p-9">
         <h2 id="visit-heading" className="text-3xl font-bold tracking-tight text-white">Make the most of your first visit</h2>
