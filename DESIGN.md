@@ -372,3 +372,11 @@ Discovery reference: https://www.practo.com/
 Bloom's published desktop composite uses a violet landscape, generous spacing, rounded sections and large editorial headings. DOCVY borrows those visual cues and uses its own clinician illustration. Practo's city and specialty navigation informs DOCVY's paired filters.
 
 The DOCVY palette uses Ink #251B35, Orchid #51318D, Iris #6544A6, Lavender #DDD0FA, Mist #F8F5FC, and Muted Plum #584968. Use Orchid for primary actions, Ink for headings, and translucent white over Lavender and Mist for glass panels. The demo directory and booking pages stay outside the search index. The educational homepage and guide pages retain their canonical URLs.
+
+## Healing Garden search and content direction
+
+- Homepage intent: which doctor should I see, and search by specialty and city. The hero gives people a place to start and links directly to individual patient guides.
+- Guide intent: which doctor treats diabetes, which doctor for joint pain, and which doctor for high blood pressure. Guides explain specialties, give preparation questions, and link to their source material.
+- Demo intent: see how clinic booking works. The demo directory, booking, and staff pages stay outside the sitemap and search index.
+- Practo and Pristyn Care were reviewed for city and specialty discovery and plain-language condition groupings. Search volumes and ranking positions were not measured.
+- Consultation photo by the National Cancer Institute, https://unsplash.com/photos/doctor-talking-to-patient-in-clinic-tl447mekwuQ, under the Unsplash License. It illustrates a consultation and does not depict DOCVY staff or patients.

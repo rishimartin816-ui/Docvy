@@ -48,21 +48,21 @@ a {
   }
 }
 
-/* Shared Bloom-inspired treatment for the website and clinic workspace. */
-.docvy-bloom {
-  color: #251b35;
-  background: radial-gradient(ellipse at 82% 5%, #ddd0fa 0%, transparent 48%),
-    radial-gradient(ellipse at 3% 48%, #ecd9f0 0%, transparent 40%), #f8f5fc;
+/* Shared Healing Garden treatment for the website and clinic workspace. */
+.docvy-garden {
+  color: #1e3028;
+  background: radial-gradient(ellipse at 82% 5%, #e0efe5 0%, transparent 48%),
+    radial-gradient(ellipse at 3% 48%, #e8edcf 0%, transparent 40%), #fbfcf8;
 }
 .docvy-glass {
   border: 1px solid rgba(255,255,255,.92);
   border-radius: 26px;
   background: rgba(255,255,255,.72);
-  box-shadow: 0 12px 36px rgba(63,38,104,.09);
+  box-shadow: 0 12px 36px rgba(36,90,70,.10);
   backdrop-filter: blur(18px);
 }
 .docvy-eyebrow {
-  color: #624a80;
+  color: #41584d;
   font-size: .72rem;
   font-weight: 800;
   letter-spacing: .13em;
@@ -75,22 +75,22 @@ a {
   min-height: 44px;
   padding: .55rem .95rem;
   border-radius: 999px;
-  border: 1px solid #e3d8ef;
+  border: 1px solid #d5e5da;
   background: #fff;
-  color: #492883;
+  color: #245a46;
   font-size: .875rem;
   font-weight: 700;
   white-space: nowrap;
 }
-.docvy-pill:hover { background: #f0e8fc; }
-.docvy-pill-primary { background: #51318d; color: #fff; border-color: #51318d; }
-.docvy-pill-primary:hover { background: #422772; }
+.docvy-pill:hover { background: #eaf2e8; }
+.docvy-pill-primary { background: #245a46; color: #fff; border-color: #245a46; }
+.docvy-pill-primary:hover { background: #194535; }
 .docvy-select {
   width: 100%;
   min-height: 44px;
   padding: .5rem .75rem;
-  border: 1px solid #dfd4eb;
+  border: 1px solid #d5e5da;
   border-radius: 13px;
   background: #fff;
-  color: #251b35;
+  color: #1e3028;
 }

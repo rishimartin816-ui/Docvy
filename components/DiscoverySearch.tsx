@@ -26,13 +26,13 @@ export default function DiscoverySearch({ city = "", specialty = "" }: { city?: 
 
 export function DemoProvider({ bookingHref }: { bookingHref: string }) {
   return <article className="docvy-glass flex flex-col gap-5 p-5 sm:flex-row sm:items-center sm:p-7">
-    <span className="grid h-16 w-16 shrink-0 place-items-center rounded-[20px] bg-[#e8dcff] text-[#492883]">
+    <span className="grid h-16 w-16 shrink-0 place-items-center rounded-[20px] bg-[#e0efe5] text-[#245a46]">
       <Stethoscope size={29} aria-hidden="true" />
     </span>
     <div className="flex-1">
-      <p className="text-xs font-bold uppercase tracking-widest text-[#624a80]">Fictional demo profile</p>
-      <h2 className="mt-1 text-2xl font-bold text-[#251b35]">DOCVY Test Doctor</h2>
-      <p className="text-sm text-[#584968]">General medicine · DOCVY Test Hospital · Delhi</p>
+      <p className="text-xs font-bold uppercase tracking-widest text-[#41584d]">Fictional demo profile</p>
+      <h2 className="mt-1 text-2xl font-bold text-[#1e3028]">DOCVY Test Doctor</h2>
+      <p className="text-sm text-[#41584d]">General medicine · DOCVY Test Hospital · Delhi</p>
     </div>
     <Link href={bookingHref} className="docvy-pill docvy-pill-primary">View demo slots <ArrowUpRight size={17} aria-hidden="true" /></Link>
   </article>;
