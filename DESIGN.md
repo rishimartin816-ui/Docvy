@@ -247,3 +247,10 @@ Structured data should describe visible, accurate content only. Google says its 
 - Directly answers current availability and appointment questions, names pan-India guide scope alongside Delhi NCR directory coverage, and removes an unannounced city-expansion date. The emergency answer links to the Government of India's [112 Emergency Response Support System](https://112.gov.in/).
 - Metadata matches the visible scope. No `FAQPage` structured data was added; the answers are visible and understandable without depending on a rich result.
 - This codebase-grounded update keeps the DOCVY mint, teal and deep-green design language. A Figma file/node URL remains necessary for direct visual comparison; no Figma-origin claim is made.
+
+## 3 November pan-India scope and provider coverage copy
+
+- Across the homepage, guide, city directory and provider pages, state the two current facts together: DOCVY's discovery purpose is pan-India, while source-linked doctor listings currently cover Delhi, Gurugram and Noida.
+- Describe new city listings as planned only when useful source-backed profiles are ready. Do not promise a city launch or imply a schedule that DOCVY has not announced.
+- Keep city names and alternate place names readable in headings and descriptions to support geographic search intent. The wording is derived from current directory data, not keyword-volume assumptions.
+- This is a content clarity pass that retains each page's existing visual hierarchy and icons. No Figma file was available for direct comparison, and no layout was changed in this pass.
