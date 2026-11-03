@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarDays, CalendarCheck, CalendarX, Clock3, LogOut, RefreshCw } from "lucide-react";
+import { CalendarDays, CalendarCheck, CalendarX, Clock3, LayoutDashboard, LogOut, Mail, RefreshCw, ShieldCheck } from "lucide-react";
 import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 
@@ -231,14 +231,16 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
 
   if (clinic) return (
     <section className="mx-auto max-w-[1440px] px-4 py-6 sm:px-8 lg:py-10">
-      <div className="overflow-hidden rounded-[24px] border border-line bg-white shadow-sm lg:grid lg:grid-cols-[220px_minmax(0,1fr)]">
-        <aside className="bg-plum px-6 py-6 text-white">
-          <p className="font-head text-xl font-bold">DOCVY CRM</p>
-          <p className="text-sm text-lav">{clinicName}</p>
+      <div className="overflow-hidden rounded-[28px] border border-line bg-white shadow-[0_20px_60px_rgba(23,58,55,0.10)] lg:grid lg:grid-cols-[224px_minmax(0,1fr)]">
+        <aside className="bg-gradient-to-b from-[#123532] to-[#19504A] px-5 py-6 text-white">
+          <div className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 p-3">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white text-plum"><ShieldCheck size={21} aria-hidden="true" /></span>
+            <div><p className="font-head font-bold tracking-wide">DOCVY CRM</p><p className="text-xs text-lav">{clinicName}</p></div>
+          </div>
           {session && <nav aria-label="Clinic workspace" className="mt-6 flex flex-wrap gap-2 lg:flex-col">
-            <a className="rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-overview">Overview</a>
-            <a className="rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-calendar">Appointments & availability</a>
-            {canSchedule && <a className="rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-enquiries">Enquiries</a>}
+            <a className="flex items-center gap-2 rounded-btn bg-white/10 px-3 py-2 text-sm font-semibold" href="#crm-overview"><LayoutDashboard size={16} aria-hidden="true" /> Overview</a>
+            <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-calendar"><CalendarDays size={16} aria-hidden="true" /> Appointments</a>
+            {canSchedule && <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-enquiries"><Mail size={16} aria-hidden="true" /> Enquiries</a>}
             <button className="flex items-center gap-2 rounded-btn px-3 py-2 text-left text-sm hover:bg-white/10 disabled:opacity-50"
               disabled={busy} onClick={() => { setSession(""); setCanSchedule(false); setSlots([]); setDestinations([]); setEnquiries(null); setHistory(null); setMessage(""); }}>
               <LogOut size={16} aria-hidden="true" /> Close session
@@ -246,12 +248,13 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
           </nav>}
         </aside>
         <div className="min-w-0 bg-sand p-4 sm:p-7">
-          <header id="crm-overview" className="rounded-card bg-lav p-6 sm:p-8">
-            <p className="text-sm font-semibold text-grey">{clinicName}{staging ? " · Staging" : ""}</p>
-            <h1 className="mt-1 text-3xl font-bold sm:text-4xl">{title}</h1>
-            <p className="mt-2 text-grey">Manage appointments and control which slots patients can book.</p>
+          <header id="crm-overview" className="relative isolate overflow-hidden rounded-[24px] bg-gradient-to-br from-[#12433E] via-[#15605A] to-[#087F83] p-6 text-white sm:p-9">
+            <div aria-hidden="true" className="pointer-events-none absolute -right-14 -top-24 -z-10 h-80 w-80 rounded-full border border-white/20 shadow-[0_0_0_28px_rgba(255,255,255,.06),0_0_0_56px_rgba(255,255,255,.04)]" />
+            <p className="inline-flex rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide">{clinicName}{staging ? " · Demo" : ""}</p>
+            <h1 className="mt-3 text-3xl font-bold text-white sm:text-4xl">{title}</h1>
+            <p className="mt-2 max-w-lg text-sm text-[#EAF5F1] sm:text-base">Manage appointments, publish availability, and follow up on patient enquiries.</p>
           </header>
-          {!session ? <form className="mt-5 max-w-md space-y-4 rounded-card border border-line bg-white p-6" onSubmit={signIn}>
+          {!session ? <form className="mt-5 max-w-md space-y-4 rounded-2xl border border-line bg-white p-6 shadow-sm" onSubmit={signIn}>
             <h2 className="text-xl font-bold">Staff sign-in</h2>
             <label className="block">Staff email <input className={field} type="email" name="email" autoComplete="username" required /></label>
             <label className="block">Password <input className={field} type="password" name="password" autoComplete="current-password" required /></label>
@@ -263,8 +266,8 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                 { label: "Available slots", count: available, icon: Clock3 },
                 { label: "Blocked slots", count: blocked, icon: CalendarX },
               ].map(({ label, count, icon: Icon }) => (
-                <div key={label} className="flex items-center gap-3 rounded-card border border-line bg-white p-4">
-                  <Icon size={22} aria-hidden="true" className="shrink-0 text-mulb" />
+                <div key={label} className="flex items-center gap-3 rounded-2xl border border-line bg-white p-4 shadow-[0_4px_12px_rgba(23,58,55,0.04)]">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-lav text-mulb"><Icon size={21} aria-hidden="true" /></span>
                   <div><p className="text-sm text-grey">{label}</p><p className="text-2xl font-bold tabular-nums">{count}</p></div>
                 </div>
               ))}
