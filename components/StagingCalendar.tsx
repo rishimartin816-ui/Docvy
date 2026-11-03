@@ -77,6 +77,28 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
       setBusy(false);
     }
   }
+  async function createSlot(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const fields = new FormData(form);
+    setBusy(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/crm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + session },
+        body: JSON.stringify({ action: "create-slot", starts: fields.get("starts"), ends: fields.get("ends"), admin }),
+      });
+      if (!response.ok) throw new Error((await response.json()).error);
+      form.reset();
+      setMessage("Slot added.");
+      await refresh(session);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Slot could not be saved.");
+    } finally {
+      setBusy(false);
+    }
+  }
   async function loadEnquiries() {
     setBusy(true);
     setMessage("");
@@ -201,6 +223,14 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                 <label>Start date <input className={field} type="date" required value={day} onChange={(event) => setDay(event.target.value)} /></label>
                 <label>View <select className={field} value={days} onChange={(event) => setDays(Number(event.target.value))}><option value={1}>Day</option><option value={7}>Week</option></select></label>
               </div>
+              <details className="mb-4 rounded-btn border border-line bg-sand p-3">
+                <summary className="cursor-pointer font-semibold">Add appointment slot</summary>
+                <form className="mt-3 flex flex-wrap items-end gap-3 text-sm" onSubmit={createSlot}>
+                  <label>Starts (IST)<input className={field} type="datetime-local" name="starts" required /></label>
+                  <label>Ends (IST)<input className={field} type="datetime-local" name="ends" required /></label>
+                  <button className={button} disabled={busy}>Add slot</button>
+                </form>
+              </details>
               {visible.length === 0 ? <p className="rounded-btn bg-sand p-4 text-grey">No slots in this period.</p> :
                 <ul className="divide-y divide-line">{visible.map((slot) => (
                   <li className="flex flex-wrap items-center justify-between gap-3 py-3" key={slot.id}>

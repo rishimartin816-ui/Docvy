@@ -99,6 +99,26 @@ export async function POST(request: NextRequest) {
       return reply({ error: "Sign-in unavailable" }, 503);
     }
   }
+  if (input?.action === "create-slot") {
+    const localTime = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+    if (typeof input.starts !== "string" || typeof input.ends !== "string" ||
+        !localTime.test(input.starts) || !localTime.test(input.ends)) {
+      return reply({ error: "Choose valid start and end times" }, 400);
+    }
+    try {
+      const actor = await staff(clinicId, requestToken(request));
+      if (!actor || (input.admin === true && actor.role !== "owner")) return reply({ error: "Staff access required" }, 403);
+      const result = await database("/rest/v1/rpc/crm_create_slot", {
+        actor: actor.id, clinic: clinicId, starts: input.starts + "+05:30", ends: input.ends + "+05:30",
+      });
+      if (result.status === 400) return reply({ error: "Choose a future slot lasting 5 minutes to 4 hours within the next year" }, 400);
+      if (result.status === 403) return reply({ error: "Scheduling access required" }, 403);
+      if (result.status === 409) return reply({ error: "This time overlaps an existing slot" }, 409);
+      return result.ok ? reply({}) : reply({ error: "Slot could not be saved" }, 503);
+    } catch {
+      return reply({ error: "Slot could not be saved" }, 503);
+    }
+  }
   if (input?.action === "enquiry-status") {
     if (typeof input.reference !== "string" || !/^DV-[0-9A-F]{8}$/.test(input.reference) ||
         !["new", "contacted"].includes(input.expected) || !["contacted", "closed"].includes(input.status)) {
