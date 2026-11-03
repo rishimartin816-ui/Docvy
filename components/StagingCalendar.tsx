@@ -68,7 +68,7 @@ export default function StagingCalendar({ clinic = false, admin = false }: { cli
       setBusy(false);
     }
   }
-  async function change(slot: Slot, status?: "cancelled" | "completed" | "no_show") {
+  async function change(slot: Slot, status?: "cancelled" | "completed" | "no_show", destination?: string) {
     if (status === "cancelled" && !window.confirm("Cancel this appointment and release its slot?")) return;
     setBusy(true);
     setMessage("");
@@ -78,10 +78,10 @@ export default function StagingCalendar({ clinic = false, admin = false }: { cli
       const response = await fetch("/api/crm", {
         method: "POST",
         headers: { "Content-Type": "application/json", ...(session ? { Authorization: "Bearer " + session } : {}) },
-        body: JSON.stringify(status ? { action: "booking-status", booking: slot.booking_id, status } : clinic ? { slot: slot.id, blocked: !slot.blocked } : { slot: slot.id, key }),
+        body: JSON.stringify(destination ? { action: "reschedule", booking: slot.booking_id, source: slot.id, destination } : status ? { action: "booking-status", booking: slot.booking_id, status } : clinic ? { slot: slot.id, blocked: !slot.blocked } : { slot: slot.id, key }),
       });
       const data = await response.json();
-      setMessage(response.ok ? status ? "Appointment updated." : clinic ? "Availability updated." : "Test booking confirmed. Reference " + data.result : data.error);
+      setMessage(response.ok ? status || destination ? "Appointment updated." : clinic ? "Availability updated." : "Test booking confirmed. Reference " + data.result : data.error);
     } catch {
       setMessage("Request interrupted. You can retry.");
     } finally {
@@ -94,7 +94,9 @@ export default function StagingCalendar({ clinic = false, admin = false }: { cli
   const visible = clinic ? slots.filter((slot) => calendarDay.format(new Date(slot.starts_at)) >= day && Date.parse(slot.starts_at) < end) : slots;
   const appointments = visible.filter((slot) => slot.booking_id).length;
   const blocked = visible.filter((slot) => slot.blocked && !slot.booking_id).length;
-  const available = visible.filter((slot) => !slot.booking_id && !slot.blocked && Date.parse(slot.starts_at) > Date.now()).length;
+  const isAvailable = (slot: Slot) => !slot.booking_id && !slot.blocked && Date.parse(slot.starts_at) > Date.now();
+  const destinations = clinic ? slots.filter(isAvailable) : [];
+  const available = visible.filter(isAvailable).length;
   const title = admin ? "Owner console" : "Clinic workspace";
   const field = "block w-full rounded-btn border border-line bg-white px-3 py-2 text-ink";
   const button = "inline-flex items-center justify-center gap-2 rounded-btn border border-line bg-white px-3 py-2 text-sm font-semibold hover:bg-lav disabled:opacity-50";
@@ -164,7 +166,20 @@ export default function StagingCalendar({ clinic = false, admin = false }: { cli
                         {Date.parse(slot.starts_at) <= Date.now() ? <>
                           <button className={button} disabled={busy} onClick={() => void change(slot, "completed")}>Complete</button>
                           <button className={button} disabled={busy} onClick={() => void change(slot, "no_show")}>Mark no-show</button>
-                        </> : <button className={button} disabled={busy} onClick={() => void change(slot, "cancelled")}>Cancel appointment</button>}
+                        </> : <>
+                          {destinations.length > 0 && <form className="flex flex-wrap items-center gap-2" onSubmit={(event) => {
+                            event.preventDefault();
+                            const destination = new FormData(event.currentTarget).get("destination");
+                            if (typeof destination === "string" && destination) void change(slot, undefined, destination);
+                          }}>
+                            <select aria-label="New appointment time" name="destination" className={button} defaultValue="" required disabled={busy}>
+                              <option value="">Choose a new time</option>
+                              {destinations.map((target) => <option key={target.id} value={target.id}>{dateLabel.format(new Date(target.starts_at))}</option>)}
+                            </select>
+                            <button className={button} disabled={busy}>Reschedule</button>
+                          </form>}
+                          <button className={button} disabled={busy} onClick={() => void change(slot, "cancelled")}>Cancel appointment</button>
+                        </>}
                       </div>
                     )}
                     {!slot.booking_id && Date.parse(slot.starts_at) > Date.now() &&

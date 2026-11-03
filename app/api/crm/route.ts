@@ -94,17 +94,21 @@ export async function POST(request: NextRequest) {
       return reply({ error: "Sign-in unavailable" }, 503);
     }
   }
-  if (input?.action === "booking-status") {
+  if (input?.action === "booking-status" || input?.action === "reschedule") {
+    const reschedule = input.action === "reschedule";
     if (typeof input.booking !== "string" || !uuid.test(input.booking) ||
-        !["cancelled", "completed", "no_show"].includes(input.status)) {
+        (reschedule ? typeof input.source !== "string" || !uuid.test(input.source) ||
+          typeof input.destination !== "string" || !uuid.test(input.destination)
+          : !["cancelled", "completed", "no_show"].includes(input.status))) {
       return reply({ error: "Invalid booking status request" }, 400);
     }
     try {
       const actor = await staff(requestToken(request));
       if (!actor) return reply({ error: "Staff access required" }, 403);
-      const result = await database("/rest/v1/rpc/crm_transition_booking", {
-        actor: actor.id, clinic: stagingClinic, booking: input.booking, desired: input.status,
-      });
+      const booking = { actor: actor.id, clinic: stagingClinic, booking: input.booking };
+      const result = reschedule
+        ? await database("/rest/v1/rpc/crm_reschedule_booking", { ...booking, source: input.source, destination: input.destination })
+        : await database("/rest/v1/rpc/crm_transition_booking", { ...booking, desired: input.status });
       if (result.status === 403) return reply({ error: "Scheduling access required" }, 403);
       if (result.status === 409) return reply({ error: "Booking cannot be changed at this time" }, 409);
       return result.ok ? reply({}) : reply({ error: "Booking update unavailable" }, 503);
