@@ -110,6 +110,14 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Clarified that current listings are Delhi NCR only and area labels may be incomplete. Pan-India product scope remains distinct from current provider coverage.
 - `pnpm lint`, `pnpm build` (32 static pages), and `git diff --check` passed. Local GET checks for `/doctors` and `/doctors/delhi` returned HTTP 200. Production deployment `dpl_FJwJ85KVvgxFhNf1apFQAmfQpVn8` is `READY` for `2fced91`; live `/doctors`, `/doctors/delhi` and `docvy.in/doctors` checks returned HTTP 200 with the filter. Both pages retain canonical URLs, one H1 and `index, follow`; the sitemap remains 23 URLs. Interactive visual review remains pending.
 
+## 3 November homepage clarity and search update (pending production verification)
+
+- Replaced a repeated homepage availability summary with a patient-facing three-step checklist for checking the hospital source, exact facility, and appointment availability/fees. It states clearly that source-linked does not mean DOCVY-verified.
+- Updated the homepage title and social descriptions for patient-guide and doctor-directory intent, retaining pan-India purpose and the explicitly limited Delhi NCR listings.
+- Added homepage `WebSite` structured data linked to DOCVY's existing `Organization` entity, following Google's site-name guidance. No special GEO markup or ranking claim was added.
+- `pnpm lint`, `pnpm build` (32 generated routes) and `git diff --check` passed. The production release and live metadata/markup checks are pending.
+- A synthetic lead-to-Sheet test remains pending until the approved private webhook is installed and configured. The appointment form must stay closed until a synthetic submission is confirmed in the private sheet.
+
 ## Not yet built or verified
 
 - Provider credential review/claiming workflow and wider source-backed provider coverage.

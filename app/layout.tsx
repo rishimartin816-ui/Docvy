@@ -57,6 +57,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
+              "@id": "https://www.docvy.in/#organization",
               name: "DOCVY",
               url: "https://www.docvy.in",
               email: "contact@docvy.in",
