@@ -243,9 +243,10 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - The Figma app shows the recent `DOCVY — Future Healthcare Experience` file. Opening the file prompted for a Dev Mode seat change; the seat was left unchanged. No file was edited and no Figma design context was retrieved. A direct share URL is still needed for a read-only implementation comparison.
 - Latest production code commit `5797d54` is live as READY Vercel deployment `dpl_ENZwxwghcpLqhroV2DtXThFy5LHj`; the tracker commit `a500abb` is also READY as `dpl_B6KY3V7F9BrReJDihpXCNdf58ZBu`. The live provider page and decoded email template were verified. Enquiry intake is still closed and no synthetic end-to-end Sheet lead has been submitted.
 
-## 3 November grievance page description improvement — publication pending
+## 3 November grievance page description improvement — published
 
 - The fresh sitemap metadata check found one weak description on `/grievance`: “Current grievance-contact availability for DOCVY” (49 characters), despite visible email/post contact instructions.
 - Updated the page, Open Graph and Twitter descriptions to explain where and how to send a grievance and to avoid sending medical records or identity documents. This is a clarity/snippet improvement, not a ranking claim.
 - `pnpm lint` passed; `pnpm build` passed with 32 routes. The existing Open Graph edge-runtime notice remains non-blocking. Local generated HTML has one H1 and the updated descriptions. `git diff --check` passed.
-- Change is not yet live; publish and confirm the response metadata before marking complete.
+- Commit `6d8c353` is READY in Vercel production as `dpl_4T1Y1tn5MXtn995Zqmio1PPSDZ19`. Live `/grievance` returned HTTP 200, the updated 143-character description, its page-specific canonical, and one H1.
+- A new complete sitemap smoke check returned HTTP 200 and passed 23/23 URLs for title, description, exact canonical, `index, follow` and one H1. These checks do not prove indexing, rankings, or traffic.
