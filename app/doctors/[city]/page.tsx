@@ -23,7 +23,7 @@ export function generateMetadata({ params }: { params: { city: string } }): Meta
   const locationName = city === "Gurugram" ? "Gurugram (Gurgaon)" : city;
   const title = `Doctors in ${locationName}`;
   const profileCount = providerCandidates.filter((doctor) => doctor.locations.some((location) => location.city === city)).length;
-  const description = `Browse ${profileCount} source-linked doctor profiles currently listed in ${locationName}, Delhi NCR. Filter by specialty and hospital; this is a limited directory, so confirm current details with the hospital.`;
+  const description = `Browse ${profileCount} hospital-linked doctor profiles in ${locationName}, India. Filter by specialty or hospital; confirm current details with the provider.`;
   const cityPath = "/doctors/" + params.city;
   return {
     title,
