@@ -1,34 +1,71 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Building2, HeartPulse, Hospital, Stethoscope } from "lucide-react";
+import { ArrowUpRight, BookOpen, ClipboardList, Stethoscope } from "lucide-react";
 import { buildPageSocialMetadata } from "@/lib/metadata";
-import { providerCityListLabel, providerProfileCount } from "@/lib/provider-candidates";
 
-const aboutDescription = `Learn about DOCVY's India-wide patient guide, current doctor listings in ${providerCityListLabel}, manual profile corrections and planned provider tools.`;
+const title = "About DOCVY | A clearer next step in healthcare";
+const description = "DOCVY helps patients and families in India understand health concerns, find the right type of doctor, and prepare for care in plain language.";
+
 export const metadata: Metadata = {
-  title: "Healthcare discovery across India",
-  description: aboutDescription,
+  title: { absolute: title },
+  description,
   alternates: { canonical: "/about" },
-  ...buildPageSocialMetadata("Healthcare discovery and operations | DOCVY", aboutDescription, "/about"),
+  ...buildPageSocialMetadata(title, description, "/about"),
 };
 
-const audiences = [
-  { icon: HeartPulse, title: "For patients", status: "AVAILABLE TODAY", statusClass: "bg-[#E3F3ED] text-[#087F83]", text: `Use the plain-language guide anywhere in India and browse ${providerProfileCount} source-linked doctor profiles currently listed in ${providerCityListLabel}. DOCVY has not independently verified credentials or availability.` },
-  { icon: Stethoscope, title: "For doctors", status: "OWNER REVIEW", statusClass: "bg-[#E6F8FB] text-[#102B46]", text: "Doctors can request a profile correction by sharing a public hospital or clinic source link and the exact detail. The DOCVY owner reviews changes; self-service claims and independent credential verification are not live." },
-  { icon: Building2, title: "For clinics", status: "PLANNED · NOT LIVE", statusClass: "bg-[#FFF2D9] text-[#80540E]", text: "Future tools may help clinic teams organize public profiles and patient enquiries. These workflows are not available to use or buy today; rates and dashboards are not live." },
-  { icon: Hospital, title: "For hospitals", status: "PLANNED · NOT LIVE", statusClass: "bg-[#FFF2D9] text-[#80540E]", text: "Future tools may support provider discovery across departments and branches. They are not operational; appointment slots, booking and hospital dashboards are not live." },
+const paths = [
+  { icon: BookOpen, title: "Understand what you’re hearing", text: "Look up the condition or symptom you’re worried about. Learn what common medical terms mean and write down what you want to ask.", href: "/#care-library", label: "Search patient guides" },
+  { icon: Stethoscope, title: "Find the right kind of doctor", text: "Learn what different specialists do, what they can help with, and what to bring to a first visit.", href: "/specialties", label: "Explore specialties" },
+  { icon: ClipboardList, title: "Feel more prepared for surgery", text: "Take practical questions about treatment options, costs, insurance and recovery to your consultation.", href: "/surgery-guide", label: "Open the surgery checklist" },
 ];
 
 export default function AboutPage() {
-  return <div className="bg-[#F6FAF8]">
-    <section className="border-b border-[#DCEAE5] bg-white py-16 md:py-20"><div className="mx-auto max-w-6xl px-6">
-      <p className="text-[11px] font-extrabold tracking-[0.15em] text-[#087F83]">ABOUT DOCVY</p>
-      <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-tight tracking-[-0.04em] text-[#173A37] md:text-[54px]">Healthcare discovery should make the next step easier to understand.</h1>
-      <p className="mt-5 max-w-3xl text-base leading-8 text-[#526D66]">DOCVY is building a connected healthcare discovery and operations platform for people and care teams across India. The patient guide is available nationwide; doctor profiles currently cover {providerCityListLabel}. Other city listings are planned when enough useful, source-linked coverage is ready; no expansion date has been announced.</p>
-      <p className="mt-5 inline-flex rounded-full bg-[#EAF5F1] px-3 py-1.5 text-[10px] font-extrabold tracking-wide text-[#087F83]">PATIENT GUIDE AND SOURCE-LINKED LISTINGS AVAILABLE · BOOKING NOT LIVE</p>
-    </div></section>
-    <section className="mx-auto max-w-6xl px-6 py-12 md:py-16"><h2 className="text-2xl font-bold">Who DOCVY is for</h2><p className="mt-3 max-w-3xl text-sm leading-7 text-[#526D66]">The patient guide and a limited source-linked doctor directory are available now. Doctors can request manual profile corrections. Clinic and hospital software remains planned.</p><div className="mt-7 grid gap-4 sm:grid-cols-2">{audiences.map(({ icon: Icon, title, status, statusClass, text }) => <article key={title} className="rounded-2xl border border-[#DCEAE5] bg-white p-6"><div className="flex items-start justify-between gap-3"><Icon size={22} aria-hidden="true" className="mt-1 text-[#087F83]" /><span className={`rounded-full px-3 py-1.5 text-[10px] font-extrabold tracking-[0.08em] ${statusClass}`}>{status}</span></div><h3 className="mt-4 text-lg font-bold text-[#173A37]">{title}</h3><p className="mt-2 text-sm leading-6 text-[#526D66]">{text}</p></article>)}</div></section>
-    <section className="border-y border-[#DCEAE5] bg-white py-12 md:py-16"><div className="mx-auto grid max-w-6xl gap-8 px-6 md:grid-cols-2"><article><p className="text-xs font-extrabold tracking-[0.14em] text-[#087F83]">WHAT PATIENTS CAN DO TODAY</p><h2 className="mt-3 text-2xl font-bold">Search the guide and browse profiles</h2><p className="mt-3 text-sm leading-7 text-[#526D66]">Search common concerns such as diabetes, skin conditions, pregnancy or joint problems to understand which medical specialty is commonly associated with them. The guide is available across India. You can browse source-linked doctor profiles by city and specialty. DOCVY credential review is pending, and appointment booking is not live.</p><Link href="/care-guide" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#087F83]">Open the care guide <ArrowRight size={16} /></Link></article><article><p className="text-xs font-extrabold tracking-[0.14em] text-[#087F83]">CURRENT DOCTOR LISTINGS</p><h2 className="mt-3 text-2xl font-bold">Starting in Delhi NCR</h2><p className="mt-3 text-sm leading-7 text-[#526D66]">The current directory groups source-linked profiles under {providerCityListLabel}. Other city listings are planned when useful, source-linked coverage is ready; no expansion date has been announced. Neighbourhoods appear where a hospital source lists a specific location.</p><Link href="/doctors" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#087F83]">Browse current doctor listings <ArrowRight size={16} /></Link></article></div></section>
-    <section className="mx-auto max-w-6xl px-6 py-12 md:py-16"><div className="rounded-[24px] bg-[#123B38] p-7 text-white md:flex md:items-center md:justify-between md:gap-8 md:p-10"><div><h2 className="text-2xl font-bold text-white">A doctor correction or a future care-team plan?</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-[#D8E9E3]">Doctors can request a manual profile correction. Clinics and hospitals can discuss planned workflows; there is no live onboarding portal, dashboard or checkout.</p></div><div className="mt-5 flex shrink-0 flex-wrap gap-3 md:mt-0"><Link href="/for-doctors" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-white px-5 text-sm font-bold text-[#123B38]">Doctor profile help <ArrowRight size={16} /></Link><Link href="/pricing" className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#C6DED4] px-5 text-sm font-bold text-white">Clinic &amp; hospital plans <ArrowRight size={16} /></Link></div></div></section>
+  return <div className="docvy-garden">
+    <section className="mx-auto grid max-w-6xl items-center gap-8 px-5 py-12 sm:px-9 lg:grid-cols-[1.1fr_.9fr] lg:py-20">
+      <div>
+        <p className="docvy-eyebrow">ABOUT DOCVY</p>
+        <h1 className="mt-4 text-4xl font-bold leading-[1.05] tracking-[-.05em] text-[#183e31] sm:text-6xl">When health feels uncertain, the next step should feel clearer.</h1>
+        <p className="mt-5 max-w-xl text-lg leading-8 text-[#41584d]">Maybe a report has a word you’ve never heard. Maybe you’re helping a parent find a specialist. We built DOCVY for those moments, when you have questions and want somewhere to start.</p>
+        <Link href="/#care-library" className="docvy-pill docvy-pill-primary mt-6">Find a guide for your concern <ArrowUpRight size={17} aria-hidden="true" /></Link>
+      </div>
+      <div className="docvy-glass overflow-hidden p-3">
+        <svg viewBox="0 0 480 310" className="h-auto w-full rounded-2xl" aria-hidden="true">
+          <rect width="480" height="310" fill="#dcecdf" />
+          <circle cx="250" cy="150" r="122" fill="#c4e1d2" />
+          <path d="M0 258q103-56 242-6t238-4v62H0Z" fill="#a7ccb6" />
+          <path d="M80 263q0-54-39-85m32 57q-36-2-43-30 31-2 43 30Zm-9-25q-7-29 7-45 16 20-7 45ZM410 260q0-50 36-85m-24 53q33-2 40-26-28-4-40 26Z" fill="#739e84" stroke="#507c64" strokeWidth="2" strokeLinecap="round" />
+          <path d="M130 260v-43q0-41 44-41h24q43 0 43 41v43Z" fill="#f5debd" />
+          <circle cx="186" cy="144" r="35" fill="#a76d4c" />
+          <path d="M151 148c-9-38 15-54 39-49 24 2 35 16 31 36-23 3-44-3-55-14-3 13-7 22-15 27Z" fill="#273d32" />
+          <path d="M252 260v-43q0-41 43-41h24q43 0 43 41v43Z" fill="#3d735a" />
+          <circle cx="305" cy="144" r="34" fill="#d7a379" />
+          <path d="M272 146c-6-28 9-48 34-48 28 0 40 19 33 43-19-2-32-9-38-22-8 13-17 21-29 27Z" fill="#453a31" />
+          <path d="M203 219q19 19 41 17m54-18q-20 19-47 18" fill="none" stroke="#986047" strokeWidth="10" strokeLinecap="round" />
+          <path d="M235 45h55q12 0 12 12v20q0 12-12 12h-36l-14 11V89h-5q-12 0-12-12V57q0-12 12-12Z" fill="#fffdf5" />
+          <path d="M246 68h8l5-9 7 18 6-9h8" fill="none" stroke="#3d735a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
+    </section>
+
+    <section className="mx-auto max-w-6xl px-5 pb-12 sm:px-9" aria-labelledby="mission-heading">
+      <div className="rounded-3xl bg-[#183e31] p-7 text-white sm:p-10">
+        <p className="text-sm font-bold text-[#c0e6c9]">WHAT WE WANT FOR PATIENTS</p>
+        <h2 id="mission-heading" className="mt-3 max-w-3xl text-3xl font-bold tracking-tight text-white sm:text-4xl">More confidence walking into the room. More clarity walking out.</h2>
+        <p className="mt-4 max-w-3xl leading-7 text-[#e1efe7]">We want people across India to feel comfortable asking what a diagnosis means, what their options are, and what comes next. A family member helping from another city should be able to read the same guide and help prepare the same questions.</p>
+      </div>
+    </section>
+
+    <section className="mx-auto max-w-6xl px-5 pb-16 sm:px-9" aria-labelledby="help-heading">
+      <h2 id="help-heading" className="text-3xl font-bold tracking-tight text-[#183e31]">Start with what’s on your mind</h2>
+      <div className="mt-5 grid gap-4 md:grid-cols-3">
+        {paths.map(({ icon: Icon, title, text, href, label }) => <article key={href} className="docvy-glass flex flex-col items-start p-6">
+          <span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#dff1e2] text-[#245a46]"><Icon size={24} aria-hidden="true" /></span>
+          <h3 className="mt-4 text-lg font-bold">{title}</h3>
+          <p className="mb-5 mt-2 flex-1 text-sm leading-6 text-[#41584d]">{text}</p>
+          <Link href={href} className="docvy-pill">{label} <ArrowUpRight size={16} aria-hidden="true" /></Link>
+        </article>)}
+      </div>
+      <p className="mt-6 max-w-3xl text-sm leading-6 text-[#41584d]">DOCVY guides help you prepare for conversations with your care team. For a real appointment, contact the clinic directly. The online booking walkthrough uses fictional records.</p>
+    </section>
   </div>;
 }

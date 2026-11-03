@@ -9,6 +9,7 @@ const patientLinks = [
   ["/specialties", "Specialties"],
   ["/surgery-guide", "Surgery guide"],
   ["/care-guide", "Patient guides"],
+  ["/about", "About us"],
 
 ] as const;
 
