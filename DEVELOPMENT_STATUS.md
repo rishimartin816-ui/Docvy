@@ -126,7 +126,8 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - This changes link-sharing previews and metadata, not page layout. It preserves the documented DOCVY color/illustration system and makes no search ranking or conversion claim.
 - `pnpm lint` passed. `pnpm build` passed and generated 32 routes; Next.js emitted the existing non-blocking Edge runtime notice for `/opengraph-image`.
 - Local production-server checks returned HTTP 200 for nine representative routes and confirmed that page titles, Open Graph titles and X card titles agree; patient guide and legal pages carry their own descriptions, and `/request` remains `noindex, nofollow`.
-- Production release is pending. The prior production deployment remains the latest verified release until a new Vercel deployment is READY and live pages are checked.
+- Production commit `e7d59d8` is live in Vercel deployment `dpl_7qwNRSboP9q4yDwqrFM8MhyY6eWB` (`READY`) on `www.docvy.in` and `docvy.in`.
+- Live checks returned HTTP 200 for 16 representative routes. On the 12 indexable sample routes, the HTML title, Open Graph title and X card title match; canonicals, one H1 and `index, follow` are present. `/request` and `/status` return 200 with `noindex, nofollow`; `/request` has no canonical. No ranking or analytics claim is made.
 - Intake setup has explicit user approval, but is still not deployed. The Chrome window capture failed twice with `window capture timed out: timed out waiting on channel`, and a Google Drive search did not surface the Apps Script project. No webhook secret or Vercel webhook variables were created; the form remains closed and no synthetic lead was submitted.
 
 ## Not yet built or verified
@@ -148,6 +149,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 
 | Date | Commit / deployment | Result |
 |---|---|---|
+| 3 Nov 2026 | `e7d59d8` · Vercel `dpl_7qwNRSboP9q4yDwqrFM8MhyY6eWB` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Added page-specific Open Graph and X card metadata across indexable patient, doctor, provider, support, legal and answer pages. Lint/build passed (32 routes). Live checks returned HTTP 200 for 16 representative routes; the 12 indexable sample routes had matching title/social-card titles, canonicals, one H1 and `index, follow`. `/request` and `/status` remain noindex. Intake remains closed. |
 | 3 Nov 2026 | `bce4e7b` · Vercel `dpl_A4jQaqkBMcLPgY9NGFnsDcNUGF2H` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Replaced repeated homepage status cards with an illustrated three-step source/facility/availability checklist; improved homepage search title and description; added linked `WebSite` schema. Lint/build and live metadata/schema checks passed; desktop and 390px visual review showed no horizontal overflow. Intake remains closed. |
 | 3 Nov 2026 | `890febc` · Vercel `dpl_8EetN7FZQTD9KKn7JGiFDoB5wCjJ` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Updated the paused `/request` state to remove contact fields and show the selected doctor's official hospital profile. Live route returned 200 with no name/mobile fields and `noindex, nofollow`; a no-data API probe returned 503 and created no lead. |
 | 3 Nov 2026 | `2fced91` · Vercel `dpl_FJwJ85KVvgxFhNf1apFQAmfQpVn8` | READY on `main`; live on `www.docvy.in` and `docvy.in`. Added the source-backed area/locality filter and exact city-page links; live HTML, canonical, robots and heading checks passed for `/doctors` and `/doctors/delhi`. |

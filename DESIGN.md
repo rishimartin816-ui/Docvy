@@ -219,5 +219,6 @@ Structured data should describe visible, accurate content only. Google says its 
 
 - A fresh production page-source check found that several internal URLs inherited the generic homepage X card even when their search title and description were specific. Added a shared social-metadata helper and applied each page's accurate title/description to Open Graph and X metadata across directory, patient guide, provider, support, legal and patient-answer routes.
 - The shared 1200 × 630 illustration remains aligned with the DOCVY mint, teal and deep-green visual system. This pass improves how a route is presented when shared; it does not alter the page layout or assert a ranking gain.
-- Lint, production build and local HTML metadata checks passed. Production publication and live metadata verification are pending.
+- Lint and production build passed (32 routes). Local and live HTML checks confirmed page-specific social titles; live checks returned HTTP 200 for 16 representative routes, and the 12 indexable sample routes retained canonicals, one H1 and `index, follow`. `/request` and `/status` remain noindex.
+- Commit `e7d59d8` is live on both `www.docvy.in` and `docvy.in` through Vercel deployment `dpl_7qwNRSboP9q4yDwqrFM8MhyY6eWB` (`READY`).
 - Figma did not expose a direct file/node URL, so this codebase-grounded change is not described as Figma-derived.
