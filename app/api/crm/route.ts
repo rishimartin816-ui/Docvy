@@ -41,11 +41,19 @@ export async function GET(request: NextRequest) {
   try {
     const admin = request.nextUrl.searchParams.has("admin");
     const enquiries = request.nextUrl.searchParams.has("enquiries");
-    const clinic = admin || enquiries || request.nextUrl.searchParams.has("clinic");
+    const history = request.nextUrl.searchParams.get("history");
+    const clinic = admin || enquiries || history !== null || request.nextUrl.searchParams.has("clinic");
     if (!clinic && !target.staging) return reply({ error: "Online booking unavailable" }, 404);
     if (clinic) {
       const access = await staff(clinicId, requestToken(request));
       if (!access || (admin && access.role !== "owner")) return reply({ error: "Staff access required" }, 403);
+      if (history !== null) {
+        if (!uuid.test(history)) return reply({ error: "Enter a valid appointment reference" }, 400);
+        const result = await database("/rest/v1/rpc/crm_booking_history", { actor: access.id, clinic: clinicId, booking: history });
+        if (result.status === 403) return reply({ error: "Appointment history access required" }, 403);
+        if (result.status === 404) return reply({ error: "Appointment not found" }, 404);
+        return result.ok ? reply(await result.json()) : reply({ error: "Appointment history unavailable" }, 503);
+      }
       if (enquiries) {
         const result = await database("/rest/v1/rpc/crm_list_enquiries", { actor: access.id, clinic: clinicId });
         if (result.status === 403) return reply({ error: "Enquiry access required" }, 403);

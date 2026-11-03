@@ -14,6 +14,11 @@ type Enquiry = {
   status: "new" | "contacted" | "closed";
   booking_id?: string | null;
 };
+type AppointmentHistory = {
+  status: string;
+  starts_at: string;
+  events: { action: string; at: string; appointment_at: string | null }[];
+};
 const dateLabel = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" });
 const calendarDay = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" });
 
@@ -21,6 +26,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
   const [session, setSession] = useState("");
   const [slots, setSlots] = useState<Slot[]>([]);
   const [destinations, setDestinations] = useState<Slot[]>([]);
+  const [history, setHistory] = useState<AppointmentHistory | null>(null);
   const [enquiries, setEnquiries] = useState<Enquiry[] | null>(null);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
@@ -103,6 +109,25 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
       await refresh(session);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Slot could not be saved.");
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function loadHistory(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const reference = String(new FormData(event.currentTarget).get("reference") ?? "").trim();
+    if (!reference) return;
+    setBusy(true);
+    setHistory(null);
+    setMessage("");
+    try {
+      const path = "/api/crm?history=" + encodeURIComponent(reference) + (admin ? "&admin" : "");
+      const response = await fetch(path, { headers: { Authorization: "Bearer " + session } });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+      setHistory(data);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Appointment history unavailable.");
     } finally {
       setBusy(false);
     }
@@ -211,7 +236,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
             <a className="rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-calendar">Appointments & availability</a>
             <a className="rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-enquiries">Enquiries</a>
             <button className="flex items-center gap-2 rounded-btn px-3 py-2 text-left text-sm hover:bg-white/10 disabled:opacity-50"
-              disabled={busy} onClick={() => { setSession(""); setSlots([]); setDestinations([]); setEnquiries(null); setMessage(""); }}>
+              disabled={busy} onClick={() => { setSession(""); setSlots([]); setDestinations([]); setEnquiries(null); setHistory(null); setMessage(""); }}>
               <LogOut size={16} aria-hidden="true" /> Close session
             </button>
           </nav>}
@@ -294,6 +319,22 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                       <button className={button} disabled={busy} onClick={() => void change(slot)}>{slot.blocked ? "Unblock" : "Block"}</button>}
                   </li>
                 ))}</ul>}
+            </section>
+            <section className="mt-5 rounded-card border border-line bg-white p-4 sm:p-6">
+              <h2 className="text-xl font-bold">Appointment history</h2>
+              <form className="mt-3 flex flex-wrap items-end gap-2 text-sm" onSubmit={loadHistory}>
+                <label>Appointment reference <input className={field} name="reference" maxLength={36} required /></label>
+                <button className={button} disabled={busy}>Find appointment</button>
+              </form>
+              {history && <div className="mt-4">
+                <p className="font-semibold capitalize">{history.status.replace("_", " ")} · {dateLabel.format(new Date(history.starts_at))}</p>
+                <ol className="mt-2 divide-y divide-line">
+                  {history.events.map((event) => <li key={event.at + event.action} className="py-2 text-sm">
+                    <span className="capitalize">{event.action.replace("_", " ")}</span> · {dateLabel.format(new Date(event.at))}
+                    {event.appointment_at && <span className="text-grey"> · Visit {dateLabel.format(new Date(event.appointment_at))}</span>}
+                  </li>)}
+                </ol>
+              </div>}
             </section>
             <section id="crm-enquiries" className="mt-5 rounded-card border border-line bg-white p-4 sm:p-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
