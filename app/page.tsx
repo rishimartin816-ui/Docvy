@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, ClipboardList, HeartPulse, Stethoscope } from "lucide-react";
+import CareLibrarySearch from "@/components/CareLibrarySearch";
 import DiscoverySearch from "@/components/DiscoverySearch";
 import { HealthTopicIcon, healthTopics } from "@/components/HealthTopicIcon";
 import { procedures, specialties, surgeryGroups } from "@/lib/care-directory";
@@ -18,6 +19,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   ...buildPageSocialMetadata(title, description, "/"),
 };
+
+const libraryEntries = [
+  ...healthTopics.map(({ slug, label, description }) => ({ title: label, category: "Condition guide", href: "/patient-guides/" + slug, terms: description + " " + slug.replaceAll("-", " ") + (slug === "high-blood-pressure" ? " hypertension" : "") })),
+  ...specialties.map(({ slug, name, plain }) => ({ title: name, category: "Medical specialty", href: "/specialties/" + slug, terms: plain })),
+  ...procedures.map(({ name, specialty }) => ({ title: name, category: "Procedure · Find doctors", href: "/doctors?" + new URLSearchParams({ specialty, procedure: name }).toString(), terms: specialty })),
+];
 
 export default function Home() {
   return <div className="docvy-garden">
@@ -54,7 +61,7 @@ export default function Home() {
         <ul className="divide-y divide-[#d5e5da]">
           {[
             { href: "#specialty-directory", title: "I want to understand a specialty", text: "Browse specialties and find out what to bring.", icon: Stethoscope },
-            { href: "#concerns", title: "I have a health concern", text: "Start with a question in everyday words.", icon: HeartPulse },
+            { href: "#care-library", title: "I have a health concern", text: "Search for a condition or browse the guides.", icon: HeartPulse },
             { href: "#surgery-directory", title: "My doctor mentioned surgery", text: "Look up a procedure and plan what to ask.", icon: ClipboardList },
           ].map(({ href, title, text, icon: Icon }) => <li key={href}>
             <Link href={href} className="group flex min-h-14 items-center gap-4 py-3">
@@ -65,6 +72,11 @@ export default function Home() {
           </li>)}
         </ul>
       </aside>
+    </section>
+    <section id="care-library" aria-labelledby="care-library-heading" className="mx-auto max-w-[1320px] scroll-mt-28 px-5 pb-10 sm:px-9">
+      <p className="docvy-eyebrow">PATIENT LIBRARY</p>
+      <h2 id="care-library-heading" className="mb-4 mt-3 text-3xl font-bold tracking-tight sm:text-4xl">What would you like to look up?</h2>
+      <CareLibrarySearch entries={libraryEntries} />
     </section>
     <section className="mx-auto max-w-[1320px] scroll-mt-28 px-5 pb-12 pt-6 sm:px-9" id="concerns" aria-labelledby="concern-heading">
       <p className="docvy-eyebrow">START WITH A CONCERN</p>
@@ -123,6 +135,23 @@ export default function Home() {
             </ul>
           </details>)}
         </div>
+      </div>
+    </section>
+    <section className="mx-auto max-w-[1320px] px-5 pb-16 sm:px-9" aria-labelledby="visit-heading">
+      <div className="rounded-3xl bg-[#183e31] p-6 text-white sm:p-9">
+        <h2 id="visit-heading" className="text-3xl font-bold tracking-tight text-white">Make the most of your first visit</h2>
+        <div className="mt-6 grid gap-5 sm:grid-cols-3">
+          {[
+            { title: "Write down what has changed", text: "Note when your concern started, what makes it better or worse, and what you want the doctor to help you with." },
+            { title: "Bring your recent records", text: "Have relevant reports, prescriptions and a list of medicines handy. Ask the clinic if they need anything else." },
+            { title: "Ask what happens next", text: "Before leaving, check who to call with questions, how to get your test results, and when to book a follow-up." },
+          ].map(({ title, text }, index) => <div key={title} className="rounded-2xl border border-white/25 bg-white/10 p-5">
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-[#dff1e2] font-bold text-[#183e31]" aria-hidden="true">{index + 1}</span>
+            <h3 className="mt-3 font-bold text-white">{title}</h3>
+            <p className="mt-2 text-sm leading-6 text-[#e1efe7]">{text}</p>
+          </div>)}
+        </div>
+        <Link href="#care-library" className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#dff1e2] px-5 font-bold text-[#183e31] hover:bg-white">Find a guide for your visit <ArrowUpRight size={16} aria-hidden="true" /></Link>
       </div>
     </section>
   </div>;
