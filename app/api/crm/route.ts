@@ -100,6 +100,26 @@ export async function POST(request: NextRequest) {
       return reply({ error: "Sign-in unavailable" }, 503);
     }
   }
+  if (input?.action === "enquiry-status") {
+    if (typeof input.reference !== "string" || !/^DV-[0-9A-F]{8}$/.test(input.reference) ||
+        !["new", "contacted"].includes(input.expected) || !["contacted", "closed"].includes(input.status)) {
+      return reply({ error: "Invalid enquiry update" }, 400);
+    }
+    try {
+      const actor = await staff(requestToken(request));
+      if (!actor || (input.admin === true && actor.role !== "owner")) return reply({ error: "Staff access required" }, 403);
+      const result = await database("/rest/v1/rpc/crm_update_enquiry", {
+        actor: actor.id, clinic: stagingClinic, ref: input.reference, expected: input.expected, desired: input.status,
+      });
+      if (result.status === 400) return reply({ error: "Invalid enquiry update" }, 400);
+      if (result.status === 403) return reply({ error: "Enquiry access required" }, 403);
+      if (result.status === 404) return reply({ error: "Enquiry not found" }, 404);
+      if (result.status === 409) return reply({ error: "Enquiry changed. Reload and try again." }, 409);
+      return result.ok ? reply({}) : reply({ error: "Enquiry update unavailable" }, 503);
+    } catch {
+      return reply({ error: "Enquiry update unavailable" }, 503);
+    }
+  }
   if (input?.action === "booking-status" || input?.action === "reschedule") {
     const reschedule = input.action === "reschedule";
     if (typeof input.booking !== "string" || !uuid.test(input.booking) ||

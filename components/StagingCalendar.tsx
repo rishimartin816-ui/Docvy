@@ -11,7 +11,7 @@ type Enquiry = {
   mobile: string;
   email: string | null;
   facility: string;
-  status: string;
+  status: "new" | "contacted" | "closed";
 };
 const dateLabel = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" });
 const calendarDay = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" });
@@ -95,6 +95,25 @@ export default function StagingCalendar({ clinic = false, admin = false }: { cli
     }
   }
 
+  async function updateEnquiry(item: Enquiry, status: "contacted" | "closed") {
+    setBusy(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/crm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + session },
+        body: JSON.stringify({ action: "enquiry-status", reference: item.reference, expected: item.status, status, admin }),
+      });
+      if (!response.ok) throw new Error((await response.json()).error);
+      setEnquiries((current) => current?.map((entry) =>
+        entry.reference === item.reference ? { ...entry, status } : entry) ?? null);
+      setMessage("Enquiry updated.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Enquiry update unavailable.");
+    } finally {
+      setBusy(false);
+    }
+  }
   async function change(slot: Slot, status?: "cancelled" | "completed" | "no_show", destination?: string) {
     if (status === "cancelled" && !window.confirm("Cancel this appointment and release its slot?")) return;
     setBusy(true);
@@ -226,6 +245,10 @@ export default function StagingCalendar({ clinic = false, admin = false }: { cli
                   <p className="font-semibold">{item.patient_name} · {item.reference}</p>
                   <p className="text-sm text-grey">{item.facility} · {item.status}</p>
                   <p className="text-sm">{item.mobile}{item.email ? " · " + item.email : ""}</p>
+                  {item.status !== "closed" && <div className="mt-2 flex flex-wrap gap-2">
+                    {item.status === "new" && <button className={button} disabled={busy} onClick={() => void updateEnquiry(item, "contacted")}>Mark contacted</button>}
+                    <button className={button} disabled={busy} onClick={() => void updateEnquiry(item, "closed")}>Close enquiry</button>
+                  </div>}
                 </li>)}
               </ul>}
             </section>
