@@ -357,3 +357,9 @@ Structured data should describe visible, accurate content only. Google says its 
 - Applied the Figma brand system's navy, blue, cyan and teal palette to an original editorial illustration showing a patient and care navigator exploring broad guide topics. This is a new code asset, not a copied Figma frame; no Figma file was edited.
 - Reworked the patient guide's opening for a clearer visual hierarchy: direct patient question and explanation, supportive illustration, then the searchable guide before the four-step journey card. The search and city selector remain usable and server-rendered specialty results remain in the page markup.
 - Used responsive `next/image` sizing, alt text describing the illustration, and a short figure caption. The visual is decorative context and does not suggest a diagnosis or confirmed appointment.
+
+## 3 November Contact page audience routes
+
+- Applied the documented DOCVY Figma brand system to `/contact`: mint patient-discovery surface, Midnight/Deep Blue status panel, Medical Teal actions, rounded cards and Lucide route icons. This is a code implementation of the existing brand system, not a new Figma mockup; no design file was changed.
+- Replaced the single provider-oriented contact block with distinct patient, doctor and care-team routes, then separated current intake status from actual appointment booking. This makes the correct next action visible without presenting planned provider tools as available.
+- Added a status panel for booking, profile correction and provider-tool readiness, plus matching route cards and contact links. The hero remains responsive; the three routes stack on mobile and align in columns on wider screens.
