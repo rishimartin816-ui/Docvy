@@ -4,7 +4,7 @@ import { CalendarDays, CalendarCheck, CalendarX, Clock3, LogOut, RefreshCw } fro
 import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 
-type Slot = { id: string; starts_at: string; ends_at: string; blocked?: boolean; booking_id?: string };
+type Slot = { id: string; starts_at: string; ends_at: string; blocked?: boolean; booking_id?: string; booking_status?: "confirmed" | "completed" | "no_show" };
 const dateLabel = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" });
 const calendarDay = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" });
 
@@ -68,7 +68,8 @@ export default function StagingCalendar({ clinic = false, admin = false }: { cli
       setBusy(false);
     }
   }
-  async function change(slot: Slot) {
+  async function change(slot: Slot, status?: "cancelled" | "completed" | "no_show") {
+    if (status === "cancelled" && !window.confirm("Cancel this appointment and release its slot?")) return;
     setBusy(true);
     setMessage("");
     try {
@@ -77,10 +78,10 @@ export default function StagingCalendar({ clinic = false, admin = false }: { cli
       const response = await fetch("/api/crm", {
         method: "POST",
         headers: { "Content-Type": "application/json", ...(session ? { Authorization: "Bearer " + session } : {}) },
-        body: JSON.stringify(clinic ? { slot: slot.id, blocked: !slot.blocked } : { slot: slot.id, key }),
+        body: JSON.stringify(status ? { action: "booking-status", booking: slot.booking_id, status } : clinic ? { slot: slot.id, blocked: !slot.blocked } : { slot: slot.id, key }),
       });
       const data = await response.json();
-      setMessage(response.ok ? clinic ? "Availability updated." : "Test booking confirmed. Reference " + data.result : data.error);
+      setMessage(response.ok ? status ? "Appointment updated." : clinic ? "Availability updated." : "Test booking confirmed. Reference " + data.result : data.error);
     } catch {
       setMessage("Request interrupted. You can retry.");
     } finally {
@@ -156,8 +157,16 @@ export default function StagingCalendar({ clinic = false, admin = false }: { cli
                   <li className="flex flex-wrap items-center justify-between gap-3 py-3" key={slot.id}>
                     <div>
                       <p className="font-semibold">{dateLabel.format(new Date(slot.starts_at))} – {dateLabel.format(new Date(slot.ends_at))}</p>
-                      <p className="break-all text-sm text-grey">{slot.booking_id ? "Booked · " + slot.booking_id : slot.blocked ? "Blocked" : Date.parse(slot.starts_at) <= Date.now() ? "Past slot" : "Available"}</p>
+                      <p className="break-all text-sm text-grey">{slot.booking_id ? (slot.booking_status === "completed" ? "Completed" : slot.booking_status === "no_show" ? "No-show" : "Booked") + " · " + slot.booking_id : slot.blocked ? "Blocked" : Date.parse(slot.starts_at) <= Date.now() ? "Past slot" : "Available"}</p>
                     </div>
+                    {slot.booking_id && slot.booking_status === "confirmed" && (
+                      <div className="flex flex-wrap gap-2">
+                        {Date.parse(slot.starts_at) <= Date.now() ? <>
+                          <button className={button} disabled={busy} onClick={() => void change(slot, "completed")}>Complete</button>
+                          <button className={button} disabled={busy} onClick={() => void change(slot, "no_show")}>Mark no-show</button>
+                        </> : <button className={button} disabled={busy} onClick={() => void change(slot, "cancelled")}>Cancel appointment</button>}
+                      </div>
+                    )}
                     {!slot.booking_id && Date.parse(slot.starts_at) > Date.now() &&
                       <button className={button} disabled={busy} onClick={() => void change(slot)}>{slot.blocked ? "Unblock" : "Block"}</button>}
                   </li>

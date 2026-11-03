@@ -94,6 +94,24 @@ export async function POST(request: NextRequest) {
       return reply({ error: "Sign-in unavailable" }, 503);
     }
   }
+  if (input?.action === "booking-status") {
+    if (typeof input.booking !== "string" || !uuid.test(input.booking) ||
+        !["cancelled", "completed", "no_show"].includes(input.status)) {
+      return reply({ error: "Invalid booking status request" }, 400);
+    }
+    try {
+      const actor = await staff(requestToken(request));
+      if (!actor) return reply({ error: "Staff access required" }, 403);
+      const result = await database("/rest/v1/rpc/crm_transition_booking", {
+        actor: actor.id, clinic: stagingClinic, booking: input.booking, desired: input.status,
+      });
+      if (result.status === 403) return reply({ error: "Scheduling access required" }, 403);
+      if (result.status === 409) return reply({ error: "Booking cannot be changed at this time" }, 409);
+      return result.ok ? reply({}) : reply({ error: "Booking update unavailable" }, 503);
+    } catch {
+      return reply({ error: "Booking update unavailable" }, 503);
+    }
+  }
   if (typeof input?.slot !== "string" || !uuid.test(input.slot)) return reply({ error: "Invalid slot" }, 400);
   try {
     let response;
