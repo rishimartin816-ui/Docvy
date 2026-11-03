@@ -273,3 +273,10 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Live `/request` returned HTTP 200 with `noindex, nofollow` and no patient contact fields; `/status` returned HTTP 200. A no-data POST to the public enquiry API returned the expected HTTP 503 because the private endpoint is not configured. No lead was submitted.
 - The private Google Sheet and `Appointments` tab are accessible. Only its 14 header cells (`A1:N1`) were checked; no lead rows were read or written. The Apps Script endpoint remains uninstalled/undeployed, and the two Vercel Production variables are still unavailable, so the appointment form stays closed. No provider email is configured or sent.
 - The connected Chrome profile shows an open Apps Script project window, but Computer Use stopped before it could inspect the editor because it could not verify the current browser URL. No UI changes, endpoint deployment or secret handling occurred.
+
+## 3 November provider plan contact flow
+
+- Each of the three provider plan cards now opens an email draft addressed to DOCVY with a plan-specific subject and prompts for organisation name, city, facility type and business contact details. The draft reminds the visitor not to include patient or health information. It sends nothing until the visitor chooses to send the draft.
+- The general page CTAs still lead to the provider contact page. This improves the direct plan enquiry path without introducing a form, database write, pricing claim or provider dashboard.
+- `pnpm lint`, `pnpm build` (32 generated pages) and `git diff --check` passed. A local production-server check returned `/pricing` HTTP 200, one H1 and three distinct plan-specific email drafts.
+- Production publication is pending the `main` push. The appointment enquiry form remains closed and the private Sheets integration remains unconfigured; no patient lead was created.

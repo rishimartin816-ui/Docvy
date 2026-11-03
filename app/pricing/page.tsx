@@ -18,8 +18,21 @@ const plans = [
   { name: "Hospital", scope: "Departments and branches", audience: "For hospital teams planning a coordinated discovery and enquiry workflow.", details: ["Hospital and branch information", "Department and provider coordination", "A central enquiry review workflow"] },
 ];
 
-function ContactLink({ children = "Contact now" }: { children?: ReactNode }) {
-  return <Link href="/contact" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#087F83] px-5 text-sm font-bold text-white transition hover:bg-[#066D70]">{children}<ArrowRight size={16} /></Link>;
+function ContactLink({ children = "Contact now", href = "/contact", ariaLabel }: { children?: ReactNode; href?: string; ariaLabel?: string }) {
+  return <Link href={href} aria-label={ariaLabel} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#087F83] px-5 text-sm font-bold text-white transition hover:bg-[#066D70]">{children}<ArrowRight size={16} /></Link>;
+}
+
+function buildPlanContactHref(planName: string) {
+  const subject = encodeURIComponent(`DOCVY provider enquiry — ${planName}`);
+  const body = encodeURIComponent([
+    "Organisation name:",
+    "City:",
+    "Facility type:",
+    "Business contact details:",
+    "",
+    "Please do not include patient or health information.",
+  ].join("\n"));
+  return `mailto:contact@docvy.in?subject=${subject}&body=${body}`;
 }
 
 export default function PricingPage() {
@@ -39,7 +52,7 @@ export default function PricingPage() {
         <p className="mt-2 min-h-[72px] text-sm leading-6 text-[#526D66]">{plan.audience}</p>
         <p className="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-[#789089]">Potential workflow</p>
         <ul className="my-4 flex-1 space-y-3 border-t border-[#E8F0EC] pt-5">{plan.details.map((detail) => <li key={detail} className="flex gap-2.5 text-sm leading-6 text-[#36564F]"><Check size={17} className="mt-0.5 shrink-0 text-[#087F83]" />{detail}</li>)}</ul>
-        <ContactLink>Contact now</ContactLink>
+        <ContactLink href={buildPlanContactHref(plan.name)} ariaLabel={`Contact DOCVY about ${plan.name}`}>Contact now</ContactLink>
       </article>)}</div>
       <p className="mt-6 rounded-xl border border-[#E7C99A] bg-[#FFF9EE] p-4 text-xs leading-5 text-[#6E5B39]">The cards describe planned use cases and potential workflows, not active service packages. Final scope depends on future product readiness and a direct conversation with DOCVY.</p>
     </section>

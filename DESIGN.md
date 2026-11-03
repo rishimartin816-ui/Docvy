@@ -304,3 +304,9 @@ Structured data should describe visible, accurate content only. Google says its 
 - This replaces earlier same-day notes that Figma design context was unavailable; the connected MCP app later provided read-only design context in this session.
 - Published as commit `a332187` to Vercel production (`dpl_34qvLTfP2UDmRbypaTYh5RE9rHPk`, `READY`). The live homepage and new local illustration returned HTTP 200; the homepage keeps its page-specific title, description, canonical, Open Graph/Twitter preview and visible product-scope disclosure.
 - The live sitemap contains 23 URLs and all 23 passed HTTP 200, exactly one title, exactly one H1, one canonical and `index, follow`. This checks delivery and markup; it does not establish indexing, ranking, traffic or AI citations.
+
+## 3 November provider plan contact action
+
+- The three clinic/hospital plan cards now carry a direct plan-specific email draft action. Each draft uses the same brand buttons and asks only for business contact information; it explicitly tells visitors not to include patient or health information.
+- This follows the existing provider-plan page and shared visual system. The email action opens a draft and does not submit or send information automatically.
+- Local production-page verification confirmed three unique plan subjects, the business-details prompts and the privacy reminder. The page remains clear that these are future workflows, not purchasable plans or a live dashboard.
