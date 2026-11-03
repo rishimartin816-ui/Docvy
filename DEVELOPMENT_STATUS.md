@@ -225,3 +225,10 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Commit `f653214` is READY in Vercel production as deployment `dpl_8qh2SdCysbDxY7LnHkRvNa7FMhvW`, with aliases `www.docvy.in` and `docvy.in`. Live `/for-doctors` and all three linked city pages returned HTTP 200 with one H1, matching canonical URLs and `index, follow`; the provider correction answer and owner-approval text are present. These checks do not establish rankings or traffic.
 - The private enquiry connection is still unconfigured, and no synthetic lead has been submitted.
 - Progress estimates remain 95% public website/search foundation, 55% enquiry path and 22% full product; these are roadmap estimates, not analytics.
+
+## 3 November profile correction email template — publication pending
+
+- Updated `/for-doctors` so its main action opens a prefilled email for a profile correction request. Fields: official public profile URL, doctor name, city and public detail to correct.
+- Local generated HTML contains the correct current profile count, email destination/action and all four fields. This is a manual email path; it does not submit a lead to the Google Sheet or book an appointment.
+- The latest provider-page lint/build passed locally before this copy-only follow-up; a compact generated-output check passed after it. `git diff --check` passed before documentation updates.
+- This follow-up is not yet confirmed live. Enquiry intake remains closed; no test lead has been submitted. Do not describe this mailto link as a working Sheet connection.

@@ -265,3 +265,10 @@ Structured data should describe visible, accurate content only. Google says its 
 - Google Search Central says people-first content and foundational SEO apply to AI Search, with no special AI markup required. This pass adds a direct visible answer and source-linked city navigation rather than extra keyword pages. Sources: [AI features and your website](https://developers.google.com/search/docs/appearance/ai-features), [people-first content guidance](https://developers.google.com/search/docs/fundamentals/creating-helpful-content).
 - `pnpm lint`, `pnpm build` (32 routes) and `git diff --check` passed locally. Commit `f653214` is READY in Vercel production as deployment `dpl_8qh2SdCysbDxY7LnHkRvNa7FMhvW`, with aliases `www.docvy.in` and `docvy.in`.
 - Live `/for-doctors`, `/doctors/delhi`, `/doctors/gurugram` and `/doctors/noida` all returned HTTP 200, one H1, page-specific canonicals and `index, follow`. The provider page visibly includes the profile-correction answer and owner-approval step; all three city links resolve. This verifies delivery and metadata, not ranking or traffic.
+
+## 3 November profile correction email template
+
+- Changed the primary provider-page action to “Email a profile correction request” and added a prefilled email template with blank fields for the official public profile URL, doctor name, city and public detail to correct.
+- The template opens the visitor's email application; it does not send on its own, collect a web form, or create a patient appointment lead. It asks for public professional information only and repeats the instruction not to send patient or identity data.
+- This is a usability and content-clarity improvement for a specific provider task. It adds no unsupported search terms and makes no ranking, AI citation, or listing-verification claim. The existing page metadata, source-linked city navigation, and current NCR-only coverage caveat remain.
+- Local generated-page checks confirmed the visible profile count, email action and all four template fields. The prior lint/build checks for this page passed; this follow-up still needs publication and live verification.
