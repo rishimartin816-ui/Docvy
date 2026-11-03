@@ -71,9 +71,9 @@ export default function Home() {
       <h2 id="concern-heading" className="mt-3 text-3xl font-bold tracking-tight text-[#1e3028] sm:text-5xl">Explore conditions and symptoms</h2>
       <p className="mt-3 max-w-xl text-[#41584d]">Choose a topic to learn which specialists are commonly involved and how to prepare for a visit.</p>
       <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {healthTopics.map(({ slug, label, description }) => <Link key={slug} href={"/patient-guides/" + slug} className="docvy-glass group flex items-start gap-4 p-5 transition hover:bg-white sm:p-6">
-          <span className="grid h-16 w-16 shrink-0 place-items-center rounded-3xl bg-gradient-to-br from-[#e8f3dd] to-[#c8e6da] text-[#245a46]"><HealthTopicIcon slug={slug} size={30} /></span>
-          <span><strong className="block text-lg">{label}</strong><span className="block text-sm text-[#41584d]">{description}</span><span className="mt-2 flex items-center gap-1 text-sm font-bold text-[#245a46] group-hover:underline">Read the guide <ArrowUpRight size={14} aria-hidden="true" /></span></span>
+        {healthTopics.map(({ slug, label, description }) => <Link key={slug} href={"/patient-guides/" + slug} className="docvy-glass group overflow-hidden transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#245a46]">
+          <div aria-hidden="true" className="relative isolate grid h-24 place-items-center overflow-hidden bg-gradient-to-br from-[#edf4df] via-[#d9ede3] to-[#b9dfd2] text-[#245a46]"><span className="absolute -left-5 -top-14 h-40 w-40 rounded-full border border-white/80" /><span className="absolute -bottom-12 right-3 h-36 w-36 rounded-full border border-white/80" /><span className="relative grid h-16 w-16 -rotate-6 place-items-center rounded-3xl border border-white bg-white/65 shadow-sm transition-transform group-hover:rotate-0"><HealthTopicIcon slug={slug} size={33} /></span></div>
+          <span className="block p-5"><strong className="block text-lg">{label}</strong><span className="block text-sm text-[#41584d]">{description}</span><span className="mt-2 flex items-center gap-1 text-sm font-bold text-[#245a46] group-hover:underline">Read the guide <ArrowUpRight size={14} aria-hidden="true" /></span></span>
         </Link>)}
       </div>
     </section>
@@ -93,10 +93,26 @@ export default function Home() {
     </section>
     <section id="surgery-directory" aria-labelledby="surgery-heading" className="mx-auto max-w-[1320px] scroll-mt-28 px-5 pb-16 pt-10 sm:px-9">
       <div className="docvy-glass p-5 sm:p-9">
-        <p className="docvy-eyebrow">PLANNING AN OPERATION</p>
-        <h2 id="surgery-heading" className="mt-3 text-3xl font-bold tracking-tight sm:text-5xl">Browse surgeries and procedures</h2>
-        <p className="mt-3 max-w-2xl leading-7 text-[#41584d]">Browse {procedures.length} procedures by area of care. Pick the one your doctor mentioned to look for relevant doctors, or use the surgery checklist to prepare for a consultation.</p>
-        <Link href="/surgery-guide" className="docvy-pill docvy-pill-primary mt-5">Read the surgery checklist <ArrowUpRight size={16} aria-hidden="true" /></Link>
+        <div className="grid items-center gap-6 lg:grid-cols-[1fr_280px]">
+          <div>
+            <p className="docvy-eyebrow">PLANNING AN OPERATION</p>
+            <h2 id="surgery-heading" className="mt-3 text-3xl font-bold tracking-tight sm:text-5xl">Browse surgeries and procedures</h2>
+            <p className="mt-3 max-w-2xl leading-7 text-[#41584d]">Browse {procedures.length} procedures by area of care. Pick the one your doctor mentioned to look for relevant doctors, or use the surgery checklist to prepare for a consultation.</p>
+            <Link href="/surgery-guide" className="docvy-pill docvy-pill-primary mt-5">Read the surgery checklist <ArrowUpRight size={16} aria-hidden="true" /></Link>
+          </div>
+          <svg aria-hidden="true" viewBox="0 0 280 168" className="hidden w-full lg:block">
+            <rect width="280" height="168" rx="28" fill="#e1efe0" />
+            <circle cx="146" cy="85" r="68" fill="#c7e4d5" />
+            <path d="M211 139q7-37 33-58m-20 37q24 0 29-20-20-1-29 20Zm6-18q-13-16-5-30 14 9 5 30ZM67 138q-5-29-23-43m15 26q-19-1-25-15 17-4 25 15Z" fill="#8ab79d" stroke="#58856f" strokeWidth="2" strokeLinecap="round" />
+            <g transform="rotate(-8 139 83)">
+              <rect x="101" y="32" width="87" height="111" rx="14" fill="#99c7b5" />
+              <rect x="94" y="26" width="87" height="111" rx="14" fill="#fdfcf5" />
+              <rect x="117" y="20" width="42" height="17" rx="8" fill="#245a46" />
+              <path d="m111 59 5 5 8-10m-13 28 5 5 8-10m-13 28 5 5 8-10m12-39h27m-27 23h27m-27 23h27" fill="none" stroke="#3d795f" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            </g>
+            <path d="M203 44h16m-8-8v16M63 60h12m-6-6v12" stroke="#3d795f" strokeWidth="2.5" strokeLinecap="round" />
+          </svg>
+        </div>
         <div className="mt-6 grid items-start gap-3 md:grid-cols-2">
           {surgeryGroups.map(({ name, specialty, procedures }) => <details key={name} className="rounded-2xl border border-[#d5e5da] bg-white/80 px-4">
             <summary className="min-h-12 cursor-pointer py-3 font-bold text-[#245a46]">{name} <span className="ml-1 text-sm font-medium text-[#41584d]">({procedures.length})</span></summary>
