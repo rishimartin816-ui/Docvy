@@ -61,7 +61,7 @@ export default function ContactPage() {
           <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#E3F3ED] text-[#087F83]"><Search size={20} aria-hidden="true" /></span>
           <p className="mt-5 text-[10px] font-extrabold tracking-[0.13em] text-[#087F83]">FOR PATIENTS</p>
           <h3 className="mt-2 text-lg font-bold">Find guidance or a current listing</h3>
-          <p className="mt-2 flex-1 text-sm leading-6 text-[#526D66]">Search the patient guide anywhere in India, or browse source-linked doctor profiles currently listed in Delhi, Gurugram and Noida. Confirm appointment details with the hospital or clinic.</p>
+          <p className="mt-2 flex-1 text-sm leading-6 text-[#526D66]">Search the patient guide anywhere in India or explore the fictional Delhi clinic demo. For real appointments, contact the provider directly.</p>
           <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2"><Link href="/care-guide" className="inline-flex min-h-9 items-center gap-1.5 text-sm font-bold text-[#087F83]">Patient guide <ArrowRight size={15} aria-hidden="true" /></Link><Link href="/doctors" className="inline-flex min-h-9 items-center gap-1.5 text-sm font-bold text-[#087F83]">Doctor directory <ArrowRight size={15} aria-hidden="true" /></Link></div>
         </article>
 

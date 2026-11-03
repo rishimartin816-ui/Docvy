@@ -363,3 +363,12 @@ Structured data should describe visible, accurate content only. Google says its 
 - Applied the documented DOCVY Figma brand system to `/contact`: mint patient-discovery surface, Midnight/Deep Blue status panel, Medical Teal actions, rounded cards and Lucide route icons. This is a code implementation of the existing brand system, not a new Figma mockup; no design file was changed.
 - Replaced the single provider-oriented contact block with distinct patient, doctor and care-team routes, then separated current intake status from actual appointment booking. This makes the correct next action visible without presenting planned provider tools as available.
 - Added a status panel for booking, profile correction and provider-tool readiness, plus matching route cards and contact links. The hero remains responsive; the three routes stack on mobile and align in columns on wider screens.
+
+## Bloom-inspired discovery and CRM refresh
+
+Reference: https://dribbble.com/shots/26661884-Mental-Health-Clinic-Web-Design-Bloom
+Discovery reference: https://www.practo.com/
+
+Bloom's published desktop composite uses a violet landscape, generous spacing, rounded sections and large editorial headings. DOCVY borrows those visual cues and uses its own clinician illustration. Practo's city and specialty navigation informs DOCVY's paired filters.
+
+The DOCVY palette uses Ink #251B35, Orchid #51318D, Iris #6544A6, Lavender #DDD0FA, Mist #F8F5FC, and Muted Plum #584968. Use Orchid for primary actions, Ink for headings, and translucent white over Lavender and Mist for glass panels. The demo directory and booking pages stay outside the search index. The educational homepage and guide pages retain their canonical URLs.

@@ -230,14 +230,14 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
   const field = "block w-full rounded-btn border border-line bg-white px-3 py-2 text-ink";
   const button = "inline-flex items-center justify-center gap-2 rounded-btn border border-line bg-white px-3 py-2 text-sm font-semibold hover:bg-lav disabled:opacity-50";
 
-  const glass = "rounded-[24px] border border-white/90 bg-white/75 shadow-[0_10px_35px_rgba(29,81,84,0.08)] backdrop-blur-xl";
+  const glass = "docvy-glass";
 
   if (clinic) return (
     <section className="mx-auto max-w-[1440px] px-3 py-5 sm:px-8 lg:py-10">
-      <div className="overflow-hidden rounded-[32px] border border-white bg-[linear-gradient(135deg,#d7f4ed_0%,#edf8fc_49%,#e5edf9_100%)] shadow-[0_25px_70px_rgba(23,58,55,0.12)] lg:grid lg:grid-cols-[222px_minmax(0,1fr)]">
+      <div className="overflow-hidden rounded-[32px] border border-white docvy-bloom shadow-[0_25px_70px_rgba(23,58,55,0.12)] lg:grid lg:grid-cols-[222px_minmax(0,1fr)]">
         <aside className="border-b border-white/90 bg-white/60 px-4 py-5 text-plum backdrop-blur-2xl lg:border-b-0 lg:border-r">
           <div className="flex items-center gap-3 rounded-2xl border border-white/90 bg-white/65 p-3 shadow-sm">
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#d9f4eb] text-plum"><ShieldCheck size={21} aria-hidden="true" /></span>
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#e8dcff] text-[#492883]"><ShieldCheck size={21} aria-hidden="true" /></span>
             <div><p className="font-head font-bold tracking-wide">DOCVY CRM</p><p className="text-xs text-grey">{clinicName}</p></div>
           </div>
           {session && <nav aria-label="Clinic workspace" className="mt-6 flex flex-wrap gap-2 lg:flex-col">
@@ -251,14 +251,14 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
           </nav>}
         </aside>
         <div className="min-w-0 p-3 sm:p-6">
-          <header id="crm-overview" className="relative isolate grid items-center overflow-hidden rounded-[28px] border border-white bg-[linear-gradient(120deg,#f6fffc,#d0f1eb_59%,#c9e4f5)] px-5 pt-6 shadow-[0_14px_35px_rgba(29,81,84,0.10)] sm:grid-cols-[1.12fr_1fr] sm:gap-2 sm:px-8 sm:py-6 lg:px-10">
+          <header id="crm-overview" className="relative isolate grid items-center overflow-hidden rounded-[28px] border border-white bg-[linear-gradient(120deg,#fffaff,#eadefa_59%,#d6cdf5)] px-5 pt-6 shadow-[0_14px_35px_rgba(29,81,84,0.10)] sm:grid-cols-[1.12fr_1fr] sm:gap-2 sm:px-8 sm:py-6 lg:px-10">
             <div className="relative z-10 py-2">
-              <p className="inline-flex items-center gap-2 rounded-full border border-white bg-white/70 px-3 py-1 text-xs font-semibold text-[#245e57] shadow-sm">
-                <span className="h-2 w-2 rounded-full bg-[#168976]" aria-hidden="true" />
+              <p className="inline-flex items-center gap-2 rounded-full border border-white bg-white/70 px-3 py-1 text-xs font-semibold text-[#624a80] shadow-sm">
+                <span className="h-2 w-2 rounded-full bg-[#6544a6]" aria-hidden="true" />
                 {clinicName}{staging ? " · Demo" : ""}
               </p>
-              <h1 className="mt-4 text-4xl font-bold leading-[1.05] tracking-[-0.055em] text-[#123b3b] lg:text-5xl">{title}</h1>
-              <p className="mt-3 max-w-sm text-sm leading-6 text-[#3e6669] sm:text-base">Manage appointments, publish availability, and follow up on patient enquiries.</p>
+              <h1 className="mt-4 text-4xl font-bold leading-[1.05] tracking-[-0.055em] text-[#251b35] lg:text-5xl">{title}</h1>
+              <p className="mt-3 max-w-sm text-sm leading-6 text-[#584968] sm:text-base">Manage appointments, publish availability, and follow up on patient enquiries.</p>
             </div>
             <Image src="/images/crm-glass-calendar.svg" alt="" width={440} height={300} priority unoptimized
               className="mx-auto -mt-3 h-auto w-full max-w-[270px] sm:mt-0 sm:max-w-[390px]" />
@@ -268,7 +268,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
             <h2 className="text-xl font-bold">Staff sign-in</h2>
             <label className="block">Staff email <input className={field} type="email" name="email" autoComplete="username" required /></label>
             <label className="block">Password <input className={field} type="password" name="password" autoComplete="current-password" required /></label>
-            <button className="rounded-btn bg-plum px-5 py-2 font-semibold text-white disabled:opacity-50" disabled={busy}>Sign in</button>
+            <button className="rounded-btn bg-[#51318d] px-5 py-2 font-semibold text-white disabled:opacity-50" disabled={busy}>Sign in</button>
           </form> : <>
             <div className="my-5 grid gap-3 sm:grid-cols-3">
               {[
@@ -277,7 +277,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                 { label: "Blocked slots", count: blocked, icon: CalendarX },
               ].map(({ label, count, icon: Icon }) => (
                 <div key={label} className={glass + " flex items-center gap-3 p-4"}>
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-lav text-mulb"><Icon size={21} aria-hidden="true" /></span>
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#eee5fa] text-[#6544a6]"><Icon size={21} aria-hidden="true" /></span>
                   <div><p className="text-sm text-grey">{label}</p><p className="text-2xl font-bold tabular-nums">{count}</p></div>
                 </div>
               ))}

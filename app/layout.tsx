@@ -4,7 +4,6 @@ import { DM_Sans, Inter } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { docvyOpenGraphImage } from "@/lib/metadata";
-import { providerCityListLabel } from "@/lib/provider-candidates";
 
 const docvyFont = DM_Sans({
   subsets: ["latin"],
@@ -24,21 +23,21 @@ export const metadata: Metadata = {
     default: "DOCVY — Healthcare discovery across India",
     template: "%s | DOCVY",
   },
-  description: `Use DOCVY's plain-language specialty guide across India and browse source-linked hospital doctor profiles currently listed in ${providerCityListLabel}.`,
+  description: "Explore medical specialties, patient guides and a fictional clinic booking demo on DOCVY.",
   applicationName: "DOCVY",
   openGraph: {
     type: "website",
     locale: "en_IN",
     siteName: "DOCVY",
     title: "DOCVY — Healthcare discovery across India",
-    description: `A plain-language specialty guide for India, with a limited set of hospital-source doctor profiles in ${providerCityListLabel}.`,
+    description: "Explore medical specialties, patient guides and a fictional clinic booking demo on DOCVY.",
     url: "/",
     images: [docvyOpenGraphImage],
   },
   twitter: {
     card: "summary_large_image",
     title: "DOCVY — Healthcare discovery across India",
-    description: `Explore medical specialties across India and browse a limited set of hospital-source doctor profiles in ${providerCityListLabel}. Contact providers directly to confirm availability.`,
+    description: "Explore medical specialties, patient guides and a fictional clinic booking demo on DOCVY.",
     images: ["/opengraph-image"],
   },
   robots: {
