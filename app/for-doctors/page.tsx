@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, Building2, MapPin, Stethoscope } from "lucide-react";
+import { ArrowRight, BadgeCheck, Building2, CalendarClock, MapPin, ShieldAlert, Stethoscope } from "lucide-react";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 import { providerCityListLabel, providerProfileCount } from "@/lib/provider-candidates";
+import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
 
-const providerPageDescription = `Request a doctor profile correction or discuss future onboarding with DOCVY. The DOCVY owner reviews public sources, and current listings are in ${providerCityListLabel}.`;
+const providerPageDescription = `Correct a DOCVY doctor profile. Current listings: ${providerCityListLabel}. Credentials and appointment availability are not verified by DOCVY.`;
 
 export const metadata: Metadata = {
-  title: "For doctors: profile corrections and onboarding",
+  title: "Doctor profile correction and listing support",
   description: providerPageDescription,
   alternates: { canonical: "/for-doctors" },
-  ...buildPageSocialMetadata("For doctors: profile corrections and onboarding | DOCVY", providerPageDescription, "/for-doctors"),
+  ...buildPageSocialMetadata("Doctor profile correction and listing support | DOCVY", providerPageDescription, "/for-doctors"),
 };
 
 const reviewSteps = [
@@ -22,38 +23,45 @@ const reviewSteps = [
 const answers = [
   ["Is the DOCVY doctor directory live across India?", `DOCVY is being built for discovery across India. The current ${providerProfileCount} source-linked profiles are grouped under ${providerCityListLabel}. Additional city listings are planned when enough useful, source-linked provider coverage is available; no expansion date has been announced. DOCVY credential review and appointment booking are not live.`],
   ["How can a doctor request a profile correction on DOCVY?", "Email contact@docvy.in with the official hospital or clinic profile link, the doctor's name and city, and the specific public detail to correct. There is no self-service claim portal. The DOCVY owner reviews each request against public sources and approves any update before it is published. This is a source review, not a claim that clinical credentials have been independently verified. Do not email patient information, identity documents or registration certificates."],
+  ["Does a hospital source link mean DOCVY has verified my credentials?", "No. A public hospital or clinic page is a source for the listed profile details. DOCVY has not independently verified credentials, registration status or current appointment availability."],
+  ["Can I claim or edit my DOCVY profile myself?", "No. Self-service claiming and profile editing are not available. Send a public source link and the exact correction requested to contact@docvy.in; the DOCVY owner reviews and approves any published change."],
   ["Does DOCVY charge doctors to appear in search?", "There is no active listing offer or online checkout. Contact DOCVY to discuss provider plans and terms."],
 ];
 
 export default function ForDoctorsPage() {
+  const intakeEnabled = isAppointmentIntakeConfigured();
   return (
     <div className="bg-[#F6FAF8] text-[#173A37]">
-      <section className="bg-[radial-gradient(circle_at_78%_35%,#D5F0E8_0%,#EAF5F1_38%,#F4FAF7_100%)] px-6 py-16 md:py-24">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
+      <section className="relative isolate overflow-hidden bg-[radial-gradient(circle_at_83%_15%,#102B46_0%,#071426_62%)] px-6 py-14 text-white md:py-20">
+        <div aria-hidden="true" className="pointer-events-none absolute -right-20 -top-28 h-80 w-80 rounded-full border border-[#17C8E5]/20" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-32 left-[42%] h-72 w-72 rounded-full bg-[#13BFA5]/10 blur-3xl" />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
           <div>
-          <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><Stethoscope size={15} /> FOR DOCTORS · INDIA</p>
-          <h1 className="mt-6 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[58px]">Request a correction to a DOCVY doctor profile.</h1>
-          <p className="mt-6 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">DOCVY is being built for provider discovery across India. The current {providerProfileCount} source-linked doctor profiles are in {providerCityListLabel}. Additional city listings are planned when enough useful source-linked coverage is ready; no expansion date has been announced. Credential review and self-service claims are not open yet; any patient enquiry submitted to DOCVY is not automatically delivered to a doctor or hospital. Contact us if a profile needs correction or you want to discuss future onboarding.</p>
+          <p className="inline-flex items-center gap-2 rounded-full border border-[#17C8E5]/30 bg-white/5 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#17C8E5]"><Stethoscope size={15} /> DOCTOR PROFILES · INDIA</p>
+          <h1 className="mt-6 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] text-white md:text-[58px]">Correct a doctor profile on DOCVY.</h1>
+          <p className="mt-6 max-w-3xl text-base leading-8 text-[#D4E0EB] md:text-lg">Send the official hospital or clinic profile link, the doctor&apos;s name and city, and the public detail to correct. The DOCVY owner reviews the source before making a change. DOCVY is being built for discovery across India; current listings are in {providerCityListLabel}. Self-service claims and DOCVY credential verification are not live.</p>
+          <div className="mt-6 flex flex-wrap gap-2"><span className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-[#D4E0EB]">{providerProfileCount} source-linked profiles</span><span className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-[#D4E0EB]">Current coverage: {providerCityListLabel}</span><span className="rounded-full border border-[#E7C99A]/35 bg-[#E7C99A]/10 px-3 py-1.5 text-xs font-semibold text-[#F4D59E]">Owner review required</span></div>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="mailto:contact@docvy.in?subject=DOCVY%20doctor%20profile%20correction&body=Official%20public%20hospital%20or%20clinic%20profile%20URL%3A%0D%0ADoctor%20name%3A%0D%0ACity%3A%0D%0APublic%20detail%20to%20correct%3A%0D%0A" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#087F83] px-5 text-sm font-bold text-white hover:bg-[#066D70]">Email a profile correction request <ArrowRight size={16} /></a>
-            <Link href="/doctors" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-[#B7D2C9] bg-white/80 px-5 text-sm font-bold text-[#173A37] hover:bg-white">Directory status <ArrowRight size={16} /></Link>
+            <a href="mailto:contact@docvy.in?subject=DOCVY%20doctor%20profile%20correction&body=Official%20public%20hospital%20or%20clinic%20profile%20URL%3A%0D%0ADoctor%20name%3A%0D%0ACity%3A%0D%0APublic%20detail%20to%20correct%3A%0D%0A" className="inline-flex min-h-12 items-center gap-2 rounded-2xl bg-[#17C8E5] px-5 text-sm font-semibold text-[#071426] transition hover:bg-[#41D5EC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#071426]">Email a profile correction request <ArrowRight size={16} /></a>
+            <Link href="/doctors" className="inline-flex min-h-12 items-center gap-2 rounded-2xl border border-[#DCE6EF] bg-white px-5 text-sm font-semibold text-[#071426] transition hover:bg-[#F4F8FC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#17C8E5] focus-visible:ring-offset-2 focus-visible:ring-offset-[#071426]">Browse current listings <ArrowRight size={16} /></Link>
           </div>
-          <p className="mt-4 text-xs leading-5 text-[#526D66]">Please include only public professional details and a source link. Do not email patient or health information, identity documents or registration certificates.</p>
+          <p className="mt-4 max-w-2xl text-xs leading-5 text-[#B9CAD8]">Include only public professional details and a source link. Do not email patient or health information, identity documents or registration certificates.</p>
           </div>
-          <aside aria-label="Illustration showing the current DOCVY doctor profile review status" className="relative overflow-hidden rounded-[28px] border border-[#CFE3DA] bg-white p-6 shadow-[0_24px_70px_-36px_rgba(23,58,55,0.35)] md:p-8">
-            <span aria-hidden="true" className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#EAF5F1]" />
+          <aside aria-label="Current DOCVY doctor profile review status" className="relative overflow-hidden rounded-[28px] border border-white/70 bg-[#F4F8FC] p-6 text-[#10243A] shadow-[0_24px_70px_-36px_rgba(0,0,0,0.7)] md:p-8">
+            <span aria-hidden="true" className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#17C8E5]/10" />
             <div className="relative">
               <div className="flex items-start justify-between gap-4">
-                <div><p className="text-[10px] font-extrabold tracking-[0.14em] text-[#087F83]">PROFILE STATUS · EXAMPLE</p><h2 className="mt-2 text-xl font-bold tracking-tight">What a DOCVY listing means</h2></div>
-                <span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#EAF5F1] text-[#087F83]"><Building2 size={22} /></span>
+                <div><p className="text-[10px] font-extrabold tracking-[0.14em] text-[#087F83]">LISTING STATUS TODAY</p><h2 className="mt-2 text-xl font-bold tracking-tight">What a source link tells you</h2></div>
+                <span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-[#102B46] shadow-sm"><Building2 size={22} /></span>
               </div>
-              <p className="mt-2 text-sm leading-6 text-[#526D66]">A source link helps people check the hospital&apos;s latest details. It does not mean DOCVY has verified a doctor&apos;s credentials or confirmed an appointment.</p>
+              <p className="mt-2 text-sm leading-6 text-[#526D66]">A public source helps you check the hospital&apos;s details. It does not mean DOCVY verified credentials or checked appointment availability.</p>
               <dl className="mt-6 space-y-3">
-                <div className="flex items-center justify-between gap-3 rounded-xl border border-[#DCEAE5] bg-[#F8FBF9] p-4"><dt className="flex items-center gap-3 text-sm font-semibold"><span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-[#087F83]"><Stethoscope size={18} /></span>Hospital profile source</dt><dd className="rounded-full bg-[#E2F2EC] px-3 py-1 text-xs font-bold text-[#176B5C]">Linked</dd></div>
-                <div className="flex items-center justify-between gap-3 rounded-xl border border-[#DCEAE5] bg-[#F8FBF9] p-4"><dt className="flex items-center gap-3 text-sm font-semibold"><span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-[#A36A12]"><BadgeCheck size={18} /></span>DOCVY credential review</dt><dd className="rounded-full bg-[#FFF2D9] px-3 py-1 text-xs font-bold text-[#80540E]">Pending</dd></div>
-                <div className="flex items-center justify-between gap-3 rounded-xl border border-[#DCEAE5] bg-[#F8FBF9] p-4"><dt className="flex items-center gap-3 text-sm font-semibold"><span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-[#087F83]"><MapPin size={18} /></span>Self-service claim</dt><dd className="rounded-full bg-[#EEF2F0] px-3 py-1 text-xs font-bold text-[#526D66]">Not open</dd></div>
+                <div className="flex items-center justify-between gap-3 rounded-xl border border-[#DCE6EF] bg-white p-4"><dt className="flex items-center gap-3 text-sm font-semibold"><span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#F4F8FC] text-[#13BFA5]"><Stethoscope size={18} /></span>Hospital profile source</dt><dd className="rounded-full bg-[#E4F7F3] px-3 py-1 text-xs font-bold text-[#075F55]">Source linked</dd></div>
+                <div className="flex items-center justify-between gap-3 rounded-xl border border-[#DCE6EF] bg-white p-4"><dt className="flex items-center gap-3 text-sm font-semibold"><span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#F4F8FC] text-[#102B46]"><ShieldAlert size={18} /></span>DOCVY credential review</dt><dd className="rounded-full bg-[#E7EEF5] px-3 py-1 text-xs font-bold text-[#102B46]">Not verified</dd></div>
+                <div className="flex items-center justify-between gap-3 rounded-xl border border-[#DCE6EF] bg-white p-4"><dt className="flex items-center gap-3 text-sm font-semibold"><span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#F4F8FC] text-[#102B46]"><CalendarClock size={18} /></span>Patient appointment requests</dt><dd className={`rounded-full px-3 py-1 text-xs font-bold ${intakeEnabled ? "bg-[#E4F7F3] text-[#075F55]" : "bg-[#FFF2D9] text-[#80540E]"}`}>{intakeEnabled ? "To DOCVY" : "Paused"}</dd></div>
+                <div className="flex items-center justify-between gap-3 rounded-xl border border-[#DCE6EF] bg-white p-4"><dt className="flex items-center gap-3 text-sm font-semibold"><span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#F4F8FC] text-[#102B46]"><MapPin size={18} /></span>Self-service profile claim</dt><dd className="rounded-full bg-[#E7EEF5] px-3 py-1 text-xs font-bold text-[#102B46]">Not available</dd></div>
               </dl>
-              <p className="mt-4 text-xs leading-5 text-[#789089]">Illustrative status card, not a live provider dashboard. Profile approval stays with the DOCVY owner.</p>
+              <p className="mt-4 text-xs leading-5 text-[#60748A]">{intakeEnabled ? "Patient requests go to DOCVY’s private intake and do not reserve a slot; the provider must confirm." : "No patient contact details are collected while appointment requests are paused."} Profile corrections are reviewed manually by the DOCVY owner.</p>
             </div>
           </aside>
         </div>
