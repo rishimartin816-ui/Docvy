@@ -222,5 +222,6 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Added internal links from the provider page to the current Delhi, Gurugram and Noida listings; updated its page title and description for accurate provider-search intent.
 - Local checks passed: `pnpm lint`, `pnpm build` (32 routes), and `git diff --check`. The Next.js page remains a server-rendered route with the existing static metadata pattern; official Next.js 14.2.35 Metadata guidance was checked.
 - This codebase-grounded design pass follows the existing DOCVY palette, typography and icon system. A direct Figma file/node URL remains unavailable; no Figma changes are claimed.
-- Production deployment and live route verification are pending. The private enquiry connection is still unconfigured, and no synthetic lead has been submitted.
+- Commit `f653214` is READY in Vercel production as deployment `dpl_8qh2SdCysbDxY7LnHkRvNa7FMhvW`, with aliases `www.docvy.in` and `docvy.in`. Live `/for-doctors` and all three linked city pages returned HTTP 200 with one H1, matching canonical URLs and `index, follow`; the provider correction answer and owner-approval text are present. These checks do not establish rankings or traffic.
+- The private enquiry connection is still unconfigured, and no synthetic lead has been submitted.
 - Progress estimates remain 95% public website/search foundation, 55% enquiry path and 22% full product; these are roadmap estimates, not analytics.
