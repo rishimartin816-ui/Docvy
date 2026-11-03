@@ -2,7 +2,7 @@
 
 **Reviewed:** 3 November 2026
 **Scope:** Public DOCVY website, desktop first viewport and page content  
-**Status:** Figma-aligned homepage and shared typography updates are implemented locally and verified; production publication is in progress.
+**Status:** Figma-aligned homepage and shared typography updates are published in production as commit `a332187`; live site delivery and sitemap pages are verified.
 
 ## Live pages reviewed
 
@@ -302,3 +302,5 @@ Structured data should describe visible, accurate content only. Google says its 
 - Rebuilt the homepage hero and four discovery cards around the actual current product: nationwide patient guide, source-linked doctor profiles currently in Delhi NCR, direct provider appointment confirmation, and provider tools clearly labelled as planned. Mockup-only claims such as verified profiles, confirmed booking and nationwide directory coverage were not carried into the live copy.
 - Google Search Central says AI Search uses foundational SEO practices and does not require special AI markup. Direct answers, clear source links, descriptive headings, internal paths and accurate city coverage remain the AEO/GEO approach; no ranking or AI citation outcome is claimed.
 - This replaces earlier same-day notes that Figma design context was unavailable; the connected MCP app later provided read-only design context in this session.
+- Published as commit `a332187` to Vercel production (`dpl_34qvLTfP2UDmRbypaTYh5RE9rHPk`, `READY`). The live homepage and new local illustration returned HTTP 200; the homepage keeps its page-specific title, description, canonical, Open Graph/Twitter preview and visible product-scope disclosure.
+- The live sitemap contains 23 URLs and all 23 passed HTTP 200, exactly one title, exactly one H1, one canonical and `index, follow`. This checks delivery and markup; it does not establish indexing, ranking, traffic or AI citations.
