@@ -9,26 +9,36 @@ import { clinicCrmConfig } from "@/lib/clinic-crm-config";
 
 export const dynamic = "force-dynamic";
 
-const title = "Which doctor should I see? Patient guide for India";
-const description = "Learn which type of doctor to look for, how to prepare for a visit, and what to ask. Explore patient guides and search by specialty and city on DOCVY.";
+const title = "DOCVY | Find the Right Type of Doctor";
+const description = "Not sure which doctor to see? DOCVY explains medical specialties in plain language and helps you prepare for a visit. Explore free patient guides for India.";
 
 export const metadata: Metadata = {
-  title,
+  title: { absolute: title },
   description,
   alternates: { canonical: "/" },
-  ...buildPageSocialMetadata(title + " | DOCVY", description, "/"),
+  ...buildPageSocialMetadata(title, description, "/"),
 };
 
 export default function Home() {
   const demo = clinicCrmConfig()?.staging === true;
   return <div className="docvy-garden">
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://www.docvy.in/#website",
+      name: "DOCVY",
+      alternateName: "Docvy",
+      url: "https://www.docvy.in/",
+      inLanguage: "en-IN",
+      publisher: { "@id": "https://www.docvy.in/#organization" },
+    }).replace(/</g, "\u003c") }} />
     <section className="relative isolate mx-auto grid max-w-[1320px] items-center gap-8 px-5 pb-10 pt-10 sm:px-9 lg:grid-cols-[1.05fr_.95fr] lg:py-20">
       <div>
         <p className="docvy-eyebrow">CARE DISCOVERY · INDIA</p>
         <h1 className="mt-5 max-w-[720px] text-5xl font-bold leading-[.98] tracking-[-.06em] text-[#1e3028] sm:text-6xl lg:text-7xl">Care starts with a question.</h1>
         <p className="my-6 max-w-lg text-base leading-7 text-[#41584d] sm:text-lg">Not sure which doctor to look for? Start with what is on your mind, learn which specialists handle it, or browse by specialty and city.</p>
         <DiscoverySearch />
-        <p className="mt-3 text-sm text-[#41584d]">The directory currently shows a fictional clinic. You can still explore every patient guide.</p>
+        <p className="mt-3 text-sm text-[#41584d]">Use the patient guides for real-life questions. The directory and booking walkthrough use fictional data.</p>
       </div>
       <figure className="docvy-glass overflow-hidden p-3 sm:p-4">
         <Image src="/images/docvy-consultation-nci.jpg" width={800} height={600} priority sizes="(max-width: 1023px) 90vw, 42vw" alt="A clinician speaking with a patient in a consultation room" className="aspect-[4/3] w-full rounded-[22px] object-cover" />

@@ -23,21 +23,21 @@ export const metadata: Metadata = {
     default: "DOCVY — Healthcare discovery across India",
     template: "%s | DOCVY",
   },
-  description: "Explore medical specialties, patient guides and a fictional clinic booking demo on DOCVY.",
+  description: "DOCVY helps people in India understand medical specialties and prepare for a visit with plain-language patient guides.",
   applicationName: "DOCVY",
   openGraph: {
     type: "website",
     locale: "en_IN",
     siteName: "DOCVY",
     title: "DOCVY — Healthcare discovery across India",
-    description: "Explore medical specialties, patient guides and a fictional clinic booking demo on DOCVY.",
+    description: "DOCVY helps people in India understand medical specialties and prepare for a visit with plain-language patient guides.",
     url: "/",
     images: [docvyOpenGraphImage],
   },
   twitter: {
     card: "summary_large_image",
     title: "DOCVY — Healthcare discovery across India",
-    description: "Explore medical specialties, patient guides and a fictional clinic booking demo on DOCVY.",
+    description: "DOCVY helps people in India understand medical specialties and prepare for a visit with plain-language patient guides.",
     images: ["/opengraph-image"],
   },
   robots: {
@@ -65,6 +65,7 @@ export default function RootLayout({
               name: "DOCVY",
               url: "https://www.docvy.in",
               email: "contact@docvy.in",
+              logo: "https://www.docvy.in/icon.svg",
               address: {
                 "@type": "PostalAddress",
                 streetAddress: "2nd Floor, Capital Cityscape, Sector 66",
