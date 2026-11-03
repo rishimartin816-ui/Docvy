@@ -6,7 +6,7 @@ type Slot = { id: string; starts_at: string; ends_at: string; blocked?: boolean;
 const dateLabel = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" });
 const calendarDay = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" });
 
-export default function StagingCalendar({ clinic = false }: { clinic?: boolean }) {
+export default function StagingCalendar({ clinic = false, admin = false }: { clinic?: boolean; admin?: boolean }) {
   const [token, setToken] = useState("");
   const [session, setSession] = useState("");
   const [slots, setSlots] = useState<Slot[]>([]);
@@ -19,7 +19,7 @@ export default function StagingCalendar({ clinic = false }: { clinic?: boolean }
   async function refresh(access: string, signal?: AbortSignal) {
     if (clinic && !access) return;
     try {
-      const response = await fetch("/api/crm" + (clinic ? "?clinic" : ""), {
+      const response = await fetch("/api/crm" + (admin ? "?admin" : clinic ? "?clinic" : ""), {
         headers: access ? { Authorization: "Bearer " + access } : {},
         signal,
       });
@@ -64,7 +64,7 @@ export default function StagingCalendar({ clinic = false }: { clinic?: boolean }
   const end = new Date(day + "T00:00:00+05:30").getTime() + days * 86400000;
   const visible = clinic ? slots.filter((slot) => calendarDay.format(new Date(slot.starts_at)) >= day && Date.parse(slot.starts_at) < end) : slots;
   return <section className="mx-auto max-w-3xl space-y-4 p-8">
-    <h1 className="text-3xl font-bold">{clinic ? "DOCVY Test Hospital calendar" : "Book with DOCVY Test Doctor"}</h1>
+    <h1 className="text-3xl font-bold">{admin ? "DOCVY owner console" : clinic ? "DOCVY Test Hospital calendar" : "Book with DOCVY Test Doctor"}</h1>
     <p>Fictional staging clinic. Times shown in India Standard Time.</p>
     {clinic && !session && <form className="space-y-2" onSubmit={(event) => {
       event.preventDefault();

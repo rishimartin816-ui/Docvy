@@ -32,15 +32,20 @@ async function staff(request: NextRequest) {
   const { id } = await user.json();
   if (typeof id !== "string" || !uuid.test(id)) return null;
   const membership = await database("/rest/v1/crm_staff?select=role&clinic_id=eq." + stagingClinic + "&user_id=eq." + id);
-  if (!membership.ok || !(await membership.json()).length) return null;
-  return id;
+  if (!membership.ok) return null;
+  const [access] = await membership.json();
+  return access ? { id, role: access.role } : null;
 }
 
 export async function GET(request: NextRequest) {
   if (!config()) return reply({ error: "Staging CRM unavailable" }, 404);
   try {
-    const clinic = request.nextUrl.searchParams.has("clinic");
-    if (clinic && !(await staff(request))) return reply({ error: "Staff access required" }, 403);
+    const admin = request.nextUrl.searchParams.has("admin");
+    const clinic = admin || request.nextUrl.searchParams.has("clinic");
+    if (clinic) {
+      const access = await staff(request);
+      if (!access || (admin && access.role !== "owner")) return reply({ error: "Staff access required" }, 403);
+    }
     const query = "/rest/v1/crm_calendar?clinic_id=eq." + stagingClinic;
     const path = clinic
       ? query + "&order=starts_at&limit=500"
@@ -68,7 +73,7 @@ export async function POST(request: NextRequest) {
     if (typeof input.blocked === "boolean") {
       const actor = await staff(request);
       if (!actor) return reply({ error: "Staff access required" }, 403);
-      response = await database("/rest/v1/rpc/crm_set_block", { actor, clinic: stagingClinic, slot: input.slot, desired: input.blocked });
+      response = await database("/rest/v1/rpc/crm_set_block", { actor: actor.id, clinic: stagingClinic, slot: input.slot, desired: input.blocked });
     } else {
       if (typeof input.key !== "string" || !uuid.test(input.key)) return reply({ error: "Invalid booking key" }, 400);
       response = await database("/rest/v1/rpc/crm_reserve", { clinic: stagingClinic, slot: input.slot, request_id: input.key });
