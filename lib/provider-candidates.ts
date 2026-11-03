@@ -11,6 +11,7 @@ export type ProviderCandidate = {
   id: string;
   name: string;
   specialties: string[];
+  procedures?: readonly string[];
   locations: ProviderLocation[];
   otherNcrLocations: string[];
   hospital: "Max Healthcare" | "Medanta" | "Fortis Healthcare";

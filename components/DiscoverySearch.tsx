@@ -1,11 +1,13 @@
+import { specialties, surgeryGroups } from "@/lib/care-directory";
 import Link from "next/link";
 import { ArrowUpRight, CalendarDays, MapPin, MessageSquare, Search, Stethoscope } from "lucide-react";
 
 export const discoveryCities = ["Delhi", "Gurugram", "Noida", "Mumbai", "Bengaluru", "Hyderabad", "Chennai", "Kolkata", "Pune", "Ahmedabad", "Jaipur", "Lucknow", "Kochi", "Chandigarh", "Guwahati", "Bhubaneswar", "Indore", "Patna"];
-export const discoverySpecialties = ["General medicine", "Cardiology", "Dermatology", "Dentistry", "Orthopaedics", "Paediatrics", "Gynaecology", "Ophthalmology", "ENT", "Mental health"];
+export const discoverySpecialties = [...new Set([...specialties.map(({ name }) => name), ...surgeryGroups.map(({ specialty }) => specialty)])];
 
-export default function DiscoverySearch({ city = "", specialty = "" }: { city?: string; specialty?: string }) {
+export default function DiscoverySearch({ city = "", specialty = "", procedure }: { city?: string; specialty?: string; procedure?: string }) {
   return <form action="/doctors" className="docvy-glass grid gap-3 p-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end sm:p-5">
+    {procedure && <input type="hidden" name="procedure" value={procedure} />}
     <label className="min-w-0 text-sm font-semibold">
       <span className="mb-1.5 flex items-center gap-2"><MapPin size={16} aria-hidden="true" /> City</span>
       <select name="city" defaultValue={city} className="docvy-select">
@@ -15,10 +17,10 @@ export default function DiscoverySearch({ city = "", specialty = "" }: { city?: 
     </label>
     <label className="min-w-0 text-sm font-semibold">
       <span className="mb-1.5 flex items-center gap-2"><Stethoscope size={16} aria-hidden="true" /> Specialty</span>
-      <select name="specialty" defaultValue={specialty} className="docvy-select">
+      {procedure ? <><input type="hidden" name="specialty" value={specialty} /><span className="docvy-select block">{specialty}</span></> : <select name="specialty" defaultValue={specialty} className="docvy-select">
         <option value="">All specialties</option>
         {discoverySpecialties.map((item) => <option key={item}>{item}</option>)}
-      </select>
+      </select>}
     </label>
     <button className="docvy-pill docvy-pill-primary" type="submit"><Search size={17} aria-hidden="true" /> Find care</button>
   </form>;
