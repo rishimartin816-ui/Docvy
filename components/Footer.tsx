@@ -25,8 +25,9 @@ export default function Footer() {
         <div>
           <Link
             href="/"
-            className="font-head text-[22px] font-extrabold tracking-[0.07em] text-[#123B38]"
+            className="inline-flex items-center gap-2.5 font-head text-[22px] font-extrabold tracking-[0.035em] text-[#071426]"
           >
+            <span aria-hidden="true" className="h-4 w-4 rounded-[5px] bg-[#17C8E5]" />
             DOCVY
           </Link>
           <p className="mt-3 max-w-sm text-sm leading-6 text-[#526D66]">

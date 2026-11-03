@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { DM_Sans, Inter } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { docvyOpenGraphImage } from "@/lib/metadata";
@@ -9,6 +9,11 @@ const docvyFont = DM_Sans({
   subsets: ["latin"],
   variable: "--font-head",
   weight: ["400", "500", "600", "700", "800", "900"],
+  display: "swap",
+});
+const docvyBodyFont = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
   display: "swap",
 });
 
@@ -49,7 +54,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en-IN" className={docvyFont.variable}>
+    <html lang="en-IN" className={`${docvyFont.variable} ${docvyBodyFont.variable}`}>
       <body>
         <script
           type="application/ld+json"

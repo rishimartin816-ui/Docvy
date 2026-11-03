@@ -1,12 +1,12 @@
 # DOCVY Website Design Review
 
-**Reviewed:** 2 November 2026  
+**Reviewed:** 3 November 2026
 **Scope:** Public DOCVY website, desktop first viewport and page content  
-**Status:** Review and implementation brief. Shared color and type aliases and the patient-first homepage were published in early design passes. The guide search, city listing pages, and provider-plan refinements are the current implementation pass.
+**Status:** Figma-aligned homepage and shared typography updates are implemented locally and verified; production publication is in progress.
 
 ## Live pages reviewed
 
-- [Homepage](https://www.docvy.in/) — split patient-first hero, illustration, guide and directory calls to action, patient journey, concern examples, provider area and repeated booking status.
+- [Homepage](https://www.docvy.in/) — patient-first hero, concern search, India-wide guide and Delhi NCR directory disclosure, patient journey, concern examples and provider area.
 - [Patient guide](https://www.docvy.in/care-guide) — concern/specialty search, 17 specialty cards, safety guidance, explanation of DOCVY status and sources.
 - [Doctor directory](https://www.docvy.in/doctors) — source-linked listings, filters, city groupings and disclosure about independent verification and appointment availability.
 - [Clinic and hospital plans](https://www.docvy.in/pricing) — three planned offer cards and contact calls to action; no online checkout.
@@ -17,7 +17,7 @@ Live screenshots were visually inspected through the in-app browser at a 1280 ×
 ## What is working
 
 - The homepage headline quickly explains the patient benefit. The two main actions—find a specialty and browse doctors—are easy to distinguish.
-- The mint hero, teal buttons, deep green text and warm coral detail make the site feel approachable and healthcare-focused. The illustration supports the patient journey without using a stock clinical photograph.
+- The mint hero, teal buttons, deep green text and warm coral detail make the site feel approachable and healthcare-focused. The new care-team illustration supports the patient journey and is an illustration, not a claim of a DOCVY provider or patient.
 - The live directory is transparent about its sources and review status, links back to hospital pages, and separates results by Delhi, Gurugram and Noida.
 - Provider plans and contact pages make clear that plan pricing is discussed directly and that online checkout is not available.
 - Patient-facing health guidance includes non-diagnosis language, urgent-care direction and links to public medical references.
@@ -25,7 +25,7 @@ Live screenshots were visually inspected through the in-app browser at a 1280 ×
 ## Site-wide design findings
 
 1. **The shared tokens are now aligned.** Commit `23e5d60` maps the legacy Tailwind color aliases to the live mint, teal and green palette (`#F6FAF8`, `#087F83`, `#173A37`) and sets body and headings to the loaded DM Sans stack with a system fallback. A post-deploy support-page capture confirmed the old plum headings now use the same deep green. Follow-up work can retire misleading legacy alias names when components are refactored.
-2. **Typography now has one explicit stack.** DM Sans is loaded and used for both headings and body copy with a system fallback. The screenshot extraction inferred Inter for body text, but the source does not load Inter; do not claim it is in use. Confirm text wrapping and legibility at mobile widths during the next responsive pass.
+2. **Typography uses a two-font stack.** DM Sans is loaded for headings and Inter for body copy, each with a system fallback. Confirm text wrapping and legibility at mobile widths during the next responsive pass.
 3. **Page shells vary.** Several core pages use the mint gradient hero, while plans/contact/about and older status/request pages use white or legacy sand/plum components. Establish a small set of reusable page patterns: patient discovery, directory/search, provider information, and support/legal.
 4. **Availability language is repeated.** The homepage mentions booking status in its hero, summary strip, patient-journey section, lower banner and footer. State the current availability once near the main action, then use a consistent concise status label elsewhere.
 5. **Navigation mixes audiences.** Patients and providers share the same compact navigation and “Contact now” action. Keep patient tasks prominent and make provider links and their contact path distinct, especially on mobile.
@@ -293,3 +293,12 @@ Structured data should describe visible, accurate content only. Google says its 
 - The route uses one H1, labels the email and address actions, and does not add a complaint form or request sensitive documents. The CTA opens an email draft only; it does not send a message.
 - This uses the repository's established visual system. The connected Figma file is visible in Recents, but its viewer prompted for a Dev Mode seat change and no direct design context or Figma edit was available; no Figma-origin claim is made.
 - `pnpm lint`, `pnpm build` (32 routes), `git diff --check`, and generated-HTML checks passed locally. Production publication and live visual verification are pending.
+
+## 3 November Figma-aligned homepage refresh
+
+- Read the connected `DOCVY — Future Healthcare Experience` file in view-only mode. Design references: Brand System frame `2:13`, desktop homepage `2:606`, mobile homepage `2:704`, and desktop care illustration `2:616`. No Figma file or seat settings were changed.
+- The homepage preview uses a mint discovery surface, a two-column desktop hero, a floating search panel, an illustration, four entry paths, city coverage, a patient journey and a distinct provider area. The related Brand System frame also shows a separate navy/cyan direction; this release keeps the homepage's mint/teal system and adds a small cyan brand accent instead of replacing the established site-wide palette.
+- Updated the shared logo mark and text color, loaded Inter for body text while retaining DM Sans headings, and added the Figma illustration as a local image at `public/images/docvy-homepage-care-team.png` so the site does not depend on a temporary asset URL.
+- Rebuilt the homepage hero and four discovery cards around the actual current product: nationwide patient guide, source-linked doctor profiles currently in Delhi NCR, direct provider appointment confirmation, and provider tools clearly labelled as planned. Mockup-only claims such as verified profiles, confirmed booking and nationwide directory coverage were not carried into the live copy.
+- Google Search Central says AI Search uses foundational SEO practices and does not require special AI markup. Direct answers, clear source links, descriptive headings, internal paths and accurate city coverage remain the AEO/GEO approach; no ranking or AI citation outcome is claimed.
+- This replaces earlier same-day notes that Figma design context was unavailable; the connected MCP app later provided read-only design context in this session.

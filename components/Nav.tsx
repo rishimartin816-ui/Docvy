@@ -55,9 +55,10 @@ export default function Nav() {
       <div className="mx-auto flex h-[70px] max-w-[1440px] items-center justify-between px-6 lg:h-[88px] lg:px-[72px]">
         <Link
           href="/"
-          className="font-head text-[21px] font-extrabold tracking-[0.07em] text-[#123B38]"
+          className="inline-flex items-center gap-2.5 font-head text-[21px] font-extrabold tracking-[0.035em] text-[#071426]"
           aria-label="DOCVY home"
         >
+          <span aria-hidden="true" className="h-4 w-4 rounded-[5px] bg-[#17C8E5] lg:h-[18px] lg:w-[18px]" />
           DOCVY
         </Link>
 
