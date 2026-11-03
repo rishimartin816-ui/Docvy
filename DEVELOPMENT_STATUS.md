@@ -7,7 +7,7 @@
 
 These are roadmap estimates based on deliverables, not analytics, traffic, patient activity, or search rankings.
 
-- **Public website and search foundation: 93%.** Main pages, clear patient journey, pan-India guide, NCR-only listings, source-linked profiles, metadata, schema, sitemap, internal discovery links and crawlable patient answer pages are implemented. More mobile interaction review, Search Console query review and broader provider coverage remain.
+- **Public website and search foundation: 94%.** Main pages, clear patient journey, pan-India guide, NCR-only listings, source-linked profiles, metadata, schema, sitemap, internal discovery links and crawlable patient answer pages are implemented. More mobile interaction review, Search Console query review and broader provider coverage remain.
 - **Website enquiry path: 55%.** Form, server validation, private Sheets handoff and token-protected Apps Script source exist. The script is not installed or deployed and Vercel production variables are not configured; the live form must remain closed until end-to-end verification.
 - **Full DOCVY product: 22%.** This reflects a weighted roadmap across public discovery, provider data, enquiry handling, provider operations, hospital software, identity/access and business intelligence. The provider/hospital application, appointment availability engine and operational dashboards are not complete.
 
@@ -110,13 +110,15 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Clarified that current listings are Delhi NCR only and area labels may be incomplete. Pan-India product scope remains distinct from current provider coverage.
 - `pnpm lint`, `pnpm build` (32 static pages), and `git diff --check` passed. Local GET checks for `/doctors` and `/doctors/delhi` returned HTTP 200. Production deployment `dpl_FJwJ85KVvgxFhNf1apFQAmfQpVn8` is `READY` for `2fced91`; live `/doctors`, `/doctors/delhi` and `docvy.in/doctors` checks returned HTTP 200 with the filter. Both pages retain canonical URLs, one H1 and `index, follow`; the sitemap remains 23 URLs. Interactive visual review remains pending.
 
-## 3 November homepage clarity and search update (pending production verification)
+## 3 November homepage clarity and search update
 
 - Replaced a repeated homepage availability summary with a patient-facing three-step checklist for checking the hospital source, exact facility, and appointment availability/fees. It states clearly that source-linked does not mean DOCVY-verified.
 - Updated the homepage title and social descriptions for patient-guide and doctor-directory intent, retaining pan-India purpose and the explicitly limited Delhi NCR listings.
 - Added homepage `WebSite` structured data linked to DOCVY's existing `Organization` entity, following Google's site-name guidance. No special GEO markup or ranking claim was added.
-- `pnpm lint`, `pnpm build` (32 generated routes) and `git diff --check` passed. The production release and live metadata/markup checks are pending.
-- A synthetic lead-to-Sheet test remains pending until the approved private webhook is installed and configured. The appointment form must stay closed until a synthetic submission is confirmed in the private sheet.
+- `pnpm lint`, `pnpm build` (32 generated routes) and `git diff --check` passed. Production deployment `dpl_A4jQaqkBMcLPgY9NGFnsDcNUGF2H` for `bce4e7b` is `READY` on `www.docvy.in` and `docvy.in`.
+- Live `/` verification confirmed the updated title and description, canonical URL, one H1, the new source-check section, and valid `Organization` + `WebSite` JSON-LD linked by entity ID. The new responsive section was visually reviewed at desktop and 390px; a 390px layout-width check found no horizontal overflow.
+- A read-only Workspace check confirmed the `DOCVY APPOINTMENT LEADS` spreadsheet and its `Appointments` tab. Its existing header row has 14 expected columns; the Apps Script source adds the separately named provider-notification-status header. No lead rows or patient data were read.
+- The Apps Script endpoint and Vercel webhook settings are not installed/configured, so the live enquiry form remains closed. No synthetic lead was created. One synthetic end-to-end test still requires the pending action-time confirmation for creating/storing the private webhook token and publishing the token-protected endpoint.
 
 ## Not yet built or verified
 
@@ -137,6 +139,7 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 
 | Date | Commit / deployment | Result |
 |---|---|---|
+| 3 Nov 2026 | `bce4e7b` · Vercel `dpl_A4jQaqkBMcLPgY9NGFnsDcNUGF2H` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Replaced repeated homepage status cards with an illustrated three-step source/facility/availability checklist; improved homepage search title and description; added linked `WebSite` schema. Lint/build and live metadata/schema checks passed; desktop and 390px visual review showed no horizontal overflow. Intake remains closed. |
 | 3 Nov 2026 | `890febc` · Vercel `dpl_8EetN7FZQTD9KKn7JGiFDoB5wCjJ` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Updated the paused `/request` state to remove contact fields and show the selected doctor's official hospital profile. Live route returned 200 with no name/mobile fields and `noindex, nofollow`; a no-data API probe returned 503 and created no lead. |
 | 3 Nov 2026 | `2fced91` · Vercel `dpl_FJwJ85KVvgxFhNf1apFQAmfQpVn8` | READY on `main`; live on `www.docvy.in` and `docvy.in`. Added the source-backed area/locality filter and exact city-page links; live HTML, canonical, robots and heading checks passed for `/doctors` and `/doctors/delhi`. |
 | 3 Nov 2026 | `9d5731a` · Vercel `dpl_9b2G7YCM4dS2wNHWx4HhLhso7Z9N` | READY on `main`; aliases `www.docvy.in` and `docvy.in`. Published six crawlable, source-linked patient answer pages and the sitemap entries. All six live pages returned HTTP 200 with page-specific metadata, canonicals, one H1, `index, follow` and breadcrumb data. `/request` remains noindex and intake stays closed; the no-data production API probe returned 503. |
