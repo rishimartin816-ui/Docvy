@@ -214,3 +214,13 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Production commit `632f62d` is READY as Vercel deployment `dpl_CLq9SWAYzxYF44wqyQZo6peGkUGp` on `www.docvy.in` and `docvy.in`. The seven changed routes passed the same live checks after publication.
 - After the tracker-only production deployment `aa24412`, a fresh full sitemap crawl passed 23/23 indexable URLs for HTTP 200, title, one H1, canonical and `index, follow`; `/request` and `/status` remain `noindex, nofollow` without canonicals.
 - Wording changes are based on the source-linked provider dataset and current product status. They do not claim that more-city listings, appointment booking, or provider verification are live.
+
+## 3 November doctor profile correction path
+
+- `/for-doctors` now answers how a doctor can request a profile correction: send the official public hospital/clinic profile URL, doctor name and city, and the specific public detail. It states that no self-service claim portal is live, does not ask for patient details or identity/registration documents, and makes the DOCVY owner's approval explicit before publication.
+- Added a responsive example status card showing that a public hospital profile may be linked while DOCVY credential review is pending and self-service claims are not open. The card is labeled as illustrative, not a live dashboard.
+- Added internal links from the provider page to the current Delhi, Gurugram and Noida listings; updated its page title and description for accurate provider-search intent.
+- Local checks passed: `pnpm lint`, `pnpm build` (32 routes), and `git diff --check`. The Next.js page remains a server-rendered route with the existing static metadata pattern; official Next.js 14.2.35 Metadata guidance was checked.
+- This codebase-grounded design pass follows the existing DOCVY palette, typography and icon system. A direct Figma file/node URL remains unavailable; no Figma changes are claimed.
+- Production deployment and live route verification are pending. The private enquiry connection is still unconfigured, and no synthetic lead has been submitted.
+- Progress estimates remain 95% public website/search foundation, 55% enquiry path and 22% full product; these are roadmap estimates, not analytics.

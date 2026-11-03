@@ -254,3 +254,13 @@ Structured data should describe visible, accurate content only. Google says its 
 - Describe new city listings as planned only when useful source-backed profiles are ready. Do not promise a city launch or imply a schedule that DOCVY has not announced.
 - Keep city names and alternate place names readable in headings and descriptions to support geographic search intent. The wording is derived from current directory data, not keyword-volume assumptions.
 - This is a content clarity pass that retains each page's existing visual hierarchy and icons. No Figma file was available for direct comparison, and no layout was changed in this pass.
+
+## 3 November doctor profile correction and GEO links
+
+- Reframed `/for-doctors` around the specific next step a doctor can take today: email the official hospital or clinic profile URL, the city, and the public detail to correct. The page says a self-service claim/edit portal is not live, avoids requesting identity or registration documents, and states that the DOCVY owner approves any published change.
+- Added a responsive, labeled profile-status illustration that distinguishes a hospital source link from pending DOCVY review and a claim portal that is not open. It is explicitly marked as an example, not a live dashboard.
+- Turned the Delhi, Gurugram/Gurgaon and Noida labels into internal links to the existing city directories. This improves patient/provider navigation and makes current local coverage discoverable without implying nationwide listings.
+- Updated provider-page title and description to match the visible correction workflow and current cities. The answer addresses doctors asking how to correct a DOCVY profile, rather than targeting unsupported keyword variants.
+- Design follows the documented mint, teal and deep-green palette, DM Sans stack, outline icons and rounded cards. The connected Figma account still has no usable file/node URL for direct design-context comparison; no Figma file was edited.
+- Google Search Central says people-first content and foundational SEO apply to AI Search, with no special AI markup required. This pass adds a direct visible answer and source-linked city navigation rather than extra keyword pages. Sources: [AI features and your website](https://developers.google.com/search/docs/appearance/ai-features), [people-first content guidance](https://developers.google.com/search/docs/fundamentals/creating-helpful-content).
+- `pnpm lint`, `pnpm build` (32 routes) and `git diff --check` passed locally. Production publication and live verification are pending.
