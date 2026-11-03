@@ -231,3 +231,11 @@ Structured data should describe visible, accurate content only. Google says its 
 - Reuse the established DOCVY palette, type scale, rounded surfaces and visible focus rings. This is grounded in the repository design reference; a direct Figma file/node reference was unavailable, so this update is not claimed as Figma-derived.
 - Checked the mobile menu interaction locally from `/for-doctors` to `/pricing`; the menu closed after navigation. Production markup for `/doctors`, `/for-doctors`, `/pricing`, `/contact` and `/patient-guides/diabetes` returned HTTP 200 and showed the expected current-page links.
 - This update supports clarity and internal navigation. It does not claim higher rankings, AI citations or conversion gains. Existing page-specific metadata, patient answer pages, source citations, sitemap and structured data remain the SEO/AEO/GEO foundation.
+
+## 3 November clinic and hospital plan page
+
+- `/pricing` keeps the existing provider workflow illustration and design tokens, then makes readiness visible before presenting future plan types: no published rate card, no active subscription and no live appointment dashboard.
+- The clinic, multi-location group and hospital cards describe potential workflows only. A repeated “Contact now” action routes to DOCVY's existing contact page; it does not imply a quote, purchase or onboarding flow.
+- Four visible answer disclosures address availability, pricing, appointment management and safe business-enquiry details. Answers appear directly on the page for readers and crawlers. No FAQ rich-result schema is added, and the page makes no claim that a feature or subscription is live.
+- Google guidance supports clear, helpful content and foundational SEO for generative search; it does not call for a special GEO markup checklist. Sources: [Google AI optimization guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide), [people-first content guidance](https://developers.google.com/search/docs/fundamentals/creating-helpful-content), [FAQ/How-to result changes](https://developers.google.com/search/blog/2023/08/howto-faq-changes).
+- This implementation follows the repository's documented visual system. A Figma file/node link is still required for a direct design-context comparison; no Figma design was changed.
