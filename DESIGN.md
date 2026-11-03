@@ -310,3 +310,5 @@ Structured data should describe visible, accurate content only. Google says its 
 - The three clinic/hospital plan cards now carry a direct plan-specific email draft action. Each draft uses the same brand buttons and asks only for business contact information; it explicitly tells visitors not to include patient or health information.
 - This follows the existing provider-plan page and shared visual system. The email action opens a draft and does not submit or send information automatically.
 - Local production-page verification confirmed three unique plan subjects, the business-details prompts and the privacy reminder. The page remains clear that these are future workflows, not purchasable plans or a live dashboard.
+- Published with commit `ecca766`; Vercel deployment `dpl_92LexFurDMvbnHxvfMf8FRRb98V1` is `READY`. The live pricing page returned HTTP 200 with its title and one H1, and the three plan-specific draft subjects were verified on the published page.
+- A post-release check of all 23 live sitemap URLs passed HTTP 200, one title, one H1, canonical URL and `index, follow`.
