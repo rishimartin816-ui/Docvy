@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Building2, CalendarClock, ExternalLink, MapPin, ShieldCheck } from "lucide-react";
 import AppointmentRequestForm from "@/components/AppointmentRequestForm";
 import { providerCandidates } from "@/lib/provider-candidates";
-import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
+import { isAppointmentIntakeConfigured, providersWithAppointmentIntake } from "@/lib/appointment-intake";
 import { docvyOpenGraphImage } from "@/lib/metadata";
 
 export function generateMetadata(): Metadata {
@@ -34,7 +34,8 @@ export default async function RequestPage({ searchParams }: { searchParams: Prom
   }
 
   const params = await searchParams;
-  const intakeEnabled = isAppointmentIntakeConfigured();
+  const enquiryProviders = await providersWithAppointmentIntake(providerCandidates);
+  const intakeEnabled = enquiryProviders.length > 0;
   const selectedProvider = providerCandidates.find((doctor) => doctor.id === params.provider);
   const selectedLocation = selectedProvider?.locations.find((location) =>
     !params.city || location.city.toLowerCase() === params.city.toLowerCase(),
@@ -45,13 +46,13 @@ export default async function RequestPage({ searchParams }: { searchParams: Prom
       <section className="pt-2">
         <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]">{intakeEnabled ? <CalendarClock size={14}/> : <MapPin size={14}/>} {intakeEnabled ? "APPOINTMENT ENQUIRY · DELHI NCR" : "CONTACT THE PROVIDER · DELHI NCR"}</p>
         <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.045em] text-[#173A37] md:text-[48px]">{intakeEnabled ? "Tell DOCVY which doctor you want to see." : "Contact the hospital to ask about an appointment."}</h1>
-        <p className="mt-5 max-w-xl text-base leading-8 text-[#526D66]">{intakeEnabled ? "Send an enquiry to DOCVY for a listed Delhi NCR doctor. Your details are recorded in DOCVY’s private intake; the selected hospital or clinic is not automatically notified." : "Appointment enquiries are not open yet. DOCVY’s private intake connection is not configured, and this page is not collecting your details."}</p>
+        <p className="mt-5 max-w-xl text-base leading-8 text-[#526D66]">{intakeEnabled ? "Send an enquiry to DOCVY for a listed Delhi NCR doctor. Your details are recorded in DOCVY’s private intake; the selected hospital or clinic is not automatically notified." : "Appointment enquiries are currently unavailable. Contact the clinic or hospital directly to check availability."}</p>
         <div className="mt-6 rounded-2xl border border-[#DCEAE5] bg-white p-5">
           <div className="flex gap-3"><ShieldCheck size={20} className="mt-0.5 shrink-0 text-[#087F83]"/><div><h2 className="font-bold text-[#173A37]">A request is not a confirmed appointment</h2><p className="mt-2 text-sm leading-6 text-[#526D66]">The clinic or hospital must confirm the doctor, time and any consultation fee. DOCVY does not take patient payment or guarantee a slot.</p></div></div>
         </div>
         <p className="mt-4 text-xs leading-5 text-[#789089]">Please do not share symptoms, diagnoses, medical records or other health details with DOCVY. For urgent or emergency care, call 112 in India or go to the nearest emergency department.</p>
       </section>
-      {intakeEnabled ? <AppointmentRequestForm doctors={providerCandidates} initialProvider={params.provider ?? ""} initialCity={params.city ?? ""} enabled /> : <section className="rounded-[24px] border border-[#DCEAE5] bg-white p-6 shadow-[0_14px_40px_rgba(23,58,55,0.07)] md:p-8" aria-labelledby="paused-enquiry-title">
+      {intakeEnabled ? <AppointmentRequestForm doctors={enquiryProviders} initialProvider={params.provider ?? ""} initialCity={params.city ?? ""} enabled /> : <section className="rounded-[24px] border border-[#DCEAE5] bg-white p-6 shadow-[0_14px_40px_rgba(23,58,55,0.07)] md:p-8" aria-labelledby="paused-enquiry-title">
         <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFF4E4] text-[#A36A12]"><Building2 size={24}/></span>
         <p className="mt-5 text-xs font-extrabold tracking-[0.14em] text-[#A36A12]">NO FORM · NO DETAILS STORED</p>
         <h2 id="paused-enquiry-title" className="mt-2 text-2xl font-bold text-[#173A37]">Appointment enquiries are paused.</h2>
