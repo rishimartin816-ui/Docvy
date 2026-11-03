@@ -1,35 +1,42 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, BadgeHelp, Building2, CalendarClock, MapPin, Search, ShieldAlert, Stethoscope } from "lucide-react";
 import DoctorDirectory from "@/components/DoctorDirectory";
 import { buildPageSocialMetadata } from "@/lib/metadata";
-import { providerCandidates, providerCities, providerCityListLabel, providerProfileCount } from "@/lib/provider-candidates";
+import { providerCandidates, providerCities, providerCityListLabel } from "@/lib/provider-candidates";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
 
-const directoryDescription = `Browse ${providerProfileCount} source-linked doctor profiles across ${providerCityListLabel}. Filter by specialty, hospital or locality; DOCVY credential review and appointment availability are pending.`;
+const directoryDescription = `Find doctor profiles by specialty, city and hospital on DOCVY. Current source-linked listings cover ${providerCityListLabel}; appointment availability must be confirmed with the provider.`;
 
 export const metadata: Metadata = {
-  title: "Doctors in Delhi NCR | Search by specialty and location",
+  title: "Find doctors in India | Browse by specialty and city",
   description: directoryDescription,
   alternates: { canonical: "/doctors" },
-  ...buildPageSocialMetadata("Doctors in Delhi NCR | Search by specialty and location | DOCVY", directoryDescription, "/doctors"),
+  ...buildPageSocialMetadata("Find doctors in India by specialty and city | DOCVY", directoryDescription, "/doctors"),
 };
 
 export default function DoctorsPage() {
-  const cityPlacements = providerCandidates.reduce(
-    (total, doctor) => total + new Set(doctor.locations.map((location) => location.city)).size,
-    0,
-  );
   const facilityLocations = providerCandidates.reduce((total, doctor) => total + doctor.locations.length, 0);
   const intakeEnabled = isAppointmentIntakeConfigured();
   return <div className="bg-[#F6FAF8] text-[#173A37]">
-    <section className="bg-[radial-gradient(circle_at_78%_35%,#D5F0E8_0%,#EAF5F1_38%,#F4FAF7_100%)] px-6 py-14 md:py-20">
-      <div className="mx-auto max-w-6xl">
-        <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><MapPin size={14} /> DOCTORS · DELHI NCR</p>
-        <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[56px]">Find doctors by specialty, city and hospital.</h1>
-        <p className="mt-5 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">Browse {providerProfileCount} doctor profiles sourced from official hospital listings. Filter {providerCityListLabel} by specialty, hospital or locality. {intakeEnabled ? "The enquiry form sends your details to DOCVY’s private intake; it does not automatically notify the provider." : "The appointment enquiry form is paused until DOCVY’s private intake is connected."}</p>
-        <div className="mt-7 flex flex-wrap gap-2"><span className="inline-flex items-center gap-2 rounded-full bg-white/85 px-4 py-2 text-xs font-bold text-[#087F83]"><Stethoscope size={14}/>{providerCandidates.length} unique profiles</span><span className="inline-flex items-center gap-2 rounded-full bg-white/85 px-4 py-2 text-xs font-bold text-[#526D66]"><MapPin size={14}/>{cityPlacements} profile-city placements · {facilityLocations} facility locations</span><span className="inline-flex items-center gap-2 rounded-full bg-[#FFF9EE] px-4 py-2 text-xs font-bold text-[#80672E]"><BadgeHelp size={14}/>DOCVY review pending</span></div>
-        <nav className="mt-6 flex flex-wrap gap-2" aria-label="Browse doctor listings by city">{providerCities.map((city) => <Link key={city} href={`/doctors/${city.toLocaleLowerCase()}`} className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/80 px-4 py-2 text-sm font-semibold text-[#36564F] transition hover:border-[#087F83] hover:text-[#087F83]"><MapPin size={14}/>{city} doctors <ArrowRight size={14}/></Link>)}</nav>
+    <section className="overflow-hidden bg-[radial-gradient(circle_at_78%_35%,#D5F0E8_0%,#EAF5F1_38%,#F4FAF7_100%)] px-6 py-10 md:py-14">
+      <div className="mx-auto grid max-w-6xl items-center gap-9 lg:grid-cols-[1.05fr_.95fr] lg:gap-12">
+        <div className="relative z-10">
+          <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/80 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><MapPin size={14} /> DOCTOR DISCOVERY · INDIA</p>
+          <h1 className="mt-5 max-w-3xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[54px]">Find a doctor by specialty, city or hospital.</h1>
+          <p className="mt-5 max-w-2xl text-base leading-8 text-[#526D66] md:text-lg">Start with a specialty or a doctor’s name, then compare the hospital and listed location. DOCVY is being built for discovery across India; source-linked profiles currently cover {providerCityListLabel}.</p>
+          <div className="mt-6 flex flex-wrap gap-2"><span className="inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-xs font-bold text-[#087F83]"><Stethoscope size={14}/>{providerCandidates.length} source-linked profiles</span><span className="inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-xs font-bold text-[#526D66]"><Building2 size={14}/>{facilityLocations} listed facility locations</span><span className="inline-flex items-center gap-2 rounded-full bg-[#FFF9EE] px-4 py-2 text-xs font-bold text-[#80672E]"><BadgeHelp size={14}/>Credentials and slots need confirmation</span></div>
+          <nav className="mt-6 flex flex-wrap gap-2" aria-label="Browse doctor listings by city">{providerCities.map((city) => <Link key={city} href={`/doctors/${city.toLocaleLowerCase()}`} className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/85 px-4 py-2 text-sm font-semibold text-[#36564F] transition hover:border-[#087F83] hover:text-[#087F83]"><MapPin size={14}/>{city} doctors <ArrowRight size={14}/></Link>)}</nav>
+        </div>
+        <figure className="relative mx-auto w-full max-w-[560px] lg:max-w-none">
+          <div className="absolute -right-5 -top-4 h-32 w-32 rounded-full bg-[#B8E1D5]/75 blur-2xl" aria-hidden="true" />
+          <div className="relative overflow-hidden rounded-[30px] border border-white/80 bg-[#E7F3ED] shadow-[0_24px_70px_rgba(23,58,55,0.16)]">
+            <Image src="/images/docvy-doctor-discovery.png" alt="Illustration of a patient and care navigator exploring doctor listings by specialty and location" width={1536} height={1024} priority sizes="(max-width: 1024px) 100vw, 48vw" className="h-auto w-full" />
+            <span className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/95 px-4 py-2 text-xs font-bold text-[#36564F] shadow-lg"><Search size={14} className="text-[#087F83]"/>Search listings, then check the source</span>
+          </div>
+          <figcaption className="mt-2 text-right text-[11px] text-[#789089]">Decorative illustration · profile information comes from linked public hospital sources</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -40,7 +47,7 @@ export default function DoctorsPage() {
           {[
             { icon: Search, title: "Find a profile", detail: "Filter by doctor name, specialty, city, hospital or listed locality. A match means a profile is listed; it does not confirm availability." },
             { icon: Building2, title: "See the listed hospital and location", detail: "Each profile shows a hospital and facility taken from a public hospital listing. A doctor may appear in more than one city when the source lists multiple locations." },
-            { icon: CalendarClock, title: intakeEnabled ? "Send DOCVY an enquiry" : "Enquiry form currently paused", detail: intakeEnabled ? "Your details go to DOCVY’s private intake, not directly to the selected hospital. Contact the provider to confirm availability, time and fee; no slot is booked." : "The request form is not collecting details while the private intake connection is prepared. The selected hospital or clinic can confirm current availability directly." },
+            { icon: CalendarClock, title: intakeEnabled ? "Request an appointment" : "Appointment requests paused", detail: intakeEnabled ? "No suitable slot is needed to send a request. Your details go to DOCVY’s private intake; the provider must confirm the doctor, time and fee." : "The request form is not collecting details until the private Sheet connection is active. Contact the hospital directly to confirm current availability." },
           ].map(({ icon: Icon, title, detail }, index) => <li key={title} className="relative overflow-hidden rounded-2xl bg-[#F8FBF9] p-5"><span aria-hidden="true" className="absolute -right-5 -top-5 h-24 w-24 rounded-full border-[14px] border-[#EAF5F1]"/><div className="relative"><div className="flex items-center justify-between"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-[#087F83]"><Icon size={19}/></span><span className="text-xs font-extrabold tracking-widest text-[#087F83]">0{index + 1}</span></div><h3 className="mt-4 font-bold text-[#173A37]">{title}</h3><p className="mt-2 text-sm leading-6 text-[#526D66]">{detail}</p></div></li>)}
         </ol>
       </div>
