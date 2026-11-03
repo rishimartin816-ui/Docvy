@@ -11,10 +11,10 @@ import { providerCandidates, providerCities } from "@/lib/provider-candidates";
 
 export const metadata: Metadata = {
   title: "Patient guide and doctor directory across India | DOCVY",
-  description: "Search a health concern or specialty with DOCVY’s patient guide across India. Browse a limited set of hospital-source doctor profiles in Delhi, Gurugram (Gurgaon) and Noida.",
+  description: "Search a health concern or specialty across India, then filter current hospital-source doctor listings in Delhi, Gurugram (Gurgaon) or Noida.",
   alternates: { canonical: "/" },
-  openGraph: { type: "website", locale: "en_IN", siteName: "DOCVY", title: "Patient guide and doctor directory across India | DOCVY", description: "Search a health concern or specialty with DOCVY’s patient guide across India. Browse a limited set of hospital-source doctor profiles in Delhi, Gurugram (Gurgaon) and Noida.", url: "/", images: [docvyOpenGraphImage] },
-  twitter: { card: "summary_large_image", title: "Patient guide and doctor directory across India | DOCVY", description: "Explore a patient guide across India and current hospital-source doctor profiles in Delhi, Gurugram (Gurgaon) and Noida.", images: ["/opengraph-image"] },
+  openGraph: { type: "website", locale: "en_IN", siteName: "DOCVY", title: "Patient guide and doctor directory across India | DOCVY", description: "Search a health concern or specialty across India, then filter current hospital-source doctor listings in Delhi, Gurugram (Gurgaon) or Noida.", url: "/", images: [docvyOpenGraphImage] },
+  twitter: { card: "summary_large_image", title: "Patient guide and doctor directory across India | DOCVY", description: "Search a concern or specialty across India and filter current doctor listings by Delhi, Gurugram or Noida.", images: ["/opengraph-image"] },
 };
 
 const guideExamples = [
@@ -60,13 +60,13 @@ export default function Home() {
     <section className="relative isolate overflow-hidden bg-[linear-gradient(118deg,#F5FAF7_0%,#EAF5F1_58%,#DFF1EB_100%)]">
       <div aria-hidden="true" className="pointer-events-none absolute -left-24 top-20 h-72 w-72 rounded-full bg-[#DDF0E9]/80 blur-3xl" />
       <div aria-hidden="true" className="pointer-events-none absolute right-[8%] top-12 h-56 w-56 rounded-full border border-white/70" />
-      <div className="relative mx-auto grid min-h-[620px] max-w-[1440px] items-center gap-10 px-6 pb-10 pt-12 md:px-10 lg:grid-cols-[.92fr_1.08fr] lg:px-[64px] lg:py-12 xl:px-[72px]">
+      <div aria-hidden="true" className="pointer-events-none absolute right-[-42px] top-20 h-48 w-48 rounded-full bg-[#F5D4BF]/55 blur-[1px] lg:hidden" />
+      <div className="relative mx-auto grid min-h-0 max-w-[1440px] items-center gap-10 px-6 pb-5 pt-10 md:px-10 lg:min-h-[620px] lg:grid-cols-[.92fr_1.08fr] lg:px-[64px] lg:py-12 xl:px-[72px]">
         <div className="relative z-10 max-w-[620px]">
           <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/80 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><span className="h-2 w-2 rounded-full bg-[#F39B72]" />CARE, CONNECTED</p>
           <h1 className="max-w-[680px] text-[42px] font-black leading-[1.04] tracking-[-0.052em] text-[#173A37] sm:text-[54px] lg:text-[58px] xl:text-[62px]">Find your way to care <span className="text-[#087F83]">across India.</span></h1>
           <p className="mt-7 max-w-[590px] text-base leading-8 text-[#526D66] md:text-[17px]">Start with a health concern or specialty anywhere in India. Read a plain-language guide, then browse source-linked doctor profiles currently listed in Delhi NCR. The guide is nationwide; the doctor directory is still growing.</p>
           <div className="mt-8 flex flex-wrap gap-3"><Link href="/care-guide" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#087F83] px-6 text-sm font-bold text-white shadow-[0_10px_24px_rgba(8,127,131,0.2)] transition hover:-translate-y-0.5 hover:bg-[#066D70]">Explore the patient guide <ArrowRight size={17} /></Link><Link href="/doctors" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#B7D2C9] bg-white/85 px-6 text-sm font-bold text-[#173A37] transition hover:-translate-y-0.5 hover:bg-white">Browse current doctors</Link></div>
-          <p className="mt-5 inline-flex max-w-[520px] items-start gap-2 rounded-2xl border border-white/80 bg-white/65 px-3 py-2.5 text-xs leading-5 text-[#526D66]"><MapPin size={15} className="mt-0.5 shrink-0 text-[#087F83]" /><span>Doctor profiles are currently listed in Delhi, Gurugram and Noida. Contact the hospital directly to confirm appointments.</span></p>
         </div>
         <div className="relative mx-auto hidden w-full max-w-[600px] lg:block">
           <div aria-hidden="true" className="absolute -right-8 -top-8 h-36 w-36 rounded-full bg-[#F39B72]/20 blur-2xl" />

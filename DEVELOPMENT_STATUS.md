@@ -319,3 +319,9 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - No Figma file, appointment flow, production database, authentication, SSO or security configuration was changed. The appointment-to-Sheets endpoint remains uninstalled; no synthetic lead was submitted and the patient enquiry form remains closed.
 - Vercel project `docvy` is connected to `rishimartin816-ui/Docvy` on `main`. Commit `d291ba5` is live in production as deployment `dpl_8rHSrpkPKXtkrgJ5jZZSU9oatKVm` (`READY`) with aliases `www.docvy.in` and `docvy.in`.
 - A fresh Firecrawl fetch of `/care-guide` and all six condition-specific pages returned HTTP 200. Every page had a page-specific title and description, one H1, a matching canonical and `index, follow`; all six condition pages displayed their India source links. This checks page delivery and markup, not indexing, rankings, traffic or AI citations.
+
+## 3 November homepage location search and mobile refinement
+
+- Rechecked Figma Brand System frame `2:13` and homepage frames `2:606` and `2:704`. The mobile hero now follows the reference's compact mint composition and warm accent; no Figma file was edited.
+- Added an optional Delhi, Gurugram or Noida field to the homepage GET search so a patient can pass both a concern and city to the existing patient-guide filter. Updated homepage metadata to distinguish India-wide guide coverage from current NCR-only doctor listings.
+- Local lint, production build (32 routes), `git diff --check`, `/` smoke check and `/care-guide?q=diabetes&city=Noida` smoke check passed. Production publication and live verification are pending.
