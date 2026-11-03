@@ -43,3 +43,31 @@ For each REAL doctor: name, registration number + council, qualifications, speci
 
 ## Important limitations of draft SQL
 The SQL is a **review artifact**, not production-approved code. In particular, add organization-affiliation FK consistency, overlapping-slot exclusion where required, an authorization policy for each staff operation, transition rules, data retention, PII encryption strategy and robust cancellation/event audit handlers before deploying.
+
+## Isolated CRM preview
+
+The preview implements a single fictional clinic and doctor. It accepts slot IDs and
+random booking keys only. It collects no patient contact or health information.
+
+1. Use a fresh local or isolated Supabase environment with PostgreSQL 15 or later.
+2. Apply `docs/sql/crm_staging.sql` and then `docs/sql/crm_staging_fixture.sql`.
+   These scripts are separate from the draft SQL and the production migration path.
+3. Create synthetic Supabase Auth users. Insert their user IDs into
+   `public.crm_staff` with role `scheduler` or `viewer`. Obtain each access token
+   through the isolated Supabase Auth sign-in flow.
+4. Set `DOCVY_CRM_STAGING=true`, `DOCVY_CRM_STAGING_URL` to the isolated API URL,
+   and `DOCVY_CRM_STAGING_KEY` to its server-only legacy service-role JWT.
+   Use access protection if hosting the preview so only testers can reserve slots.
+5. Open `/request/test` to reserve synthetic appointments and `/clinic` to
+   enter a staff access token and see the day or week calendar.
+
+Acceptance checks: block a slot, refresh the booking page, and confirm it disappears.
+Unblock and reserve it. Verify the staff calendar shows the booking. Repeat the same
+API request with the same key and check that the reference matches. Submit two requests
+with different keys concurrently against a fresh slot and expect one success and one
+409. Race a block against a booking and expect one success and one 409. Verify a viewer
+can read but receives 403 for changes, and an unrelated Auth user receives 403 for
+staff reads and changes. Verify public availability responses omit booking IDs.
+
+The preview does not implement multi-clinic membership, patient identity, cancellation,
+rescheduling, or notifications. Those require a separate rollout and verification.
