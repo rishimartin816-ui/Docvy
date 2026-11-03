@@ -1,20 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { clinicCrmConfig, crmUuid as uuid } from "@/lib/clinic-crm-config";
+
 export const dynamic = "force-dynamic";
 
-const stagingClinic = "7dfbf055-2737-448c-921e-c074d84393d4";
-const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const reply = (data: unknown, status = 200) =>
   NextResponse.json(data, { status, headers: { "Cache-Control": "no-store" } });
 
-function config() {
-  const { DOCVY_CRM_STAGING_URL: url, DOCVY_CRM_STAGING_KEY: key, DOCVY_CRM_STAGING: enabled } = process.env;
-  if (enabled !== "true" || process.env.VERCEL_ENV === "production" || !url || !key) return null;
-  return { url, key };
-}
-
 async function database(path: string, body?: object, token?: string) {
-  const target = config()!;
+  const target = clinicCrmConfig()!;
   return fetch(new URL(path, target.url), {
     method: body ? "POST" : "GET",
     headers: { apikey: target.key, Authorization: "Bearer " + (token ?? target.key), "Content-Type": "application/json" },
@@ -28,34 +22,37 @@ function requestToken(request: NextRequest) {
   return request.headers.get("authorization")?.match(/^Bearer (\S+)$/i)?.[1];
 }
 
-async function staff(token?: string) {
+async function staff(clinicId: string, token?: string) {
   if (!token) return null;
   const user = await database("/auth/v1/user", undefined, token);
   if (!user.ok) return null;
   const { id } = await user.json();
   if (typeof id !== "string" || !uuid.test(id)) return null;
-  const membership = await database("/rest/v1/crm_staff?select=role&clinic_id=eq." + stagingClinic + "&user_id=eq." + id);
+  const membership = await database("/rest/v1/crm_staff?select=role&clinic_id=eq." + clinicId + "&user_id=eq." + id);
   if (!membership.ok) return null;
   const [access] = await membership.json();
   return access ? { id, role: access.role } : null;
 }
 
 export async function GET(request: NextRequest) {
-  if (!config()) return reply({ error: "Staging CRM unavailable" }, 404);
+  const target = clinicCrmConfig();
+  if (!target) return reply({ error: "CRM unavailable" }, 404);
+  const { clinicId } = target;
   try {
     const admin = request.nextUrl.searchParams.has("admin");
     const enquiries = request.nextUrl.searchParams.has("enquiries");
     const clinic = admin || enquiries || request.nextUrl.searchParams.has("clinic");
+    if (!clinic && !target.staging) return reply({ error: "Online booking unavailable" }, 404);
     if (clinic) {
-      const access = await staff(requestToken(request));
+      const access = await staff(clinicId, requestToken(request));
       if (!access || (admin && access.role !== "owner")) return reply({ error: "Staff access required" }, 403);
       if (enquiries) {
-        const result = await database("/rest/v1/rpc/crm_list_enquiries", { actor: access.id, clinic: stagingClinic });
+        const result = await database("/rest/v1/rpc/crm_list_enquiries", { actor: access.id, clinic: clinicId });
         if (result.status === 403) return reply({ error: "Enquiry access required" }, 403);
         return result.ok ? reply(await result.json()) : reply({ error: "Enquiries unavailable" }, 503);
       }
     }
-    const query = "/rest/v1/crm_calendar?clinic_id=eq." + stagingClinic;
+    const query = "/rest/v1/crm_calendar?clinic_id=eq." + clinicId;
     const path = clinic
       ? query + "&order=starts_at&limit=500"
       : query + "&select=id,starts_at,ends_at&blocked=eq.false&booking_id=is.null&order=starts_at&limit=100&starts_at=gt." + new Date().toISOString();
@@ -67,7 +64,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  if (!config()) return reply({ error: "Staging CRM unavailable" }, 404);
+  const target = clinicCrmConfig();
+  if (!target) return reply({ error: "CRM unavailable" }, 404);
+  const { clinicId } = target;
   let input;
   try {
     const raw = await request.text();
@@ -91,7 +90,7 @@ export async function POST(request: NextRequest) {
       if (!auth.ok) return reply({ error: "Staff sign-in failed" }, 403);
       const { access_token: token } = await auth.json();
       if (typeof token !== "string") return reply({ error: "Sign-in unavailable" }, 503);
-      const access = await staff(token);
+      const access = await staff(clinicId, token);
       if (!access || (input.admin === true && access.role !== "owner")) {
         return reply({ error: "Staff sign-in failed" }, 403);
       }
@@ -106,10 +105,10 @@ export async function POST(request: NextRequest) {
       return reply({ error: "Invalid enquiry update" }, 400);
     }
     try {
-      const actor = await staff(requestToken(request));
+      const actor = await staff(clinicId, requestToken(request));
       if (!actor || (input.admin === true && actor.role !== "owner")) return reply({ error: "Staff access required" }, 403);
       const result = await database("/rest/v1/rpc/crm_update_enquiry", {
-        actor: actor.id, clinic: stagingClinic, ref: input.reference, expected: input.expected, desired: input.status,
+        actor: actor.id, clinic: clinicId, ref: input.reference, expected: input.expected, desired: input.status,
       });
       if (result.status === 400) return reply({ error: "Invalid enquiry update" }, 400);
       if (result.status === 403) return reply({ error: "Enquiry access required" }, 403);
@@ -129,9 +128,9 @@ export async function POST(request: NextRequest) {
       return reply({ error: "Invalid booking status request" }, 400);
     }
     try {
-      const actor = await staff(requestToken(request));
+      const actor = await staff(clinicId, requestToken(request));
       if (!actor) return reply({ error: "Staff access required" }, 403);
-      const booking = { actor: actor.id, clinic: stagingClinic, booking: input.booking };
+      const booking = { actor: actor.id, clinic: clinicId, booking: input.booking };
       const result = reschedule
         ? await database("/rest/v1/rpc/crm_reschedule_booking", { ...booking, source: input.source, destination: input.destination })
         : await database("/rest/v1/rpc/crm_transition_booking", { ...booking, desired: input.status });
@@ -146,12 +145,13 @@ export async function POST(request: NextRequest) {
   try {
     let response;
     if (typeof input.blocked === "boolean") {
-      const actor = await staff(requestToken(request));
+      const actor = await staff(clinicId, requestToken(request));
       if (!actor) return reply({ error: "Staff access required" }, 403);
-      response = await database("/rest/v1/rpc/crm_set_block", { actor: actor.id, clinic: stagingClinic, slot: input.slot, desired: input.blocked });
+      response = await database("/rest/v1/rpc/crm_set_block", { actor: actor.id, clinic: clinicId, slot: input.slot, desired: input.blocked });
     } else {
+      if (!target.staging) return reply({ error: "Online booking unavailable" }, 404);
       if (typeof input.key !== "string" || !uuid.test(input.key)) return reply({ error: "Invalid booking key" }, 400);
-      response = await database("/rest/v1/rpc/crm_reserve", { clinic: stagingClinic, slot: input.slot, request_id: input.key });
+      response = await database("/rest/v1/rpc/crm_reserve", { clinic: clinicId, slot: input.slot, request_id: input.key });
     }
     if (response.status === 403) return reply({ error: "Scheduler access required" }, 403);
     if (response.status === 409) return reply({ error: "Slot unavailable or booking key already used" }, 409);

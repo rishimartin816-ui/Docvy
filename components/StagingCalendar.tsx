@@ -16,7 +16,7 @@ type Enquiry = {
 const dateLabel = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" });
 const calendarDay = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" });
 
-export default function StagingCalendar({ clinic = false, admin = false }: { clinic?: boolean; admin?: boolean }) {
+export default function StagingCalendar({ clinic = false, admin = false, clinicName = "DOCVY Test Hospital", staging = true }: { clinic?: boolean; admin?: boolean; clinicName?: string; staging?: boolean }) {
   const [session, setSession] = useState("");
   const [slots, setSlots] = useState<Slot[]>([]);
   const [enquiries, setEnquiries] = useState<Enquiry[] | null>(null);
@@ -152,7 +152,7 @@ export default function StagingCalendar({ clinic = false, admin = false }: { cli
       <div className="overflow-hidden rounded-[24px] border border-line bg-white shadow-sm lg:grid lg:grid-cols-[220px_minmax(0,1fr)]">
         <aside className="bg-plum px-6 py-6 text-white">
           <p className="font-head text-xl font-bold">DOCVY CRM</p>
-          <p className="text-sm text-lav">Test Hospital</p>
+          <p className="text-sm text-lav">{clinicName}</p>
           {session && <nav aria-label="Clinic workspace" className="mt-6 flex flex-wrap gap-2 lg:flex-col">
             <a className="rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-overview">Overview</a>
             <a className="rounded-btn px-3 py-2 text-sm hover:bg-white/10" href="#crm-calendar">Appointments & availability</a>
@@ -165,7 +165,7 @@ export default function StagingCalendar({ clinic = false, admin = false }: { cli
         </aside>
         <div className="min-w-0 bg-sand p-4 sm:p-7">
           <header id="crm-overview" className="rounded-card bg-lav p-6 sm:p-8">
-            <p className="text-sm font-semibold text-grey">DOCVY Test Hospital · Staging</p>
+            <p className="text-sm font-semibold text-grey">{clinicName}{staging ? " · Staging" : ""}</p>
             <h1 className="mt-1 text-3xl font-bold sm:text-4xl">{title}</h1>
             <p className="mt-2 text-grey">Manage appointments and control which slots patients can book.</p>
           </header>

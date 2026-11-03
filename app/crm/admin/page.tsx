@@ -1,10 +1,13 @@
 import { notFound } from "next/navigation";
 import StagingCalendar from "@/components/StagingCalendar";
 
+import { clinicCrmConfig } from "@/lib/clinic-crm-config";
+
 export const dynamic = "force-dynamic";
 export const metadata = { robots: { index: false, follow: false } };
 
 export default function AdminPage() {
-  if (process.env.DOCVY_CRM_STAGING !== "true" || process.env.VERCEL_ENV === "production") notFound();
-  return <StagingCalendar clinic admin />;
+  const config = clinicCrmConfig();
+  if (!config) notFound();
+  return <StagingCalendar clinic admin clinicName={config.clinicName} staging={config.staging} />;
 }
