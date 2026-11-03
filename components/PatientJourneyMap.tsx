@@ -41,7 +41,9 @@ const steps = [
   },
 ];
 
-export default function PatientJourneyMap({ intakeEnabled }: { intakeEnabled: boolean }) {
+export default function PatientJourneyMap({ intakeEnabled, headingLevel = 3 }: { intakeEnabled: boolean; headingLevel?: 2 | 3 }) {
+  const MapHeading = headingLevel === 2 ? "h2" : "h3";
+  const StepHeading = headingLevel === 2 ? "h3" : "h4";
   const stepsWithAvailability = steps.map((step) =>
     step.number === "04"
       ? {
@@ -62,7 +64,7 @@ export default function PatientJourneyMap({ intakeEnabled }: { intakeEnabled: bo
         <div aria-hidden="true" className="pointer-events-none absolute -bottom-14 -left-10 h-44 w-44 rounded-full bg-[#D1E9DF]" />
         <div className="relative">
           <p className="text-[11px] font-extrabold tracking-[0.15em] text-[#087F83]">A SIMPLE WAY THROUGH</p>
-          <h3 className="mt-3 max-w-sm text-2xl font-black leading-tight tracking-[-0.035em] text-[#173A37] sm:text-3xl">From your first question to the right place to check next.</h3>
+          <MapHeading className="mt-3 max-w-sm text-2xl font-black leading-tight tracking-[-0.035em] text-[#173A37] sm:text-3xl">From your first question to the right place to check next.</MapHeading>
           <p className="mt-4 max-w-sm text-sm leading-7 text-[#526D66]">You do not need to know a medical specialty before you start. Follow the steps that fit you and leave the clinical decision to a qualified professional.</p>
 
           <div className="mt-7 rounded-2xl border border-white bg-white/90 p-4 shadow-[0_12px_35px_rgba(23,58,55,0.08)]">
@@ -96,7 +98,7 @@ export default function PatientJourneyMap({ intakeEnabled }: { intakeEnabled: bo
             <span className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[#C9E3D9] bg-[#F3FAF6] text-[#087F83]"><Icon size={20} aria-hidden="true" /></span>
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2"><span className="text-[10px] font-extrabold tracking-[0.12em] text-[#087F83]">STEP {number}</span><span className="rounded-full bg-[#F1F7F4] px-2.5 py-1 text-[9px] font-extrabold tracking-[0.08em] text-[#526D66]">{label}</span></div>
-              <h4 className="mt-2 text-base font-bold text-[#173A37] sm:text-lg">{title}</h4>
+              <StepHeading className="mt-2 text-base font-bold text-[#173A37] sm:text-lg">{title}</StepHeading>
               <p className="mt-1.5 text-sm leading-6 text-[#526D66]">{text}</p>
             </div>
           </li>
