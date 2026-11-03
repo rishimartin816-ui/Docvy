@@ -50,10 +50,10 @@ The preview implements a single fictional clinic and doctor. It accepts slot IDs
 random booking keys only. It collects no patient contact or health information.
 
 1. Use a fresh local or isolated Supabase environment with PostgreSQL 15 or later.
-2. Apply `docs/sql/crm_staging.sql` and then `docs/sql/crm_staging_fixture.sql`.
+2. Apply `docs/sql/crm_staging.sql` then `docs/sql/crm_clinic_scope.sql`, then `docs/sql/crm_staging_fixture.sql`.
    These scripts are separate from the draft SQL and the production migration path.
 3. Create synthetic Supabase Auth users. Insert their user IDs into
-   `public.crm_staff` with role `scheduler` or `viewer`. Obtain each access token
+   `public.crm_staff` with role `scheduler` or `viewer` and the test clinic ID `7dfbf055-2737-448c-921e-c074d84393d4`. Obtain each access token
    through the isolated Supabase Auth sign-in flow.
 4. Set `DOCVY_CRM_STAGING=true`, `DOCVY_CRM_STAGING_URL` to the isolated API URL,
    and `DOCVY_CRM_STAGING_KEY` to its server-only legacy service-role JWT.
