@@ -29,7 +29,7 @@ export default function ForDoctorsPage() {
         <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
           <div>
           <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><Stethoscope size={15} /> FOR DOCTORS · INDIA</p>
-          <h1 className="mt-6 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[58px]">Doctor discovery designed to grow across India.</h1>
+          <h1 className="mt-6 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[58px]">Request a correction to a DOCVY doctor profile.</h1>
           <p className="mt-6 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">DOCVY is being built for provider discovery across India. The current 12 source-linked doctor profiles are in Delhi, Gurugram and Noida. Additional city listings are planned when enough useful source-linked coverage is ready; no expansion date has been announced. Credential review and self-service claims are not open yet; any patient enquiry submitted to DOCVY is not automatically delivered to a doctor or hospital. Contact us if a profile needs correction or you want to discuss future onboarding.</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a href="mailto:contact@docvy.in?subject=DOCVY%20doctor%20profile%20correction&body=Official%20public%20hospital%20or%20clinic%20profile%20URL%3A%0D%0ADoctor%20name%3A%0D%0ACity%3A%0D%0APublic%20detail%20to%20correct%3A%0D%0A" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#087F83] px-5 text-sm font-bold text-white hover:bg-[#066D70]">Email a profile correction request <ArrowRight size={16} /></a>
@@ -80,7 +80,17 @@ export default function ForDoctorsPage() {
         <div className="space-y-3">{answers.map(([question, answer]) => <details key={question} className="group rounded-2xl border border-[#DCEAE5] bg-white p-5 open:shadow-sm"><summary className="cursor-pointer list-none pr-6 text-base font-bold marker:hidden">{question}</summary><p className="mt-3 text-sm leading-7 text-[#526D66]">{answer}</p></details>)}</div>
       </div></section>
 
-      <section className="bg-[#123B38] px-6 py-12 text-white"><div className="mx-auto flex max-w-6xl flex-col gap-5 md:flex-row md:items-center md:justify-between"><div><h2 className="text-2xl font-bold">Interested in a future DOCVY profile?</h2><p className="mt-2 text-sm leading-6 text-[#D8E9E3]">Contact the team with public professional details only. Verification and publication are handled by DOCVY.</p></div><a href="mailto:contact@docvy.in?subject=DOCVY%20doctor%20profile%20enquiry" className="inline-flex min-h-12 items-center justify-center gap-2 self-start rounded-xl bg-white px-5 text-sm font-bold text-[#123B38] hover:bg-[#EAF5F1] md:self-auto">Contact DOCVY <ArrowRight size={16} /></a></div></section>
+      <section className="relative isolate overflow-hidden bg-[radial-gradient(circle_at_86%_10%,#102B46_0%,#071426_58%)] px-6 py-14 text-white md:py-16">
+        <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full border border-[#17C8E5]/20" />
+        <div className="relative mx-auto flex max-w-6xl flex-col gap-5 md:flex-row md:items-center md:justify-between">
+          <div className="max-w-3xl">
+            <p className="text-xs font-extrabold tracking-[0.14em] text-[#17C8E5]">PROFILE CORRECTIONS · OWNER REVIEW</p>
+            <h2 className="mt-3 text-2xl font-bold">Need to correct a doctor profile?</h2>
+            <p className="mt-2 text-sm leading-6 text-[#D4E0EB]">Email the public hospital or clinic source and the specific detail. The DOCVY owner reviews requests before changes are published; self-service claims and credential verification are not live.</p>
+          </div>
+          <a href="mailto:contact@docvy.in?subject=DOCVY%20doctor%20profile%20enquiry" className="inline-flex min-h-12 items-center justify-center gap-2 self-start rounded-xl bg-[#17C8E5] px-5 text-sm font-bold text-[#071426] transition hover:bg-[#41D5EC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#071426] md:self-auto">Email DOCVY <ArrowRight size={16} /></a>
+        </div>
+      </section>
     </div>
   );
 }

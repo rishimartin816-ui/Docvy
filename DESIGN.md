@@ -320,3 +320,18 @@ Structured data should describe visible, accurate content only. Google says its 
 - Added direct links to doctor profile help and clinic/hospital plans. This corrects the impression that provider tools are already operational and makes audience-specific next steps easier to find.
 - No Figma file was edited. `pnpm lint` passed; `pnpm build` passed with 32 routes and the existing non-blocking Open Graph edge-runtime notice. A local production-server check returned HTTP 200, one H1, the two provider CTAs, the updated planned status and no obsolete “One connected system” claim. `git diff --check` passed.
 - Commit `7467c47` is live in Vercel production as deployment `dpl_3tGD4tEjUh95fFjXTGaJiC4BsyaY` (`READY`) with aliases `www.docvy.in` and `docvy.in`. The live homepage returned HTTP 200 with its page-specific title, one H1, the new care-team section, explicit planned status, both provider CTAs, and canonical URL; `/for-doctors` and `/sitemap.xml` also returned HTTP 200.
+
+## 3 November provider plan card clarity and visual update
+
+- Used the connected Figma brand foundation (`DOCVY Brand System`, node `2:13`) as the provider-page color reference: Midnight `#071426`, Deep Blue `#102B46`, Electric Cyan `#17C8E5` and Medical Teal `#13BFA5`. The current Figma file contains brand and homepage preview pages; it has no separate pricing-page design. No Figma file was edited.
+- On `/pricing`, replaced checklist marks beside potential workflows with neutral outline bullets, added a clock and `Planned · not live` badge to each of the three plan cards, changed the label to `Potential future workflow`, and aligned the card accents with the Figma navy/cyan palette. Contact-now email drafts and the no-payment disclosure remain.
+- `pnpm lint` and `pnpm build` passed (32 routes; existing non-blocking Open Graph edge-runtime notice). Local production-server check returned HTTP 200, the page-specific title, one H1, three plan cards, the planned label, future-workflow heading and no-payment disclosure. `git diff --check` passed.
+- Commit `2b97dcc` is live in Vercel production as deployment `dpl_67XQXbCGnmfxnMH8uSVKnu5VgAu6` (`READY`) with aliases `www.docvy.in` and `docvy.in`. Live `/pricing` returned HTTP 200 with its canonical URL, one H1, three plan cards and planned status. A fresh production crawl passed all 23/23 sitemap URLs for HTTP 200, one title, one H1, exact canonical and `index, follow`.
+- These checks confirm page delivery and metadata only. They do not establish search indexing, rankings, leads or provider-plan availability.
+
+## 3 November doctor profile page clarity update
+
+- Replaced the broad doctor-discovery hero headline with the concrete current action: request a correction to a DOCVY profile. The page copy continues to state that owner review is manual and self-service claims or credential verification are not live.
+- Restyled the closing correction call-to-action with the Figma brand system's midnight, deep-blue and electric-cyan colors, and added a clear `Owner review` label and direct email action.
+- No Figma file was edited. `pnpm lint` and `pnpm build` passed (32 routes; existing non-blocking Open Graph edge-runtime notice). The local production server returned HTTP 200 for `/for-doctors` with its page-specific title, one H1, the correction action, owner-review wording, non-live verification status and canonical URL. `git diff --check` passed.
+- Production deployment and live verification are being checked.
