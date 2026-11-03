@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { ArrowRight, Building2, Check, ChevronDown, Stethoscope } from "lucide-react";
+import { ArrowRight, Building2, ChevronDown, CircleDot, Clock3, Stethoscope } from "lucide-react";
 import ProviderWorkflowIllustration from "@/components/ProviderWorkflowIllustration";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 
@@ -45,13 +45,14 @@ export default function PricingPage() {
       <div className="mx-auto w-full max-w-[500px]"><ProviderWorkflowIllustration /></div>
     </div><div className="mx-auto mt-8 grid max-w-[1296px] gap-3 px-6 sm:grid-cols-[1fr_auto] sm:items-center lg:px-[72px]"><div className="rounded-2xl border border-[#DCEAE5] bg-white/90 p-4 sm:px-5"><p className="text-xs font-extrabold tracking-[0.12em] text-[#087F83]">NO PUBLISHED RATE CARD</p><p className="mt-1 text-sm leading-6 text-[#526D66]">Pricing is discussed directly. There is no online payment or active subscription on this site.</p></div><ContactLink>Contact now</ContactLink></div></section>
     <section className="mx-auto max-w-[1440px] px-6 py-12 lg:px-[72px] md:py-16">
-      <div className="grid gap-5 lg:grid-cols-3">{plans.map((plan, index) => <article key={plan.name} className={`group relative flex flex-col overflow-hidden rounded-[24px] border bg-white p-6 shadow-[0_12px_40px_rgba(23,58,55,0.04)] transition hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(23,58,55,0.1)] md:p-7 ${index === 2 ? "border-[#087F83] ring-1 ring-[#087F83]" : "border-[#DCEAE5]"}`}>
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#087F83] via-[#16A6A1] to-[#B8E1D5]" />
-        <div className="flex items-center justify-between"><span className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#087F83]">{plan.name}</span><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#EAF5F1] text-[#087F83]">{index === 2 ? <Building2 size={19} /> : <Stethoscope size={19} />}</span></div>
+      <div className="grid gap-5 lg:grid-cols-3">{plans.map((plan, index) => <article key={plan.name} className={`group relative flex flex-col overflow-hidden rounded-[24px] border bg-white p-6 shadow-[0_12px_40px_rgba(7,20,38,0.06)] transition hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(7,20,38,0.12)] md:p-7 ${index === 2 ? "border-[#17C8E5] ring-1 ring-[#17C8E5]" : "border-[#DCE6EF]"}`}>
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#071426] via-[#17C8E5] to-[#13BFA5]" />
+        <div className="flex items-center justify-between"><span className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#102B46]">{plan.name}</span><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E6F8FB] text-[#087F83]">{index === 2 ? <Building2 size={19} /> : <Stethoscope size={19} />}</span></div>
         <p className="mt-6 text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#789089]">Organisation type</p><h2 className="mt-1 text-2xl font-bold tracking-tight">{plan.scope}</h2>
         <p className="mt-2 min-h-[72px] text-sm leading-6 text-[#526D66]">{plan.audience}</p>
-        <p className="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-[#789089]">Potential workflow</p>
-        <ul className="my-4 flex-1 space-y-3 border-t border-[#E8F0EC] pt-5">{plan.details.map((detail) => <li key={detail} className="flex gap-2.5 text-sm leading-6 text-[#36564F]"><Check size={17} className="mt-0.5 shrink-0 text-[#087F83]" />{detail}</li>)}</ul>
+        <span className="mt-3 inline-flex w-fit items-center gap-1.5 rounded-full bg-[#E6F8FB] px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.1em] text-[#102B46]"><Clock3 size={13} aria-hidden="true" /> Planned · not live</span>
+        <p className="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-[#789089]">Potential future workflow</p>
+        <ul className="my-4 flex-1 space-y-3 border-t border-[#E8F0EC] pt-5">{plan.details.map((detail) => <li key={detail} className="flex gap-2.5 text-sm leading-6 text-[#36564F]"><CircleDot size={17} aria-hidden="true" className="mt-0.5 shrink-0 text-[#13BFA5]" />{detail}</li>)}</ul>
         <ContactLink href={buildPlanContactHref(plan.name)} ariaLabel={`Contact DOCVY about ${plan.name}`}>Contact now</ContactLink>
       </article>)}</div>
       <p className="mt-6 rounded-xl border border-[#E7C99A] bg-[#FFF9EE] p-4 text-xs leading-5 text-[#6E5B39]">The cards describe planned use cases and potential workflows, not active service packages. Final scope depends on future product readiness and a direct conversation with DOCVY.</p>
