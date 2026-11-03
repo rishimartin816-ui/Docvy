@@ -1,4 +1,4 @@
-import { providerCityListLabel } from "@/lib/provider-candidates";
+
 
 export type PatientTopicGuide = {
   slug: string;
@@ -7,12 +7,41 @@ export type PatientTopicGuide = {
   metaDescription: string;
   answer: string;
   relatedSpecialties: string[];
+  procedure?: string;
   questions: { question: string; answer: string }[];
   references: { label: string; url: string }[];
 };
 
 /** Search-oriented patient explainers. These provide navigation, not diagnosis or personal medical advice. */
 export const patientTopicGuides: PatientTopicGuide[] = [
+  {
+    slug: "kidney-stones",
+    topic: "Kidney stones",
+    title: "Kidney stones and your urology visit",
+    metaDescription: "Learn what kidney stones are, when to get urgent help, and what to ask at a urology visit.",
+    answer: "Kidney stones are hard deposits that form in the kidneys. Small stones can pass without you noticing. Others can cause strong pain in your side or lower back, nausea, or changes when you pee. If you have severe pain, fever, or chills and suspect a kidney stone, seek urgent medical help.",
+    relatedSpecialties: ["Urology"],
+    procedure: "Kidney stone removal",
+    questions: [
+      { question: "What should I bring to the visit?", answer: "Bring previous scan reports and a list of medicines. Note when the pain began, where it is, and whether you have had fever or trouble passing urine." },
+      { question: "Does every kidney stone need a procedure?", answer: "Some stones pass on their own. Ask the clinician what the stone’s size and location mean for your options and whether you need follow-up." },
+    ],
+    references: [{ label: "NHS guide to kidney stones", url: "https://www.nhs.uk/conditions/kidney-stones/" }],
+  },
+  {
+    slug: "gallstones",
+    topic: "Gallstones",
+    title: "Gallstones and what to ask about treatment",
+    metaDescription: "Learn what gallstones are, which symptoms need urgent care, and what to ask if surgery is discussed.",
+    answer: "Gallstones form in the gallbladder, a small organ below the liver. Many people have no symptoms. A stone can cause pain if it blocks a bile duct. Seek emergency care for sudden severe abdominal pain, or if you have abdominal pain with fever or yellowing of the skin or eyes.",
+    relatedSpecialties: ["General surgery"],
+    procedure: "Gallbladder removal",
+    questions: [
+      { question: "What if a scan found gallstones by chance?", answer: "Gallstones without symptoms may not need treatment. Ask the clinician who ordered the scan what the finding means for you." },
+      { question: "What can I ask if my doctor suggests surgery?", answer: "Ask why they recommend it, what alternatives apply in your case, and how long you may need help at home after the operation." },
+    ],
+    references: [{ label: "NHS guide to gallstones", url: "https://www.nhs.uk/conditions/gallstones/" }],
+  },
   {
     slug: "high-blood-pressure",
     topic: "High blood pressure (hypertension)",
@@ -33,12 +62,12 @@ export const patientTopicGuides: PatientTopicGuide[] = [
     slug: "diabetes",
     topic: "Diabetes",
     title: "Which doctor treats diabetes?",
-    metaDescription: `Understand how diabetes and endocrinology specialties relate, view DOCVY’s current source-linked listings in ${providerCityListLabel}, and check providers directly.`,
+    metaDescription: "Learn which doctors help with diabetes and what to bring to your first visit.",
     answer: "Diabetology and endocrinology services commonly include diabetes care. A general physician or internal-medicine doctor may also be a starting point. The Government of India’s VMMC & Safdarjung Hospital lists a dedicated diabetes clinic within its endocrinology department.",
     relatedSpecialties: ["Diabetology / endocrinology", "General physician / internal medicine"],
     questions: [
       { question: "Is an endocrinologist the only doctor who can help with diabetes?", answer: "No. Different clinicians may be involved depending on the person's needs and local services. A qualified clinician can explain which provider is appropriate." },
-      { question: "Does DOCVY currently list diabetes specialists across India?", answer: `The guide is available across India, but source-linked doctor profiles currently cover ${providerCityListLabel} only. Check the hospital profile for current details.` },
+      { question: "Does DOCVY currently list diabetes specialists across India?", answer: "Real appointments are currently unavailable through DOCVY. Contact the clinic directly to check availability." },
     ],
     references: [
       { label: "VMMC & Safdarjung Hospital, Government of India: endocrinology and diabetes clinics", url: "https://www.vmmc-sjh.mohfw.gov.in/endocrinology" },
@@ -48,7 +77,7 @@ export const patientTopicGuides: PatientTopicGuide[] = [
     slug: "pcos-pcod",
     topic: "PCOS / PCOD",
     title: "Which doctor should I see for PCOS or PCOD?",
-    metaDescription: `See which specialties may be relevant for PCOS or PCOD and how DOCVY’s India-wide guide differs from its current listings in ${providerCityListLabel}.`,
+    metaDescription: "Real appointments are currently unavailable through DOCVY. Contact the clinic directly to check availability.",
     answer: "Endocrinology and gynaecology may both be relevant to PCOS, depending on the questions and care needed. VMMC & Safdarjung Hospital's endocrinology department lists PCOS among its services; reproductive-health concerns may also involve a gynaecologist. A clinician can help determine the right route for an individual.",
     relatedSpecialties: ["Diabetology / endocrinology", "Obstetrics and gynaecology"],
     questions: [
@@ -79,12 +108,13 @@ export const patientTopicGuides: PatientTopicGuide[] = [
     slug: "cataract",
     topic: "Cataract and vision concerns",
     title: "Which doctor treats cataracts?",
-    metaDescription: `Learn which eye-care specialty is associated with cataracts and browse DOCVY’s limited, hospital-source-linked listings in ${providerCityListLabel}.`,
+    metaDescription: "Real appointments are currently unavailable through DOCVY. Contact the clinic directly to check availability.",
     answer: "An ophthalmologist is a specialist eye doctor who assesses and treats eye conditions, including cataracts. AIIMS Delhi's ophthalmology services include cataract care. The right examination and treatment depend on a clinician's assessment, and access pathways vary by location.",
     relatedSpecialties: ["Ophthalmology"],
+    procedure: "Cataract surgery",
     questions: [
       { question: "Is an ophthalmologist the same as an optometrist?", answer: "They have different roles. An ophthalmologist is a medical doctor specialising in eye diseases; an optometrist provides eye-care services within their own scope. Local referral arrangements vary." },
-      { question: "Does DOCVY list cataract appointments across India?", answer: `No. DOCVY’s patient guide is nationwide, while source-linked doctor listings are currently limited to ${providerCityListLabel}. DOCVY does not book or confirm appointments.` },
+      { question: "Does DOCVY list cataract appointments across India?", answer: "Real appointments are currently unavailable through DOCVY. Contact the clinic directly to check availability." },
     ],
     references: [
       { label: "AIIMS Delhi: ophthalmology services including cataract care", url: "https://www.aiims.edu/index.php/en/unit-i" },
@@ -94,7 +124,7 @@ export const patientTopicGuides: PatientTopicGuide[] = [
     slug: "asthma",
     topic: "Asthma and breathing concerns",
     title: "Which doctor should I see for asthma?",
-    metaDescription: `Learn which doctor types may be involved in asthma care, view DOCVY’s current listings in ${providerCityListLabel}, and contact providers directly.`,
+    metaDescription: "Real appointments are currently unavailable through DOCVY. Contact the clinic directly to check availability.",
     answer: "For directory searches, general medicine and pulmonary or respiratory medicine are broad specialties associated with asthma. India’s National Health Mission includes asthma in its clinician training materials, and AIIMS Delhi lists a Pulmonary, Critical Care & Sleep Medicine department. A clinician must assess which care is suitable; this guide is not for urgent breathing problems.",
     relatedSpecialties: ["Pulmonology / respiratory medicine", "General physician / internal medicine"],
     questions: [

@@ -1,6 +1,8 @@
-import { Activity, Bone, Droplet, Eye, HeartPulse, Stethoscope, Wind } from "lucide-react";
+import { Activity, Bone, CircleDot, Droplet, Eye, HeartPulse, Sprout, Stethoscope, Wind } from "lucide-react";
 
 export const healthTopics = [
+  { slug: "kidney-stones", label: "Kidney stones", description: "What to ask at a urology visit", icon: CircleDot },
+  { slug: "gallstones", label: "Gallstones", description: "What a scan finding could mean and what to ask next", icon: Sprout },
   { slug: "high-blood-pressure", label: "High blood pressure", description: "What to bring to a blood pressure visit", icon: HeartPulse },
   { slug: "diabetes", label: "Diabetes", description: "Which doctor to see and how to prepare", icon: Droplet },
   { slug: "joint-pain-arthritis", label: "Joint pain", description: "Where to start if your joints hurt", icon: Bone },

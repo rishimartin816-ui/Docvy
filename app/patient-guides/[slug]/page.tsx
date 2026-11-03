@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowRight, BookOpenCheck, ExternalLink, MapPin, ShieldCheck } from "lucide-react";
 import { HealthTopicIcon } from "@/components/HealthTopicIcon";
 import { patientTopicGuides } from "@/lib/patient-topic-guides";
+import { procedures, specialties } from "@/lib/care-directory";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 
 const site = "https://www.docvy.in";
@@ -28,6 +29,7 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
   const guide = patientTopicGuides.find((item) => item.slug === params.slug);
   if (!guide) notFound();
 
+  const procedure = procedures.find(({ name }) => name === guide.procedure);
   const breadcrumbs = [
     { name: "Home", item: site },
     { name: "Patient guide", item: `${site}/care-guide` },
@@ -62,8 +64,8 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
             <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[54px]">{guide.title}</h1>
             <p className="mt-5 max-w-3xl text-base leading-8 text-[#526D66] md:text-lg">{guide.answer}</p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/doctors" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#087F83] px-5 text-sm font-bold text-white transition hover:bg-[#066D70]">Explore the demo directory <ArrowRight size={17} aria-hidden="true" /></Link>
-              <Link href="/care-guide" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-[#B8DCD0] bg-white px-5 text-sm font-bold text-[#087F83] hover:bg-[#F8FBF9]">Search another concern</Link>
+              {procedure && <Link href={{ pathname: "/doctors", query: { specialty: procedure.specialty, procedure: procedure.name } }} className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#087F83] px-5 text-sm font-bold text-white transition hover:bg-[#066D70]">Find doctors for {procedure.name.toLowerCase()} <ArrowRight size={17} aria-hidden="true" /></Link>}
+              <Link href="/#concerns" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-[#B8DCD0] bg-white px-5 text-sm font-bold text-[#087F83] hover:bg-[#F8FBF9]">Search another concern</Link>
             </div>
           </div>
           <aside className="rounded-3xl border border-[#CDE5DC] bg-white/90 p-6 shadow-[0_18px_50px_rgba(23,58,55,0.08)] md:p-7">
@@ -91,7 +93,12 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
           <h2 className="mt-3 text-2xl font-bold tracking-tight">Which doctor types could be relevant?</h2>
           <p className="mt-3 text-sm leading-7 text-[#526D66]">These specialty names can help you describe what you are looking for when you call a clinic.</p>
           <ul className="mt-5 flex flex-wrap gap-2">
-            {guide.relatedSpecialties.map((specialty) => <li key={specialty} className="rounded-full bg-[#e0efe5] px-3 py-1 text-sm font-semibold text-[#245a46]">{specialty}</li>)}
+            {guide.relatedSpecialties.map((specialty) => {
+              const match = specialties.find(({ name }) => name === specialty || (name === "General medicine" && specialty.startsWith("General physician")) || (name === "Gynaecology" && specialty.endsWith("gynaecology")));
+              return <li key={specialty} className="rounded-full bg-[#e0efe5] px-3 py-1 text-sm font-semibold text-[#245a46]">
+                {match ? <Link href={`/specialties/${match.slug}`} className="underline underline-offset-4">{specialty}</Link> : specialty}
+              </li>;
+            })}
           </ul>
         </article>
 
@@ -116,7 +123,7 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
       <section className="mt-12 rounded-3xl border border-[#DCEAE5] bg-white p-6 md:p-8" aria-labelledby="guide-sources">
         <p className="text-xs font-extrabold tracking-[0.13em] text-[#087F83]">SOURCES AND LIMITS</p>
         <h2 id="guide-sources" className="mt-3 text-2xl font-bold tracking-tight">Read the source information</h2>
-        <p className="mt-3 max-w-4xl text-sm leading-7 text-[#526D66]">These Government of India and public-hospital sources document national guidance or examples of services at the named institutions. They do not prescribe a referral route for you. Services can change; confirm current availability directly with the hospital or clinic. This guide is for directory navigation, not diagnosis or personal medical advice.</p>
+        <p className="mt-3 max-w-4xl text-sm leading-7 text-[#526D66]">These public health and hospital resources explain the topic in more detail. Ask your own care team how the information applies to you.</p>
         <p className="mt-3 text-xs font-semibold text-[#789089]">Source links checked 3 November 2026.</p>
         <ul className="mt-5 flex flex-col gap-3">{guide.references.map((reference) => <li key={reference.url}><a href={reference.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-[#087F83] underline decoration-[#B8DCD0] underline-offset-4 hover:text-[#066D70]">{reference.label}<ExternalLink size={14} aria-hidden="true" /></a></li>)}</ul>
       </section>
