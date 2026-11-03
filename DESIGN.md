@@ -286,3 +286,10 @@ Structured data should describe visible, accurate content only. Google says its 
 - Replaced it with a concise description of DOCVY's grievance contact and postal address, email/post submission, and the instruction to omit medical records and identity documents. The same description feeds page, Open Graph and Twitter metadata; visible grievance details remain the source of truth.
 - Local production build output contains the updated description in all three metadata locations, one H1, and the visible contact, address and privacy caution. `pnpm lint`, `pnpm build` (32 routes), and `git diff --check` passed. Production `/grievance` now returns HTTP 200 with the updated 143-character description, canonical and one H1.
 - The follow-up full sitemap check returned HTTP 200 and passed 23/23 pages for title, non-empty description, matching canonical, `index, follow` and exactly one H1. This is a markup/delivery check, not an indexing or ranking result.
+
+## 3 November grievance page visual refresh
+
+- Rebuilt `/grievance` with the existing mint hero, teal actions, deep-green headings, rounded surfaces and outline icons. The first action is an email link; the second jumps to the postal address. The grievance contact, operating entity, postal address, and privacy warning remain visible in separate sections.
+- The route uses one H1, labels the email and address actions, and does not add a complaint form or request sensitive documents. The CTA opens an email draft only; it does not send a message.
+- This uses the repository's established visual system. The connected Figma file is visible in Recents, but its viewer prompted for a Dev Mode seat change and no direct design context or Figma edit was available; no Figma-origin claim is made.
+- `pnpm lint`, `pnpm build` (32 routes), `git diff --check`, and generated-HTML checks passed locally. Production publication and live visual verification are pending.

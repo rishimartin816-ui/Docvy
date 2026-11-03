@@ -250,3 +250,9 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - `pnpm lint` passed; `pnpm build` passed with 32 routes. The existing Open Graph edge-runtime notice remains non-blocking. Local generated HTML has one H1 and the updated descriptions. `git diff --check` passed.
 - Commit `6d8c353` is READY in Vercel production as `dpl_4T1Y1tn5MXtn995Zqmio1PPSDZ19`. Live `/grievance` returned HTTP 200, the updated 143-character description, its page-specific canonical, and one H1.
 - A new complete sitemap smoke check returned HTTP 200 and passed 23/23 URLs for title, description, exact canonical, `index, follow` and one H1. These checks do not prove indexing, rankings, or traffic.
+
+## 3 November grievance page visual refresh — publication pending
+
+- Replaced the older grievance-page shell with the current mint/teal/deep-green design, clear email and postal contact cards, an anchor to the address, and a separate privacy warning. Public contact details and the no-form rule are preserved.
+- Local lint and the Next.js production build passed (32 routes). Generated HTML has one H1, two email actions, the postal anchor, and the no-form/privacy notices. `git diff --check` passed.
+- The change follows the repository design reference; no direct Figma context was retrieved and no Figma file was edited. Publish, then verify `/grievance` live and rerun the sitemap smoke check.
