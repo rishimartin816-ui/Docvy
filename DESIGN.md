@@ -279,3 +279,9 @@ Structured data should describe visible, accurate content only. Google says its 
 - A live interaction check opened `/care-guide?q=joint%20pain&city=Noida`; it selected Noida, showed Orthopaedics, and offered the current source-linked Noida profiles. The form state remained closed. This is a navigation/search check, not an appointment submission.
 - Google Search Central's current guidance says foundational SEO and helpful, reliable content also apply to AI Search; there is no extra AI markup requirement. The sampled direct answers, current location caveats and source links remain the appropriate AEO/GEO work. No ranking, indexing, traffic, or AI citation result is inferred.
 - The connected Figma app lists `DOCVY — Future Healthcare Experience`, but opening it surfaced a Dev Mode seat-change prompt. The seat was left unchanged; no Figma file was edited and no design context was retrieved. A direct design share URL is still needed for a read-only comparison.
+
+## 3 November grievance contact snippet
+
+- The fresh sitemap check found that `/grievance` used the generic description “Current grievance-contact availability for DOCVY,” which did not explain the contact options shown on the page.
+- Replaced it with a concise description of DOCVY's grievance contact and postal address, email/post submission, and the instruction to omit medical records and identity documents. The same description feeds page, Open Graph and Twitter metadata; visible grievance details remain the source of truth.
+- Local production build output contains the updated description in all three metadata locations, one H1, and the visible contact, address and privacy caution. `pnpm lint`, `pnpm build` (32 routes), and `git diff --check` passed. Production publication and live recheck are pending.

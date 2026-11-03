@@ -242,3 +242,10 @@ These are roadmap estimates based on deliverables, not analytics, traffic, patie
 - Official guidance checked: Google says standard SEO fundamentals and helpful, reliable, people-first content also apply to AI Search, with no extra AI-specific markup requirement: [AI features and your website](https://developers.google.com/search/docs/appearance/ai-features). Google may use a meta description when it better describes the page, but generates snippets primarily from page content: [Control your snippets in search results](https://developers.google.com/search/docs/appearance/snippet). No rankings, traffic, indexing, or AI citation outcomes are claimed.
 - The Figma app shows the recent `DOCVY — Future Healthcare Experience` file. Opening the file prompted for a Dev Mode seat change; the seat was left unchanged. No file was edited and no Figma design context was retrieved. A direct share URL is still needed for a read-only implementation comparison.
 - Latest production code commit `5797d54` is live as READY Vercel deployment `dpl_ENZwxwghcpLqhroV2DtXThFy5LHj`; the tracker commit `a500abb` is also READY as `dpl_B6KY3V7F9BrReJDihpXCNdf58ZBu`. The live provider page and decoded email template were verified. Enquiry intake is still closed and no synthetic end-to-end Sheet lead has been submitted.
+
+## 3 November grievance page description improvement — publication pending
+
+- The fresh sitemap metadata check found one weak description on `/grievance`: “Current grievance-contact availability for DOCVY” (49 characters), despite visible email/post contact instructions.
+- Updated the page, Open Graph and Twitter descriptions to explain where and how to send a grievance and to avoid sending medical records or identity documents. This is a clarity/snippet improvement, not a ranking claim.
+- `pnpm lint` passed; `pnpm build` passed with 32 routes. The existing Open Graph edge-runtime notice remains non-blocking. Local generated HTML has one H1 and the updated descriptions. `git diff --check` passed.
+- Change is not yet live; publish and confirm the response metadata before marking complete.

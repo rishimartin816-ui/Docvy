@@ -3,11 +3,13 @@ import { PageHero, Section, Card } from "@/components/ui";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 
+const grievanceDescription = "Find DOCVY's grievance contact and postal address. Grievances can be sent by email or post; please omit medical records and identity documents.";
+
 export const metadata = {
   title: "Grievance contact information",
-  description: "Current grievance-contact availability for DOCVY.",
+  description: grievanceDescription,
   alternates: { canonical: "/grievance" },
-  ...buildPageSocialMetadata("Grievance contact information | DOCVY", "Current grievance-contact availability for DOCVY.", "/grievance"),
+  ...buildPageSocialMetadata("Grievance contact information | DOCVY", grievanceDescription, "/grievance"),
 };
 
 export default function Grievance() {
