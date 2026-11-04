@@ -24,7 +24,7 @@ export function generateMetadata(): Metadata {
   };
 }
 
-export default async function RequestPage({ searchParams }: { searchParams: Promise<{ provider?: string; city?: string }> }) {
+export default async function RequestPage({ searchParams }: { searchParams: Promise<{ provider?: string; city?: string; facility?: string }> }) {
   if (process.env.DOCVY_CRM_STAGING === "true" && process.env.VERCEL_ENV !== "production") {
     return <section className="mx-auto max-w-3xl space-y-4 p-8">
       <h1 className="text-3xl font-bold">DOCVY staging appointments</h1>
@@ -52,7 +52,7 @@ export default async function RequestPage({ searchParams }: { searchParams: Prom
         </div>
         <p className="mt-4 text-xs leading-5 text-[#789089]">Please do not share symptoms, diagnoses, medical records or other health details with DOCVY. For urgent or emergency care, call 112 in India or go to the nearest emergency department.</p>
       </section>
-      {intakeEnabled ? <AppointmentRequestForm doctors={enquiryProviders} initialProvider={params.provider ?? ""} initialCity={params.city ?? ""} enabled /> : <section className="rounded-[24px] border border-[#DCEAE5] bg-white p-6 shadow-[0_14px_40px_rgba(23,58,55,0.07)] md:p-8" aria-labelledby="paused-enquiry-title">
+      {intakeEnabled ? <AppointmentRequestForm doctors={enquiryProviders} initialProvider={params.provider ?? ""} initialCity={params.city ?? ""} initialFacility={params.facility} enabled /> : <section className="rounded-[24px] border border-[#DCEAE5] bg-white p-6 shadow-[0_14px_40px_rgba(23,58,55,0.07)] md:p-8" aria-labelledby="paused-enquiry-title">
         <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFF4E4] text-[#A36A12]"><Building2 size={24}/></span>
         <p className="mt-5 text-xs font-extrabold tracking-[0.14em] text-[#A36A12]">NO FORM · NO DETAILS STORED</p>
         <h2 id="paused-enquiry-title" className="mt-2 text-2xl font-bold text-[#173A37]">Appointment enquiries are paused.</h2>

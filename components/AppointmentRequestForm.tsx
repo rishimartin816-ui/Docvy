@@ -5,14 +5,14 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2, LoaderCircle } from "lucide-react";
 import type { ProviderCandidate } from "@/lib/provider-candidates";
 
-type Props = { doctors: ProviderCandidate[]; initialProvider: string; initialCity: string; enabled: boolean };
+type Props = { doctors: ProviderCandidate[]; initialProvider: string; initialCity: string; initialFacility?: string; enabled: boolean };
 type Result = { ok?: boolean; referenceId?: string; error?: string };
 
 function keyFor(providerId: string, city: string, facility: string) {
   return `${providerId}::${city}::${facility}`;
 }
 
-export default function AppointmentRequestForm({ doctors, initialProvider, initialCity, enabled }: Props) {
+export default function AppointmentRequestForm({ doctors, initialProvider, initialCity, initialFacility, enabled }: Props) {
   const locations = useMemo(() => doctors.flatMap((doctor) => doctor.locations.map((location) => ({
     key: keyFor(doctor.id, location.city, location.facility),
     providerId: doctor.id,
@@ -21,7 +21,7 @@ export default function AppointmentRequestForm({ doctors, initialProvider, initi
     city: location.city,
     facility: location.facility,
   }))), [doctors]);
-  const initialOption = locations.find((item) => item.providerId === initialProvider && (!initialCity || item.city.toLowerCase() === initialCity.toLowerCase()))?.key ?? "";
+  const initialOption = locations.find((item) => item.providerId === initialProvider && (!initialCity || item.city.toLowerCase() === initialCity.toLowerCase()) && (!initialFacility || item.facility === initialFacility))?.key ?? "";
   const [selection, setSelection] = useState(initialOption);
   const [busy, setBusy] = useState(false);
   const [referenceId, setReferenceId] = useState("");

@@ -3,6 +3,7 @@ import Link from "next/link";
 import DiscoverySearch, { DemoProvider, discoveryCities, discoverySpecialties } from "@/components/DiscoverySearch";
 import { procedures, specialties } from "@/lib/care-directory";
 import { clinicCrmConfig } from "@/lib/clinic-crm-config";
+import { crmIntakeConfig, providersWithAppointmentIntake } from "@/lib/appointment-intake";
 import { providerCandidates } from "@/lib/provider-candidates";
 
 export const dynamic = "force-dynamic";
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-export default function DoctorsPage({ searchParams }: { searchParams: { city?: string; specialty?: string; procedure?: string } }) {
+export default async function DoctorsPage({ searchParams }: { searchParams: { city?: string; specialty?: string; procedure?: string } }) {
   const city = discoveryCities.find((item) => item === searchParams.city) ?? "";
   const procedure = procedures.find(({ name }) => name === searchParams.procedure);
   const specialty = procedure?.specialty ?? discoverySpecialties.find((item) => item === searchParams.specialty) ?? "";
@@ -21,6 +22,7 @@ export default function DoctorsPage({ searchParams }: { searchParams: { city?: s
     (!specialty || doctor.specialties.some((name) => name.toLowerCase() === specialty.toLowerCase())) &&
     (!procedure || doctor.procedures?.includes(procedure.name))
   );
+  const routedDoctors = matches.length && crmIntakeConfig() ? await providersWithAppointmentIntake(matches) : [];
   const hasDemo = !procedure && (!city || city === "Delhi") && (!specialty || specialty === "General medicine");
   const specialtyPage = specialties.find(({ name }) => name === specialty);
   const guideHref = procedure ? "/surgery-guide#procedures" : specialtyPage ? "/specialties/" + specialtyPage.slug : "/specialties";
@@ -37,7 +39,11 @@ export default function DoctorsPage({ searchParams }: { searchParams: { city?: s
           <h2 className="text-2xl font-bold">{doctor.name}</h2>
           <p className="mt-2 text-[#41584d]">{doctor.specialties.join(", ")}</p>
           <ul className="mt-2 text-[#41584d]">{doctor.locations.filter((location) => !city || location.city === city).map((location) =>
-            <li key={location.city + location.facility}>{location.facility}, {location.city}</li>
+            <li key={location.city + location.facility} className="flex flex-wrap items-center justify-between gap-2 py-2">
+              <span>{location.facility}, {location.city}</span>
+              {routedDoctors.some((routed) => routed.id === doctor.id && routed.locations.some((branch) => branch.city === location.city && branch.facility === location.facility)) &&
+                <Link className="docvy-pill docvy-pill-primary" href={{ pathname: "/request", query: { provider: doctor.id, city: location.city, facility: location.facility } }}>Request an appointment</Link>}
+            </li>
           )}</ul>
           <a href={doctor.sourceUrl} className="docvy-pill docvy-pill-primary mt-4">View hospital profile</a>
         </article>)}
