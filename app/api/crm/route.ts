@@ -46,9 +46,11 @@ export async function GET(request: NextRequest) {
     const doctors = request.nextUrl.searchParams.has("doctors");
     const clinic = admin || doctors || enquiries || history !== null || request.nextUrl.searchParams.has("clinic");
     if (!clinic && !target.staging) return reply({ error: "Online booking unavailable" }, 404);
+    let canReadFees = false;
     if (clinic) {
       const access = await staff(clinicId, requestToken(request));
       if (!access || (admin && access.role !== "owner")) return reply({ error: "Staff access required" }, 403);
+      canReadFees = ["owner", "clinic_admin", "manager", "receptionist", "scheduler"].includes(access.role);
       if (team) {
         const result = await database("/rest/v1/crm_staff?select=role&clinic_id=eq." + clinicId);
         if (!result.ok) return reply({ error: "Team access summary unavailable" }, 503);
@@ -89,7 +91,7 @@ export async function GET(request: NextRequest) {
         return reply({ error: "Choose a valid calendar day" }, 400);
       }
       const end = new Date(start + Number(days) * 86400000).toISOString();
-      path = query + "&order=starts_at&starts_at=gte." + new Date(start).toISOString() + "&starts_at=lt." + end;
+      path = (canReadFees ? query.replace("/crm_calendar?", "/crm_calendar_with_fees?") : query) + "&order=starts_at&starts_at=gte." + new Date(start).toISOString() + "&starts_at=lt." + end;
     }
     const response = await database(path);
     return response.ok ? reply(await response.json()) : reply({ error: "Calendar unavailable" }, 503);

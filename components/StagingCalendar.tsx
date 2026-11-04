@@ -6,7 +6,7 @@ import ClinicDoctorRoster from "@/components/ClinicDoctorRoster";
 import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 
-type Slot = { id: string; starts_at: string; ends_at: string; blocked?: boolean; booking_id?: string; booking_status?: "confirmed" | "completed" | "no_show" };
+type Slot = { id: string; starts_at: string; ends_at: string; blocked?: boolean; fee_paise?: number | null; booking_id?: string; booking_status?: "confirmed" | "completed" | "no_show" };
 type Enquiry = {
   reference: string;
   patient_name: string;
@@ -167,6 +167,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
       });
       if (!response.ok) throw new Error((await response.json()).error);
       setHistory({ ...appointment, fee_paise: feePaise });
+      setSlots((current) => current.map((slot) => slot.booking_id === appointment.reference ? { ...slot, fee_paise: feePaise } : slot));
       setMessage("Booking fee saved.");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Booking fee could not be saved.");
@@ -277,7 +278,10 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
 
   const end = new Date(day + "T00:00:00+05:30").getTime() + days * 86400000;
   const visible = clinic ? slots.filter((slot) => calendarDay.format(new Date(slot.starts_at)) >= day && Date.parse(slot.starts_at) < end) : slots;
-  const appointments = visible.filter((slot) => slot.booking_id).length;
+  const bookedSlots = visible.filter((slot) => slot.booking_id);
+  const appointments = bookedSlots.length;
+  const feeTotal = bookedSlots.reduce((total, slot) => total + (slot.fee_paise ?? 0), 0);
+  const feesMissing = bookedSlots.filter((slot) => slot.fee_paise == null).length;
   const blocked = visible.filter((slot) => slot.blocked && !slot.booking_id).length;
   const isAvailable = (slot: Slot) => !slot.booking_id && !slot.blocked && Date.parse(slot.starts_at) > Date.now();
   const available = visible.filter(isAvailable).length;
@@ -351,6 +355,11 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                 </div>
               ))}
             </div>
+            {canSchedule && loadedPeriod === day + ":" + days && <section className={glass + " mb-5 p-4 sm:p-6"} aria-labelledby="crm-fees-heading">
+              <h2 id="crm-fees-heading" className="text-xl font-bold">Quoted booking fees</h2>
+              <p className="mt-2 text-3xl font-bold tabular-nums">{rupees.format(feeTotal / 100)}</p>
+              <p className="mt-1 text-sm text-grey">{feesMissing} of {appointments} bookings in this period still need a fee. The total reflects quotes, while the clinic handles payments.</p>
+            </section>}
             {loadedPeriod === day + ":" + days && <section className={glass + " mb-5 p-4 sm:p-6"} aria-labelledby="crm-volume-heading">
               <h2 id="crm-volume-heading" className="text-xl font-bold">Appointment volume</h2>
               <p className="mt-1 text-sm text-grey">Booked, open, and blocked slots by day for the selected calendar period.</p>
