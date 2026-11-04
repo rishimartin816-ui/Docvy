@@ -112,6 +112,17 @@ export async function POST(request: NextRequest) {
   } catch {
     return reply({ error: "Invalid request" }, 400);
   }
+  if (input?.action === "sign-out") {
+    const token = requestToken(request);
+    if (!token) return reply({ error: "Staff session required" }, 403);
+    try {
+      const result = await database("/auth/v1/logout?scope=local", {}, token);
+      if (result.ok || result.status === 401 || result.status === 403) return reply({});
+    } catch {
+      return reply({ error: "Session could not be ended on the server" }, 503);
+    }
+    return reply({ error: "Session could not be ended on the server" }, 503);
+  }
   if (input?.action === "sign-in") {
     if (typeof input.email !== "string" || !input.email.trim() ||
         typeof input.password !== "string" || !input.password) {

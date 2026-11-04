@@ -112,6 +112,33 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
       setBusy(false);
     }
   }
+  async function signOut() {
+    setBusy(true);
+    setSession("");
+    setCanSchedule(false);
+    setCanManageDoctors(false);
+    setLoadedPeriod("");
+    setSlots([]);
+    setDestinations([]);
+    setEnquiries(null);
+    setEnquirySearch("");
+    setTeamCounts(null);
+    setHistory(null);
+    setMessage("");
+    try {
+      const response = await fetch("/api/crm", {
+        method: "POST",
+        headers: { Authorization: "Bearer " + session, "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "sign-out" }),
+      });
+      if (!response.ok) throw new Error();
+    } catch {
+      setMessage("Signed out of this screen. The server session could not be closed.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function createSlot(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
@@ -324,7 +351,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
             {canSchedule && <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-history"><History size={16} aria-hidden="true" /> Booking details</a>}
             {canSchedule && <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-enquiries"><Mail size={16} aria-hidden="true" /> Enquiries</a>}
             <button className="flex items-center gap-2 rounded-btn px-3 py-2 text-left text-sm hover:bg-white/85 disabled:opacity-50"
-              disabled={busy} onClick={() => { setSession(""); setCanSchedule(false); setCanManageDoctors(false); setLoadedPeriod(""); setSlots([]); setDestinations([]); setEnquiries(null); setEnquirySearch(""); setTeamCounts(null); setHistory(null); setMessage(""); }}>
+              disabled={busy} onClick={() => void signOut()}>
               <LogOut size={16} aria-hidden="true" /> Close session
             </button>
           </nav>}
