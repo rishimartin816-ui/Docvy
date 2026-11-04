@@ -38,6 +38,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
   const [busy, setBusy] = useState(false);
   const [day, setDay] = useState(calendarDay.format(new Date()));
   const [days, setDays] = useState(7);
+  const historyHeading = useRef<HTMLHeadingElement>(null);
   const keys = useRef(new Map<string, string>());
 
   async function refresh(access: string, signal?: AbortSignal) {
@@ -122,10 +123,9 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
       setBusy(false);
     }
   }
-  async function loadHistory(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const reference = String(new FormData(event.currentTarget).get("reference") ?? "").trim();
-    if (!reference) return;
+  async function loadHistory(reference: string) {
+    if (!reference || !session || !canSchedule || busy) return;
+    historyHeading.current?.focus();
     setBusy(true);
     setHistory(null);
     setMessage("");
@@ -344,6 +344,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                       <p className="font-semibold">{dateLabel.format(new Date(slot.starts_at))} – {dateLabel.format(new Date(slot.ends_at))}</p>
                       <p className="break-all text-sm text-grey">{slot.booking_id ? (slot.booking_status === "completed" ? "Completed" : slot.booking_status === "no_show" ? "No-show" : "Booked") + " · " + slot.booking_id : slot.blocked ? "Blocked" : Date.parse(slot.starts_at) <= Date.now() ? "Past slot" : "Available"}</p>
                     </div>
+                    {canSchedule && slot.booking_id && <button type="button" className={button} disabled={busy} onClick={() => { if (slot.booking_id) void loadHistory(slot.booking_id); }}>View booking details</button>}
                     {canSchedule && slot.booking_id && slot.booking_status === "confirmed" && (
                       <div className="flex flex-wrap gap-2">
                         {Date.parse(slot.starts_at) <= Date.now() ? <>
@@ -372,8 +373,12 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
             </section>
             {canSchedule && <>
             <section className={glass + " mt-5 p-4 sm:p-6"}>
-              <h2 className="text-xl font-bold">Appointment history</h2>
-              <form className="mt-3 flex flex-wrap items-end gap-2 text-sm" onSubmit={loadHistory}>
+              <h2 ref={historyHeading} tabIndex={-1} className="scroll-mt-28 text-xl font-bold">Appointment history</h2>
+              <form className="mt-3 flex flex-wrap items-end gap-2 text-sm" onSubmit={(event) => {
+                event.preventDefault();
+                const reference = String(new FormData(event.currentTarget).get("reference") ?? "").trim();
+                void loadHistory(reference);
+              }}>
                 <label>Appointment reference <input className={field} name="reference" maxLength={36} required /></label>
                 <button className={button} disabled={busy}>Find appointment</button>
               </form>
