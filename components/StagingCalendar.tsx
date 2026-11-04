@@ -40,6 +40,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
   const [loadedPeriod, setLoadedPeriod] = useState("");
   const [slots, setSlots] = useState<Slot[]>([]);
   const [destinations, setDestinations] = useState<Slot[]>([]);
+  const [teamCounts, setTeamCounts] = useState<Record<string, number> | null>(null);
   const [history, setHistory] = useState<AppointmentHistory | null>(null);
   const [enquiries, setEnquiries] = useState<Enquiry[] | null>(null);
   const [message, setMessage] = useState("");
@@ -174,6 +175,23 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
     }
   }
 
+  async function loadTeamCounts() {
+    if (!admin || !session || busy) return;
+    setBusy(true);
+    setMessage("");
+    setTeamCounts(null);
+    try {
+      const response = await fetch("/api/crm?team", { headers: { Authorization: "Bearer " + session } });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+      setTeamCounts(data);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Team access summary unavailable.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function loadEnquiries() {
     setBusy(true);
     setMessage("");
@@ -296,7 +314,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
             {canSchedule && <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-history"><History size={16} aria-hidden="true" /> Booking details</a>}
             {canSchedule && <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-enquiries"><Mail size={16} aria-hidden="true" /> Enquiries</a>}
             <button className="flex items-center gap-2 rounded-btn px-3 py-2 text-left text-sm hover:bg-white/85 disabled:opacity-50"
-              disabled={busy} onClick={() => { setSession(""); setCanSchedule(false); setCanManageDoctors(false); setLoadedPeriod(""); setSlots([]); setDestinations([]); setEnquiries(null); setHistory(null); setMessage(""); }}>
+              disabled={busy} onClick={() => { setSession(""); setCanSchedule(false); setCanManageDoctors(false); setLoadedPeriod(""); setSlots([]); setDestinations([]); setEnquiries(null); setTeamCounts(null); setHistory(null); setMessage(""); }}>
               <LogOut size={16} aria-hidden="true" /> Close session
             </button>
           </nav>}
@@ -349,6 +367,21 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                   </div>
                 </li>)}
               </ul>
+            </section>}
+            {admin && <section className={glass + " mb-5 p-4 sm:p-6"} aria-labelledby="crm-team-heading">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <h2 id="crm-team-heading" className="text-xl font-bold">Team access</h2>
+                  <p className="mt-1 text-sm text-grey">See how many staff accounts have each role at {clinicName}.</p>
+                </div>
+                <button type="button" className={button} disabled={busy} onClick={() => void loadTeamCounts()}>{teamCounts ? "Refresh team access" : "Show team access"}</button>
+              </div>
+              {teamCounts && <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {Object.entries(teamCounts).sort(([a], [b]) => a.localeCompare(b)).map(([role, count]) => <div key={role} className="rounded-btn bg-sand p-3">
+                  <dt className="text-sm capitalize text-grey">{role.replace("_", " ")}</dt>
+                  <dd className="text-xl font-bold tabular-nums">{count}</dd>
+                </div>)}
+              </dl>}
             </section>}
             <ClinicDoctorRoster session={session} canSchedule={canSchedule} canManage={canManageDoctors} />
             <section id="crm-calendar" className={glass + " p-4 sm:p-6"}>

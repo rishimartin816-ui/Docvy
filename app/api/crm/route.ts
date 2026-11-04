@@ -39,7 +39,8 @@ export async function GET(request: NextRequest) {
   if (!target) return reply({ error: "CRM unavailable" }, 404);
   const { clinicId } = target;
   try {
-    const admin = request.nextUrl.searchParams.has("admin");
+    const team = request.nextUrl.searchParams.has("team");
+    const admin = team || request.nextUrl.searchParams.has("admin");
     const enquiries = request.nextUrl.searchParams.has("enquiries");
     const history = request.nextUrl.searchParams.get("history");
     const doctors = request.nextUrl.searchParams.has("doctors");
@@ -48,6 +49,14 @@ export async function GET(request: NextRequest) {
     if (clinic) {
       const access = await staff(clinicId, requestToken(request));
       if (!access || (admin && access.role !== "owner")) return reply({ error: "Staff access required" }, 403);
+      if (team) {
+        const result = await database("/rest/v1/crm_staff?select=role&clinic_id=eq." + clinicId);
+        if (!result.ok) return reply({ error: "Team access summary unavailable" }, 503);
+        const members: { role: string }[] = await result.json();
+        const counts: Record<string, number> = {};
+        for (const { role } of members) counts[role] = (counts[role] ?? 0) + 1;
+        return reply(counts);
+      }
       if (doctors) {
         const result = await database("/rest/v1/crm_doctor_roster?select=id,name,specialty,present,changed_at&order=name,id&clinic_id=eq." + clinicId);
         return result.ok ? reply(await result.json()) : reply({ error: "Doctor roster unavailable" }, 503);
