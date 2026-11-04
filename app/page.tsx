@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import HealthcareBackdrop from "@/components/HealthcareBackdrop";
 import { ArrowUpRight, ClipboardList, HeartPulse, Stethoscope, Video } from "lucide-react";
 import CareLibrarySearch from "@/components/CareLibrarySearch";
@@ -66,15 +65,12 @@ export default function Home() {
     </section>
 
     <section className="mx-auto max-w-[1320px] px-5 pb-14 sm:px-9" aria-labelledby="story-heading">
-      <div className="docvy-glass grid items-center gap-7 overflow-hidden p-6 sm:p-9 lg:grid-cols-[.85fr_1.15fr] lg:gap-12">
-        <Image src="/images/docvy-doctor-discovery.png" alt="Paper-style illustration of a family looking through doctor options together" width={1536} height={1024} sizes="(max-width: 1023px) 88vw, 42vw" className="aspect-[3/2] w-full rounded-3xl object-cover" />
-        <div>
-          <p className="docvy-eyebrow">WHY DOCVY STARTED</p>
-          <h2 id="story-heading" className="mt-3 text-3xl font-bold tracking-tight sm:text-5xl">A clearer place to begin.</h2>
-          <p className="mt-4 max-w-xl text-base leading-7 text-[#545761]">A report lands in your hands. A parent asks which doctor to call. You open your phone and suddenly there are more choices than answers. DOCVY began with a simple idea: people should be able to understand their options before they walk into a clinic.</p>
-          <p className="mt-3 max-w-xl leading-7 text-[#545761]">We’re building a place where families in India can look up unfamiliar terms, understand what different specialists do, and make a list of questions to take to their care team.</p>
-          <Link href="/about" className="docvy-pill docvy-pill-primary mt-5">Read the DOCVY story <ArrowUpRight size={16} aria-hidden="true" /></Link>
-        </div>
+      <div className="docvy-glass p-6 sm:p-10">
+        <p className="docvy-eyebrow">WHY DOCVY STARTED</p>
+        <h2 id="story-heading" className="mt-3 text-3xl font-bold tracking-tight sm:text-5xl">A clearer place to begin.</h2>
+        <p className="mt-4 max-w-xl text-base leading-7 text-[#545761]">A report lands in your hands. A parent asks which doctor to call. You open your phone and suddenly there are more choices than answers. DOCVY began with a simple idea: people should be able to understand their options before they walk into a clinic.</p>
+        <p className="mt-3 max-w-xl leading-7 text-[#545761]">We’re building a place where families in India can look up unfamiliar terms, understand what different specialists do, and make a list of questions to take to their care team.</p>
+        <Link href="/about" className="docvy-pill docvy-pill-primary mt-5">Read the DOCVY story <ArrowUpRight size={16} aria-hidden="true" /></Link>
       </div>
     </section>
 
