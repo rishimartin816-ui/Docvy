@@ -13,6 +13,9 @@ type Enquiry = {
   mobile: string;
   email: string | null;
   facility: string;
+  city: string;
+  preferred_date: string | null;
+  preferred_time: string | null;
   status: "new" | "contacted" | "closed";
   booking_id?: string | null;
 };
@@ -26,6 +29,7 @@ type AppointmentHistory = {
 };
 const dateLabel = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" });
 const rupees = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" });
+const preferredDateLabel = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeZone: "Asia/Kolkata" });
 const chartDay = new Intl.DateTimeFormat("en-IN", { weekday: "short", day: "numeric", month: "short", timeZone: "Asia/Kolkata" });
 const calendarDay = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" });
 
@@ -448,9 +452,15 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
               {enquiries && <ul className="divide-y divide-line">
                 {enquiries.map((item) => <li key={item.reference} className="break-words py-3">
                   <p className="font-semibold">{item.patient_name} · {item.reference}</p>
-                  <p className="text-sm text-grey">{item.facility} · {item.status}</p>
+                  <p className="text-sm text-grey">{item.facility}, {item.city} · {item.status}</p>
                   <p className="text-sm">{item.mobile}{item.email ? " · " + item.email : ""}</p>
-                  {item.booking_id && <p className="text-sm text-grey">Appointment reference {item.booking_id}</p>}
+                  <p className="mt-1 text-sm text-grey">
+                    {item.preferred_date || item.preferred_time ? <>
+                      Preferred visit{item.preferred_date && " · " + preferredDateLabel.format(new Date(item.preferred_date + "T00:00:00+05:30"))}
+                      {item.preferred_time && " · " + item.preferred_time.slice(0, 5) + " IST"}
+                    </> : "No date or time preference"}
+                  </p>
+                  {item.booking_id && <button type="button" className={button + " mt-2"} disabled={busy} onClick={() => { if (item.booking_id) void loadHistory(item.booking_id); }}>View confirmed booking</button>}
                   {item.status !== "closed" && destinations.length > 0 &&
                     <form className="mt-2 flex flex-wrap items-center gap-2" onSubmit={(event) => void bookEnquiry(event, item)}>
                       <select aria-label="Appointment time" name="slot" className={button} defaultValue="" required disabled={busy}>
