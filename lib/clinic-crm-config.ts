@@ -6,11 +6,13 @@ export function clinicCrmConfig() {
   const env = process.env;
   if (env.VERCEL_ENV !== "production") {
     if (env.DOCVY_CRM_STAGING !== "true" || !env.DOCVY_CRM_STAGING_URL || !env.DOCVY_CRM_STAGING_KEY) return null;
+    const expected = "https://" + stagingHost;
+    if (env.DOCVY_CRM_STAGING_URL !== expected && env.DOCVY_CRM_STAGING_URL !== expected + "/") return null;
     return {
       staging: true,
       clinicId: stagingClinic,
       clinicName: "DOCVY Test Hospital",
-      url: env.DOCVY_CRM_STAGING_URL,
+      url: expected,
       key: env.DOCVY_CRM_STAGING_KEY,
     };
   }
@@ -22,7 +24,7 @@ export function clinicCrmConfig() {
   try {
     const target = new URL(url);
     if (target.protocol !== "https:" || target.hostname === stagingHost ||
-        !/^[a-z0-9]+\.supabase\.co$/.test(target.hostname) || target.username || target.password || target.port) return null;
+        !/^[a-z0-9]+\.supabase\.co$/.test(target.hostname) || target.username || target.password || target.port || target.pathname !== "/" || target.search || target.hash) return null;
     return { staging: false, clinicId, clinicName: clinicName.trim(), url: target.origin, key };
   } catch {
     return null;
