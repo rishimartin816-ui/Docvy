@@ -23,11 +23,13 @@ type AppointmentHistory = {
   events: { action: string; at: string; appointment_at: string | null }[];
 };
 const dateLabel = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" });
+const chartDay = new Intl.DateTimeFormat("en-IN", { weekday: "short", day: "numeric", month: "short", timeZone: "Asia/Kolkata" });
 const calendarDay = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" });
 
 export default function StagingCalendar({ clinic = false, admin = false, clinicName = "DOCVY Test Hospital", staging = true }: { clinic?: boolean; admin?: boolean; clinicName?: string; staging?: boolean }) {
   const [session, setSession] = useState("");
   const [canSchedule, setCanSchedule] = useState(false);
+  const [loadedPeriod, setLoadedPeriod] = useState("");
   const [slots, setSlots] = useState<Slot[]>([]);
   const [destinations, setDestinations] = useState<Slot[]>([]);
   const [history, setHistory] = useState<AppointmentHistory | null>(null);
@@ -52,9 +54,11 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
       const [rows, upcomingRows] = await Promise.all([response.json(), upcoming?.ok ? upcoming.json() : []]);
       if (signal?.aborted) return;
       setSlots(rows);
+      setLoadedPeriod(day + ":" + days);
       setDestinations(upcomingRows);
     } catch (error) {
       if (signal?.aborted) return;
+      setLoadedPeriod("");
       setSlots([]);
       setDestinations([]);
       setMessage(error instanceof Error ? error.message : "Calendar unavailable.");
@@ -226,6 +230,18 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
   const blocked = visible.filter((slot) => slot.blocked && !slot.booking_id).length;
   const isAvailable = (slot: Slot) => !slot.booking_id && !slot.blocked && Date.parse(slot.starts_at) > Date.now();
   const available = visible.filter(isAvailable).length;
+  const chartRows = day ? Array.from({ length: days }, (_, index) => {
+    const date = new Date(end - (days - index) * 86400000);
+    const dateKey = calendarDay.format(date);
+    const dailySlots = visible.filter((slot) => calendarDay.format(new Date(slot.starts_at)) === dateKey);
+    return {
+      label: chartDay.format(date),
+      booked: dailySlots.filter((slot) => slot.booking_id).length,
+      open: dailySlots.filter(isAvailable).length,
+      blocked: dailySlots.filter((slot) => slot.blocked && !slot.booking_id).length,
+    };
+  }) : [];
+  const chartMax = Math.max(1, ...chartRows.map(({ booked, open, blocked }) => booked + open + blocked));
   const title = admin ? "Owner console" : "Clinic workspace";
   const field = "block w-full rounded-btn border border-line bg-white px-3 py-2 text-ink";
   const button = "inline-flex items-center justify-center gap-2 rounded-btn border border-line bg-white px-3 py-2 text-sm font-semibold hover:bg-lav disabled:opacity-50";
@@ -245,7 +261,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
             <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-calendar"><CalendarDays size={16} aria-hidden="true" /> Appointments</a>
             {canSchedule && <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-enquiries"><Mail size={16} aria-hidden="true" /> Enquiries</a>}
             <button className="flex items-center gap-2 rounded-btn px-3 py-2 text-left text-sm hover:bg-white/85 disabled:opacity-50"
-              disabled={busy} onClick={() => { setSession(""); setCanSchedule(false); setSlots([]); setDestinations([]); setEnquiries(null); setHistory(null); setMessage(""); }}>
+              disabled={busy} onClick={() => { setSession(""); setCanSchedule(false); setLoadedPeriod(""); setSlots([]); setDestinations([]); setEnquiries(null); setHistory(null); setMessage(""); }}>
               <LogOut size={16} aria-hidden="true" /> Close session
             </button>
           </nav>}
@@ -282,6 +298,23 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                 </div>
               ))}
             </div>
+            {loadedPeriod === day + ":" + days && <section className={glass + " mb-5 p-4 sm:p-6"} aria-labelledby="crm-volume-heading">
+              <h2 id="crm-volume-heading" className="text-xl font-bold">Appointment volume</h2>
+              <p className="mt-1 text-sm text-grey">Booked, open, and blocked slots by day for the selected calendar period.</p>
+              <ul className="mt-4 space-y-3">
+                {chartRows.map(({ label, booked, open, blocked }) => <li key={label} className="grid gap-1 sm:grid-cols-[7rem_1fr] sm:items-center">
+                  <span className="text-sm font-semibold">{label}</span>
+                  <div>
+                    <div className="flex h-3 overflow-hidden rounded-full bg-sand" aria-hidden="true">
+                      <span className="bg-mulb" style={{ width: (booked / chartMax * 100) + "%" }} />
+                      <span className="bg-[#c59a46]" style={{ width: (open / chartMax * 100) + "%" }} />
+                      <span className="bg-[#aa9989]" style={{ width: (blocked / chartMax * 100) + "%" }} />
+                    </div>
+                    <p className="mt-1 text-xs tabular-nums text-grey">{booked} booked · {open} open · {blocked} blocked</p>
+                  </div>
+                </li>)}
+              </ul>
+            </section>}
             <section id="crm-calendar" className={glass + " p-4 sm:p-6"}>
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
