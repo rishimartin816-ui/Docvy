@@ -42,6 +42,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
   const [destinations, setDestinations] = useState<Slot[]>([]);
   const [teamCounts, setTeamCounts] = useState<Record<string, number> | null>(null);
   const [history, setHistory] = useState<AppointmentHistory | null>(null);
+  const [enquirySearch, setEnquirySearch] = useState("");
   const [enquiries, setEnquiries] = useState<Enquiry[] | null>(null);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
@@ -297,6 +298,11 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
     };
   }) : [];
   const chartMax = Math.max(1, ...chartRows.map(({ booked, open, blocked }) => booked + open + blocked));
+  const enquiryTerm = enquirySearch.trim().toLowerCase();
+  const phoneTerm = enquiryTerm.replace(/[\s()+-]/g, "");
+  const matchingEnquiries = enquiries?.filter((item) => !enquiryTerm ||
+    [item.patient_name, item.reference].some((value) => value.toLowerCase().includes(enquiryTerm)) ||
+    (/^\d+$/.test(phoneTerm) && item.mobile.replace(/\D/g, "").includes(phoneTerm)));
   const title = admin ? "Owner console" : "Clinic workspace";
   const field = "block w-full rounded-btn border border-line bg-white px-3 py-2 text-ink";
   const button = "inline-flex items-center justify-center gap-2 rounded-btn border border-line bg-white px-3 py-2 text-sm font-semibold hover:bg-lav disabled:opacity-50";
@@ -318,7 +324,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
             {canSchedule && <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-history"><History size={16} aria-hidden="true" /> Booking details</a>}
             {canSchedule && <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-enquiries"><Mail size={16} aria-hidden="true" /> Enquiries</a>}
             <button className="flex items-center gap-2 rounded-btn px-3 py-2 text-left text-sm hover:bg-white/85 disabled:opacity-50"
-              disabled={busy} onClick={() => { setSession(""); setCanSchedule(false); setCanManageDoctors(false); setLoadedPeriod(""); setSlots([]); setDestinations([]); setEnquiries(null); setTeamCounts(null); setHistory(null); setMessage(""); }}>
+              disabled={busy} onClick={() => { setSession(""); setCanSchedule(false); setCanManageDoctors(false); setLoadedPeriod(""); setSlots([]); setDestinations([]); setEnquiries(null); setEnquirySearch(""); setTeamCounts(null); setHistory(null); setMessage(""); }}>
               <LogOut size={16} aria-hidden="true" /> Close session
             </button>
           </nav>}
@@ -491,8 +497,13 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                 <button className={button} disabled={busy} onClick={() => void loadEnquiries()}>Load enquiries</button>
               </div>
               {enquiries?.length === 0 && <p className="mt-3 text-sm text-grey">No enquiries for this clinic.</p>}
-              {enquiries && <ul className="divide-y divide-line">
-                {enquiries.map((item) => <li key={item.reference} className="break-words py-3">
+              {enquiries && enquiries.length > 0 && <label className="mt-4 block max-w-md text-sm font-semibold">
+                Find an enquiry
+                <input className={field + " mt-1"} type="search" placeholder="Patient name, mobile or enquiry reference" value={enquirySearch} onChange={(event) => setEnquirySearch(event.target.value)} />
+              </label>}
+              {matchingEnquiries?.length === 0 && !!enquiries?.length && <p role="status" className="mt-3 text-sm text-grey">No loaded enquiries match your search.</p>}
+              {matchingEnquiries && <ul className="divide-y divide-line">
+                {matchingEnquiries.map((item) => <li key={item.reference} className="break-words py-3">
                   <p className="font-semibold">{item.patient_name} · {item.reference}</p>
                   <p className="text-sm text-grey">{item.facility}, {item.city} · {item.status}</p>
                   <p className="text-sm">{item.mobile}{item.email ? " · " + item.email : ""}</p>
