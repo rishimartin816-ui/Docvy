@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { clinicCrmConfig } from "@/lib/clinic-crm-config";
 import Link from "next/link";
 import { ArrowRight, Building2, CalendarClock, ExternalLink, MapPin, ShieldCheck } from "lucide-react";
 import AppointmentRequestForm from "@/components/AppointmentRequestForm";
@@ -25,7 +26,7 @@ export function generateMetadata(): Metadata {
 }
 
 export default async function RequestPage({ searchParams }: { searchParams: Promise<{ provider?: string; city?: string; facility?: string }> }) {
-  if (process.env.DOCVY_CRM_STAGING === "true" && process.env.VERCEL_ENV !== "production") {
+  if (clinicCrmConfig()?.staging === true) {
     return <section className="mx-auto max-w-3xl space-y-4 p-8">
       <h1 className="text-3xl font-bold">DOCVY staging appointments</h1>
       <p>Reserve a synthetic appointment in the CRM test calendar.</p>
