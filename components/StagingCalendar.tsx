@@ -27,6 +27,16 @@ type AppointmentHistory = {
   starts_at: string;
   events: { action: string; at: string; appointment_at: string | null }[];
 };
+const slotFilters = [
+  ["all", "All slots"],
+  ["confirmed", "Booked"],
+  ["open", "Open"],
+  ["blocked", "Blocked"],
+  ["completed", "Completed"],
+  ["no_show", "No-show"],
+  ["past", "Past unused"],
+] as const;
+
 const dateLabel = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" });
 const rupees = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" });
 const preferredDateLabel = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeZone: "Asia/Kolkata" });
@@ -48,6 +58,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
   const [busy, setBusy] = useState(false);
   const [day, setDay] = useState(calendarDay.format(new Date()));
   const [days, setDays] = useState(7);
+  const [slotFilter, setSlotFilter] = useState("all");
   const historyHeading = useRef<HTMLHeadingElement>(null);
   const keys = useRef(new Map<string, string>());
 
@@ -118,6 +129,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
     setCanSchedule(false);
     setCanManageDoctors(false);
     setLoadedPeriod("");
+    setSlotFilter("all");
     setSlots([]);
     setDestinations([]);
     setEnquiries(null);
@@ -313,6 +325,11 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
   const blocked = visible.filter((slot) => slot.blocked && !slot.booking_id).length;
   const isAvailable = (slot: Slot) => !slot.booking_id && !slot.blocked && Date.parse(slot.starts_at) > Date.now();
   const available = visible.filter(isAvailable).length;
+  const filteredSlots = visible.filter((slot) => {
+    if (slotFilter === "all") return true;
+    const status = slot.booking_id ? slot.booking_status ?? "confirmed" : slot.blocked ? "blocked" : isAvailable(slot) ? "open" : "past";
+    return slotFilter === status;
+  });
   const chartRows = day ? Array.from({ length: days }, (_, index) => {
     const date = new Date(end - (days - index) * 86400000);
     const dateKey = calendarDay.format(date);
@@ -439,6 +456,9 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
               <div className="my-4 flex flex-wrap gap-3 text-sm">
                 <label>Start date <input className={field} type="date" required disabled={busy} value={day} onChange={(event) => setDay(event.target.value)} /></label>
                 <label>View <select className={field} disabled={busy} value={days} onChange={(event) => setDays(Number(event.target.value))}><option value={1}>Day</option><option value={7}>Week</option></select></label>
+                <label>Slot status <select className={field} value={slotFilter} onChange={(event) => setSlotFilter(event.target.value)}>
+                  {slotFilters.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                </select></label>
               </div>
               {canSchedule && <details className="mb-4 rounded-btn border border-line bg-sand p-3">
                 <summary className="cursor-pointer font-semibold">Add appointment slot</summary>
@@ -448,8 +468,8 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                   <button className={button} disabled={busy}>Add slot</button>
                 </form>
               </details>}
-              {visible.length === 0 ? <p className="rounded-btn bg-sand p-4 text-grey">No slots in this period.</p> :
-                <ul className="divide-y divide-line">{visible.map((slot) => (
+              {filteredSlots.length === 0 ? <p className="rounded-btn bg-sand p-4 text-grey">{visible.length ? "No slots match this status." : "No slots in this period."}</p> :
+                <ul className="divide-y divide-line">{filteredSlots.map((slot) => (
                   <li className="flex flex-wrap items-center justify-between gap-3 py-3" key={slot.id}>
                     <div>
                       <p className="font-semibold">{dateLabel.format(new Date(slot.starts_at))} – {dateLabel.format(new Date(slot.ends_at))}</p>
