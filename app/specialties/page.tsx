@@ -11,13 +11,13 @@ export default function SpecialtiesPage() {
     <div className="mx-auto max-w-6xl">
       <p className="docvy-eyebrow">FIND YOUR STARTING POINT</p>
       <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-6xl">Medical specialties, in plain language</h1>
-      <p className="mt-4 max-w-2xl text-lg text-[#5d5040]">Start with the part of your health you want to talk about. Each guide explains what the specialty does and how to prepare for a visit.</p>
+      <p className="mt-4 max-w-2xl text-lg text-[#545761]">Start with the part of your health you want to talk about. Each guide explains what the specialty does and how to prepare for a visit.</p>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {specialties.map(item => <Link key={item.slug} href={"/specialties/" + item.slug} className="docvy-glass flex flex-col items-start gap-3 p-5 hover:bg-white">
           <SpecialtyIcon slug={item.slug} />
           <h2 className="text-xl font-bold">{item.plain}</h2>
-          <p className="text-sm text-[#5d5040]">{item.name}</p>
-          <span className="inline-flex items-center gap-2 font-semibold text-[#70501f]">Explore specialty <ArrowUpRight size={16} aria-hidden="true" /></span>
+          <p className="text-sm text-[#545761]">{item.name}</p>
+          <span className="inline-flex items-center gap-2 font-semibold text-[#202124]">Explore specialty <ArrowUpRight size={16} aria-hidden="true" /></span>
         </Link>)}
       </div>
     </div>

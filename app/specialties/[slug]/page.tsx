@@ -18,14 +18,14 @@ export default function SpecialtyPage({ params }: { params: { slug: string } }) 
   if (!item) notFound();
   return <div className="docvy-garden px-5 py-12 sm:px-9">
     <div className="mx-auto max-w-3xl">
-      <Link href="/specialties" className="font-semibold text-[#70501f] underline underline-offset-4">All specialties</Link>
+      <Link href="/specialties" className="font-semibold text-[#202124] underline underline-offset-4">All specialties</Link>
       <div className="docvy-glass mt-6 space-y-4 p-6 sm:p-9">
         <SpecialtyIcon slug={item.slug} />
         <p className="docvy-eyebrow">{item.plain}</p>
         <h1 className="text-4xl font-bold tracking-tight">{item.name}</h1>
-        <p className="text-lg text-[#5d5040]">{item.description}</p>
+        <p className="text-lg text-[#545761]">{item.description}</p>
         <h2 className="text-xl font-bold">Before your visit</h2>
-        <p className="text-[#5d5040]">{item.prep}</p>
+        <p className="text-[#545761]">{item.prep}</p>
         <Link href={{ pathname: "/doctors", query: { specialty: item.name } }} className="docvy-pill docvy-pill-primary">Browse this specialty</Link>
       </div>
     </div>

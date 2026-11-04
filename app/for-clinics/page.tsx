@@ -22,7 +22,7 @@ export default function ForClinicsPage() {
       <section className="docvy-glass p-7 sm:p-10">
         <p className="docvy-eyebrow">FOR CLINIC TEAMS</p>
         <h1 className="mt-3 text-4xl font-bold tracking-tight">Clinic workspace</h1>
-        <p className="mt-4 max-w-2xl text-lg text-[#5d5040]">
+        <p className="mt-4 max-w-2xl text-lg text-[#545761]">
           {live ? `Staff at ${crm.clinicName} can sign in to manage the clinic’s day-to-day work.` : "Try the workspace with fictional clinic records. You’ll need a demo staff account to sign in."}
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
@@ -32,9 +32,9 @@ export default function ForClinicsPage() {
       </section>
       <section className="mt-6 grid gap-4 md:grid-cols-3" aria-label="Workspace features">
         {tools.map(({ title, text, icon: Icon }) => <article key={title} className="docvy-glass p-5">
-          <span className="grid h-11 w-11 place-items-center rounded-xl bg-[#fff3d9] text-[#70501f]"><Icon size={20} aria-hidden="true" /></span>
+          <span className="grid h-11 w-11 place-items-center rounded-xl bg-[#f0eff8] text-[#202124]"><Icon size={20} aria-hidden="true" /></span>
           <h2 className="mt-4 font-bold">{title}</h2>
-          <p className="mt-2 text-sm leading-6 text-[#5d5040]">{text}</p>
+          <p className="mt-2 text-sm leading-6 text-[#545761]">{text}</p>
         </article>)}
       </section>
     </div>

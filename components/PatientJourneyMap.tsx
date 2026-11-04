@@ -59,28 +59,28 @@ export default function PatientJourneyMap({ intakeEnabled, headingLevel = 3 }: {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
-      <div className="relative overflow-hidden rounded-[28px] border border-[#e8dac2] bg-[#fff3d9] p-6 sm:p-8">
+      <div className="relative overflow-hidden rounded-[28px] border border-[#e5e5ea] bg-[#f0eff8] p-6 sm:p-8">
         <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-12 h-48 w-48 rounded-full border-[24px] border-white/50" />
-        <div aria-hidden="true" className="pointer-events-none absolute -bottom-14 -left-10 h-44 w-44 rounded-full bg-[#e8dac2]" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-14 -left-10 h-44 w-44 rounded-full bg-[#e5e5ea]" />
         <div className="relative">
-          <p className="text-[11px] font-extrabold tracking-[0.15em] text-[#70501f]">A SIMPLE WAY THROUGH</p>
-          <MapHeading className="mt-3 max-w-sm text-2xl font-black leading-tight tracking-[-0.035em] text-[#2e281f] sm:text-3xl">From your first question to the right place to check next.</MapHeading>
-          <p className="mt-4 max-w-sm text-sm leading-7 text-[#5d5040]">You do not need to know a medical specialty before you start. Follow the steps that fit you and leave the clinical decision to a qualified professional.</p>
+          <p className="text-[11px] font-extrabold tracking-[0.15em] text-[#202124]">A SIMPLE WAY THROUGH</p>
+          <MapHeading className="mt-3 max-w-sm text-2xl font-black leading-tight tracking-[-0.035em] text-[#151518] sm:text-3xl">From your first question to the right place to check next.</MapHeading>
+          <p className="mt-4 max-w-sm text-sm leading-7 text-[#545761]">You do not need to know a medical specialty before you start. Follow the steps that fit you and leave the clinical decision to a qualified professional.</p>
 
           <div className="mt-7 rounded-2xl border border-white bg-white/90 p-4 shadow-[0_12px_35px_rgba(23,58,55,0.08)]">
             <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#fff3d9] text-[#70501f]"><Search size={21} /></span>
-              <div><p className="text-[10px] font-extrabold tracking-[0.13em] text-[#5d5040]">YOUR STARTING POINT</p><p className="mt-1 font-bold text-[#2e281f]">“I have a health concern”</p></div>
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#f0eff8] text-[#202124]"><Search size={21} /></span>
+              <div><p className="text-[10px] font-extrabold tracking-[0.13em] text-[#545761]">YOUR STARTING POINT</p><p className="mt-1 font-bold text-[#151518]">“I have a health concern”</p></div>
             </div>
-            <div className="ml-5 flex h-8 items-center border-l-2 border-dashed border-[#dbb66e]"><ArrowDown size={16} className="-ml-[9px] rounded-full bg-white text-[#70501f]" /></div>
+            <div className="ml-5 flex h-8 items-center border-l-2 border-dashed border-[#9690c4]"><ArrowDown size={16} className="-ml-[9px] rounded-full bg-white text-[#202124]" /></div>
             <div className="flex items-center gap-3">
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#FFF2E9] text-[#B56543]"><BookOpenCheck size={20} /></span>
-              <div><p className="text-[10px] font-extrabold tracking-[0.13em] text-[#5d5040]">A CLEARER SEARCH</p><p className="mt-1 font-bold text-[#2e281f]">Explore a related specialty</p></div>
+              <div><p className="text-[10px] font-extrabold tracking-[0.13em] text-[#545761]">A CLEARER SEARCH</p><p className="mt-1 font-bold text-[#151518]">Explore a related specialty</p></div>
             </div>
-            <div className="ml-5 flex h-8 items-center border-l-2 border-dashed border-[#dbb66e]"><ArrowDown size={16} className="-ml-[9px] rounded-full bg-white text-[#70501f]" /></div>
+            <div className="ml-5 flex h-8 items-center border-l-2 border-dashed border-[#9690c4]"><ArrowDown size={16} className="-ml-[9px] rounded-full bg-white text-[#202124]" /></div>
             <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#fff3d9] text-[#70501f]"><MapPin size={20} /></span>
-              <div><p className="text-[10px] font-extrabold tracking-[0.13em] text-[#5d5040]">CURRENT DIRECTORY</p><p className="mt-1 font-bold text-[#2e281f]">{providerCityListLabel}</p></div>
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#f0eff8] text-[#202124]"><MapPin size={20} /></span>
+              <div><p className="text-[10px] font-extrabold tracking-[0.13em] text-[#545761]">CURRENT DIRECTORY</p><p className="mt-1 font-bold text-[#151518]">{providerCityListLabel}</p></div>
             </div>
           </div>
 
@@ -88,18 +88,18 @@ export default function PatientJourneyMap({ intakeEnabled, headingLevel = 3 }: {
             <ShieldAlert size={16} className="mt-0.5 shrink-0 text-[#A36A12]" />
             <p>DOCVY listings are not a medical recommendation. Check profile details and availability with the linked care provider.</p>
           </div>
-          <Link href="/care-guide" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#70501f] px-4 text-sm font-bold text-white transition hover:bg-[#563b16]">Start with the patient guide <ArrowUpRight size={16} /></Link>
+          <Link href="/care-guide" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#202124] px-4 text-sm font-bold text-white transition hover:bg-[#383940]">Start with the patient guide <ArrowUpRight size={16} /></Link>
         </div>
       </div>
 
-      <ol className="relative space-y-3 before:absolute before:bottom-10 before:left-[22px] before:top-10 before:w-px before:bg-[#e3d2b3]">
+      <ol className="relative space-y-3 before:absolute before:bottom-10 before:left-[22px] before:top-10 before:w-px before:bg-[#d9dae2]">
         {stepsWithAvailability.map(({ number, icon: Icon, title, text, label }) => (
-          <li key={number} className="relative flex gap-4 rounded-2xl border border-[#e8dac2] bg-white p-4 sm:gap-5 sm:p-5">
-            <span className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[#e3d2b3] bg-[#fffbf1] text-[#70501f]"><Icon size={20} aria-hidden="true" /></span>
+          <li key={number} className="relative flex gap-4 rounded-2xl border border-[#e5e5ea] bg-white p-4 sm:gap-5 sm:p-5">
+            <span className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[#d9dae2] bg-[#fafafb] text-[#202124]"><Icon size={20} aria-hidden="true" /></span>
             <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2"><span className="text-[10px] font-extrabold tracking-[0.12em] text-[#70501f]">STEP {number}</span><span className="rounded-full bg-[#fff3d9] px-2.5 py-1 text-[9px] font-extrabold tracking-[0.08em] text-[#5d5040]">{label}</span></div>
-              <StepHeading className="mt-2 text-base font-bold text-[#2e281f] sm:text-lg">{title}</StepHeading>
-              <p className="mt-1.5 text-sm leading-6 text-[#5d5040]">{text}</p>
+              <div className="flex flex-wrap items-center gap-2"><span className="text-[10px] font-extrabold tracking-[0.12em] text-[#202124]">STEP {number}</span><span className="rounded-full bg-[#f0eff8] px-2.5 py-1 text-[9px] font-extrabold tracking-[0.08em] text-[#545761]">{label}</span></div>
+              <StepHeading className="mt-2 text-base font-bold text-[#151518] sm:text-lg">{title}</StepHeading>
+              <p className="mt-1.5 text-sm leading-6 text-[#545761]">{text}</p>
             </div>
           </li>
         ))}

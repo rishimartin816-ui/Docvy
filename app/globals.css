@@ -27,14 +27,14 @@ a {
 }
 
 :focus-visible {
-  outline: 3px solid #70501f;
+  outline: 3px solid #202124;
   outline-offset: 3px;
   border-radius: 6px;
 }
 
 ::selection {
-  background: #fff3d9;
-  color: #2e281f;
+  background: #f0eff8;
+  color: #151518;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -48,21 +48,21 @@ a {
   }
 }
 
-/* Vanilla + Honey surfaces and controls. */
+/* DOCVY neutral surfaces and controls. */
 .docvy-garden {
-  color: #2e281f;
-  background: radial-gradient(ellipse at 82% 5%, #fff3d9 0%, transparent 48%),
-    radial-gradient(ellipse at 3% 48%, #fff1cb 0%, transparent 40%), #fffbf1;
+  color: #151518;
+  background: radial-gradient(ellipse at 82% 5%, #f0eff8 0%, transparent 48%),
+    radial-gradient(ellipse at 3% 48%, #eeecfa 0%, transparent 40%), #fafafb;
 }
 .docvy-glass {
-  border: 1px solid rgba(255,255,255,.92);
+  border: 1px solid #e5e5ea;
   border-radius: 26px;
-  background: rgba(255,250,236,.78);
-  box-shadow: 0 12px 36px rgba(112,80,31,.10);
+  background: rgba(255,255,255,.82);
+  box-shadow: 0 12px 36px rgba(28,28,36,.10);
   backdrop-filter: blur(18px);
 }
 .docvy-eyebrow {
-  color: #5d5040;
+  color: #545761;
   font-size: .72rem;
   font-weight: 800;
   letter-spacing: .13em;
@@ -75,22 +75,22 @@ a {
   min-height: 44px;
   padding: .55rem .95rem;
   border-radius: 999px;
-  border: 1px solid #e8dac2;
+  border: 1px solid #e5e5ea;
   background: #fff;
-  color: #70501f;
+  color: #202124;
   font-size: .875rem;
   font-weight: 700;
   white-space: nowrap;
 }
-.docvy-pill:hover { background: #fff3d9; }
-.docvy-pill-primary { background: #70501f; color: #fff; border-color: #70501f; }
-.docvy-pill-primary:hover { background: #563b16; }
+.docvy-pill:hover { background: #f0eff8; }
+.docvy-pill-primary { background: #202124; color: #fff; border-color: #202124; }
+.docvy-pill-primary:hover { background: #383940; }
 .docvy-select {
   width: 100%;
   min-height: 44px;
   padding: .5rem .75rem;
-  border: 1px solid #e8dac2;
+  border: 1px solid #e5e5ea;
   border-radius: 13px;
   background: #fff;
-  color: #2e281f;
+  color: #151518;
 }
