@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarDays, CalendarCheck, CalendarX, Clock3, LayoutDashboard, LogOut, Mail, RefreshCw, ShieldCheck } from "lucide-react";
+import { CalendarDays, CalendarCheck, CalendarX, Clock3, LayoutDashboard, LogOut, Mail, RefreshCw, ShieldCheck, Stethoscope, History } from "lucide-react";
 import Image from "next/image";
 import ClinicDoctorRoster from "@/components/ClinicDoctorRoster";
 import type { FormEvent } from "react";
@@ -288,6 +288,8 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
           {session && <nav aria-label="Clinic workspace" className="mt-6 flex flex-wrap gap-2 lg:flex-col">
             <a className="flex items-center gap-2 rounded-btn bg-white/80 shadow-sm px-3 py-2 text-sm font-semibold" href="#crm-overview"><LayoutDashboard size={16} aria-hidden="true" /> Overview</a>
             <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-calendar"><CalendarDays size={16} aria-hidden="true" /> Appointments</a>
+            <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-doctors"><Stethoscope size={16} aria-hidden="true" /> Doctor presence</a>
+            {canSchedule && <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-history"><History size={16} aria-hidden="true" /> Booking details</a>}
             {canSchedule && <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-enquiries"><Mail size={16} aria-hidden="true" /> Enquiries</a>}
             <button className="flex items-center gap-2 rounded-btn px-3 py-2 text-left text-sm hover:bg-white/85 disabled:opacity-50"
               disabled={busy} onClick={() => { setSession(""); setCanSchedule(false); setCanManageDoctors(false); setLoadedPeriod(""); setSlots([]); setDestinations([]); setEnquiries(null); setHistory(null); setMessage(""); }}>
@@ -402,7 +404,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                 ))}</ul>}
             </section>
             {canSchedule && <>
-            <section className={glass + " mt-5 p-4 sm:p-6"}>
+            <section id="crm-history" className={glass + " mt-5 scroll-mt-28 p-4 sm:p-6"}>
               <h2 ref={historyHeading} tabIndex={-1} className="scroll-mt-28 text-xl font-bold">Appointment history</h2>
               <form className="mt-3 flex flex-wrap items-end gap-2 text-sm" onSubmit={(event) => {
                 event.preventDefault();
