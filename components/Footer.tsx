@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import HealthcareBackdrop from "@/components/HealthcareBackdrop";
 import { ArrowUpRight, FileText, Mail, ShieldCheck } from "lucide-react";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
@@ -29,7 +30,7 @@ export default function Footer() {
             href="/"
             className="inline-flex items-center gap-2.5 font-head text-[22px] font-extrabold tracking-[0.035em] text-[#151518]"
           >
-            <span aria-hidden="true" className="h-4 w-4 rounded-full bg-[#d8d3ff]" />
+            <Image src="/icon.svg" alt="" width={29} height={29} unoptimized className="shrink-0" />
             DOCVY
           </Link>
           <p className="mt-3 max-w-sm text-sm leading-6 text-[#545761]">
@@ -87,8 +88,7 @@ export default function Footer() {
 
       <div className="border-t border-[#e5e5ea]">
         <div className="mx-auto max-w-[1440px] px-6 py-5 text-xs leading-5 text-[#61636d] lg:px-[72px]">
-          © {new Date().getFullYear()} DOCVY. Product capabilities are subject to
-          release and operational readiness.
+          © {new Date().getFullYear()} DOCVY. All rights reserved.
         </div>
       </div>
     </footer>

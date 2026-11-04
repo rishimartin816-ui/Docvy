@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
@@ -60,7 +61,7 @@ export default function Nav() {
           className="inline-flex items-center gap-2.5 font-head text-[21px] font-extrabold tracking-[0.035em] text-[#151518]"
           aria-label="DOCVY home"
         >
-          <span aria-hidden="true" className="h-4 w-4 rounded-full bg-[#d8d3ff] lg:h-[18px] lg:w-[18px]" />
+          <Image src="/icon.svg" alt="" width={29} height={29} unoptimized className="shrink-0" />
           DOCVY
         </Link>
 
