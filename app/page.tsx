@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight, ClipboardList, HeartPulse, Stethoscope, Video } from "lucide-react";
 import CareLibrarySearch from "@/components/CareLibrarySearch";
 import DiscoverySearch, { DemoProvider } from "@/components/DiscoverySearch";
@@ -27,6 +28,12 @@ const libraryEntries = [
   ...procedures.map(({ name, specialty }) => ({ title: name, category: "Procedure · Find doctors", href: "/doctors?" + new URLSearchParams({ specialty, procedure: name }).toString(), terms: specialty })),
 ];
 
+const featuredSpecialties = [
+  { slug: "gynaecology", title: "Women’s health", text: "Understand what a gynaecologist can help with and prepare your questions before the visit.", position: "left" },
+  { slug: "orthopaedics", title: "Bones, joints and movement", text: "Learn what an orthopaedic consultation covers and what details to bring about pain or movement.", position: "center" },
+  { slug: "cardiology", title: "Heart health", text: "Get familiar with the role of a cardiologist and make a list of what you want to discuss.", position: "right" },
+] as const;
+
 const doctorPaths = [
   { title: "General physician", description: "Start here for a general health check or when you’re unsure which specialist to see.", label: "Find a physician", href: "/doctors?specialty=General+medicine", icon: Stethoscope },
   { title: "Surgeon", description: "Find the surgical specialty for the procedure your doctor mentioned.", label: "Browse surgical specialties", href: "#surgery-directory", icon: ClipboardList },
@@ -49,38 +56,54 @@ export default function Home() {
     <section className="relative isolate mx-auto grid max-w-[1320px] items-center gap-8 px-5 pb-10 pt-10 sm:px-9 lg:grid-cols-[1.05fr_.95fr] lg:py-20">
       <div>
         <p className="docvy-eyebrow">CARE DISCOVERY · INDIA</p>
-        <h1 className="mt-5 max-w-[720px] text-5xl font-bold leading-[.98] tracking-[-.06em] text-[#2e281f] sm:text-6xl lg:text-7xl">Find the right type of doctor.</h1>
+        <h1 className="mt-5 max-w-[720px] text-5xl font-bold leading-[.98] tracking-[-.06em] text-[#2e281f] sm:text-6xl lg:text-7xl">Find a clearer next step in care.</h1>
         <p className="my-6 max-w-lg text-base leading-7 text-[#5d5040] sm:text-lg">Not sure which doctor to look for? Start with what is on your mind, learn which specialists handle it, or browse by specialty and city.</p>
         <DiscoverySearch />
         <p className="mt-3 text-sm text-[#5d5040]">You can try the appointment process with a fictional doctor. Real appointments are currently unavailable.</p>
       </div>
-      <aside className="docvy-glass p-6 sm:p-9" aria-labelledby="starting-points">
-                <div className="relative mb-6 flex h-24 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-[#fff7e4] via-[#fcebc1] to-[#f3cb74]" aria-hidden="true">
-          <span className="absolute h-44 w-44 rounded-full border border-white/70" />
-          <span className="absolute h-32 w-32 rounded-full border border-white/80" />
-          <div className="relative flex items-center gap-5 text-[#70501f]">
-            <span className="-rotate-12 rounded-2xl bg-white/75 p-3 shadow-md"><Stethoscope size={24} /></span>
-            <span className="rounded-2xl bg-[#70501f] p-4 text-white shadow-lg"><HeartPulse size={32} /></span>
-            <span className="rotate-12 rounded-2xl bg-white/75 p-3 shadow-md"><ClipboardList size={24} /></span>
-          </div>
-        </div>
-        <p className="docvy-eyebrow">START HERE</p>
-        <h2 id="starting-points" className="mb-5 mt-3 text-3xl font-bold tracking-tight">What brings you here?</h2>
-        <ul className="divide-y divide-[#e8dac2]">
-          {[
-            { href: "#specialty-directory", title: "I want to understand a specialty", text: "Browse specialties and find out what to bring.", icon: Stethoscope },
-            { href: "#care-library", title: "I have a health concern", text: "Search for a condition or browse the guides.", icon: HeartPulse },
-            { href: "#surgery-directory", title: "My doctor mentioned surgery", text: "Look up a procedure and plan what to ask.", icon: ClipboardList },
-          ].map(({ href, title, text, icon: Icon }) => <li key={href}>
-            <Link href={href} className="group flex min-h-14 items-center gap-4 py-3">
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#fff3d9] text-[#70501f]"><Icon size={20} aria-hidden="true" /></span>
-              <span className="flex-1"><strong className="block group-hover:underline">{title}</strong><span className="text-sm text-[#5d5040]">{text}</span></span>
-              <ArrowUpRight size={17} className="shrink-0 text-[#70501f]" aria-hidden="true" />
-            </Link>
-          </li>)}
-        </ul>
-      </aside>
+      <figure className="relative overflow-hidden rounded-[30px] bg-[#f5dfa7] shadow-[0_24px_70px_rgba(112,80,31,.18)]">
+        <Image src="/images/docvy-homepage-care-team.png" alt="Illustration of a clinician listening to a patient in a sunlit consultation room" width={500} height={375} priority sizes="(max-width: 1023px) 92vw, 48vw" className="aspect-[4/3] w-full object-cover" />
+        <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-5 pb-5 pt-12 text-white sm:px-7">
+          <p className="text-sm font-semibold">Every visit starts with a conversation.</p>
+        </figcaption>
+      </figure>
     </section>
+
+    <section className="mx-auto max-w-[1320px] px-5 pb-14 sm:px-9" aria-labelledby="story-heading">
+      <div className="docvy-glass grid items-center gap-7 overflow-hidden p-6 sm:p-9 lg:grid-cols-[.85fr_1.15fr] lg:gap-12">
+        <Image src="/images/docvy-doctor-discovery.png" alt="Paper-style illustration of a family looking through doctor options together" width={1536} height={1024} sizes="(max-width: 1023px) 88vw, 42vw" className="aspect-[3/2] w-full rounded-3xl object-cover" />
+        <div>
+          <p className="docvy-eyebrow">WHY DOCVY STARTED</p>
+          <h2 id="story-heading" className="mt-3 text-3xl font-bold tracking-tight sm:text-5xl">A clearer place to begin.</h2>
+          <p className="mt-4 max-w-xl text-base leading-7 text-[#5d5040]">A report lands in your hands. A parent asks which doctor to call. You open your phone and suddenly there are more choices than answers. DOCVY began with a simple idea: people should be able to understand their options before they walk into a clinic.</p>
+          <p className="mt-3 max-w-xl leading-7 text-[#5d5040]">We’re building a place where families in India can look up unfamiliar terms, understand what different specialists do, and make a list of questions to take to their care team.</p>
+          <Link href="/about" className="docvy-pill docvy-pill-primary mt-5">Read the DOCVY story <ArrowUpRight size={16} aria-hidden="true" /></Link>
+        </div>
+      </div>
+    </section>
+
+    <section className="mx-auto max-w-[1320px] px-5 pb-14 sm:px-9" aria-labelledby="featured-specialty-heading">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="docvy-eyebrow">EXPLORE SPECIALTIES</p>
+          <h2 id="featured-specialty-heading" className="mt-3 text-3xl font-bold tracking-tight sm:text-5xl">Start with the care you need.</h2>
+        </div>
+        <Link href="#specialty-directory" className="docvy-pill">See all specialties <ArrowUpRight size={16} aria-hidden="true" /></Link>
+      </div>
+      <div className="mt-6 grid gap-4 md:grid-cols-3">
+        {featuredSpecialties.map(({ slug, title, text, position }) => <Link key={slug} href={`/specialties/${slug}`} className="docvy-glass group overflow-hidden hover:bg-white">
+          <div className="aspect-[4/3] bg-[#e8dac2] bg-no-repeat" style={{ backgroundImage: "url(/images/docvy-specialty-scenes.jpg)", backgroundSize: "300% auto", backgroundPosition: position + " 18%" }} aria-hidden="true" />
+          <div className="p-5 sm:p-6">
+            <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#fff3d9] text-[#70501f]"><SpecialtyIcon slug={slug} /></span>
+            <h3 className="mt-3 text-xl font-bold group-hover:underline">{title}</h3>
+            <p className="mt-2 text-sm leading-6 text-[#5d5040]">{text}</p>
+            <span className="mt-4 flex items-center gap-2 text-sm font-bold text-[#70501f]">Explore this specialty <ArrowUpRight size={16} aria-hidden="true" /></span>
+          </div>
+        </Link>)}
+      </div>
+      <p className="mt-3 text-xs text-[#5d5040]">AI-generated illustrations of care settings.</p>
+    </section>
+
     <section id="doctor-options" aria-labelledby="doctor-options-heading" className="mx-auto max-w-[1320px] scroll-mt-28 px-5 pb-10 sm:px-9">
       <p className="docvy-eyebrow">FIND A DOCTOR</p>
       <h2 id="doctor-options-heading" className="mt-3 text-3xl font-bold tracking-tight sm:text-5xl">Which doctor do you need?</h2>
