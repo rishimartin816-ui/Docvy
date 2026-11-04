@@ -1,13 +1,15 @@
+import { clinicCrmConfig } from "./clinic-crm-config";
 import type { ProviderCandidate } from "./provider-candidates";
 
 export function crmIntakeConfig() {
   const { DOCVY_CRM_INTAKE_URL, DOCVY_CRM_INTAKE_KEY, DOCVY_CRM_INTAKE_ENABLED } = process.env;
   if (DOCVY_CRM_INTAKE_ENABLED !== "true" || !DOCVY_CRM_INTAKE_URL || !DOCVY_CRM_INTAKE_KEY) return null;
+  const workspace = clinicCrmConfig();
+  if (!workspace) return null;
   try {
     const url = new URL(DOCVY_CRM_INTAKE_URL);
-    if (url.protocol !== "https:" || !/^[a-z0-9]+\.supabase\.co$/.test(url.hostname)) return null;
-    if (url.username || url.password || url.port ||
-        (process.env.VERCEL_ENV === "production" && url.hostname === "pmyzedtpogmhvcrurcau.supabase.co")) return null;
+    if (url.origin !== workspace.url || url.username || url.password || url.port ||
+        url.pathname !== "/" || url.search || url.hash) return null;
     return { url, key: DOCVY_CRM_INTAKE_KEY };
   } catch {
     return null;
@@ -21,6 +23,7 @@ export function isAppointmentIntakeConfigured() {
 }
 
 export async function providersWithAppointmentIntake(providers: ProviderCandidate[]) {
+  if (!providers.length) return [];
   if (process.env.DOCVY_CRM_INTAKE_ENABLED !== "true") {
     return isAppointmentIntakeConfigured() ? providers : [];
   }
