@@ -7,7 +7,7 @@ import { providerCityListLabel } from "@/lib/provider-candidates";
 export const metadata: Metadata = {
   title: "Appointment status",
   description: "DOCVY enquiries do not confirm or track an appointment.",
-  robots: { index: false, follow: false },
+  alternates: { canonical: "/status" }, robots: { index: false, follow: false },
   ...buildPageSocialMetadata("Appointment status | DOCVY", "DOCVY enquiries do not confirm or track an appointment.", "/status"),
 };
 

@@ -4,7 +4,7 @@ import { ArrowUpRight, CalendarDays, ClipboardList, ShieldCheck, Stethoscope } f
 import { clinicCrmConfig } from "@/lib/clinic-crm-config";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "DOCVY clinic workspace", robots: { index: false, follow: true } };
+export const metadata: Metadata = { title: "DOCVY clinic workspace", description: "Explore the DOCVY clinic workspace and find staff and owner sign-in.", alternates: { canonical: "/for-clinics" }, robots: { index: false, follow: true } };
 
 const tools = [
   { title: "Manage appointments", text: "Open and block slots, confirm bookings, or reschedule a visit.", icon: CalendarDays },

@@ -4,7 +4,7 @@ import StagingCalendar from "@/components/StagingCalendar";
 import { clinicCrmConfig } from "@/lib/clinic-crm-config";
 
 export const dynamic = "force-dynamic";
-export const metadata = { robots: { index: false, follow: false } };
+export function generateMetadata() { return { title: "Clinic staff sign-in", description: "Sign in to the DOCVY workspace to manage your clinic schedule.", alternates: { canonical: "/crm/clinic" }, robots: { index: false, follow: false } }; }
 
 export default function ClinicPage() {
   const config = clinicCrmConfig();

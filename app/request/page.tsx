@@ -16,12 +16,12 @@ export function generateMetadata(): Metadata {
   return {
     title,
     description,
-    robots: { index: false, follow: false },
+    alternates: { canonical: "/request" }, robots: { index: false, follow: false },
     openGraph: {
       type: "website", locale: "en_IN", siteName: "DOCVY", title, description,
       url: "/request", images: [docvyOpenGraphImage],
     },
-    twitter: { card: "summary_large_image", title, description, images: ["/opengraph-image"] },
+    twitter: { card: "summary_large_image", title, description, images: [docvyOpenGraphImage.url] },
   };
 }
 

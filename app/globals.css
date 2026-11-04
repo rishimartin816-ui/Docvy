@@ -27,14 +27,14 @@ a {
 }
 
 :focus-visible {
-  outline: 3px solid #202124;
+  outline: 3px solid #402442;
   outline-offset: 3px;
   border-radius: 6px;
 }
 
 ::selection {
-  background: #f0eff8;
-  color: #151518;
+  background: #f3eaf3;
+  color: #402442;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -50,19 +50,19 @@ a {
 
 /* DOCVY neutral surfaces and controls. */
 .docvy-garden {
-  color: #151518;
-  background: radial-gradient(ellipse at 82% 5%, #f0eff8 0%, transparent 48%),
-    radial-gradient(ellipse at 3% 48%, #eeecfa 0%, transparent 40%), #fafafb;
+  color: #402442;
+  background: radial-gradient(ellipse at 82% 5%, #f3eaf3 0%, transparent 48%),
+    radial-gradient(ellipse at 3% 48%, #f4e8f1 0%, transparent 40%), #f5efe6;
 }
 .docvy-glass {
-  border: 1px solid #e5e5ea;
+  border: 1px solid #e4d8cf;
   border-radius: 26px;
   background: rgba(255,255,255,.82);
   box-shadow: 0 12px 36px rgba(28,28,36,.10);
   backdrop-filter: blur(18px);
 }
 .docvy-eyebrow {
-  color: #545761;
+  color: #594c55;
   font-size: .72rem;
   font-weight: 800;
   letter-spacing: .13em;
@@ -75,22 +75,22 @@ a {
   min-height: 44px;
   padding: .55rem .95rem;
   border-radius: 999px;
-  border: 1px solid #e5e5ea;
+  border: 1px solid #e4d8cf;
   background: #fff;
-  color: #202124;
+  color: #402442;
   font-size: .875rem;
   font-weight: 700;
   white-space: nowrap;
 }
-.docvy-pill:hover { background: #f0eff8; }
-.docvy-pill-primary { background: #202124; color: #fff; border-color: #202124; }
-.docvy-pill-primary:hover { background: #383940; }
+.docvy-pill:hover { background: #f3eaf3; }
+.docvy-pill-primary { background: #402442; color: #fff; border-color: #402442; }
+.docvy-pill-primary:hover { background: #593456; }
 .docvy-select {
   width: 100%;
   min-height: 44px;
   padding: .5rem .75rem;
-  border: 1px solid #e5e5ea;
+  border: 1px solid #e4d8cf;
   border-radius: 13px;
   background: #fff;
-  color: #151518;
+  color: #402442;
 }

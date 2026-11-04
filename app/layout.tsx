@@ -1,14 +1,15 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { DM_Sans, Inter } from "next/font/google";
+import { Manrope, Inter } from "next/font/google";
 import Nav from "@/components/Nav";
+import RouteBreadcrumbs from "@/components/RouteBreadcrumbs";
 import Footer from "@/components/Footer";
 import { docvyOpenGraphImage } from "@/lib/metadata";
 
-const docvyFont = DM_Sans({
+const docvyFont = Manrope({
   subsets: ["latin"],
   variable: "--font-head",
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 const docvyBodyFont = Inter({
@@ -38,9 +39,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "DOCVY — Healthcare discovery across India",
     description: "DOCVY helps people in India understand medical specialties and prepare for a visit with plain-language patient guides.",
-    images: ["/opengraph-image"],
+    images: [docvyOpenGraphImage.url],
   },
-  robots: process.env.VERCEL_ENV === "preview" ? { index: false, follow: false } : {
+  robots: process.env.VERCEL_ENV !== "production" || process.env.DOCVY_INDEXING_ENABLED !== "true" ? { index: false, follow: false } : {
     index: true,
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
@@ -84,7 +85,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <Nav />
-        <main id="main">{children}</main>
+        <main id="main"><RouteBreadcrumbs />{children}</main>
         <Footer />
       </body>
     </html>

@@ -8,6 +8,8 @@ export type PatientTopicGuide = {
   answer: string;
   relatedSpecialties: string[];
   procedure?: string;
+  lastReviewed?: string;
+  reviewedBy?: string;
   questions: { question: string; answer: string }[];
   references: { label: string; url: string }[];
 };

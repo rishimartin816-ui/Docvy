@@ -18,7 +18,9 @@ export const surgeryGroups = [
   { name: "Ear, nose and throat", specialty: "ENT", procedures: ["Tonsil removal", "Adenoid removal", "Septoplasty", "Endoscopic sinus surgery", "Eardrum repair"] },
   { name: "Reproductive health", specialty: "Gynaecology", procedures: ["Hysterectomy", "Fibroid removal", "Ovarian cyst removal", "Endometriosis surgery"] },
   { name: "Urinary health", specialty: "Urology", procedures: ["Kidney stone removal", "Prostate surgery", "Hydrocele repair", "Varicocele repair"] },
-  { name: "Heart and circulation", specialty: "Cardiac surgery", procedures: ["Coronary artery bypass", "Heart valve repair or replacement", "Pacemaker implantation"] },
+  { name: "Heart and circulation", specialty: "Cardiac surgery", procedures: ["Coronary artery bypass", "Heart valve repair or replacement"] },
+  // Confirm pacemaker taxonomy with the medical reviewer before publishing clinical details.
+  { name: "Heart rhythm procedures", specialty: "Cardiology", procedures: ["Pacemaker implantation"] },
   { name: "Blood vessels", specialty: "Vascular surgery", procedures: ["Varicose vein procedures", "Peripheral artery bypass"] },
   { name: "Brain and spine", specialty: "Neurosurgery", procedures: ["Spinal decompression", "Brain tumour surgery"] },
   { name: "Teeth and jaw", specialty: "Oral surgery", procedures: ["Wisdom tooth removal", "Jaw surgery", "Dental implant placement"] },

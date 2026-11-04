@@ -1,59 +1,31 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import DiscoverySearch, { DemoProvider, discoveryCities, discoverySpecialties } from "@/components/DiscoverySearch";
-import { procedures, specialties } from "@/lib/care-directory";
+import DiscoverySearch from "@/components/DiscoverySearch";
+import { Breadcrumbs, DoctorCards } from "@/components/DirectoryPage";
+import { cities, citySlug, searchDoctors, slugify } from "@/lib/directory";
 import { clinicCrmConfig } from "@/lib/clinic-crm-config";
-import { crmIntakeConfig, providersWithAppointmentIntake } from "@/lib/appointment-intake";
-import { providerCandidates } from "@/lib/provider-candidates";
+import { buildPageSocialMetadata } from "@/lib/metadata";
 
-export const dynamic = "force-dynamic";
-export const metadata: Metadata = {
-  title: "Browse doctors by specialty and city",
-  description: "Browse DOCVY's doctor directory by city, specialty, or procedure.",
-  robots: { index: false, follow: true },
-};
+const title = "Find doctors and specialists across India";
+const description = "Search DOCVY by doctor, symptom, specialty, or clinic. Explore patient guides and learn what to check before arranging an appointment in India.";
+export function generateMetadata() {
+  return { title, description, alternates: { canonical: "/doctors" }, ...buildPageSocialMetadata(title + " | DOCVY", description, "/doctors") };
+}
 
-export default async function DoctorsPage({ searchParams }: { searchParams: { city?: string; specialty?: string; procedure?: string } }) {
-  const city = discoveryCities.find((item) => item === searchParams.city) ?? "";
-  const procedure = procedures.find(({ name }) => name === searchParams.procedure);
-  const specialty = procedure?.specialty ?? discoverySpecialties.find((item) => item === searchParams.specialty) ?? "";
-  const matches = providerCandidates.filter((doctor) =>
-    (!city || doctor.locations.some((location) => location.city === city)) &&
-    (!specialty || doctor.specialties.some((name) => name.toLowerCase() === specialty.toLowerCase())) &&
-    (!procedure || doctor.procedures?.includes(procedure.name))
-  );
-  const routedDoctors = matches.length && crmIntakeConfig() ? await providersWithAppointmentIntake(matches) : [];
-  const hasDemo = !procedure && (!city || city === "Delhi") && (!specialty || specialty === "General medicine");
-  const specialtyPage = specialties.find(({ name }) => name === specialty);
-  const guideHref = procedure ? "/surgery-guide#procedures" : specialtyPage ? "/specialties/" + specialtyPage.slug : "/specialties";
-  const guideLabel = procedure ? "Back to procedures" : specialtyPage ? "Read the specialty guide" : "Explore specialties";
-
-  return <div className="docvy-garden">
-    <div className="mx-auto max-w-5xl px-5 py-12 sm:px-9 sm:py-16">
-      <p className="docvy-eyebrow">DOCTOR DIRECTORY</p>
-      <h1 className="mt-4 text-4xl font-bold leading-tight tracking-[-.05em] text-[#151518] sm:text-6xl">{procedure?.name ?? (specialty || "Find a doctor")}</h1>
-      <p className="mb-7 mt-4 max-w-2xl leading-7 text-[#545761]">{procedure ? "Choose a city to see doctors listed for this procedure." : "Choose a city and the type of doctor you want to see."}</p>
-      <DiscoverySearch city={city} specialty={specialty} procedure={procedure?.name} />
-      <div className="mt-7 space-y-4">
-        {matches.map((doctor) => <article key={doctor.id} className="docvy-glass p-6">
-          <h2 className="text-2xl font-bold">{doctor.name}</h2>
-          <p className="mt-2 text-[#545761]">{doctor.specialties.join(", ")}</p>
-          <ul className="mt-2 text-[#545761]">{doctor.locations.filter((location) => !city || location.city === city).map((location) =>
-            <li key={location.city + location.facility} className="flex flex-wrap items-center justify-between gap-2 py-2">
-              <span>{location.facility}, {location.city}</span>
-              {routedDoctors.some((routed) => routed.id === doctor.id && routed.locations.some((branch) => branch.city === location.city && branch.facility === location.facility)) &&
-                <Link className="docvy-pill docvy-pill-primary" href={{ pathname: "/request", query: { provider: doctor.id, city: location.city, facility: location.facility } }}>Request an appointment</Link>}
-            </li>
-          )}</ul>
-          <a href={doctor.sourceUrl} className="docvy-pill docvy-pill-primary mt-4">View hospital profile</a>
-        </article>)}
-        {matches.length === 0 && <section className="docvy-glass p-6">
-          <h2 className="text-2xl font-bold text-[#151518]">{procedure ? "No doctors are listed for this procedure yet" : "No doctors are listed for this search yet"}</h2>
-          <p className="mt-2 text-[#545761]">{procedure ? "You can return to the surgery guide for questions to ask your care team." : "Read about the different types of doctors and what to bring to a visit."}</p>
-          <Link href={guideHref} className="docvy-pill mt-4">{guideLabel}</Link>
-        </section>}
-        {hasDemo && <section aria-labelledby="consultations"><h2 id="consultations" className="mb-3 text-2xl font-bold">Try a fictional consultation</h2><DemoProvider bookingHref={clinicCrmConfig()?.staging === true ? "/book" : "https://docvy-clinic-demo.vercel.app/book"} /></section>}
-      </div>
-    </div>
-  </div>;
+export default function DoctorsPage({ searchParams }: { searchParams: { q?: string; specialty?: string; location?: string } }) {
+  const query = typeof searchParams.q === "string" ? searchParams.q.slice(0, 120).trim() : "";
+  const specialty = typeof searchParams.specialty === "string" ? searchParams.specialty : "";
+  const city = typeof searchParams.location === "string" ? citySlug(searchParams.location) : "";
+  const results = searchDoctors(query, city || undefined).filter((doctor) => !specialty || doctor.specialties.some((name) => slugify(name) === slugify(specialty)));
+  return <div className="docvy-garden"><div className="mx-auto max-w-6xl px-5 py-12 sm:px-9">
+    <Breadcrumbs items={[{ name: "Doctors", href: "/doctors" }]} />
+    <h1 className="text-4xl font-bold sm:text-6xl">Find doctors across India</h1>
+    <div className="mt-5"><DiscoverySearch query={query} city={city} /></div>
+    <section className="mt-8"><h2 className="text-2xl font-bold">Doctor listings</h2>
+      {results.length ? <DoctorCards doctors={results} /> : <p className="mt-3">No live doctor listings match this search. You can <Link href="/specialties" className="underline">explore specialty guides</Link> while listings are being added.</p>}
+    </section>
+    <section className="mt-8"><h2 className="text-2xl font-bold">Browse by city</h2>
+      <ul className="mt-3 flex flex-wrap gap-2">{cities.map(({ slug, name }) => <li key={slug}><Link className="docvy-pill" href={"/doctors/" + slug}>{name}</Link></li>)}</ul>
+    </section>
+    {!query && !specialty && !city && <section className="mt-8"><h2 className="mb-3 text-2xl font-bold">Try a fictional consultation</h2><Link className="docvy-pill" href={clinicCrmConfig()?.staging ? "/book" : "https://docvy-clinic-demo.vercel.app/book"}>Open the fictional booking demo</Link></section>}
+  </div></div>;
 }

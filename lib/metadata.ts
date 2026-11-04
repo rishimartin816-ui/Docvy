@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 
+export const productionOrigin = "https://www.docvy.in";
 export const docvyOpenGraphImage = {
-  url: "/opengraph-image",
+  url: productionOrigin + "/opengraph-image",
   width: 1200,
   height: 630,
   alt: "DOCVY patient guides for people across India.",
@@ -20,14 +21,14 @@ export function buildPageSocialMetadata(
       siteName: "DOCVY",
       title,
       description,
-      url,
+      url: new URL(url, productionOrigin).href,
       images: [docvyOpenGraphImage],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/opengraph-image"],
+      images: [docvyOpenGraphImage.url],
     },
   };
 }

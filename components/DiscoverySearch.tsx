@@ -1,52 +1,22 @@
-import { specialties, surgeryGroups } from "@/lib/care-directory";
-import Link from "next/link";
-import { ArrowUpRight, CalendarDays, MapPin, MessageSquare, Search, Stethoscope } from "lucide-react";
+import { Search } from "lucide-react";
+import { liveCities } from "@/lib/directory";
 
-export const discoveryCities = ["Delhi", "Gurugram", "Noida", "Mumbai", "Bengaluru", "Hyderabad", "Chennai", "Kolkata", "Pune", "Ahmedabad", "Jaipur", "Lucknow", "Kochi", "Chandigarh", "Guwahati", "Bhubaneswar", "Indore", "Patna"];
-export const discoverySpecialties = [...new Set([...specialties.map(({ name }) => name), ...surgeryGroups.map(({ specialty }) => specialty)])];
-
-export default function DiscoverySearch({ city = "", specialty = "", procedure }: { city?: string; specialty?: string; procedure?: string }) {
-  return <form action="/doctors" className="docvy-glass grid gap-3 p-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end sm:p-5">
-    {procedure && <input type="hidden" name="procedure" value={procedure} />}
-    <label className="min-w-0 text-sm font-semibold">
-      <span className="mb-1.5 flex items-center gap-2"><MapPin size={16} aria-hidden="true" /> City</span>
-      <select name="city" defaultValue={city} className="docvy-select">
-        <option value="">All cities</option>
-        {discoveryCities.map((item) => <option key={item}>{item}</option>)}
-      </select>
-    </label>
-    <label className="min-w-0 text-sm font-semibold">
-      <span className="mb-1.5 flex items-center gap-2"><Stethoscope size={16} aria-hidden="true" /> Specialty</span>
-      {procedure ? <><input type="hidden" name="specialty" value={specialty} /><span className="docvy-select block">{specialty}</span></> : <select name="specialty" defaultValue={specialty} className="docvy-select">
-        <option value="">All specialties</option>
-        {discoverySpecialties.map((item) => <option key={item}>{item}</option>)}
-      </select>}
-    </label>
-    <button className="docvy-pill docvy-pill-primary" type="submit"><Search size={17} aria-hidden="true" /> Find care</button>
-  </form>;
-}
-
-export function DemoProvider({ bookingHref }: { bookingHref: string }) {
-  return <article className="docvy-glass overflow-hidden">
-    <div className="grid gap-5 p-5 sm:p-7 md:grid-cols-[1fr_auto] md:items-center">
-      <div className="flex items-start gap-4">
-        <span className="grid h-16 w-16 shrink-0 place-items-center rounded-[20px] bg-[#f0eff8] text-[#202124]">
-          <Stethoscope size={29} aria-hidden="true" />
-        </span>
-        <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#545761]">Fictional consultation profile</p>
-          <h3 className="mt-1 text-2xl font-bold text-[#151518]">DOCVY Test Doctor</h3>
-          <p className="font-medium text-[#545761]">General medicine · In-clinic demo</p>
-          <p className="mt-2 flex items-center gap-1.5 text-sm text-[#545761]"><MapPin size={15} aria-hidden="true" /> DOCVY Test Hospital, Delhi</p>
-        </div>
-      </div>
-      <div className="flex flex-col items-start gap-2 md:items-end">
-        <Link href={bookingHref} className="docvy-pill docvy-pill-primary"><CalendarDays size={17} aria-hidden="true" /> View demo slots <ArrowUpRight size={17} aria-hidden="true" /></Link>
-        <span className="text-xs text-[#545761]">No payment or real appointment</span>
-      </div>
-    </div>
-    <div className="flex items-start gap-2 border-t border-[#e5e5ea] bg-[#f6f6f9] px-5 py-3 text-sm text-[#545761] sm:px-7">
-      <MessageSquare size={17} className="mt-0.5 shrink-0" aria-hidden="true" /> Patient reviews are unavailable for this fictional profile.
-    </div>
-  </article>;
+export default function DiscoverySearch({ query = "", city = "" }: { query?: string; city?: string }) {
+  return <div>
+    <form action="/doctors" className="docvy-glass flex flex-wrap items-end gap-3 p-4 sm:p-5">
+      <label className="min-w-0 flex-1 basis-52 text-sm font-semibold">
+        <span className="mb-1.5 block">Find care</span>
+        <input type="search" name="q" defaultValue={query} maxLength={120} placeholder="Symptom, doctor, specialty or clinic" className="docvy-select" />
+      </label>
+      {liveCities.length > 0 && <label className="min-w-32 text-sm font-semibold">
+        <span className="mb-1.5 block">City (optional)</span>
+        <select name="location" defaultValue={city} className="docvy-select">
+          <option value="">All India</option>
+          {liveCities.map(({ slug, name }) => <option key={slug} value={slug}>{name}</option>)}
+        </select>
+      </label>}
+      <button type="submit" className="docvy-pill docvy-pill-primary"><Search size={17} aria-hidden="true" /> Search</button>
+    </form>
+    <p className="mt-3 text-sm">In an emergency, call <a href="tel:112" className="font-bold underline">112</a> or go to the nearest hospital.</p>
+  </div>;
 }
