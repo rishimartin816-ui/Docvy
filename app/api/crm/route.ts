@@ -42,11 +42,16 @@ export async function GET(request: NextRequest) {
     const admin = request.nextUrl.searchParams.has("admin");
     const enquiries = request.nextUrl.searchParams.has("enquiries");
     const history = request.nextUrl.searchParams.get("history");
-    const clinic = admin || enquiries || history !== null || request.nextUrl.searchParams.has("clinic");
+    const doctors = request.nextUrl.searchParams.has("doctors");
+    const clinic = admin || doctors || enquiries || history !== null || request.nextUrl.searchParams.has("clinic");
     if (!clinic && !target.staging) return reply({ error: "Online booking unavailable" }, 404);
     if (clinic) {
       const access = await staff(clinicId, requestToken(request));
       if (!access || (admin && access.role !== "owner")) return reply({ error: "Staff access required" }, 403);
+      if (doctors) {
+        const result = await database("/rest/v1/crm_doctor_roster?select=id,name,specialty,present,changed_at&order=name,id&clinic_id=eq." + clinicId);
+        return result.ok ? reply(await result.json()) : reply({ error: "Doctor roster unavailable" }, 503);
+      }
       if (history !== null) {
         if (!uuid.test(history)) return reply({ error: "Enter a valid appointment reference" }, 400);
         const result = await database("/rest/v1/rpc/crm_booking_history", { actor: access.id, clinic: clinicId, booking: history });
@@ -116,7 +121,7 @@ export async function POST(request: NextRequest) {
         return reply({ error: "Staff sign-in failed" }, 403);
       }
       const canSchedule = ["owner", "clinic_admin", "manager", "receptionist", "scheduler"].includes(access.role);
-      return reply({ token, canSchedule });
+      return reply({ token, canSchedule, canManageDoctors: ["owner", "clinic_admin"].includes(access.role) });
     } catch {
       return reply({ error: "Sign-in unavailable" }, 503);
     }
@@ -178,6 +183,28 @@ export async function POST(request: NextRequest) {
       return result.ok ? reply({}) : reply({ error: "Enquiry update unavailable" }, 503);
     } catch {
       return reply({ error: "Enquiry update unavailable" }, 503);
+    }
+  }
+  if (input?.action === "doctor-presence" || input?.action === "add-doctor") {
+    const add = input.action === "add-doctor";
+    const name = typeof input.name === "string" ? input.name.trim() : "";
+    const specialty = typeof input.specialty === "string" ? input.specialty.trim() : "";
+    if (add ? name.length < 2 || name.length > 100 || specialty.length < 2 || specialty.length > 80
+      : typeof input.doctor !== "string" || !uuid.test(input.doctor) || typeof input.present !== "boolean") {
+      return reply({ error: "Enter valid doctor details" }, 400);
+    }
+    try {
+      const actor = await staff(clinicId, requestToken(request));
+      if (!actor || (add && !["owner", "clinic_admin"].includes(actor.role))) return reply({ error: "Staff access required" }, 403);
+      const result = add
+        ? await database("/rest/v1/crm_doctor_roster", { clinic_id: clinicId, name, specialty })
+        : await database("/rest/v1/rpc/crm_change_doctor_presence", { actor: actor.id, clinic: clinicId, doctor: input.doctor, desired: input.present });
+      if (result.status === 403) return reply({ error: "Scheduling access required" }, 403);
+      if (result.status === 404) return reply({ error: "Doctor not found" }, 404);
+      if (result.status === 409) return reply({ error: "This doctor is already on the roster" }, 409);
+      return result.ok ? reply({}) : reply({ error: "Doctor roster could not be updated" }, 503);
+    } catch {
+      return reply({ error: "Doctor roster could not be updated" }, 503);
     }
   }
   if (input?.action === "booking-fee") {

@@ -2,6 +2,7 @@
 
 import { CalendarDays, CalendarCheck, CalendarX, Clock3, LayoutDashboard, LogOut, Mail, RefreshCw, ShieldCheck } from "lucide-react";
 import Image from "next/image";
+import ClinicDoctorRoster from "@/components/ClinicDoctorRoster";
 import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 
@@ -30,6 +31,7 @@ const calendarDay = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" 
 
 export default function StagingCalendar({ clinic = false, admin = false, clinicName = "DOCVY Test Hospital", staging = true }: { clinic?: boolean; admin?: boolean; clinicName?: string; staging?: boolean }) {
   const [session, setSession] = useState("");
+  const [canManageDoctors, setCanManageDoctors] = useState(false);
   const [canSchedule, setCanSchedule] = useState(false);
   const [loadedPeriod, setLoadedPeriod] = useState("");
   const [slots, setSlots] = useState<Slot[]>([]);
@@ -95,6 +97,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
       setCanSchedule(data.canSchedule === true);
+      setCanManageDoctors(data.canManageDoctors === true);
       setSession(data.token);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Sign-in unavailable.");
@@ -287,7 +290,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
             <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-calendar"><CalendarDays size={16} aria-hidden="true" /> Appointments</a>
             {canSchedule && <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-enquiries"><Mail size={16} aria-hidden="true" /> Enquiries</a>}
             <button className="flex items-center gap-2 rounded-btn px-3 py-2 text-left text-sm hover:bg-white/85 disabled:opacity-50"
-              disabled={busy} onClick={() => { setSession(""); setCanSchedule(false); setLoadedPeriod(""); setSlots([]); setDestinations([]); setEnquiries(null); setHistory(null); setMessage(""); }}>
+              disabled={busy} onClick={() => { setSession(""); setCanSchedule(false); setCanManageDoctors(false); setLoadedPeriod(""); setSlots([]); setDestinations([]); setEnquiries(null); setHistory(null); setMessage(""); }}>
               <LogOut size={16} aria-hidden="true" /> Close session
             </button>
           </nav>}
@@ -341,6 +344,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                 </li>)}
               </ul>
             </section>}
+            <ClinicDoctorRoster session={session} canSchedule={canSchedule} canManage={canManageDoctors} />
             <section id="crm-calendar" className={glass + " p-4 sm:p-6"}>
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
