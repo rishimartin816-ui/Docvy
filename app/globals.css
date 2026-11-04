@@ -4,6 +4,12 @@
 
 :root {
   color-scheme: light;
+  --docvy-bg: #FFFCF8;
+  --docvy-surface: #F5EFE6;
+  --docvy-text: #29232D;
+  --docvy-muted: #746C75;
+  --docvy-border: #E5DCD7;
+  --docvy-accent: #402442;
 }
 
 html {
@@ -12,13 +18,13 @@ html {
 }
 
 body {
-  @apply bg-sand text-ink font-body leading-[1.65] antialiased;
+  @apply bg-porc text-ink font-body leading-[1.6] antialiased;
 }
 
 h1,
 h2,
 h3 {
-  @apply font-head text-plum tracking-tight;
+  @apply font-head text-ink;
 }
 
 button,
@@ -33,7 +39,7 @@ a {
 }
 
 ::selection {
-  background: #f3eaf3;
+  background: var(--docvy-surface);
   color: #402442;
 }
 
@@ -48,18 +54,40 @@ a {
   }
 }
 
-/* DOCVY neutral surfaces and controls. */
 .docvy-garden {
-  color: #402442;
-  background: radial-gradient(ellipse at 82% 5%, #f3eaf3 0%, transparent 48%),
-    radial-gradient(ellipse at 3% 48%, #f4e8f1 0%, transparent 40%), #f5efe6;
+  color: var(--docvy-text);
+  background: var(--docvy-bg);
 }
 .docvy-glass {
-  border: 1px solid #e4d8cf;
-  border-radius: 26px;
-  background: rgba(255,255,255,.82);
-  box-shadow: 0 12px 36px rgba(28,28,36,.10);
-  backdrop-filter: blur(18px);
+  border: 1px solid var(--docvy-border);
+  border-radius: 16px;
+  background: var(--docvy-bg);
+}
+.docvy-home {
+  background: var(--docvy-bg);
+  color: var(--docvy-text);
+  font-size: 1.0625rem;
+}
+.docvy-home h1 {
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+.docvy-home h2 {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -.02em;
+}
+.docvy-home-copy {
+  max-width: 65ch;
+  font-size: clamp(1.0625rem, 1.4vw, 1.125rem);
+  line-height: 1.6;
+}
+.docvy-home-section { padding-block: 56px; }
+@media (min-width: 768px) {
+  .docvy-home-section { padding-block: 104px; }
 }
 .docvy-eyebrow {
   color: #594c55;
@@ -75,22 +103,23 @@ a {
   min-height: 44px;
   padding: .55rem .95rem;
   border-radius: 999px;
-  border: 1px solid #e4d8cf;
-  background: #fff;
+  border: 1px solid var(--docvy-border);
+  background: var(--docvy-bg);
   color: #402442;
   font-size: .875rem;
   font-weight: 700;
   white-space: nowrap;
+  font-family: var(--font-head), "Google Sans", system-ui, sans-serif;
 }
-.docvy-pill:hover { background: #f3eaf3; }
-.docvy-pill-primary { background: #402442; color: #fff; border-color: #402442; }
+.docvy-pill:hover { background: var(--docvy-surface); }
+.docvy-pill-primary { min-height: 48px; background: #402442; color: #fff; border-color: #402442; }
 .docvy-pill-primary:hover { background: #593456; }
 .docvy-select {
   width: 100%;
   min-height: 44px;
   padding: .5rem .75rem;
-  border: 1px solid #e4d8cf;
+  border: 1px solid var(--docvy-border);
   border-radius: 13px;
-  background: #fff;
-  color: #402442;
+  background: var(--docvy-bg);
+  color: var(--docvy-text);
 }

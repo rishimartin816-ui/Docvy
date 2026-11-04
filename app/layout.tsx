@@ -1,16 +1,19 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Manrope, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import Nav from "@/components/Nav";
 import RouteBreadcrumbs from "@/components/RouteBreadcrumbs";
 import Footer from "@/components/Footer";
 import { docvyOpenGraphImage } from "@/lib/metadata";
 
-const docvyFont = Manrope({
-  subsets: ["latin"],
+const docvyFont = localFont({
+  src: "./fonts/google-sans-flex-latin-wght-normal.woff2",
   variable: "--font-head",
-  weight: ["400", "500", "600", "700", "800"],
+  weight: "100 1000",
   display: "swap",
+  fallback: ["Google Sans", "system-ui"],
+  adjustFontFallback: false,
 });
 const docvyBodyFont = Inter({
   subsets: ["latin"],

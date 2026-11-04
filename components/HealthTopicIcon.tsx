@@ -13,5 +13,5 @@ export const healthTopics = [
 
 export function HealthTopicIcon({ slug, size = 23 }: { slug: string; size?: number }) {
   const Icon = healthTopics.find((topic) => topic.slug === slug)?.icon ?? Stethoscope;
-  return <Icon size={size} aria-hidden="true" />;
+  return <Icon size={size} strokeWidth={1.5} aria-hidden="true" />;
 }
