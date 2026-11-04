@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 
 const { DOCVY_STAGING_PREVIEW, DOCVY_STAGING_STAFF_EMAIL, DOCVY_STAGING_STAFF_PASSWORD,
-  DOCVY_STAGING_VERCEL_BYPASS, DOCVY_STAGING_BOOKING_REFERENCE } = process.env;
+  DOCVY_STAGING_VERCEL_BYPASS, DOCVY_STAGING_BOOKING_REFERENCE,
+  DOCVY_STAGING_OWNER_EMAIL, DOCVY_STAGING_OWNER_PASSWORD } = process.env;
 
 function configuration() {
   if (!DOCVY_STAGING_PREVIEW || !DOCVY_STAGING_STAFF_EMAIL || !DOCVY_STAGING_STAFF_PASSWORD) {
@@ -17,6 +18,9 @@ function configuration() {
 
 async function verify() {
   const origin = configuration();
+  if (Boolean(DOCVY_STAGING_OWNER_EMAIL) !== Boolean(DOCVY_STAGING_OWNER_PASSWORD)) {
+    throw new Error("Set both staging owner credentials to verify owner-only access.");
+  }
   const booking = DOCVY_STAGING_BOOKING_REFERENCE;
   if (booking && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(booking)) {
     throw new Error("Provide a synthetic booking UUID for the staging history check.");
@@ -37,7 +41,7 @@ async function verify() {
   assert.ok(publicSlots.every((slot) => Object.keys(slot).sort().join(",") === "ends_at,id,starts_at"),
     "Public slots must expose only the slot ID and times");
 
-  for (const path of ["/api/crm?enquiries", "/api/crm?admin", "/api/crm?doctors", "/api/crm?history=" + (booking ?? "00000000-0000-4000-8000-000000000000")]) {
+  for (const path of ["/api/crm?enquiries", "/api/crm?admin", "/api/crm?team", "/api/crm?doctors", "/api/crm?history=" + (booking ?? "00000000-0000-4000-8000-000000000000")]) {
     const anonymous = await request(path);
     assert.equal(anonymous.status, 403, "Signed-out requests must be denied for " + path.split("=")[0]);
     assert.equal(anonymous.headers.get("cache-control"), "no-store");
@@ -61,6 +65,27 @@ async function verify() {
     assert.equal(result.status, 200, "Signed-in request failed for " + path);
     assert.equal(result.headers.get("cache-control"), "no-store", "Private response must not be cached");
     assert.ok(Array.isArray(await result.json()), "Signed-in request must return an array");
+  }
+
+  const staffTeam = await request("/api/crm?team", { headers });
+  assert.equal(staffTeam.status, 403, "A scheduler must not see owner-only team access");
+  if (DOCVY_STAGING_OWNER_EMAIL) {
+    const signIn = await request("/api/crm", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "sign-in", admin: true, email: DOCVY_STAGING_OWNER_EMAIL, password: DOCVY_STAGING_OWNER_PASSWORD }),
+    });
+    assert.equal(signIn.status, 200, "Staging owner sign-in failed");
+    const owner = await signIn.json();
+    assert.ok(typeof owner.token === "string" && owner.token.length > 0, "Owner sign-in must return an access token");
+    const team = await request("/api/crm?team", { headers: { Authorization: "Bearer " + owner.token } });
+    assert.equal(team.status, 200, "Owner team access failed");
+    assert.equal(team.headers.get("cache-control"), "no-store");
+    const counts = await team.json();
+    assert.ok(Number.isInteger(counts.owner) && counts.owner >= 1, "Team counts must include the owner");
+    console.log("Owner sign-in and role totals passed.");
+  } else {
+    console.log("Owner verification skipped. Staging owner credentials were not provided.");
   }
 
   if (booking) {
