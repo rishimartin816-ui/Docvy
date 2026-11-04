@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     description: "DOCVY helps people in India understand medical specialties and prepare for a visit with plain-language patient guides.",
     images: ["/opengraph-image"],
   },
-  robots: {
+  robots: process.env.VERCEL_ENV === "preview" ? { index: false, follow: false } : {
     index: true,
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },

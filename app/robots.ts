@@ -10,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/"],
       },
     ],
-    sitemap,
+    ...(process.env.VERCEL_ENV === "preview" ? {} : { sitemap }),
   };
 }

@@ -1,97 +1,94 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
-import { AlertTriangle, ArrowRight, BookOpenCheck, Building2, CalendarClock, MapPin, Search, ShieldCheck, Stethoscope } from "lucide-react";
-import { HealthTopicIcon } from "@/components/HealthTopicIcon";
+import { ArrowUpRight, ShieldCheck } from "lucide-react";
 import CareGuideSearch from "@/components/CareGuideSearch";
-import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
+import HealthcareBackdrop from "@/components/HealthcareBackdrop";
+import { HealthTopicIcon } from "@/components/HealthTopicIcon";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 import { patientTopicGuides } from "@/lib/patient-topic-guides";
-import { providerCityListLabel } from "@/lib/provider-candidates";
 
+const title = "Which doctor should I see? Patient guide";
+const description = "Find plain-language guides for common health concerns in India, learn what different specialists do, and prepare questions for your visit.";
+const canonical = "https://www.docvy.in/care-guide";
 
 export const metadata: Metadata = {
-  title: "What kind of doctor should I see? | Patient guide",
-  description: "Search a health condition, symptom or specialty to explore doctor types commonly associated with that topic. A plain-language guide for India; not a diagnosis or medical advice.",
-  alternates: { canonical: "/care-guide" },
-  ...buildPageSocialMetadata("What kind of doctor should I see? | Patient guide | DOCVY", "Search a health condition, symptom or specialty to explore doctor types commonly associated with that topic. A plain-language guide for India; not a diagnosis or medical advice.", "/care-guide"),
+  title,
+  description,
+  alternates: { canonical },
+  ...buildPageSocialMetadata(title + " | DOCVY", description, "/care-guide"),
 };
 
 export default function CareGuidePage() {
-  const intakeEnabled = isAppointmentIntakeConfigured();
+  const collection = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": canonical,
+    url: canonical,
+    name: title,
+    description,
+    inLanguage: "en-IN",
+    isPartOf: { "@id": "https://www.docvy.in/#website" },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: patientTopicGuides.map((guide, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: guide.topic,
+        url: "https://www.docvy.in/patient-guides/" + guide.slug,
+      })),
+    },
+  };
+
   return <div className="docvy-garden">
-    <section className="bg-[radial-gradient(circle_at_78%_35%,#D5F0E8_0%,#EAF5F1_38%,#F4FAF7_100%)] px-6 py-12 md:py-16">
-      <div className="mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-[1.02fr_.98fr] lg:gap-12">
-        <div>
-          <p className="inline-flex items-center gap-2 rounded-full border border-[#d9dae2] bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#202124]"><MapPin size={14} /> PATIENT GUIDE · INDIA</p>
-          <h1 className="mt-5 max-w-2xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[56px]">What kind of doctor should I see?</h1>
-          <p className="mt-5 max-w-2xl text-base leading-8 text-[#545761] md:text-lg">Start with a concern in your own words. Learn which types of doctors commonly help with it, then make a list of questions for your visit.</p>
-          <Link href="/doctors" className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#151518] px-5 text-sm font-bold text-white transition hover:bg-[#151518]">Explore the demo directory <ArrowRight size={16} aria-hidden="true" /></Link>
-        </div>
-        <figure className="relative mx-auto w-full max-w-[600px] overflow-hidden rounded-[28px] border border-white/80 bg-[#f6f6f9] shadow-[0_24px_70px_rgba(7,20,38,0.14)]">
-          <Image src="/images/docvy-patient-care-guide.png" alt="Illustration of a patient and care navigator exploring health guide topics represented by heart, skin and doctor specialty icons" width={1536} height={1024} priority sizes="(max-width: 1024px) 100vw, 50vw" className="h-auto w-full" />
-          <figcaption className="border-t border-[#e5e5ea] bg-white/90 px-4 py-3 text-center text-xs font-semibold text-[#545761]">A starting point for better questions, not a diagnosis.</figcaption>
-        </figure>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collection).replace(/</g, "\\u003c") }} />
+    <section className="relative isolate mx-auto max-w-[1320px] overflow-hidden px-5 py-12 sm:px-9 lg:py-20">
+      <HealthcareBackdrop className="pointer-events-none absolute -right-32 top-1/2 -z-10 w-[520px] max-w-none -translate-y-1/2 opacity-25 sm:right-0 lg:w-[670px] lg:opacity-90" />
+      <p className="docvy-eyebrow">PATIENT GUIDE · INDIA</p>
+      <h1 className="mt-4 max-w-xl text-4xl font-bold leading-[1.05] tracking-[-.05em] sm:text-6xl">Which doctor should I see?</h1>
+      <p className="mt-5 max-w-xl text-base leading-7 text-[#545761] sm:text-lg">A general physician can be a useful first point of contact if you’re unsure which specialist to see. If you already have a condition or a referral in mind, find a guide below and write down what you want to ask at your visit.</p>
+      <div className="mt-6 flex flex-wrap gap-3">
+        <a href="#guide-search" className="docvy-pill docvy-pill-primary">Search the guide <ArrowUpRight size={16} aria-hidden="true" /></a>
+        <Link href="/specialties" className="docvy-pill">Browse specialties</Link>
       </div>
     </section>
 
-    <section className="bg-white px-6 py-10 md:py-14" aria-labelledby="find-a-starting-point">
-      <div className="mx-auto max-w-6xl">
-        <p className="text-xs font-extrabold tracking-[0.13em] text-[#202124]">SEARCH THE PATIENT GUIDE</p>
-        <h2 id="find-a-starting-point" className="mt-2 text-2xl font-bold tracking-tight md:text-3xl">Find a useful starting point</h2>
-        <p className="mt-2 max-w-3xl text-sm leading-6 text-[#545761]">Use a health topic, symptom or specialty in your own words. Results explain broad directory categories and current listing coverage; they are not personal recommendations.</p>
+    <section id="guide-search" className="mx-auto max-w-[1320px] scroll-mt-28 px-5 pb-12 sm:px-9" aria-labelledby="guide-search-heading">
+      <div className="docvy-glass p-5 sm:p-8">
+        <h2 id="guide-search-heading" className="text-2xl font-bold tracking-tight sm:text-3xl">Start with your question</h2>
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-[#545761]">Try a symptom, condition, or type of doctor. The guide explains common specialty roles to help you prepare for a conversation with a clinician.</p>
         <CareGuideSearch />
       </div>
     </section>
 
-    <section className="bg-[#fafafb] px-6 py-8 md:py-10" aria-label="How to use this guide">
-      <div className="mx-auto max-w-6xl rounded-2xl border border-[#e5e5ea] bg-white/90 p-4 sm:p-5">
-        <div className="flex flex-wrap items-center justify-between gap-2"><p className="text-[10px] font-extrabold tracking-[0.14em] text-[#202124]">YOUR PLACE IN THE JOURNEY</p><span className="rounded-full bg-[#f0eff8] px-3 py-1 text-[10px] font-extrabold tracking-wide text-[#202124]">YOU ARE HERE · PATIENT GUIDE</span></div>
-        <ol className="mt-4 grid gap-3 md:grid-cols-4">
-          {[
-            { title: "A question or concern", detail: "What you searched", icon: Search, current: false },
-            { title: "Understand a specialty", detail: "This guide helps orient you", icon: BookOpenCheck, current: true },
-            { title: "Browse current doctors", detail: providerCityListLabel, icon: Stethoscope, current: false },
-            { title: intakeEnabled ? "Send an enquiry to DOCVY" : "Contact the provider directly", detail: intakeEnabled ? "DOCVY intake is open" : "Form currently paused", icon: CalendarClock, current: false },
-          ].map(({ title, detail, icon: Icon, current }, index) => <li key={title} className={`relative flex min-h-[90px] gap-3 rounded-xl p-3 ${current ? "bg-[#f0eff8] ring-1 ring-[#d9dae2]" : "bg-[#f6f6f9]"}`}>
-            <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${current ? "bg-[#202124] text-white" : "bg-white text-[#202124]"}`}><Icon size={17} aria-hidden="true" /></span>
-            <span><span className="block text-[10px] font-extrabold tracking-[0.1em] text-[#61636d]">STEP 0{index + 1}</span><span className="mt-1 block text-xs font-bold leading-5 text-[#151518]">{title}</span><span className="mt-0.5 block text-[11px] leading-4 text-[#545761]">{detail}</span></span>
-          </li>)}
-        </ol>
-      </div>
+    <section className="mx-auto max-w-[1320px] px-5 pb-12 sm:px-9" aria-labelledby="patient-topics">
+      <p className="docvy-eyebrow">PATIENT TOPICS</p>
+      <h2 id="patient-topics" className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Explore condition guides</h2>
+      <p className="mt-3 max-w-2xl leading-7 text-[#545761]">Each guide explains the topic in plain language, gives questions to take to your appointment, and links to its sources.</p>
+      <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {patientTopicGuides.map((guide) => <li key={guide.slug}>
+          <Link href={`/patient-guides/${guide.slug}`} className="docvy-glass group flex h-full items-start gap-4 p-5 hover:bg-white">
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#f0eff8] text-[#202124]"><HealthTopicIcon slug={guide.slug} size={22} /></span>
+            <span>
+              <strong className="block text-lg text-[#151518] group-hover:underline">{guide.topic}</strong>
+              <span className="mt-1 block text-sm leading-6 text-[#545761]">{guide.title}</span>
+              <span className="mt-2 flex items-center gap-2 text-sm font-bold">Read the guide <ArrowUpRight size={15} aria-hidden="true" /></span>
+            </span>
+          </Link>
+        </li>)}
+      </ul>
     </section>
 
-    <section className="mx-auto max-w-6xl px-6 py-10 md:py-14" aria-labelledby="popular-patient-questions">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div><p className="text-xs font-extrabold tracking-[0.13em] text-[#202124]">POPULAR PATIENT QUESTIONS</p><h2 id="popular-patient-questions" className="mt-3 text-2xl font-bold tracking-tight md:text-3xl">Start with a clear answer</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-[#545761]">Each guide explains broad doctor specialties, shows current directory coverage and links to its sources. It does not diagnose or recommend a personal clinician.</p></div>
-        <Link href="/doctors" className="inline-flex min-h-10 items-center gap-2 text-sm font-bold text-[#202124] underline decoration-[#d9dae2] underline-offset-4">Current doctor listings <ArrowRight size={15} aria-hidden="true" /></Link>
-      </div>
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{patientTopicGuides.map((guide) => <Link key={guide.slug} href={`/patient-guides/${guide.slug}`} className="group flex min-h-36 gap-4 rounded-2xl border border-[#e5e5ea] bg-white p-5 shadow-[0_6px_24px_rgba(23,58,55,0.025)] transition hover:-translate-y-0.5 hover:border-[#d9dae2] hover:shadow-[0_16px_36px_rgba(23,58,55,0.08)]"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#f0eff8] text-[#202124]"><HealthTopicIcon slug={guide.slug} size={20} /></span><span><span className="block font-bold text-[#151518] group-hover:text-[#202124]">{guide.topic}</span><span className="mt-2 block text-sm leading-6 text-[#545761]">{guide.title}</span><span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#202124]">Read the guide <ArrowRight size={13} aria-hidden="true" /></span></span></Link>)}</div>
-    </section>
-
-    <section className="mx-auto max-w-6xl px-6 py-12 md:py-16">
-      <div className="flex gap-4 rounded-2xl border border-[#E7C99A] bg-[#FFF9EE] p-5 md:p-6"><AlertTriangle className="mt-0.5 shrink-0 text-[#A36A12]" size={22} /><div><h2 className="font-bold text-[#5D461D]">This guide is for orientation, not diagnosis</h2><p className="mt-2 text-sm leading-6 text-[#6E5B39]">The examples are broad and may not fit your situation. The same symptom can have different causes; age, medical history, severity, and examination matter. A qualified clinician can assess your situation and recommend the next step. Do not delay urgent care while using an online guide.</p></div></div>
-      <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1fr]">
-        <article className="rounded-2xl border border-[#e5e5ea] bg-white p-6 md:p-7"><p className="text-xs font-extrabold tracking-[0.13em] text-[#202124]">IF YOU ARE UNSURE</p><h2 className="mt-3 text-xl font-bold">A general physician can be a useful starting point</h2><p className="mt-3 text-sm leading-7 text-[#545761]">For a new concern, several symptoms, or a condition you cannot place in a specialty, start by speaking with a general physician or internal-medicine doctor. They can assess your health and tell you if a specialist may be appropriate.</p></article>
-        <article className="rounded-2xl border border-[#F2D5A9] bg-[#FFF9EE] p-6 md:p-7"><p className="text-xs font-extrabold tracking-[0.13em] text-[#A36A12]">URGENT HELP</p><h2 className="mt-3 text-xl font-bold text-[#5D461D]">Emergencies need immediate help</h2><p className="mt-3 text-sm leading-7 text-[#6E5B39]">If someone is unconscious, struggling to breathe, has severe chest pain, uncontrolled bleeding, or another life-threatening emergency, call <a className="font-bold underline underline-offset-4" href="tel:112">112 in India</a> or go to the nearest emergency department. Do not wait for a directory listing or online reply.</p></article>
+    <section className="mx-auto max-w-[1320px] px-5 pb-16 sm:px-9" aria-labelledby="guide-safety">
+      <div className="docvy-glass p-6 sm:p-8">
+        <ShieldCheck size={24} className="text-[#202124]" aria-hidden="true" />
+        <h2 id="guide-safety" className="mt-3 text-2xl font-bold">How to use these guides</h2>
+        <p className="mt-3 max-w-3xl leading-7 text-[#545761]">Use these guides to understand specialty terms and prepare questions for your care team. A clinician can assess your individual situation. For a life-threatening emergency in India, call <a href="tel:112" className="font-bold underline underline-offset-4">112</a> or go to the nearest emergency department.</p>
+        <p className="mt-3 max-w-3xl text-sm leading-6 text-[#545761]">References are listed on each condition page. General background on how primary care works is available from Healthdirect Australia, and emergency information comes from India’s Emergency Response Support System.</p>
+        <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold">
+          <li><a className="underline underline-offset-4" href="https://www.healthdirect.gov.au/healthcare-and-services/roles-and-specialties/the-role-of-a-gp">Healthdirect’s guide to general practice</a></li>
+          <li><a className="underline underline-offset-4" href="https://112.gov.in/">India’s Emergency Response Support System</a></li>
+        </ul>
       </div>
     </section>
-
-    <section className="border-y border-[#e5e5ea] bg-white px-6 py-12 md:py-16"><div className="mx-auto max-w-6xl">
-      <p className="text-xs font-extrabold tracking-[0.13em] text-[#202124]">WHAT YOU CAN DO ON THIS SITE TODAY</p><h2 className="mt-3 max-w-3xl text-2xl font-bold tracking-tight md:text-3xl">A clear route from your question to your next check.</h2><p className="mt-3 max-w-3xl text-sm leading-7 text-[#545761]">DOCVY helps you understand the directory and find source-linked information. It does not make the medical decision for you or contact a provider on your behalf.</p>
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{[
-        { icon: Search, title: "1. Search in your own words", description: "Enter a concern such as diabetes, a symptom such as joint pain, or a specialty you already know. Try a broader word if the guide has no exact match." },
-        { icon: BookOpenCheck, title: "2. Read the specialty overview", description: "The guide describes what a specialty commonly covers and examples people may search. Similar concerns can have different causes, so this is orientation only." },
-        { icon: MapPin, title: "3. See if a city is covered", description: `Current doctor profiles are in ${providerCityListLabel}. The guide works across India; other city listings are planned when enough useful, source-linked profiles are ready. No rollout date has been announced.` },
-        { icon: CalendarClock, title: intakeEnabled ? "4. Send DOCVY an enquiry" : "4. Contact the provider directly", description: intakeEnabled ? "The open form records an enquiry in DOCVY’s private intake. It does not automatically contact the provider; confirm location, time and fee directly with the hospital or clinic." : "The DOCVY enquiry form is closed and does not collect details. Contact the hospital or clinic through its official source profile to confirm availability, time and fee." },
-      ].map(({ icon: Icon, title, description }) => <article key={title} className="relative overflow-hidden rounded-2xl border border-[#e5e5ea] bg-[#f6f6f9] p-5"><span aria-hidden="true" className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-[#f0eff8]" /><div className="relative"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-[#202124] shadow-sm"><Icon size={20} /></span><h3 className="mt-4 font-bold text-[#151518]">{title}</h3><p className="mt-2 text-sm leading-6 text-[#545761]">{description}</p></div></article>)}</div>
-      <div className="mt-8 grid gap-4 lg:grid-cols-2">
-        <article className="flex gap-4 rounded-2xl border border-[#e5e5ea] bg-white p-5 md:p-6"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#f0eff8] text-[#202124]"><Building2 size={21} /></span><div><h3 className="font-bold">Where doctor profile details come from</h3><p className="mt-2 text-sm leading-6 text-[#545761]">The directory links to public doctor profile pages on hospital websites. DOCVY has not independently confirmed the doctors’ credentials, current workplaces or availability. The linked hospital page is the place to check the latest details.</p></div></article>
-        <article className="flex gap-4 rounded-2xl border border-[#e5e5ea] bg-white p-5 md:p-6"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#FFF9EE] text-[#A36A12]"><ShieldCheck size={21} /></span><div><h3 className="font-bold">What happens after you choose a doctor?</h3><p className="mt-2 text-sm leading-6 text-[#545761]">{intakeEnabled ? "If you submit the open enquiry form, DOCVY records it in its private intake. Authorized staff at the selected clinic or hospital may review it for follow-up. Submitting it does not reserve a slot." : "Today, you leave DOCVY through the source link and contact the hospital or clinic directly. The enquiry form is not collecting details, and DOCVY does not reserve a slot or send a confirmation."}</p></div></article>
-      </div>
-      <div className="mt-8 rounded-2xl bg-[#25252b] p-6 text-white md:flex md:items-center md:justify-between md:gap-6"><div><p className="text-xs font-extrabold tracking-[0.13em] text-[#d8d3ff]">AVAILABLE NOW</p><h2 className="mt-2 text-xl font-bold text-white">Patient guides for people across India.</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-[#f0eff8]">Use the guide to prepare for a visit. You can also try the fictional clinic demo to see how booking works.</p></div><Link href="/doctors" className="mt-5 inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl bg-white px-5 text-sm font-bold text-[#25252b] hover:bg-[#f0eff8] md:mt-0">Browse by city and specialty <ArrowRight size={16} /></Link></div>
-    </div></section>
-
-    <section className="mx-auto max-w-6xl px-6 py-12 md:py-16"><h2 className="text-2xl font-bold">How this guide was prepared</h2><p className="mt-3 max-w-4xl text-sm leading-7 text-[#545761]">Search terms connect common concerns to broad directory specialties using the sources shown on matching cards. Condition-specific guides use Government of India material and examples from named public hospitals. A few general background links are from Healthdirect, an Australian health-information service; they explain broad terms only and do not set Indian referral rules. Local services and care routes vary. Use DOCVY to understand the directory, not for diagnosis or a personal doctor recommendation.</p><ul className="mt-4 flex flex-col gap-2 text-sm text-[#202124] sm:flex-row sm:flex-wrap sm:gap-5"><li><a className="underline underline-offset-4" href="https://www.healthdirect.gov.au/healthcare-and-services/roles-and-specialties/the-role-of-a-gp" target="_blank" rel="noreferrer">Healthdirect (Australia): the role of a GP</a></li><li><a className="underline underline-offset-4" href="https://www.healthdirect.gov.au/healthcare-and-services/general-health/what-is-a-referral" target="_blank" rel="noreferrer">Healthdirect (Australia): specialist referrals</a></li><li><a className="underline underline-offset-4" href="https://112.gov.in/" target="_blank" rel="noreferrer">Government of India: emergency number 112</a></li></ul></section>
   </div>;
 }

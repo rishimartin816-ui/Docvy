@@ -46,9 +46,21 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
     })),
   };
 
+  const articleJson = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: guide.title,
+    description: guide.metaDescription,
+    inLanguage: "en-IN",
+    mainEntityOfPage: { "@id": breadcrumbs[2].item },
+    publisher: { "@id": site + "/#organization" },
+    citation: guide.references.map((reference) => reference.url),
+  };
+
   return <div className="docvy-garden min-h-screen">
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJson).replace(/</g, "\\u003c") }} />
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJson).replace(/</g, "\\u003c") }} />
-    <section className="bg-[radial-gradient(circle_at_78%_35%,#D5F0E8_0%,#EAF5F1_38%,#F4FAF7_100%)] px-6 py-10 md:py-14">
+    <section className="px-5 py-10 sm:px-9 lg:py-14">
       <div className="mx-auto max-w-6xl">
         <nav aria-label="Breadcrumb" className="mb-8 text-sm text-[#545761]">
           <ol className="flex flex-wrap items-center gap-2">
