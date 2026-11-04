@@ -27,14 +27,14 @@ a {
 }
 
 :focus-visible {
-  outline: 3px solid #087F83;
+  outline: 3px solid #70501f;
   outline-offset: 3px;
   border-radius: 6px;
 }
 
 ::selection {
-  background: #DDF0E9;
-  color: #173A37;
+  background: #fff3d9;
+  color: #2e281f;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -48,21 +48,21 @@ a {
   }
 }
 
-/* Shared Healing Garden treatment for the website and clinic workspace. */
+/* Vanilla + Honey surfaces and controls. */
 .docvy-garden {
-  color: #1e3028;
-  background: radial-gradient(ellipse at 82% 5%, #e0efe5 0%, transparent 48%),
-    radial-gradient(ellipse at 3% 48%, #e8edcf 0%, transparent 40%), #fbfcf8;
+  color: #2e281f;
+  background: radial-gradient(ellipse at 82% 5%, #fff3d9 0%, transparent 48%),
+    radial-gradient(ellipse at 3% 48%, #fff1cb 0%, transparent 40%), #fffbf1;
 }
 .docvy-glass {
   border: 1px solid rgba(255,255,255,.92);
   border-radius: 26px;
-  background: rgba(255,255,255,.72);
-  box-shadow: 0 12px 36px rgba(36,90,70,.10);
+  background: rgba(255,250,236,.78);
+  box-shadow: 0 12px 36px rgba(112,80,31,.10);
   backdrop-filter: blur(18px);
 }
 .docvy-eyebrow {
-  color: #41584d;
+  color: #5d5040;
   font-size: .72rem;
   font-weight: 800;
   letter-spacing: .13em;
@@ -75,22 +75,22 @@ a {
   min-height: 44px;
   padding: .55rem .95rem;
   border-radius: 999px;
-  border: 1px solid #d5e5da;
+  border: 1px solid #e8dac2;
   background: #fff;
-  color: #245a46;
+  color: #70501f;
   font-size: .875rem;
   font-weight: 700;
   white-space: nowrap;
 }
-.docvy-pill:hover { background: #eaf2e8; }
-.docvy-pill-primary { background: #245a46; color: #fff; border-color: #245a46; }
-.docvy-pill-primary:hover { background: #194535; }
+.docvy-pill:hover { background: #fff3d9; }
+.docvy-pill-primary { background: #70501f; color: #fff; border-color: #70501f; }
+.docvy-pill-primary:hover { background: #563b16; }
 .docvy-select {
   width: 100%;
   min-height: 44px;
   padding: .5rem .75rem;
-  border: 1px solid #d5e5da;
+  border: 1px solid #e8dac2;
   border-radius: 13px;
   background: #fff;
-  color: #1e3028;
+  color: #2e281f;
 }

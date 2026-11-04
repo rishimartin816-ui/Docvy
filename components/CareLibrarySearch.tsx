@@ -16,16 +16,16 @@ export default function CareLibrarySearch({ entries }: { entries: Entry[] }) {
 
   return <div className="docvy-glass p-5 sm:p-7">
     <label htmlFor="care-library-search" className="block text-lg font-bold">Search conditions, specialties and procedures</label>
-    <div className="mt-3 flex items-center gap-3 rounded-xl border border-[#a6c7b5] bg-white px-4 focus-within:ring-2 focus-within:ring-[#245a46]">
-      <Search size={20} className="shrink-0 text-[#245a46]" aria-hidden="true" />
-      <input id="care-library-search" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Try kidney stones or cataract" className="min-h-12 w-full bg-transparent text-[#1e3028] outline-none" aria-controls="care-library-results" />
+    <div className="mt-3 flex items-center gap-3 rounded-xl border border-[#b69a6f] bg-white px-4 focus-within:ring-2 focus-within:ring-[#70501f]">
+      <Search size={20} className="shrink-0 text-[#70501f]" aria-hidden="true" />
+      <input id="care-library-search" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Try kidney stones or cataract" className="min-h-12 w-full bg-transparent text-[#2e281f] outline-none" aria-controls="care-library-results" />
     </div>
     <div id="care-library-results" className="mt-3">
-      <p role="status" className="text-sm text-[#41584d]">{words.length ? matches.length ? `${matches.length} results${matches.length > 8 ? ", showing the first 8" : ""}` : "No results. Try a shorter search, or browse the sections below." : "Search the library to jump straight to a guide or a doctor search."}</p>
-      <ul className="divide-y divide-[#d5e5da]">
+      <p role="status" className="text-sm text-[#5d5040]">{words.length ? matches.length ? `${matches.length} results${matches.length > 8 ? ", showing the first 8" : ""}` : "No results. Try a shorter search, or browse the sections below." : "Search the library to jump straight to a guide or a doctor search."}</p>
+      <ul className="divide-y divide-[#e8dac2]">
         {matches.slice(0, 8).map(({ title, category, href }) => <li key={href}>
-          <Link href={href} className="flex min-h-12 items-center gap-3 py-2 text-[#245a46] hover:underline">
-            <span className="flex-1"><strong className="block">{title}</strong><span className="text-xs text-[#41584d]">{category}</span></span>
+          <Link href={href} className="flex min-h-12 items-center gap-3 py-2 text-[#70501f] hover:underline">
+            <span className="flex-1"><strong className="block">{title}</strong><span className="text-xs text-[#5d5040]">{category}</span></span>
             <ArrowUpRight size={17} aria-hidden="true" />
           </Link>
         </li>)}

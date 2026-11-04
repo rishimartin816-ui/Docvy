@@ -31,14 +31,14 @@ export default async function DoctorsPage({ searchParams }: { searchParams: { ci
   return <div className="docvy-garden">
     <div className="mx-auto max-w-5xl px-5 py-12 sm:px-9 sm:py-16">
       <p className="docvy-eyebrow">DOCTOR DIRECTORY</p>
-      <h1 className="mt-4 text-4xl font-bold leading-tight tracking-[-.05em] text-[#1e3028] sm:text-6xl">{procedure?.name ?? (specialty || "Find a doctor")}</h1>
-      <p className="mb-7 mt-4 max-w-2xl leading-7 text-[#41584d]">{procedure ? "Choose a city to see doctors listed for this procedure." : "Choose a city and the type of doctor you want to see."}</p>
+      <h1 className="mt-4 text-4xl font-bold leading-tight tracking-[-.05em] text-[#2e281f] sm:text-6xl">{procedure?.name ?? (specialty || "Find a doctor")}</h1>
+      <p className="mb-7 mt-4 max-w-2xl leading-7 text-[#5d5040]">{procedure ? "Choose a city to see doctors listed for this procedure." : "Choose a city and the type of doctor you want to see."}</p>
       <DiscoverySearch city={city} specialty={specialty} procedure={procedure?.name} />
       <div className="mt-7 space-y-4">
         {matches.map((doctor) => <article key={doctor.id} className="docvy-glass p-6">
           <h2 className="text-2xl font-bold">{doctor.name}</h2>
-          <p className="mt-2 text-[#41584d]">{doctor.specialties.join(", ")}</p>
-          <ul className="mt-2 text-[#41584d]">{doctor.locations.filter((location) => !city || location.city === city).map((location) =>
+          <p className="mt-2 text-[#5d5040]">{doctor.specialties.join(", ")}</p>
+          <ul className="mt-2 text-[#5d5040]">{doctor.locations.filter((location) => !city || location.city === city).map((location) =>
             <li key={location.city + location.facility} className="flex flex-wrap items-center justify-between gap-2 py-2">
               <span>{location.facility}, {location.city}</span>
               {routedDoctors.some((routed) => routed.id === doctor.id && routed.locations.some((branch) => branch.city === location.city && branch.facility === location.facility)) &&
@@ -48,8 +48,8 @@ export default async function DoctorsPage({ searchParams }: { searchParams: { ci
           <a href={doctor.sourceUrl} className="docvy-pill docvy-pill-primary mt-4">View hospital profile</a>
         </article>)}
         {matches.length === 0 && <section className="docvy-glass p-6">
-          <h2 className="text-2xl font-bold text-[#1e3028]">{procedure ? "No doctors are listed for this procedure yet" : "No doctors are listed for this search yet"}</h2>
-          <p className="mt-2 text-[#41584d]">{procedure ? "You can return to the surgery guide for questions to ask your care team." : "Read about the different types of doctors and what to bring to a visit."}</p>
+          <h2 className="text-2xl font-bold text-[#2e281f]">{procedure ? "No doctors are listed for this procedure yet" : "No doctors are listed for this search yet"}</h2>
+          <p className="mt-2 text-[#5d5040]">{procedure ? "You can return to the surgery guide for questions to ask your care team." : "Read about the different types of doctors and what to bring to a visit."}</p>
           <Link href={guideHref} className="docvy-pill mt-4">{guideLabel}</Link>
         </section>}
         {hasDemo && <section aria-labelledby="consultations"><h2 id="consultations" className="mb-3 text-2xl font-bold">Try a fictional consultation</h2><DemoProvider bookingHref={clinicCrmConfig()?.staging === true ? "/book" : "https://docvy-clinic-demo.vercel.app/book"} /></section>}

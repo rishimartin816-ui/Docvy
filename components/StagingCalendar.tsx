@@ -391,7 +391,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
             <h2 className="text-xl font-bold">Staff sign-in</h2>
             <label className="block">Staff email <input className={field} type="email" name="email" autoComplete="username" required /></label>
             <label className="block">Password <input className={field} type="password" name="password" autoComplete="current-password" required /></label>
-            <button className="rounded-btn bg-[#70501f] px-5 py-2 font-semibold text-white disabled:opacity-50" disabled={busy}>Sign in</button>
+            <button className="docvy-pill docvy-pill-primary disabled:opacity-50" disabled={busy}>Sign in</button>
           </form> : <>
             <div className="my-5 grid gap-3 sm:grid-cols-3">
               {[
