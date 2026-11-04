@@ -1,3 +1,4 @@
+import IllustrationBackground from "@/components/IllustrationBackground";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, CalendarCheck, ClipboardList, Search } from "lucide-react";
@@ -40,7 +41,7 @@ export default function Home() {
       potentialAction: { "@type": "SearchAction", target: productionOrigin + "/doctors?q={search_term_string}", "query-input": "required name=search_term_string" },
     }).replace(/</g, "\\u003c") }} />
 
-    <section className="docvy-home-section mx-auto max-w-site px-5 sm:px-8">
+    <section className="relative isolate overflow-hidden docvy-home-section mx-auto max-w-site px-5 sm:px-8"><IllustrationBackground slug="home-care-search" alt="Meera helps her father Ramesh look for a doctor." priority />
       <h1 className="max-w-4xl">Find the right doctor and book with confidence.</h1>
       <p className="docvy-home-copy mt-5 text-grey">Explore specialties and procedures across India. Request an appointment where clinic intake is available.</p>
       <div className="mt-8 max-w-3xl"><DiscoverySearch /></div>
@@ -52,7 +53,7 @@ export default function Home() {
       </nav>
     </section>
 
-    <section className="docvy-home-section border-y border-line bg-sand" aria-labelledby="specialty-heading">
+    <section className="docvy-home-section border-y border-line bg-surface" aria-labelledby="specialty-heading">
       <div className="mx-auto max-w-site px-5 sm:px-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 id="specialty-heading">Explore specialties</h2>
@@ -60,7 +61,7 @@ export default function Home() {
         </div>
         <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {featuredSpecialties.map(({ slug, name, plain }) => <li key={slug}>
-            <Link href={"/specialties/" + slug} className="docvy-glass block h-full p-5 hover:border-mulb">
+            <Link href={"/specialties/" + slug} className="docvy-glass block h-full p-5 hover:border-primary">
               <SpecialtyIcon slug={slug} />
               <h3 className="mt-4 text-lg font-medium">{name}</h3>
               <p className="docvy-home-copy mt-1 text-grey">{plain}</p>
@@ -79,10 +80,10 @@ export default function Home() {
         </li>)}
       </ol>
       {liveDoctors.length > 0 ? <DoctorCards doctors={liveDoctors.slice(0, 2)} /> :
-        <p className="mt-5 text-grey">Live appointments are currently unavailable. <Link href="https://docvy-clinic-demo.vercel.app/book" className="inline-flex min-h-11 items-center font-medium text-mulb underline underline-offset-4">Try the fictional booking demo.</Link></p>}
+        <p className="mt-5 text-grey">Live appointments are currently unavailable. <Link href="https://docvy-clinic-demo.vercel.app/book" className="inline-flex min-h-11 items-center font-medium text-primary underline underline-offset-4">Try the fictional booking demo.</Link></p>}
     </section>
 
-    <section className="docvy-home-section border-y border-line bg-sand" aria-labelledby="procedure-heading">
+    <section className="docvy-home-section border-y border-line bg-surface" aria-labelledby="procedure-heading">
       <div className="mx-auto max-w-site px-5 sm:px-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 id="procedure-heading">Popular procedures</h2>
@@ -90,7 +91,7 @@ export default function Home() {
         </div>
         <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {directoryProcedures.filter(({ slug }) => popularProcedures.includes(slug)).map(({ slug, name }) => <li key={slug}>
-            <Link className="docvy-glass flex min-h-12 items-center justify-between gap-2 p-4 font-medium text-mulb hover:border-mulb" href={"/surgeries/" + slug}>{name}<ArrowUpRight size={16} strokeWidth={1.5} className="shrink-0" aria-hidden="true" /></Link>
+            <Link className="docvy-glass flex min-h-12 items-center justify-between gap-2 p-4 font-medium text-primary hover:border-primary" href={"/surgeries/" + slug}>{name}<ArrowUpRight size={16} strokeWidth={1.5} className="shrink-0" aria-hidden="true" /></Link>
           </li>)}
         </ul>
       </div>
@@ -103,7 +104,7 @@ export default function Home() {
       </div>
       <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {featuredGuides.map(({ slug, label, description: detail }) => <li key={slug}>
-          <Link href={"/patient-guides/" + slug} className="docvy-glass block h-full p-5 hover:border-mulb">
+          <Link href={"/patient-guides/" + slug} className="docvy-glass block h-full p-5 hover:border-primary">
             <HealthTopicIcon slug={slug} />
             <h3 className="mt-4 text-lg font-medium">{label}</h3>
             <p className="docvy-home-copy mt-1 text-grey">{detail}</p>

@@ -1,3 +1,4 @@
+import IllustrationBackground from "@/components/IllustrationBackground";
 import Link from "next/link";
 import { clinicCrmConfig } from "@/lib/clinic-crm-config";
 import CityWaitlist from "./CityWaitlist";
@@ -47,7 +48,8 @@ export default function DirectoryPage({ city, specialty }: { city: typeof cities
       "@context": "https://schema.org", "@type": "ItemList",
       itemListElement: doctors.map((doctor, i) => ({ "@type": "ListItem", position: i + 1, name: doctor.name, url: productionOrigin + "/doctor/" + slugify(doctor.id) })),
     }).replace(/</g, "\\u003c") }} />}
-    <section className="mt-8 docvy-glass p-6">
+    <section className="relative isolate mt-8 overflow-hidden rounded-card border border-line p-6">
+      {!ready && <IllustrationBackground slug="empty-state-more-options" alt="Meera makes a note to look for more care options later." />}
       <h2 className="text-2xl font-bold">{ready ? "Doctor listings" : "Doctors are joining soon"}</h2>
       {ready ? <DoctorCards doctors={doctors} /> : <CityWaitlist city={city.slug} specialty={specialty?.slug} enabled={process.env.DOCVY_WAITLIST_ENABLED === "true" && Boolean(clinicCrmConfig())} />}
     </section>
@@ -61,7 +63,8 @@ export default function DirectoryPage({ city, specialty }: { city: typeof cities
       <h2 className="text-2xl font-bold">Procedure guides</h2>
       <ul className="mt-3 flex flex-wrap gap-2">{procedureList.map(({ slug, name }) => <li key={slug}><Link href={"/surgeries/" + slug} className="docvy-pill">{name}</Link></li>)}</ul>
     </section>}
-    <section className="mt-8 docvy-glass p-6"><h2 className="text-2xl font-bold">Questions about finding care in {city.name}</h2>
+    <section className="relative isolate mt-8 overflow-hidden rounded-card border border-line p-6">
+      {!ready && <IllustrationBackground slug="empty-state-more-options" alt="Meera makes a note to look for more care options later." />}<h2 className="text-2xl font-bold">Questions about finding care in {city.name}</h2>
       <h3 className="mt-4 font-bold">{city.question}</h3><p className="mt-1">{city.answer}</p>
       <h3 className="mt-4 font-bold">How do I confirm an appointment?</h3><p className="mt-1">Check the clinic’s location, availability, and fee directly before you travel.</p>
     </section>

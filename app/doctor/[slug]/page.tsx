@@ -31,7 +31,7 @@ export default async function DoctorPage({ params }: Props) {
     }).replace(/</g, "\\u003c") }} />
     <h1 className="text-4xl font-bold sm:text-6xl">{doctor.name}</h1>
     <p className="mt-3">{doctor.specialties.join(", ")}</p>
-    {verified && <p className="mt-3"><strong>Verified</strong> · NMC registration {doctor.nmcRegistrationNumber}</p>}
+    {verified && <p className="mt-3"><strong className="rounded-full border border-line bg-primary-tint px-2 py-1 text-primary">Verified</strong> · NMC registration {doctor.nmcRegistrationNumber}</p>}
     <section className="docvy-glass mt-6 p-6"><h2 className="text-2xl font-bold">Practice locations</h2>
       <ul className="mt-3 space-y-3">{doctor.locations.map((location) => <li key={location.city + location.facility}>
         {location.facility}, {citySlug(location.city) === "gurgaon" ? "Gurgaon" : location.city}

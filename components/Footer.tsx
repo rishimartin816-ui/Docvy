@@ -1,104 +1,65 @@
-import Link from "next/link";
-import { indexableCities, directoryProcedures, popularProcedures } from "@/lib/directory";
-import { specialties } from "@/lib/care-directory";
 import Image from "next/image";
-import { ArrowUpRight, FileText, Mail, ShieldCheck } from "lucide-react";
-import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
+import Link from "next/link";
+import IllustrationBackground from "@/components/IllustrationBackground";
+import { indexableCities } from "@/lib/directory";
 
-const platformLinks = [
-  ["/care-guide", "Patient guide: conditions & specialties"],
-  ["/doctors", "Doctor directory status"],
-  ["/how-it-works", "How finding care will work"],
-  ["/faqs", "Patient and provider FAQs"],
+const careLinks = [
+  ["/doctors", "Find doctors"], ["/specialties", "All specialties"], ["/surgery-guide", "Surgeries"],
+  ["/care-guide", "Health guides"], ["/how-it-works", "How it works"],
 ] as const;
 
-const policyLinks = [
-  ["/legal/privacy", "Privacy policy"],
-  ["/legal/terms", "Terms of service"],
-  ["/legal/refund", "Cancellation and refunds"],
-  ["/legal/disclaimer", "Medical disclaimer"],
-  ["/grievance", "Grievance redressal"],
+const specialtyLinks = [
+  ["general-medicine", "General medicine"], ["cardiology", "Cardiology"], ["dermatology", "Dermatology"],
+  ["orthopaedics", "Orthopaedics"], ["paediatrics", "Paediatrics"], ["gynaecology", "Gynaecology"],
+  ["ophthalmology", "Ophthalmology"], ["ent", "ENT"],
+].map(([slug, label]) => ["/doctors/specialty/" + slug, label] as const);
+
+const teamLinks = [
+  ["/for-doctors", "For doctors"], ["/for-clinics", "For clinics"], ["/pricing", "Pricing"],
+  ["/about", "About"], ["/contact", "Contact"], ["/faqs", "FAQs"],
 ] as const;
+
+const legalLinks = [
+  ["/legal/privacy", "Privacy"], ["/legal/terms", "Terms"], ["/legal/refund", "Refunds"],
+  ["/legal/disclaimer", "Medical disclaimer"], ["/grievance", "Grievance"],
+] as const;
+
+function LinkList({ links }: { links: readonly (readonly [string, string])[] }) {
+  return <ul>{links.map(([href, label]) => <li key={href}><Link href={href} className="inline-flex min-h-11 items-center text-ink hover:underline">{label}</Link></li>)}</ul>;
+}
 
 export default function Footer() {
-  const intakeEnabled = isAppointmentIntakeConfigured();
-  return (
-    <footer className="border-t border-line bg-porc text-sm">
-      <div className="mx-auto grid max-w-site gap-10 px-6 py-12 md:grid-cols-[1.3fr_.8fr_1fr] sm:px-8 lg:py-14">
-        <div>
-          <Link
-            href="/"
-            className="inline-flex min-h-11 items-center gap-2.5 font-head text-[22px] font-extrabold tracking-[0.035em] text-[#402442]"
-          >
-            <Image src="/icon.svg" alt="" width={29} height={29} unoptimized className="shrink-0" />
-            DOCVY
-          </Link>
-          <p className="mt-3 max-w-sm text-sm leading-6 text-grey">
-            DOCVY is building healthcare discovery and provider tools for people and care teams across India.
-          </p>
-          <p className="mt-5 flex max-w-sm items-start gap-2 text-xs leading-5 text-grey">
-            <ShieldCheck strokeWidth={1.5} size={16} className="mt-0.5 shrink-0 text-[#402442]" />
-            The directory currently shows fictional demo data. {intakeEnabled ? "Enquiries go to DOCVY; bookings are not confirmed here." : "Appointment enquiries are currently closed."}
-          </p>
-        </div>
+  const sections = [
+    { heading: "Find care", links: careLinks },
+    { heading: "Popular specialties", links: specialtyLinks },
+    ...(indexableCities.length ? [{ heading: "Cities", links: indexableCities.map(({ slug, name }) => ["/doctors/" + slug, name] as const) }] : []),
+    { heading: "DOCVY", links: teamLinks },
+  ];
 
-        <div>
-          <h2 className="mb-3 text-xs font-bold uppercase tracking-[0.12em] text-[#402442]">
-            Platform
-          </h2>
-          {platformLinks.map(([href, label]) => (
-            <Link
-              key={href}
-              href={href}
-              className="flex min-h-11 items-center rounded py-1.5 text-grey transition-colors hover:text-[#402442]"
-            >
-              {label}
-            </Link>
-          ))}
-          <Link href="/pricing" className="flex min-h-11 items-center rounded py-1.5 text-grey transition-colors hover:text-[#402442]">
-            Clinic &amp; hospital plans
-          </Link>
-          <Link href="/for-doctors" className="flex min-h-11 items-center rounded py-1.5 text-grey transition-colors hover:text-[#402442]">
-            For doctors
-          </Link>
+  return <>
+    <p className="border-t border-line px-5 py-4 text-center text-sm text-danger">
+      In an emergency, call <a href="tel:112" className="inline-flex min-h-11 items-center font-semibold underline">112</a> or go to the nearest hospital.
+    </p>
+    <footer className="border-t border-line bg-surface text-sm text-grey">
+      <IllustrationBackground slug="footer-care-together" alt="" footer />
+      <nav aria-label="Footer" className={"mx-auto max-w-site gap-6 px-5 py-10 sm:px-8 md:grid " + (indexableCities.length ? "md:grid-cols-5" : "md:grid-cols-4")}>
+        <div className="mb-6 md:mb-0">
+          <Link href="/" className="inline-flex min-h-11 items-center gap-2 font-head text-xl font-bold text-ink"><Image src="/icon.svg" alt="" width={29} height={29} unoptimized /> DOCVY</Link>
+          <p className="mt-2 leading-6">Find doctors, explore specialties, and prepare for appointments across India.</p>
+          <a href="mailto:contact@docvy.in" className="inline-flex min-h-11 items-center text-ink hover:underline">contact@docvy.in</a>
         </div>
-
-        <div>
-          <h2 className="mb-3 text-xs font-bold uppercase tracking-[0.12em] text-[#402442]">
-            Policies & support
-          </h2>
-          {policyLinks.map(([href, label]) => (
-            <Link
-              key={href}
-              href={href}
-              className="flex items-center min-h-11 gap-2 rounded py-1.5 text-grey transition-colors hover:text-[#402442]"
-            >
-              <FileText strokeWidth={1.5} size={14} />
-              {label}
-            </Link>
-          ))}
-          <Link
-            href="/contact"
-            className="mt-2 inline-flex min-h-11 items-center gap-2 py-1.5 font-semibold text-[#402442] hover:text-[#593456]"
-          >
-            Contact DOCVY <Mail strokeWidth={1.5} size={14} /> <ArrowUpRight strokeWidth={1.5} size={13} />
-          </Link>
-        </div>
-      </div>
-
-      <div className="mx-auto max-w-site px-6 pb-7 sm:px-8">
-        <nav aria-label="Care directories" className="flex flex-wrap gap-x-4 gap-y-2">
-          {indexableCities.map(({ slug, name }) => <Link key={slug} href={"/doctors/" + slug} className="inline-flex min-h-11 items-center underline">Doctors in {name}</Link>)}
-          {specialties.map(({ slug, name }) => <Link key={slug} href={"/specialties/" + slug} className="inline-flex min-h-11 items-center underline">{name}</Link>)}
-          {directoryProcedures.filter(({ slug }) => popularProcedures.includes(slug)).map(({ slug, name }) => <Link key={slug} href={"/surgeries/" + slug} className="inline-flex min-h-11 items-center underline">{name}</Link>)}
-        </nav>
-        <p className="mt-4 font-semibold">In an emergency, call <a href="tel:112" className="inline-flex min-h-11 items-center underline">112</a> or go to the nearest hospital.</p>
-      </div>
+        {sections.map(({ heading, links }) => <div key={heading}>
+          <div className="hidden md:block"><h2 className="mb-2 font-semibold text-ink">{heading}</h2><LinkList links={links} /></div>
+          <details className="border-t border-line md:hidden"><summary className="flex min-h-12 cursor-pointer items-center font-semibold text-ink">{heading}</summary><LinkList links={links} /></details>
+        </div>)}
+      </nav>
       <div className="border-t border-line">
-        <div className="mx-auto max-w-site px-6 py-5 text-xs leading-5 text-grey sm:px-8">
-          © {new Date().getFullYear()} DOCVY. All rights reserved.
+        <div className="mx-auto max-w-site px-5 py-5 sm:px-8">
+          <p>© {new Date().getFullYear()} DOCVY. All rights reserved.</p>
+          <nav aria-label="Legal" className="mt-2 flex flex-wrap gap-x-4">{legalLinks.map(([href, label]) => <Link key={href} href={href} className="inline-flex min-h-11 items-center text-ink hover:underline">{label}</Link>)}</nav>
+          <p>DOCVY helps you find doctors and prepare for visits. It does not provide emergency care or replace medical advice.</p>
         </div>
       </div>
     </footer>
-  );
+  </>;
 }

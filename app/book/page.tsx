@@ -1,3 +1,4 @@
+import IllustrationBackground from "@/components/IllustrationBackground";
 import { notFound } from "next/navigation";
 import { clinicCrmConfig } from "@/lib/clinic-crm-config";
 import StagingCalendar from "@/components/StagingCalendar";
@@ -7,5 +8,5 @@ export function generateMetadata() { return { title: "Demo appointment booking",
 
 export default function TestBookingPage() {
   if (clinicCrmConfig()?.staging !== true) notFound();
-  return <StagingCalendar />;
+  return <div className="relative isolate overflow-hidden"><IllustrationBackground slug="booking-confirmation" alt="Meera checks the details of a clinic visit." /><StagingCalendar /></div>;
 }

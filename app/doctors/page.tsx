@@ -1,3 +1,4 @@
+import IllustrationBackground from "@/components/IllustrationBackground";
 import Link from "next/link";
 import DiscoverySearch from "@/components/DiscoverySearch";
 import { Breadcrumbs, DoctorCards } from "@/components/DirectoryPage";
@@ -16,7 +17,7 @@ export default function DoctorsPage({ searchParams }: { searchParams: { q?: stri
   const specialty = typeof searchParams.specialty === "string" ? searchParams.specialty : "";
   const city = typeof searchParams.location === "string" ? citySlug(searchParams.location) : "";
   const results = searchDoctors(query, city || undefined).filter((doctor) => !specialty || doctor.specialties.some((name) => slugify(name) === slugify(specialty)));
-  return <div className="docvy-garden"><div className="mx-auto max-w-6xl px-5 py-12 sm:px-9">
+  return <div className="relative isolate overflow-hidden docvy-garden"><IllustrationBackground slug="doctors-find-care" alt="Meera and Ramesh compare doctor listings."  /><div className="mx-auto max-w-6xl px-5 py-12 sm:px-9">
     <Breadcrumbs items={[{ name: "Doctors", href: "/doctors" }]} />
     <h1 className="text-4xl font-bold sm:text-6xl">Find doctors across India</h1>
     <div className="mt-5"><DiscoverySearch query={query} city={city} /></div>

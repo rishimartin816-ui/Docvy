@@ -1,7 +1,6 @@
 "use client";
 
 import { CalendarDays, CalendarCheck, CalendarX, Clock3, LayoutDashboard, LogOut, Mail, RefreshCw, ShieldCheck, Stethoscope, History } from "lucide-react";
-import Image from "next/image";
 import ClinicDoctorRoster from "@/components/ClinicDoctorRoster";
 import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
@@ -349,42 +348,40 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
     (/^\d+$/.test(phoneTerm) && item.mobile.replace(/\D/g, "").includes(phoneTerm)));
   const title = admin ? "Owner console" : "Clinic workspace";
   const field = "block w-full rounded-btn border border-line bg-white px-3 py-2 text-ink";
-  const button = "inline-flex items-center justify-center gap-2 rounded-btn border border-line bg-white px-3 py-2 text-sm font-semibold hover:bg-lav disabled:opacity-50";
+  const button = "inline-flex items-center justify-center gap-2 rounded-btn border border-line bg-white px-3 py-2 text-sm font-semibold hover:bg-primary-tint disabled:opacity-50";
 
   const glass = "docvy-glass";
 
   if (clinic) return (
     <section className="mx-auto max-w-[1440px] px-3 py-5 sm:px-8 lg:py-10">
-      <div className="overflow-hidden rounded-[32px] border border-white bg-[#fafafb] text-[#151518] shadow-[0_25px_70px_rgba(28,28,36,0.12)] lg:grid lg:grid-cols-[222px_minmax(0,1fr)]">
-        <aside className="border-b border-white/90 bg-white/60 px-4 py-5 text-plum backdrop-blur-2xl lg:border-b-0 lg:border-r">
-          <div className="flex items-center gap-3 rounded-2xl border border-white/90 bg-white/65 p-3 shadow-sm">
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#f0eff8] text-[#202124]"><ShieldCheck size={21} aria-hidden="true" /></span>
+      <div className="overflow-hidden rounded-[32px] border border-white bg-[#FFFFFF] text-[#0F2A3D]  lg:grid lg:grid-cols-[222px_minmax(0,1fr)]">
+        <aside className="border-b border-white/90 bg-white/60 px-4 py-5 text-ink backdrop-blur-2xl lg:border-b-0 lg:border-r">
+          <div className="flex items-center gap-3 rounded-2xl border border-white/90 bg-white/65 p-3 ">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#E3F2F0] text-[#0F2A3D]"><ShieldCheck strokeWidth={1.5} size={21} aria-hidden="true" /></span>
             <div><p className="font-head font-bold tracking-wide">DOCVY CRM</p><p className="text-xs text-grey">{clinicName}</p></div>
           </div>
           {session && <nav aria-label="Clinic workspace" className="mt-6 flex flex-wrap gap-2 lg:flex-col">
-            <a className="flex items-center gap-2 rounded-btn bg-white/80 shadow-sm px-3 py-2 text-sm font-semibold" href="#crm-overview"><LayoutDashboard size={16} aria-hidden="true" /> Overview</a>
-            <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-calendar"><CalendarDays size={16} aria-hidden="true" /> Appointments</a>
-            <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-doctors"><Stethoscope size={16} aria-hidden="true" /> Doctor presence</a>
-            {canSchedule && <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-history"><History size={16} aria-hidden="true" /> Booking details</a>}
-            {canSchedule && <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-enquiries"><Mail size={16} aria-hidden="true" /> Enquiries</a>}
+            <a className="flex items-center gap-2 rounded-btn bg-white/80  px-3 py-2 text-sm font-semibold" href="#crm-overview"><LayoutDashboard strokeWidth={1.5} size={16} aria-hidden="true" /> Overview</a>
+            <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-calendar"><CalendarDays strokeWidth={1.5} size={16} aria-hidden="true" /> Appointments</a>
+            <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-doctors"><Stethoscope strokeWidth={1.5} size={16} aria-hidden="true" /> Doctor presence</a>
+            {canSchedule && <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-history"><History strokeWidth={1.5} size={16} aria-hidden="true" /> Booking details</a>}
+            {canSchedule && <a className="flex items-center gap-2 rounded-btn px-3 py-2 text-sm hover:bg-white/85" href="#crm-enquiries"><Mail strokeWidth={1.5} size={16} aria-hidden="true" /> Enquiries</a>}
             <button className="flex items-center gap-2 rounded-btn px-3 py-2 text-left text-sm hover:bg-white/85 disabled:opacity-50"
               disabled={busy} onClick={() => void signOut()}>
-              <LogOut size={16} aria-hidden="true" /> Close session
+              <LogOut strokeWidth={1.5} size={16} aria-hidden="true" /> Close session
             </button>
           </nav>}
         </aside>
         <div className="min-w-0 p-3 sm:p-6">
-          <header id="crm-overview" className="relative isolate grid items-center overflow-hidden rounded-[28px] border border-white bg-[linear-gradient(120deg,#ffffff,#fff3d9_59%,#dedaf8)] px-5 pt-6 shadow-[0_14px_35px_rgba(28,28,36,0.10)] sm:grid-cols-[1.12fr_1fr] sm:gap-2 sm:px-8 sm:py-6 lg:px-10">
+          <header id="crm-overview" className="relative isolate grid items-center overflow-hidden rounded-[28px] border border-white bg-white px-5 pt-6   sm:gap-2 sm:px-8 sm:py-6 lg:px-10">
             <div className="relative z-10 py-2">
-              <p className="inline-flex items-center gap-2 rounded-full border border-white bg-white/70 px-3 py-1 text-xs font-semibold text-[#545761] shadow-sm">
-                <span className="h-2 w-2 rounded-full bg-[#202124]" aria-hidden="true" />
+              <p className="inline-flex items-center gap-2 rounded-full border border-white bg-white/70 px-3 py-1 text-xs font-semibold text-[#5B6B7A] ">
+                <span className="h-2 w-2 rounded-full bg-[#0F2A3D]" aria-hidden="true" />
                 {clinicName}{staging ? " · Demo" : ""}
               </p>
-              <h1 className="mt-4 text-4xl font-bold leading-[1.05] tracking-[-0.055em] text-[#151518] lg:text-5xl">{title}</h1>
-              <p className="mt-3 max-w-sm text-sm leading-6 text-[#545761] sm:text-base">Manage appointments, publish availability, and follow up on patient enquiries.</p>
+              <h1 className="mt-4 text-4xl font-bold leading-[1.05] tracking-[-0.055em] text-[#0F2A3D] lg:text-5xl">{title}</h1>
+              <p className="mt-3 max-w-sm text-sm leading-6 text-[#5B6B7A] sm:text-base">Manage appointments, publish availability, and follow up on patient enquiries.</p>
             </div>
-            <Image src="/images/crm-glass-calendar.svg" alt="" width={440} height={300} priority unoptimized
-              className="mx-auto -mt-3 h-auto w-full max-w-[270px] sm:mt-0 sm:max-w-[390px]" />
           </header>
 
           {!session ? <form className={glass + " mt-5 max-w-md space-y-4 p-5 sm:p-7"} onSubmit={signIn}>
@@ -400,7 +397,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                 { label: "Blocked slots", count: blocked, icon: CalendarX },
               ].map(({ label, count, icon: Icon }) => (
                 <div key={label} className={glass + " flex items-center gap-3 p-4"}>
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#f0eff8] text-[#202124]"><Icon size={21} aria-hidden="true" /></span>
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#E3F2F0] text-[#0F2A3D]"><Icon strokeWidth={1.5} size={21} aria-hidden="true" /></span>
                   <div><p className="text-sm text-grey">{label}</p><p className="text-2xl font-bold tabular-nums">{count}</p></div>
                 </div>
               ))}
@@ -417,10 +414,10 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                 {chartRows.map(({ label, booked, open, blocked }) => <li key={label} className="grid gap-1 sm:grid-cols-[7rem_1fr] sm:items-center">
                   <span className="text-sm font-semibold">{label}</span>
                   <div>
-                    <div className="flex h-3 overflow-hidden rounded-full bg-sand" aria-hidden="true">
-                      <span className="bg-[#202124]" style={{ width: (booked / chartMax * 100) + "%" }} />
-                      <span className="bg-[#8e84bc]" style={{ width: (open / chartMax * 100) + "%" }} />
-                      <span className="bg-[#a3a4ae]" style={{ width: (blocked / chartMax * 100) + "%" }} />
+                    <div className="flex h-3 overflow-hidden rounded-full bg-surface" aria-hidden="true">
+                      <span className="bg-[#0F2A3D]" style={{ width: (booked / chartMax * 100) + "%" }} />
+                      <span className="bg-success" style={{ width: (open / chartMax * 100) + "%" }} />
+                      <span className="bg-grey" style={{ width: (blocked / chartMax * 100) + "%" }} />
                     </div>
                     <p className="mt-1 text-xs tabular-nums text-grey">{booked} booked · {open} open · {blocked} blocked</p>
                   </div>
@@ -436,7 +433,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                 <button type="button" className={button} disabled={busy} onClick={() => void loadTeamCounts()}>{teamCounts ? "Refresh team access" : "Show team access"}</button>
               </div>
               {teamCounts && <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {Object.entries(teamCounts).sort(([a], [b]) => a.localeCompare(b)).map(([role, count]) => <div key={role} className="rounded-btn bg-sand p-3">
+                {Object.entries(teamCounts).sort(([a], [b]) => a.localeCompare(b)).map(([role, count]) => <div key={role} className="rounded-btn bg-surface p-3">
                   <dt className="text-sm capitalize text-grey">{role.replace("_", " ")}</dt>
                   <dd className="text-xl font-bold tabular-nums">{count}</dd>
                 </div>)}
@@ -446,11 +443,11 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
             <section id="crm-calendar" className={glass + " p-4 sm:p-6"}>
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <h2 className="flex items-center gap-2 text-xl font-bold"><CalendarDays size={22} aria-hidden="true" /> Appointments & availability</h2>
+                  <h2 className="flex items-center gap-2 text-xl font-bold"><CalendarDays strokeWidth={1.5} size={22} aria-hidden="true" /> Appointments & availability</h2>
                   <p className="text-sm text-grey">Selected period · India Standard Time{canSchedule ? "" : " · View only"}</p>
                 </div>
                 <button className={button} disabled={busy} onClick={() => void refresh(session)}>
-                  <RefreshCw size={16} aria-hidden="true" /> Refresh calendar
+                  <RefreshCw strokeWidth={1.5} size={16} aria-hidden="true" /> Refresh calendar
                 </button>
               </div>
               <div className="my-4 flex flex-wrap gap-3 text-sm">
@@ -460,7 +457,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                   {slotFilters.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
                 </select></label>
               </div>
-              {canSchedule && <details className="mb-4 rounded-btn border border-line bg-sand p-3">
+              {canSchedule && <details className="mb-4 rounded-btn border border-line bg-surface p-3">
                 <summary className="cursor-pointer font-semibold">Add appointment slot</summary>
                 <form className="mt-3 flex flex-wrap items-end gap-3 text-sm" onSubmit={createSlot}>
                   <label>Starts (IST)<input className={field} type="datetime-local" name="starts" required /></label>
@@ -468,7 +465,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                   <button className={button} disabled={busy}>Add slot</button>
                 </form>
               </details>}
-              {filteredSlots.length === 0 ? <p className="rounded-btn bg-sand p-4 text-grey">{visible.length ? "No slots match this status." : "No slots in this period."}</p> :
+              {filteredSlots.length === 0 ? <p className="rounded-btn bg-surface p-4 text-grey">{visible.length ? "No slots match this status." : "No slots in this period."}</p> :
                 <ul className="divide-y divide-line">{filteredSlots.map((slot) => (
                   <li className="flex flex-wrap items-center justify-between gap-3 py-3" key={slot.id}>
                     <div>
@@ -516,7 +513,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
               {history && <div className="mt-4">
                 <p className="font-semibold capitalize">{history.status.replace("_", " ")} · {dateLabel.format(new Date(history.starts_at))}</p>
                 {history.reference && <p className="break-all text-sm text-grey">{history.reference}</p>}
-                {history.reference && history.fee_paise !== undefined && <div className="mt-3 rounded-btn bg-sand p-3">
+                {history.reference && history.fee_paise !== undefined && <div className="mt-3 rounded-btn bg-surface p-3">
                   <p className="text-sm font-semibold">Booking fee {history.fee_paise === null ? "· Not set" : "· " + rupees.format(history.fee_paise / 100)}</p>
                   <p className="mt-1 text-xs text-grey">Quoted fee for the appointment. Payments are handled by the clinic.</p>
                   <form key={history.reference + ":" + history.fee_paise} className="mt-3 flex flex-wrap items-end gap-2 text-sm" onSubmit={(event) => void saveBookingFee(event, history)}>
@@ -524,7 +521,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                     <button className={button} disabled={busy}>Save fee</button>
                   </form>
                 </div>}
-                {history.contact && <dl className="mt-3 rounded-btn bg-sand p-3 text-sm">
+                {history.contact && <dl className="mt-3 rounded-btn bg-surface p-3 text-sm">
                   <dt className="font-semibold">Patient contact</dt>
                   <dd>{history.contact.name}</dd>
                   <dd className="break-words">{history.contact.mobile}{history.contact.email ? " · " + history.contact.email : ""}</dd>

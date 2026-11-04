@@ -4,7 +4,7 @@ import { useEffect, useState, type FormEvent } from "react";
 
 type Doctor = { id: string; name: string; specialty: string; present: boolean | null; changed_at: string | null };
 const timestamp = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" });
-const button = "rounded-btn border border-line bg-white px-3 py-2 text-sm font-semibold hover:bg-lav disabled:opacity-50";
+const button = "rounded-btn border border-line bg-white px-3 py-2 text-sm font-semibold hover:bg-primary-tint disabled:opacity-50";
 
 export default function ClinicDoctorRoster({ session, canSchedule, canManage }: { session: string; canSchedule: boolean; canManage: boolean }) {
   const [doctors, setDoctors] = useState<Doctor[] | null>(null);
@@ -63,7 +63,7 @@ export default function ClinicDoctorRoster({ session, canSchedule, canManage }: 
     <ul className="mt-3 divide-y divide-line">
       {doctors?.map((doctor) => <li key={doctor.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
         <div>
-          <p className="font-semibold">{doctor.name} <span className="ml-2 rounded-full bg-lav px-2 py-1 text-xs text-mulb">{doctor.present === null ? "Unknown" : doctor.present ? "In clinic" : "Out of clinic"}</span></p>
+          <p className="font-semibold">{doctor.name} <span className="ml-2 rounded-full bg-primary-tint px-2 py-1 text-xs text-primary">{doctor.present === null ? "Unknown" : doctor.present ? "In clinic" : "Out of clinic"}</span></p>
           <p className="mt-1 text-sm text-grey">{doctor.specialty}{doctor.changed_at ? " · Updated " + timestamp.format(new Date(doctor.changed_at)) : ""}</p>
         </div>
         {canSchedule && <div className="flex gap-2">
@@ -71,7 +71,7 @@ export default function ClinicDoctorRoster({ session, canSchedule, canManage }: 
         </div>}
       </li>)}
     </ul>
-    {canManage && doctors !== null && <form onSubmit={add} className="mt-4 flex flex-wrap items-end gap-3 rounded-btn bg-sand p-3 text-sm">
+    {canManage && doctors !== null && <form onSubmit={add} className="mt-4 flex flex-wrap items-end gap-3 rounded-btn bg-surface p-3 text-sm">
       <label>Doctor name<input name="name" required minLength={2} maxLength={100} className="block rounded-btn border border-line bg-white px-3 py-2" /></label>
       <label>Specialty<input name="specialty" required minLength={2} maxLength={80} className="block rounded-btn border border-line bg-white px-3 py-2" /></label>
       <button className={button} disabled={busy}>Add doctor</button>

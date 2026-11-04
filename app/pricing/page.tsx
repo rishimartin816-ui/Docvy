@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight, Building2, ChevronDown, CircleDot, Clock3, Stethoscope } from "lucide-react";
-import ProviderWorkflowIllustration from "@/components/ProviderWorkflowIllustration";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = {
@@ -19,7 +18,7 @@ const plans = [
 ];
 
 function ContactLink({ children = "Contact now", href = "/contact", ariaLabel }: { children?: ReactNode; href?: string; ariaLabel?: string }) {
-  return <Link href={href} aria-label={ariaLabel} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#202124] px-5 text-sm font-bold text-white transition hover:bg-[#383940]">{children}<ArrowRight size={16} /></Link>;
+  return <Link href={href} aria-label={ariaLabel} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#0F2A3D] px-5 text-sm font-bold text-white transition hover:bg-[#0F2A3D]">{children}<ArrowRight strokeWidth={1.5} size={16} /></Link>;
 }
 
 function buildPlanContactHref(planName: string) {
@@ -36,33 +35,32 @@ function buildPlanContactHref(planName: string) {
 }
 
 export default function PricingPage() {
-  return <div className="bg-[#fafafb] text-[#151518]">
-    <section className="overflow-hidden bg-[radial-gradient(circle_at_82%_48%,#DDF0E9_0%,#F6FAF8_36%,#fff_75%)] py-14 md:py-20"><div className="mx-auto grid max-w-[1440px] items-center gap-8 px-6 lg:grid-cols-[1.1fr_.9fr] lg:px-[72px]">
-      <div><p className="inline-flex items-center gap-2 rounded-full border border-[#d9dae2] bg-white/85 px-4 py-2 text-[11px] font-extrabold tracking-[0.15em] text-[#202124]">CLINIC &amp; HOSPITAL PLANS · PLANNED</p>
+  return <div className="bg-[#FFFFFF] text-[#0F2A3D]">
+    <section className="overflow-hidden bg-white py-14 md:py-20"><div className="mx-auto grid max-w-[1440px] items-center gap-8 px-6 lg:px-[72px]">
+      <div><p className="inline-flex items-center gap-2 rounded-full border border-[#DCE5E8] bg-white/85 px-4 py-2 text-[11px] font-extrabold tracking-[0.15em] text-[#0F2A3D]">CLINIC &amp; HOSPITAL PLANS · PLANNED</p>
       <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[56px]">Plan options for clinics, clinic groups and hospitals.</h1>
-      <p className="mt-5 max-w-3xl text-base leading-8 text-[#545761] md:text-lg">DOCVY is preparing provider discovery and enquiry workflows for care teams. No plans or rates are available to buy today. Contact us to discuss future scope and pricing; dashboards, appointment management and online checkout are not live.</p>
-      <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold text-[#545761]"><span>For independent clinics</span><span>For multi-location groups</span><span>For hospitals</span></div></div>
-      <div className="mx-auto w-full max-w-[500px]"><ProviderWorkflowIllustration /></div>
-    </div><div className="mx-auto mt-8 grid max-w-[1296px] gap-3 px-6 sm:grid-cols-[1fr_auto] sm:items-center lg:px-[72px]"><div className="rounded-2xl border border-[#e5e5ea] bg-white/90 p-4 sm:px-5"><p className="text-xs font-extrabold tracking-[0.12em] text-[#202124]">NO PUBLISHED RATE CARD</p><p className="mt-1 text-sm leading-6 text-[#545761]">Pricing is discussed directly. There is no online payment or active subscription on this site.</p></div><ContactLink>Contact now</ContactLink></div></section>
+      <p className="mt-5 max-w-3xl text-base leading-8 text-[#5B6B7A] md:text-lg">DOCVY is preparing provider discovery and enquiry workflows for care teams. No plans or rates are available to buy today. Contact us to discuss future scope and pricing; dashboards, appointment management and online checkout are not live.</p>
+      <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold text-[#5B6B7A]"><span>For independent clinics</span><span>For multi-location groups</span><span>For hospitals</span></div></div>
+    </div><div className="mx-auto mt-8 grid max-w-[1296px] gap-3 px-6 sm:grid-cols-[1fr_auto] sm:items-center lg:px-[72px]"><div className="rounded-2xl border border-[#DCE5E8] bg-white/90 p-4 sm:px-5"><p className="text-xs font-extrabold tracking-[0.12em] text-[#0F2A3D]">NO PUBLISHED RATE CARD</p><p className="mt-1 text-sm leading-6 text-[#5B6B7A]">Pricing is discussed directly. There is no online payment or active subscription on this site.</p></div><ContactLink>Contact now</ContactLink></div></section>
     <section className="mx-auto max-w-[1440px] px-6 py-12 lg:px-[72px] md:py-16">
-      <div className="grid gap-5 lg:grid-cols-3">{plans.map((plan, index) => <article key={plan.name} className={`group relative flex flex-col overflow-hidden rounded-[24px] border bg-white p-6 shadow-[0_12px_40px_rgba(7,20,38,0.06)] transition hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(7,20,38,0.12)] md:p-7 ${index === 2 ? "border-[#d8d3ff] ring-1 ring-[#d8d3ff]" : "border-[#e5e5ea]"}`}>
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#151518] via-[#d8d3ff] to-[#d8d3ff]" />
-        <div className="flex items-center justify-between"><span className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#151518]">{plan.name}</span><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#f0eff8] text-[#202124]">{index === 2 ? <Building2 size={19} /> : <Stethoscope size={19} />}</span></div>
-        <p className="mt-6 text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#545761]">Organisation type</p><h2 className="mt-1 text-2xl font-bold tracking-tight">{plan.scope}</h2>
-        <p className="mt-2 min-h-[72px] text-sm leading-6 text-[#545761]">{plan.audience}</p>
-        <span className="mt-3 inline-flex w-fit items-center gap-1.5 rounded-full bg-[#f0eff8] px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.1em] text-[#151518]"><Clock3 size={13} aria-hidden="true" /> Planned · not live</span>
-        <p className="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-[#545761]">Potential future workflow</p>
-        <ul className="my-4 flex-1 space-y-3 border-t border-[#e5e5ea] pt-5">{plan.details.map((detail) => <li key={detail} className="flex gap-2.5 text-sm leading-6 text-[#545761]"><CircleDot size={17} aria-hidden="true" className="mt-0.5 shrink-0 text-[#d8d3ff]" />{detail}</li>)}</ul>
+      <div className="grid gap-5 lg:grid-cols-3">{plans.map((plan, index) => <article key={plan.name} className={`group relative flex flex-col overflow-hidden rounded-[24px] border bg-white p-6  transition hover:-translate-y-1  md:p-7 ${index === 2 ? "border-[#E3F2F0] ring-1 ring-[#E3F2F0]" : "border-[#DCE5E8]"}`}>
+        <div className="absolute inset-x-0 top-0 h-1 bg-line" />
+        <div className="flex items-center justify-between"><span className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#0F2A3D]">{plan.name}</span><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E3F2F0] text-[#0F2A3D]">{index === 2 ? <Building2 strokeWidth={1.5} size={19} /> : <Stethoscope strokeWidth={1.5} size={19} />}</span></div>
+        <p className="mt-6 text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#5B6B7A]">Organisation type</p><h2 className="mt-1 text-2xl font-bold tracking-tight">{plan.scope}</h2>
+        <p className="mt-2 min-h-[72px] text-sm leading-6 text-[#5B6B7A]">{plan.audience}</p>
+        <span className="mt-3 inline-flex w-fit items-center gap-1.5 rounded-full bg-[#E3F2F0] px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.1em] text-[#0F2A3D]"><Clock3 strokeWidth={1.5} size={13} aria-hidden="true" /> Planned · not live</span>
+        <p className="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-[#5B6B7A]">Potential future workflow</p>
+        <ul className="my-4 flex-1 space-y-3 border-t border-[#DCE5E8] pt-5">{plan.details.map((detail) => <li key={detail} className="flex gap-2.5 text-sm leading-6 text-[#5B6B7A]"><CircleDot strokeWidth={1.5} size={17} aria-hidden="true" className="mt-0.5 shrink-0 text-[#E3F2F0]" />{detail}</li>)}</ul>
         <ContactLink href={buildPlanContactHref(plan.name)} ariaLabel={`Contact DOCVY about ${plan.name}`}>Contact now</ContactLink>
       </article>)}</div>
-      <p className="mt-6 rounded-xl border border-[#E7C99A] bg-[#FFF9EE] p-4 text-xs leading-5 text-[#6E5B39]">The cards describe planned use cases and potential workflows, not active service packages. Final scope depends on future product readiness and a direct conversation with DOCVY.</p>
+      <p className="mt-6 rounded-xl border border-[#DCE5E8] bg-[#F4F8F8] p-4 text-xs leading-5 text-[#B45309]">The cards describe planned use cases and potential workflows, not active service packages. Final scope depends on future product readiness and a direct conversation with DOCVY.</p>
     </section>
-    <section className="border-y border-[#e5e5ea] bg-white px-6 py-14 md:py-16" aria-labelledby="provider-plan-questions"><div className="mx-auto grid max-w-[1296px] gap-8 lg:grid-cols-[.7fr_1.3fr]"><div><p className="text-xs font-extrabold tracking-[0.14em] text-[#202124]">CLEAR ANSWERS FOR CARE TEAMS</p><h2 id="provider-plan-questions" className="mt-3 text-2xl font-bold tracking-tight md:text-3xl">Before you contact DOCVY</h2><p className="mt-3 text-sm leading-7 text-[#545761]">These answers describe the current site and planned provider work. Contact DOCVY to discuss future scope; don’t send patient or health information.</p></div><div className="space-y-3">{[
+    <section className="border-y border-[#DCE5E8] bg-white px-6 py-14 md:py-16" aria-labelledby="provider-plan-questions"><div className="mx-auto grid max-w-[1296px] gap-8 lg:grid-cols-[.7fr_1.3fr]"><div><p className="text-xs font-extrabold tracking-[0.14em] text-[#0F2A3D]">CLEAR ANSWERS FOR CARE TEAMS</p><h2 id="provider-plan-questions" className="mt-3 text-2xl font-bold tracking-tight md:text-3xl">Before you contact DOCVY</h2><p className="mt-3 text-sm leading-7 text-[#5B6B7A]">These answers describe the current site and planned provider work. Contact DOCVY to discuss future scope; don’t send patient or health information.</p></div><div className="space-y-3">{[
       ["Are clinic or hospital plans available now?", "No. These are future workflow options, not services you can buy today. Contact DOCVY to discuss scope and future onboarding."],
       ["What does DOCVY charge clinics and hospitals?", "DOCVY has not published rates or opened subscriptions. Pricing is discussed directly; there is no checkout or payment collection on this website."],
       ["Can a hospital manage patient appointments in a DOCVY dashboard?", "No. The hospital dashboard, live appointment slots and booking workflow are not available. The patient enquiry form is closed, and patients should confirm appointments directly with the provider."],
       ["What information should I include in a provider enquiry?", "Share your organisation name, city, facility type and business contact details. Do not include any patient's name, contact details, symptoms or medical records."],
-    ].map(([question, answer]) => <details key={question} className="group rounded-2xl border border-[#e5e5ea] bg-[#fafafb] p-5 open:bg-white open:shadow-sm"><summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-bold text-[#151518] marker:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#202124]"><span>{question}</span><ChevronDown size={18} aria-hidden="true" className="shrink-0 text-[#202124] transition-transform group-open:rotate-180" /></summary><p className="mt-3 max-w-3xl text-sm leading-7 text-[#545761]">{answer}</p></details>)}</div></div></section>
-    <section className="border-b border-[#e5e5ea] bg-white py-12"><div className="mx-auto flex max-w-[1440px] flex-col gap-5 px-6 md:flex-row md:items-center md:justify-between lg:px-[72px]"><div><h2 className="text-2xl font-bold">Want to discuss a clinic or hospital setup?</h2><p className="mt-2 text-sm text-[#545761]">Share your organisation details through the contact channel; do not send patient information.</p></div><ContactLink>Contact now</ContactLink></div></section>
+    ].map(([question, answer]) => <details key={question} className="group rounded-2xl border border-[#DCE5E8] bg-[#FFFFFF] p-5 open:bg-white open:shadow-sm"><summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-bold text-[#0F2A3D] marker:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F2A3D]"><span>{question}</span><ChevronDown strokeWidth={1.5} size={18} aria-hidden="true" className="shrink-0 text-[#0F2A3D] transition-transform group-open:rotate-180" /></summary><p className="mt-3 max-w-3xl text-sm leading-7 text-[#5B6B7A]">{answer}</p></details>)}</div></div></section>
+    <section className="border-b border-[#DCE5E8] bg-white py-12"><div className="mx-auto flex max-w-[1440px] flex-col gap-5 px-6 md:flex-row md:items-center md:justify-between lg:px-[72px]"><div><h2 className="text-2xl font-bold">Want to discuss a clinic or hospital setup?</h2><p className="mt-2 text-sm text-[#5B6B7A]">Share your organisation details through the contact channel; do not send patient information.</p></div><ContactLink>Contact now</ContactLink></div></section>
   </div>;
 }

@@ -1,123 +1,79 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import { ChevronDown, Menu, Search, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { useRef } from "react";
 
-const patientLinks = [
-  ["/specialties", "Specialties"],
-  ["/surgery-guide", "Surgery guide"],
-  ["/care-guide", "Patient guides"],
-  ["/about", "About us"],
-
+const specialties = [
+  ["general-medicine", "General medicine"], ["cardiology", "Cardiology"], ["dermatology", "Dermatology"],
+  ["orthopaedics", "Orthopaedics"], ["paediatrics", "Paediatrics"], ["gynaecology", "Gynaecology"],
+  ["ophthalmology", "Ophthalmology"], ["ent", "ENT"],
 ] as const;
 
-const providerLinks = [
-  ["/for-clinics", "For clinics"],
+const links = [
+  ["/surgery-guide", "Surgeries"], ["/care-guide", "Health guides"], ["/for-clinics", "For clinics & doctors"],
 ] as const;
-
-type NavigationLink = readonly [string, string];
-
-function isCurrentSection(href: string, pathname: string) {
-  if (pathname === href) return true;
-  if (href === "/specialties") return pathname.startsWith("/specialties/");
-  if (href === "/care-guide") return pathname.startsWith("/patient-guides/");
-  return false;
-}
-
-function renderLink(
-  [href, label]: NavigationLink,
-  pathname: string,
-  mobile = false,
-  onSelect?: () => void,
-) {
-  const active = isCurrentSection(href, pathname);
-  return (
-    <Link
-      key={href}
-      href={href}
-      aria-current={active ? "page" : undefined}
-      onClick={mobile ? onSelect : undefined}
-      className={mobile
-        ? `block min-h-11 rounded-xl px-3 py-3 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#402442] ${active ? "bg-sand text-[#402442]" : "text-grey hover:bg-[#f5efe6] hover:text-[#402442]"}`
-        : `inline-flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#402442] ${active ? "bg-sand text-ink" : "text-[#402442] hover:bg-sand"}`}
-    >
-      {label}
-    </Link>
-  );
-}
 
 export default function Nav() {
-  const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const mobile = useRef<HTMLDialogElement>(null);
+  const menu = useRef<HTMLButtonElement>(null);
+  const desktop = useRef<HTMLDetailsElement>(null);
+  const current = (href: string) => pathname === href ? "page" : undefined;
+  const close = () => mobile.current?.close();
 
-  return (
-    <header className="sticky top-0 z-30 border-b border-line bg-porc">
-      <div className="mx-auto flex h-[70px] max-w-site items-center justify-between px-6 lg:h-[88px] sm:px-8">
-        <Link
-          href="/"
-          className="inline-flex min-h-11 items-center gap-2.5 font-head text-[21px] font-extrabold tracking-[0.035em] text-[#402442]"
-          aria-label="DOCVY home"
-        >
-          <Image src="/icon.svg" alt="" width={29} height={29} unoptimized className="shrink-0" />
-          DOCVY
-        </Link>
-
-        <nav aria-label="Main navigation" className="hidden items-center gap-2 lg:flex">
-          <div role="group" aria-label="Patient resources" className="flex items-center gap-1">
-            {patientLinks.map((item) => renderLink(item, pathname))}
-          </div>
-          <span aria-hidden="true" className="mx-1 h-6 w-px bg-line" />
-          <div role="group" aria-label="Provider resources" className="flex items-center gap-1">
-            {providerLinks.map((item) => renderLink(item, pathname))}
-          </div>
-        </nav>
-
-        <Link
-          href="/doctors"
-          aria-current={pathname === "/doctors" ? "page" : undefined}
-          className="hidden min-h-12 items-center justify-center gap-2 rounded-xl bg-[#402442] px-5 text-sm font-bold text-white hover:bg-[#593456] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#402442] lg:inline-flex"
-        >
-          Find a doctor <ArrowUpRight strokeWidth={1.5} size={16} />
-        </Link>
-
-        <button
-          type="button"
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-line text-[#402442] lg:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-navigation"
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((value) => !value)}
-        >
-          {open ? <X strokeWidth={1.5} size={20} /> : <Menu strokeWidth={1.5} size={20} />}
-        </button>
-      </div>
-
-      <nav
-        id="mobile-navigation"
-        aria-label="Mobile navigation"
-        hidden={!open}
-        className="border-t border-line bg-white px-6 pb-5 pt-2 lg:hidden"
-      >
-          <div role="group" aria-label="Patient resources">
-            <p className="px-3 pb-1 pt-3 text-[10px] font-extrabold tracking-[0.13em] text-grey">FOR PATIENTS</p>
-            <div className="space-y-1">{patientLinks.map((item) => renderLink(item, pathname, true, () => setOpen(false)))}</div>
-          </div>
-          <div role="group" aria-label="Provider resources" className="mt-2 border-t border-line pt-2">
-            <p className="px-3 pb-1 pt-3 text-[10px] font-extrabold tracking-[0.13em] text-grey">FOR PROVIDERS</p>
-            <div className="space-y-1">{providerLinks.map((item) => renderLink(item, pathname, true, () => setOpen(false)))}</div>
-          </div>
-          <Link
-            href="/doctors"
-            aria-current={pathname === "/doctors" ? "page" : undefined}
-            onClick={() => setOpen(false)}
-            className={`mt-4 flex min-h-12 items-center justify-center rounded-xl text-sm font-semibold text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#402442] focus-visible:ring-offset-2 ${pathname === "/doctors" ? "bg-[#593456]" : "bg-[#402442] hover:bg-[#593456]"}`}
-          >
-            Find a doctor
-          </Link>
+  return <header className="sticky top-0 z-30 border-b border-line bg-white">
+    {process.env.NEXT_PUBLIC_DEMO_MODE === "true" && <p className="bg-primary-tint px-4 py-2 text-center text-[13px] text-ink">Demo mode: doctors shown are fictional.</p>}
+    <div className="mx-auto flex h-16 max-w-site items-center justify-between gap-4 px-5 sm:px-8 lg:h-[72px]">
+      <Link href="/" aria-label="DOCVY home" className="inline-flex min-h-12 items-center gap-2 font-head text-xl font-bold text-ink">
+        <Image src="/icon.svg" alt="" width={29} height={29} unoptimized /> DOCVY
+      </Link>
+      <nav aria-label="Main" className="hidden items-center gap-5 lg:flex">
+        <details ref={desktop} className="relative" onKeyDown={(event) => {
+          if (event.key === "Escape") { desktop.current?.removeAttribute("open"); desktop.current?.querySelector("summary")?.focus(); }
+        }}>
+          <summary className="flex min-h-12 cursor-pointer list-none items-center gap-1 whitespace-nowrap text-sm font-medium">
+            Find doctors <ChevronDown size={16} strokeWidth={1.5} aria-hidden="true" />
+          </summary>
+          <ul className="absolute left-0 top-full grid w-[360px] grid-cols-2 gap-x-2 rounded-card border border-line bg-white p-3">
+            {specialties.map(([slug, label]) => {
+              const href = "/doctors/specialty/" + slug;
+              return <li key={slug}><Link href={href} aria-current={current(href)} onClick={() => desktop.current?.removeAttribute("open")} className="flex min-h-11 items-center px-2 text-sm hover:underline">{label}</Link></li>;
+            })}
+            <li className="col-span-2"><Link href="/specialties" aria-current={current("/specialties")} onClick={() => desktop.current?.removeAttribute("open")} className="flex min-h-11 items-center px-2 font-medium text-primary hover:underline">View all specialties</Link></li>
+          </ul>
+        </details>
+        {links.map(([href, label]) => <Link key={href} href={href} aria-current={current(href)} className="flex min-h-12 items-center whitespace-nowrap text-sm font-medium hover:underline">{label}</Link>)}
       </nav>
-    </header>
-  );
+      <div className="hidden items-center gap-4 lg:flex">
+        <Link href="/for-clinics" aria-current={current("/for-clinics")} className="flex min-h-12 items-center whitespace-nowrap text-sm font-medium hover:underline">Log in</Link>
+        <Link href="/doctors" aria-current={current("/doctors")} className="docvy-pill docvy-pill-primary">Find a doctor</Link>
+      </div>
+      <div className="flex items-center gap-1 lg:hidden">
+        <Link href="/doctors" aria-label="Search for a doctor" aria-current={current("/doctors")} className="grid h-12 w-12 place-items-center"><Search size={22} strokeWidth={1.5} /></Link>
+        <button ref={menu} type="button" aria-label="Open menu" aria-haspopup="dialog" aria-controls="docvy-mobile-menu" onClick={() => mobile.current?.showModal()} className="grid h-12 w-12 place-items-center"><Menu size={24} strokeWidth={1.5} /></button>
+      </div>
+    </div>
+    <dialog id="docvy-mobile-menu" ref={mobile} aria-labelledby="mobile-menu-title" onClose={() => menu.current?.focus()} className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none border-0 bg-white p-0 text-ink">
+      <div className="flex h-full flex-col">
+        <div className="flex h-16 shrink-0 items-center justify-between border-b border-line px-5">
+          <h2 id="mobile-menu-title" className="font-head text-xl font-semibold">Menu</h2>
+          <button type="button" aria-label="Close menu" onClick={close} className="grid h-12 w-12 place-items-center"><X size={24} strokeWidth={1.5} /></button>
+        </div>
+        <nav aria-label="Main" className="min-h-0 flex-1 overflow-y-auto px-5 py-2">
+          <details><summary className="flex min-h-12 cursor-pointer items-center gap-2 font-medium">Find doctors <ChevronDown size={16} strokeWidth={1.5} aria-hidden="true" /></summary>
+            <ul className="pl-4">{specialties.map(([slug, label]) => {
+              const href = "/doctors/specialty/" + slug;
+              return <li key={slug}><Link href={href} aria-current={current(href)} onClick={close} className="flex min-h-12 items-center">{label}</Link></li>;
+            })}<li><Link href="/specialties" aria-current={current("/specialties")} onClick={close} className="flex min-h-12 items-center text-primary">View all specialties</Link></li></ul>
+          </details>
+          {links.map(([href, label]) => <Link key={href} href={href} aria-current={current(href)} onClick={close} className="flex min-h-12 items-center border-t border-line font-medium">{label}</Link>)}
+          <Link href="/for-clinics" aria-current={current("/for-clinics")} onClick={close} className="flex min-h-12 items-center border-t border-line font-medium">Log in</Link>
+        </nav>
+        <div className="shrink-0 border-t border-line p-5"><Link href="/doctors" aria-current={current("/doctors")} onClick={close} className="docvy-pill docvy-pill-primary w-full">Find a doctor</Link></div>
+      </div>
+    </dialog>
+  </header>;
 }

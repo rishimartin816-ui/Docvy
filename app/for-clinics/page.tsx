@@ -1,3 +1,4 @@
+import IllustrationBackground from "@/components/IllustrationBackground";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, CalendarDays, ClipboardList, ShieldCheck, Stethoscope } from "lucide-react";
@@ -17,24 +18,24 @@ export default function ForClinicsPage() {
   const live = crm?.staging === false;
   const workspaceHref = crm ? "/crm/clinic" : "https://docvy-clinic-demo.vercel.app/crm/clinic";
 
-  return <div className="docvy-garden px-5 py-12 sm:px-9">
+  return <div className="relative isolate overflow-hidden docvy-garden px-5 py-12 sm:px-9"><IllustrationBackground slug="for-clinics-welcome" alt="A clinic team welcomes Meera and Ramesh."  />
     <div className="mx-auto max-w-5xl">
       <section className="docvy-glass p-7 sm:p-10">
         <p className="docvy-eyebrow">FOR CLINIC TEAMS</p>
         <h1 className="mt-3 text-4xl font-bold tracking-tight">Clinic workspace</h1>
-        <p className="mt-4 max-w-2xl text-lg text-[#545761]">
+        <p className="mt-4 max-w-2xl text-lg text-[#5B6B7A]">
           {live ? `Staff at ${crm.clinicName} can sign in to manage the clinic’s day-to-day work.` : "Try the workspace with fictional clinic records. You’ll need a demo staff account to sign in."}
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link href={workspaceHref} className="docvy-pill docvy-pill-primary">{live ? "Staff sign-in" : "Open CRM demo"} <ArrowUpRight size={16} aria-hidden="true" /></Link>
-          {crm && <Link href="/crm/admin" className="docvy-pill"><ShieldCheck size={16} aria-hidden="true" /> Owner sign-in</Link>}
+          <Link href={workspaceHref} className="docvy-pill docvy-pill-primary">{live ? "Staff sign-in" : "Open CRM demo"} <ArrowUpRight strokeWidth={1.5} size={16} aria-hidden="true" /></Link>
+          {crm && <Link href="/crm/admin" className="docvy-pill"><ShieldCheck strokeWidth={1.5} size={16} aria-hidden="true" /> Owner sign-in</Link>}
         </div>
       </section>
       <section className="mt-6 grid gap-4 md:grid-cols-3" aria-label="Workspace features">
         {tools.map(({ title, text, icon: Icon }) => <article key={title} className="docvy-glass p-5">
-          <span className="grid h-11 w-11 place-items-center rounded-xl bg-[#f0eff8] text-[#202124]"><Icon size={20} aria-hidden="true" /></span>
+          <span className="grid h-11 w-11 place-items-center rounded-xl bg-[#E3F2F0] text-[#0F2A3D]"><Icon strokeWidth={1.5} size={20} aria-hidden="true" /></span>
           <h2 className="mt-4 font-bold">{title}</h2>
-          <p className="mt-2 text-sm leading-6 text-[#545761]">{text}</p>
+          <p className="mt-2 text-sm leading-6 text-[#5B6B7A]">{text}</p>
         </article>)}
       </section>
     </div>
