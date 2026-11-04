@@ -17,12 +17,14 @@ type Enquiry = {
 };
 type AppointmentHistory = {
   reference?: string;
+  fee_paise?: number | null;
   contact?: { enquiry_reference: string; name: string; mobile: string; email: string | null } | null;
   status: string;
   starts_at: string;
   events: { action: string; at: string; appointment_at: string | null }[];
 };
 const dateLabel = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" });
+const rupees = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" });
 const chartDay = new Intl.DateTimeFormat("en-IN", { weekday: "short", day: "numeric", month: "short", timeZone: "Asia/Kolkata" });
 const calendarDay = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" });
 
@@ -141,6 +143,30 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
       setBusy(false);
     }
   }
+  async function saveBookingFee(event: FormEvent<HTMLFormElement>, appointment: AppointmentHistory) {
+    event.preventDefault();
+    if (!session || !canSchedule || busy || !appointment.reference || appointment.fee_paise === undefined) return;
+    const amount = String(new FormData(event.currentTarget).get("fee") ?? "");
+    if (!/^\d{1,6}(\.\d{1,2})?$/.test(amount)) return;
+    const feePaise = Math.round(Number(amount) * 100);
+    setBusy(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/crm", {
+        method: "POST",
+        headers: { Authorization: "Bearer " + session, "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "booking-fee", booking: appointment.reference, expectedFeePaise: appointment.fee_paise, feePaise }),
+      });
+      if (!response.ok) throw new Error((await response.json()).error);
+      setHistory({ ...appointment, fee_paise: feePaise });
+      setMessage("Booking fee saved.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Booking fee could not be saved.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function loadEnquiries() {
     setBusy(true);
     setMessage("");
@@ -385,6 +411,14 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
               {history && <div className="mt-4">
                 <p className="font-semibold capitalize">{history.status.replace("_", " ")} · {dateLabel.format(new Date(history.starts_at))}</p>
                 {history.reference && <p className="break-all text-sm text-grey">{history.reference}</p>}
+                {history.reference && history.fee_paise !== undefined && <div className="mt-3 rounded-btn bg-sand p-3">
+                  <p className="text-sm font-semibold">Booking fee {history.fee_paise === null ? "· Not set" : "· " + rupees.format(history.fee_paise / 100)}</p>
+                  <p className="mt-1 text-xs text-grey">Quoted fee for the appointment. Payments are handled by the clinic.</p>
+                  <form key={history.reference + ":" + history.fee_paise} className="mt-3 flex flex-wrap items-end gap-2 text-sm" onSubmit={(event) => void saveBookingFee(event, history)}>
+                    <label>Amount (₹)<input className={field} name="fee" type="number" min="0" max="100000" step="0.01" required defaultValue={history.fee_paise === null ? "" : history.fee_paise / 100} /></label>
+                    <button className={button} disabled={busy}>Save fee</button>
+                  </form>
+                </div>}
                 {history.contact && <dl className="mt-3 rounded-btn bg-sand p-3 text-sm">
                   <dt className="font-semibold">Patient contact</dt>
                   <dd>{history.contact.name}</dd>

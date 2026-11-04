@@ -180,6 +180,27 @@ export async function POST(request: NextRequest) {
       return reply({ error: "Enquiry update unavailable" }, 503);
     }
   }
+  if (input?.action === "booking-fee") {
+    const validFee = (value: unknown) => typeof value === "number" && Number.isInteger(value) && value >= 0 && value <= 10000000;
+    if (typeof input.booking !== "string" || !uuid.test(input.booking) || !validFee(input.feePaise) ||
+        (input.expectedFeePaise !== null && !validFee(input.expectedFeePaise))) {
+      return reply({ error: "Enter a fee between ₹0 and ₹100,000" }, 400);
+    }
+    try {
+      const actor = await staff(clinicId, requestToken(request));
+      if (!actor) return reply({ error: "Staff access required" }, 403);
+      const result = await database("/rest/v1/rpc/crm_set_booking_fee", {
+        actor: actor.id, clinic: clinicId, booking: input.booking,
+        expected_fee: input.expectedFeePaise, desired_fee: input.feePaise,
+      });
+      if (result.status === 403) return reply({ error: "Scheduling access required" }, 403);
+      if (result.status === 404) return reply({ error: "Appointment not found" }, 404);
+      if (result.status === 409) return reply({ error: "Another staff member updated the fee. Reopen the booking to see it." }, 409);
+      return result.ok ? reply({}) : reply({ error: "Booking fee could not be saved" }, 503);
+    } catch {
+      return reply({ error: "Booking fee could not be saved" }, 503);
+    }
+  }
   if (input?.action === "booking-status" || input?.action === "reschedule") {
     const reschedule = input.action === "reschedule";
     if (typeof input.booking !== "string" || !uuid.test(input.booking) ||
