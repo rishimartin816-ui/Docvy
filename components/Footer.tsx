@@ -1,4 +1,5 @@
 import Link from "next/link";
+import HealthcareBackdrop from "@/components/HealthcareBackdrop";
 import { ArrowUpRight, FileText, Mail, ShieldCheck } from "lucide-react";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
 
@@ -20,7 +21,8 @@ const policyLinks = [
 export default function Footer() {
   const intakeEnabled = isAppointmentIntakeConfigured();
   return (
-    <footer className="border-t border-[#e5e5ea] bg-[#fafafb] text-sm">
+    <footer className="relative isolate overflow-hidden border-t border-[#e5e5ea] bg-[#fafafb] text-sm">
+      <HealthcareBackdrop className="pointer-events-none absolute -bottom-32 -right-36 -z-10 w-[420px] opacity-25 sm:-right-16 lg:right-0 lg:w-[560px]" />
       <div className="mx-auto grid max-w-[1440px] gap-10 px-6 py-12 md:grid-cols-[1.3fr_.8fr_1fr] lg:px-[72px] lg:py-14">
         <div>
           <Link

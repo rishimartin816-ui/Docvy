@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import HealthcareBackdrop from "@/components/HealthcareBackdrop";
 import { ArrowUpRight, ClipboardList, HeartPulse, Stethoscope, Video } from "lucide-react";
 import CareLibrarySearch from "@/components/CareLibrarySearch";
 import DiscoverySearch, { DemoProvider } from "@/components/DiscoverySearch";
@@ -53,20 +54,15 @@ export default function Home() {
       inLanguage: "en-IN",
       publisher: { "@id": "https://www.docvy.in/#organization" },
     }).replace(/</g, "\\u003c") }} />
-    <section className="relative isolate mx-auto grid max-w-[1320px] items-center gap-8 px-5 pb-10 pt-10 sm:px-9 lg:grid-cols-[1.05fr_.95fr] lg:py-20">
-      <div>
+    <section className="relative isolate mx-auto flex max-w-[1320px] items-center overflow-hidden px-5 py-14 sm:px-9 sm:py-20 lg:min-h-[460px]">
+      <HealthcareBackdrop className="pointer-events-none absolute -right-28 top-1/2 -z-10 w-[530px] max-w-none -translate-y-1/2 opacity-30 sm:-right-20 sm:w-[640px] lg:right-0 lg:w-[720px] lg:opacity-100" />
+      <div className="w-full max-w-[660px]">
         <p className="docvy-eyebrow">CARE DISCOVERY · INDIA</p>
         <h1 className="mt-5 max-w-[720px] text-5xl font-bold leading-[.98] tracking-[-.06em] text-[#151518] sm:text-6xl lg:text-7xl">Find a clearer next step in care.</h1>
         <p className="my-6 max-w-lg text-base leading-7 text-[#545761] sm:text-lg">Not sure which doctor to look for? Start with what is on your mind, learn which specialists handle it, or browse by specialty and city.</p>
         <DiscoverySearch />
         <p className="mt-3 text-sm text-[#545761]">You can try the appointment process with a fictional doctor. Real appointments are currently unavailable.</p>
       </div>
-      <figure className="relative overflow-hidden rounded-[30px] bg-[#dedaf8] shadow-[0_24px_70px_rgba(28,28,36,.18)]">
-        <Image src="/images/docvy-homepage-care-team.png" alt="Illustration of a clinician listening to a patient in a sunlit consultation room" width={500} height={375} priority sizes="(max-width: 1023px) 92vw, 48vw" className="aspect-[4/3] w-full object-cover" />
-        <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-5 pb-5 pt-12 text-white sm:px-7">
-          <p className="text-sm font-semibold">Every visit starts with a conversation.</p>
-        </figcaption>
-      </figure>
     </section>
 
     <section className="mx-auto max-w-[1320px] px-5 pb-14 sm:px-9" aria-labelledby="story-heading">
