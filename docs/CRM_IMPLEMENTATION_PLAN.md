@@ -49,17 +49,11 @@ The SQL is a **review artifact**, not production-approved code. In particular, a
 The preview implements a single fictional clinic and doctor. It accepts slot IDs and
 random booking keys only. It collects no patient contact or health information.
 
-1. Use a fresh local or isolated Supabase environment with PostgreSQL 15 or later.
-2. Apply `docs/sql/crm_staging.sql` then `docs/sql/crm_clinic_scope.sql`, then `docs/sql/crm_staff_roles.sql`, then `docs/sql/crm_staging_fixture.sql`.
-   These scripts are separate from the draft SQL and the production migration path.
-3. Create synthetic Supabase Auth users. Insert their user IDs into
-   `public.crm_staff` with role `scheduler` or `viewer` and the test clinic ID `7dfbf055-2737-448c-921e-c074d84393d4`. Obtain each access token
-   through the isolated Supabase Auth sign-in flow.
-4. Set `DOCVY_CRM_STAGING=true`, `DOCVY_CRM_STAGING_URL` to the isolated API URL,
-   and `DOCVY_CRM_STAGING_KEY` to its server-only legacy service-role JWT.
-   Use access protection if hosting the preview so only testers can reserve slots.
-5. Open `/book` to reserve synthetic appointments and `/crm/clinic` to
-   enter a staff access token and see the day or week calendar.
+1. Use the designated isolated project, docvy-crm-staging. The application verifies its Supabase origin before showing demo pages.
+2. Provision two synthetic, confirmed users through Supabase Auth's Add user workflow. Use unique test credentials kept outside Git. Add each generated Auth user ID to public.crm_staff for the test clinic, with roles scheduler and owner respectively. Keep separate accounts so the verification can prove role separation.
+3. Confirm preview-scoped DOCVY_CRM_STAGING, DOCVY_CRM_STAGING_URL and DOCVY_CRM_STAGING_KEY are configured in Vercel. Keep the server key out of client code and staging credentials out of the application environment.
+4. Open /book for synthetic slots, /crm/clinic for the scheduler, and /crm/admin for the owner. Use the staff email and password sign-in forms.
+5. Run node scripts/verify-crm-staging.mjs with the isolated deployment URL and synthetic scheduler credentials in DOCVY_STAGING_PREVIEW, DOCVY_STAGING_STAFF_EMAIL and DOCVY_STAGING_STAFF_PASSWORD. Supply DOCVY_STAGING_OWNER_EMAIL and DOCVY_STAGING_OWNER_PASSWORD for the owner check. Optionally provide DOCVY_STAGING_BOOKING_REFERENCE for a synthetic history and fee readback.
 
 Acceptance checks: block a slot, refresh the booking page, and confirm it disappears.
 Unblock and reserve it. Verify the staff calendar shows the booking. Repeat the same
