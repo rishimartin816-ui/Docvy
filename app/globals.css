@@ -4,16 +4,16 @@
 
 :root {
   color-scheme: light;
-  --bg: #FAFAF8;
-  --surface: #F1F1EE;
-  --primary: #171717;
-  --primary-hover: #333333;
-  --primary-tint: #F1F1EE;
-  --text: #202020;
-  --muted: #626262;
-  --border: #DEDEDA;
-  --success: #333333;
-  --warning: #626262;
+  --bg: #FFFCF8;
+  --surface: #F5EFE6;
+  --primary: #402442;
+  --primary-hover: #653B60;
+  --primary-tint: #E8DDF0;
+  --text: #29232D;
+  --muted: #746C75;
+  --border: #E5DCD7;
+  --success: #653B60;
+  --warning: #746C75;
   --danger: #B42318;
 }
 
@@ -29,7 +29,7 @@ body {
 h1,
 h2,
 h3 {
-  @apply font-head text-ink;
+  @apply font-head text-plum;
 }
 
 button,
@@ -117,7 +117,7 @@ a {
   font-family: var(--font-head), "Google Sans", system-ui, sans-serif;
 }
 .docvy-pill:hover { background: var(--surface); }
-.docvy-pill-primary { min-height: 48px; background: var(--primary); color: #fff; border-color: var(--primary); }
+.docvy-pill-primary { min-height: 48px; background: var(--primary); color: var(--bg); border-color: var(--primary); }
 .docvy-pill-primary:hover { background: var(--primary-hover); }
 .docvy-select {
   width: 100%;
@@ -129,4 +129,20 @@ a {
   color: var(--text);
 }
 
-dialog::backdrop { background: rgba(23, 23, 23, .5); }
+dialog::backdrop { background: rgba(64, 36, 66, .3); }
+
+.calm-wrap { width: 100%; max-width: 1120px; margin-inline: auto; padding-inline: 20px; }
+.calm-section { padding-block: 56px; }
+.calm-hero { background: linear-gradient(160deg, #F5EFE6 0%, #FFFCF8 80%); }
+.calm-home { font-size: 17px; line-height: 1.6; }
+.calm-home h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 500; line-height: 1.2; letter-spacing: -.025em; }
+.calm-section-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+.calm-button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; border: 1px solid #402442; border-radius: 12px; background: #402442; color: #FFFCF8; font-weight: 600; font-size: 15px; }
+.calm-button:hover { background: #653B60; border-color: #653B60; }
+.calm-text-link { display: inline-flex; min-height: 44px; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #402442; text-underline-offset: 4px; }
+.calm-text-link:hover { color: #653B60; text-decoration: underline; }
+.calm-card { border: 1px solid #E5DCD7; border-radius: 16px; background: #FFFCF8; box-shadow: 0 2px 8px rgba(64,36,66,.025); }
+.calm-card:hover { border-color: #D7B9C8; }
+.calm-home aside[aria-label="Demo appointment activity"] { background: #FFFCF8; }
+.calm-home aside[aria-label="Demo appointment activity"] .text-grey { color: #746C75; }
+@media (min-width: 768px) { .calm-section { padding-block: 96px; } .calm-wrap { padding-inline: 32px; } }

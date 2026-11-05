@@ -1,20 +1,13 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import localFont from "next/font/local";
-import Nav from "@/components/Nav";
+import { Inter, Manrope } from "next/font/google";
+
+import Header from "@/components/Header";
 import RouteBreadcrumbs from "@/components/RouteBreadcrumbs";
 import Footer from "@/components/Footer";
 import { docvyOpenGraphImage } from "@/lib/metadata";
 
-const docvyFont = localFont({
-  src: "./fonts/google-sans-flex-latin-wght-normal.woff2",
-  variable: "--font-head",
-  weight: "100 1000",
-  display: "swap",
-  fallback: ["Google Sans", "system-ui"],
-  adjustFontFallback: false,
-});
+const docvyFont = Manrope({ subsets: ["latin"], weight: ["500", "600"], variable: "--font-head", display: "swap" });
 const docvyBodyFont = Inter({
   subsets: ["latin"],
   variable: "--font-body",
@@ -83,11 +76,11 @@ export default function RootLayout({
         />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-3 focus:rounded-lg focus:bg-white focus:p-3 focus:text-[#202020]"
+          className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-3 focus:rounded-lg focus:bg-porcelain focus:p-3 focus:text-plum"
         >
           Skip to content
         </a>
-        <Nav />
+        <Header />
         <main id="main"><RouteBreadcrumbs />{children}</main>
         <Footer />
       </body>
