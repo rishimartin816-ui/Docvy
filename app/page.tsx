@@ -1,137 +1,138 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Baby, Bone, Building2, CheckCircle2, Clock3, HeartPulse, MapPin, Search, Sparkles, Stethoscope } from "lucide-react";
-import PatientSearchCard from "@/components/PatientSearchCard";
-import PatientJourneyMap from "@/components/PatientJourneyMap";
-import ProviderSourceGuide from "@/components/ProviderSourceGuide";
-import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
-import { docvyOpenGraphImage } from "@/lib/metadata";
-import { providerCandidates, providerCities, providerCityListLabel } from "@/lib/provider-candidates";
+import { ArrowUpRight, BookOpen, Building2, CalendarCheck, ClipboardList, Search, Stethoscope } from "lucide-react";
+import DiscoverySearch from "@/components/DiscoverySearch";
+import RecentBookingActivity from "@/components/RecentBookingActivity";
+import { DoctorCards } from "@/components/DirectoryPage";
+import { HealthTopicIcon, healthTopics } from "@/components/HealthTopicIcon";
+import SpecialtyIcon from "@/components/SpecialtyIcon";
+import { specialties } from "@/lib/care-directory";
+import { directoryProcedures, liveDoctors, popularProcedures } from "@/lib/directory";
+import { buildPageSocialMetadata, productionOrigin } from "@/lib/metadata";
 
-const homeDescription = `Search a health concern or specialty across India, then filter current hospital-source doctor listings in ${providerCityListLabel}.`;
+const title = "Find & Book Doctors in India | DOCVY";
+const description = "Find doctors and clinics across India, explore specialties and procedures, and learn what to check before requesting an appointment through DOCVY.";
 
 export const metadata: Metadata = {
-  title: "Patient guide and doctor directory across India | DOCVY",
-  description: homeDescription,
+  title: { absolute: title },
+  description,
   alternates: { canonical: "/" },
-  openGraph: { type: "website", locale: "en_IN", siteName: "DOCVY", title: "Patient guide and doctor directory across India | DOCVY", description: homeDescription, url: "/", images: [docvyOpenGraphImage] },
-  twitter: { card: "summary_large_image", title: "Patient guide and doctor directory across India | DOCVY", description: homeDescription, images: ["/opengraph-image"] },
+  ...buildPageSocialMetadata(title, description, "/"),
 };
 
-const guideExamples = [
-  { concern: "Diabetes or thyroid concerns", query: "diabetes", specialty: "Diabetology / endocrinology", icon: HeartPulse },
-  { concern: "Skin, hair or nail concerns", query: "skin rash", specialty: "Dermatology", icon: Sparkles },
-  { concern: "Pregnancy or menstrual health", query: "pregnancy", specialty: "Obstetrics and gynaecology", icon: Baby },
-  { concern: "Bones, joints or injuries", query: "joint pain", specialty: "Orthopaedics", icon: Bone },
+const featuredSpecialties = specialties.filter(({ slug }) => slug !== "dentistry" && slug !== "mental-health");
+const featuredGuides = healthTopics.filter(({ slug }) => ["high-blood-pressure", "diabetes", "joint-pain-arthritis", "kidney-stones"].includes(slug));
+const quickActions = [
+  { label: "Find a doctor", href: "/doctors", icon: CalendarCheck },
+  { label: "Specialties", href: "/specialties", icon: Stethoscope },
+  { label: "Plan surgery", href: "/surgery-guide", icon: ClipboardList },
+  { label: "Health guides", href: "/care-guide", icon: BookOpen },
+  { label: "For clinics", href: "/for-clinics", icon: Building2 },
 ];
-
-const providerAreas = [
-  { title: "Doctor profile review", text: "Doctors can request a public profile correction today. Self-service claims are not open; the DOCVY owner reviews and approves every published change." },
-  { title: "Clinic team workspace", text: "Planned tools for clinic teams to manage practice locations, provider details and appointment enquiries. A clinic dashboard is not live." },
-  { title: "Hospital operations", text: "Planned tools for hospital teams to coordinate departments, listed doctors and incoming enquiries. Slot booking and a hospital dashboard are not live." },
+const steps = [
+  { icon: Search, title: "Find the right specialty", text: "Start with a symptom, doctor, specialty, or clinic. Use the guides if you’re unsure who to see." },
+  { icon: ClipboardList, title: "Request a visit", text: "Where a clinic accepts DOCVY enquiries, send an appointment request from the doctor’s profile." },
+  { icon: CalendarCheck, title: "Confirm with the clinic", text: "Check the time, location, and fee with the clinic before you travel." },
 ];
-
-const currentCityCoverage = providerCities.map((city) => {
-  const profiles = providerCandidates.filter((doctor) =>
-    doctor.locations.some((location) => location.city === city),
-  );
-  const facilityLocations = profiles.flatMap((doctor) =>
-    doctor.locations.filter((location) => location.city === city),
-  );
-
-  return {
-    city,
-    profileCount: profiles.length,
-    locationCount: facilityLocations.length,
-    href: `/doctors/${city.toLocaleLowerCase()}`,
-  };
-});
 
 export default function Home() {
-  const intakeEnabled = isAppointmentIntakeConfigured();
-  return <div className="overflow-hidden bg-[#F6FAF8] text-[#173A37]">
+  return <div className="docvy-home">
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebSite",
-      "@id": "https://www.docvy.in/#website",
+      "@id": productionOrigin + "/#website",
       name: "DOCVY",
-      url: "https://www.docvy.in/",
-      publisher: { "@id": "https://www.docvy.in/#organization" },
+      url: productionOrigin + "/",
+      inLanguage: "en-IN",
+      publisher: { "@id": productionOrigin + "/#organization" },
+      potentialAction: { "@type": "SearchAction", target: productionOrigin + "/doctors?q={search_term_string}", "query-input": "required name=search_term_string" },
     }).replace(/</g, "\\u003c") }} />
-    <section className="relative isolate overflow-hidden bg-[linear-gradient(118deg,#F5FAF7_0%,#EAF5F1_58%,#DFF1EB_100%)]">
-      <div aria-hidden="true" className="pointer-events-none absolute -left-24 top-20 h-72 w-72 rounded-full bg-[#DDF0E9]/80 blur-3xl" />
-      <div aria-hidden="true" className="pointer-events-none absolute right-[8%] top-12 h-56 w-56 rounded-full border border-white/70" />
-      <div aria-hidden="true" className="pointer-events-none absolute right-[-42px] top-20 h-48 w-48 rounded-full bg-[#F5D4BF]/55 blur-[1px] lg:hidden" />
-      <div className="relative mx-auto grid min-h-0 max-w-[1440px] items-center gap-10 px-6 pb-5 pt-10 md:px-10 lg:min-h-[620px] lg:grid-cols-[.92fr_1.08fr] lg:px-[64px] lg:py-12 xl:px-[72px]">
-        <div className="relative z-10 max-w-[620px]">
-          <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/80 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><span className="h-2 w-2 rounded-full bg-[#F39B72]" />CARE, CONNECTED</p>
-          <h1 className="max-w-[680px] text-[42px] font-black leading-[1.04] tracking-[-0.052em] text-[#173A37] sm:text-[54px] lg:text-[58px] xl:text-[62px]">Find your way to care <span className="text-[#087F83]">across India.</span></h1>
-          <p className="mt-7 max-w-[590px] text-base leading-8 text-[#526D66] md:text-[17px]">Start with a health concern or specialty anywhere in India. Read a plain-language guide, then browse source-linked doctor profiles currently listed in {providerCityListLabel}. The guide is nationwide; the doctor directory is still growing.</p>
-          <div className="mt-8 flex flex-wrap gap-3"><Link href="/care-guide" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#087F83] px-6 text-sm font-bold text-white shadow-[0_10px_24px_rgba(8,127,131,0.2)] transition hover:-translate-y-0.5 hover:bg-[#066D70]">Explore the patient guide <ArrowRight size={17} /></Link><Link href="/doctors" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#B7D2C9] bg-white/85 px-6 text-sm font-bold text-[#173A37] transition hover:-translate-y-0.5 hover:bg-white">Browse current doctors</Link></div>
-        </div>
-        <div className="relative mx-auto hidden w-full max-w-[600px] lg:block">
-          <div aria-hidden="true" className="absolute -right-8 -top-8 h-36 w-36 rounded-full bg-[#F39B72]/20 blur-2xl" />
-          <div className="relative overflow-hidden rounded-[30px] border border-white/80 bg-[#EAF5F1] shadow-[0_28px_70px_rgba(23,58,55,0.16)]">
-            <Image src="/images/docvy-homepage-care-team.png" alt="Illustrative scene of a clinician speaking with a patient in a bright care setting." width={800} height={600} priority sizes="(min-width: 1280px) 42vw, 48vw" className="aspect-[4/3] h-auto w-full object-cover" />
-          </div>
-          <div className="absolute -bottom-5 left-5 hidden items-center gap-3 rounded-2xl border border-[#DCEAE5] bg-white px-4 py-3 shadow-[0_14px_34px_rgba(23,58,55,0.12)] xl:flex">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E3F3ED] text-[#087F83]"><CheckCircle2 size={20} aria-hidden="true" /></span>
-            <span><span className="block text-sm font-bold text-[#173A37]">Clear next steps</span><span className="mt-0.5 block text-xs text-[#526D66]">Guide · directory · contact provider</span></span>
-          </div>
-        </div>
+
+    <nav aria-label="Care shortcuts" className="border-b border-line bg-white">
+      <div className="mx-auto flex max-w-site overflow-x-auto px-3 sm:px-8">
+        {quickActions.map(({ label, href, icon: Icon }) => <Link key={href} href={href} className="flex min-h-24 min-w-28 flex-1 shrink-0 flex-col items-center justify-center gap-2 px-3 text-center text-sm font-medium text-ink hover:bg-surface">
+          <Icon size={23} strokeWidth={1.5} aria-hidden="true" />{label}
+        </Link>)}
       </div>
-      <div className="relative z-20 mx-auto w-full max-w-[620px] px-6 pb-12 md:px-10 lg:absolute lg:bottom-8 lg:right-8 lg:mx-0 lg:w-[460px] lg:px-0 lg:pb-0 xl:bottom-10 xl:right-[72px] xl:w-[560px]">
-        <PatientSearchCard />
+    </nav>
+
+    <section className="mx-auto max-w-site px-5 py-12 sm:px-8 md:py-20">
+      <p className="mb-4 text-sm font-medium text-grey">Care starts with a question.</p>
+      <h1 className="max-w-4xl">Find the right doctor and book with confidence.</h1>
+      <p className="docvy-home-copy mt-5 text-grey">Explore specialties and procedures across India. Request an appointment where clinic intake is available.</p>
+      <div className="mt-8 max-w-3xl"><DiscoverySearch /></div>
+      <nav aria-label="Quick searches" className="mt-4 flex max-w-3xl flex-wrap items-center gap-x-5 gap-y-1 text-sm">
+        <span className="text-grey">Explore topics</span>
+        <Link href="/patient-guides/diabetes" className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline">Diabetes</Link>
+        <Link href="/patient-guides/joint-pain-arthritis" className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline">Joint pain</Link>
+        <Link href="/specialties/dermatology" className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline">Skin and hair</Link>
+        <Link href="/patient-guides/high-blood-pressure" className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline">Blood pressure</Link>
+      </nav>
+      <RecentBookingActivity />
+      <aside className="mt-6 flex max-w-3xl flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
+        <p className="max-w-lg text-sm text-grey">For doctors and clinics. Help patients understand your practice and find their next step.</p>
+        <Link href="/for-doctors" className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-primary underline underline-offset-4">Explore DOCVY <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden="true" /></Link>
+      </aside>
+    </section>
+
+    <section className="docvy-home-section border-y border-line bg-surface" aria-labelledby="specialty-heading">
+      <div className="mx-auto max-w-site px-5 sm:px-8">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 id="specialty-heading">Explore specialties</h2>
+          <Link href="/specialties" className="docvy-pill">View all specialties <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden="true" /></Link>
+        </div>
+        <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {featuredSpecialties.map(({ slug, name, plain }) => <li key={slug}>
+            <Link href={"/specialties/" + slug} className="docvy-glass block h-full p-5 hover:border-primary">
+              <SpecialtyIcon slug={slug} />
+              <h3 className="mt-4 text-lg font-medium">{name}</h3>
+              <p className="docvy-home-copy mt-1 text-grey">{plain}</p>
+            </Link>
+          </li>)}
+        </ul>
       </div>
     </section>
 
-    <section className="border-b border-[#E4EEE9] bg-white px-6 py-14 md:py-16">
-      <div className="mx-auto max-w-[1296px]">
-        <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
-          <div><p className="text-xs font-extrabold tracking-[0.15em] text-[#087F83]">CHOOSE YOUR STARTING POINT</p><h2 className="mt-2 text-2xl font-bold tracking-tight text-[#173A37] md:text-3xl">What brought you to DOCVY?</h2></div>
-          <p className="max-w-md text-sm leading-6 text-[#526D66]">Choose the path that fits. You can read the guide or browse current doctor listings without creating an account.</p>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {[
-            { href: "/care-guide", icon: Search, eyebrow: "PATIENT GUIDE", title: "I have a health concern", text: "Read a plain-language overview of common searches and the specialties often associated with them. It is a place to start, not a diagnosis.", accent: "bg-[#17C8E5]" },
-            { href: "/doctors", icon: Stethoscope, eyebrow: "DOCTOR DIRECTORY", title: "I know which specialist I need", text: "Explore current hospital-source profiles by specialty, city or facility. Confirm a doctor's latest location and appointment availability with the hospital.", accent: "bg-[#087F83]" },
-            { href: "/doctors", icon: MapPin, eyebrow: "CURRENT NCR LISTINGS", title: "I want doctors near a place", text: "Browse current profiles in Delhi, Gurugram and Noida. The guide is for India; the doctor directory is a limited NCR collection, not a national list.", accent: "bg-[#F39B72]" },
-            { href: "/pricing", icon: Building2, eyebrow: "FOR CARE TEAMS", title: "I work with a clinic or hospital", text: "See the tools DOCVY is planning for care teams and contact us about your organisation. Online checkout and provider dashboards are not available yet.", accent: "bg-[#13BFA5]" },
-          ].map(({ href, icon: Icon, eyebrow, title, text, accent }) => <Link key={title} href={href} className="group relative flex min-h-[238px] flex-col overflow-hidden rounded-2xl border border-[#DCEAE5] bg-[#FCFDFC] p-5 pt-7 transition duration-200 hover:-translate-y-1 hover:border-[#B8DCD0] hover:bg-white hover:shadow-[0_18px_38px_rgba(23,58,55,0.09)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#087F83] focus-visible:ring-offset-2 sm:p-6 sm:pt-8"><span aria-hidden="true" className={`absolute inset-x-0 top-0 h-1.5 ${accent}`} /><span className="flex items-start justify-between gap-3"><span className="text-[10px] font-extrabold tracking-[0.14em] text-[#789089]">{eyebrow}</span><span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-[#EAF5F1] text-[#087F83] transition group-hover:scale-105"><Icon size={20} /></span></span><span className="mt-5 text-base font-bold leading-6 text-[#173A37]">{title}</span><span className="mt-2 text-sm leading-6 text-[#526D66]">{text}</span><span className="mt-auto inline-flex items-center gap-2 pt-5 text-xs font-bold text-[#087F83]">Explore this path <ArrowRight size={15} aria-hidden="true" className="transition group-hover:translate-x-1" /></span></Link>)}
-        </div>
-      </div>
+    <section className="docvy-home-section mx-auto max-w-site px-5 sm:px-8" aria-labelledby="booking-heading">
+      <h2 id="booking-heading">How booking works</h2>
+      <ol className="mt-6 grid gap-5 md:grid-cols-3">
+        {steps.map(({ icon: Icon, title: stepTitle, text }, index) => <li key={stepTitle} className="docvy-glass p-5">
+          <div className="flex items-center justify-between"><Icon size={24} strokeWidth={1.5} aria-hidden="true" /><span className="text-sm text-grey">0{index + 1}</span></div>
+          <h3 className="mt-4 text-xl font-medium">{stepTitle}</h3><p className="docvy-home-copy mt-2 text-grey">{text}</p>
+        </li>)}
+      </ol>
+      {liveDoctors.length > 0 ? <DoctorCards doctors={liveDoctors.slice(0, 2)} /> :
+        <p className="mt-5 text-grey">Live appointments are currently unavailable. <Link href="https://docvy-clinic-demo.vercel.app/book" className="inline-flex min-h-11 items-center font-medium text-primary underline underline-offset-4">Try the fictional booking demo.</Link></p>}
     </section>
-    <section className="border-b border-[#DCEAE5] bg-[#F8FBF9] px-6 py-14 md:py-16" aria-labelledby="city-coverage-heading"><div className="mx-auto max-w-[1296px]"><div className="flex flex-wrap items-end justify-between gap-4"><div className="max-w-3xl"><p className="text-xs font-extrabold tracking-[0.15em] text-[#087F83]">CURRENT CITY COVERAGE</p><h2 id="city-coverage-heading" className="mt-2 text-2xl font-bold tracking-tight text-[#173A37] md:text-3xl">Browse doctor listings by city</h2><p className="mt-3 text-sm leading-7 text-[#526D66]">The patient guide is available across India. Current hospital-source doctor profiles are listed in {providerCityListLabel}. This is a limited directory, not a complete list of doctors in these cities; check the linked hospital profile for the latest details and appointments.</p></div><Link href="/doctors" className="inline-flex min-h-10 shrink-0 items-center gap-2 text-sm font-bold text-[#087F83] hover:text-[#066D70]">View all current listings <ArrowRight size={16} /></Link></div><div className="mt-7 grid gap-4 md:grid-cols-3">{currentCityCoverage.map(({ city, profileCount, locationCount, href }) => <Link key={city} href={href} className="group relative flex min-h-[190px] flex-col overflow-hidden rounded-2xl border border-[#DCEAE5] bg-white p-5 shadow-[0_8px_26px_rgba(23,58,55,0.04)] transition hover:-translate-y-1 hover:border-[#B8DCD0] hover:shadow-[0_16px_36px_rgba(23,58,55,0.09)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#087F83] focus-visible:ring-offset-2"><span aria-hidden="true" className="absolute -right-7 -top-8 h-28 w-28 rounded-full bg-[#EAF5F1] transition group-hover:scale-110"/><span className="relative flex items-center justify-between"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#E3F3ED] text-[#087F83]"><MapPin size={20} /></span><ArrowRight size={18} aria-hidden="true" className="text-[#087F83] transition group-hover:translate-x-1" /></span><span className="relative mt-5 text-lg font-bold text-[#173A37]">{city}{city === "Gurugram" ? " (Gurgaon)" : ""}</span><span className="relative mt-1 text-sm font-semibold text-[#087F83]">{profileCount} source-linked {profileCount === 1 ? "profile" : "profiles"}</span><span className="relative mt-2 text-xs leading-5 text-[#526D66]">{locationCount} hospital-listed {locationCount === 1 ? "location" : "locations"} · browse by specialty and facility</span></Link>)}</div><p className="mt-4 text-xs leading-5 text-[#789089]">Across these city pages: {providerCandidates.length} unique doctor profiles and {providerCandidates.reduce((total, doctor) => total + doctor.locations.length, 0)} source-listed facility locations. A profile can appear in more than one city or at more than one facility.</p></div></section>
 
-    <section id="patient-journey" className="bg-[#F6FAF8] py-16 md:py-20"><div className="mx-auto max-w-[1440px] px-6 lg:px-[72px]"><p className="text-xs font-bold tracking-[0.15em] text-[#087F83]">YOUR NEXT STEPS, MADE CLEAR</p><h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-[-0.035em] md:text-[38px]">Know where you are—and what you can do next.</h2><p className="mt-4 max-w-3xl text-sm leading-7 text-[#526D66]">If you arrived with a question about a condition, start with the guide. If you already know the specialty, open the directory. If you are outside the cities listed today, the guide is still available across India. Additional city listings are planned when source-linked coverage is useful; no rollout date has been announced.</p><div className="mt-9"><PatientJourneyMap intakeEnabled={intakeEnabled} /></div></div></section>
-
-    <section className="border-y border-[#DCEAE5] bg-white py-16 md:py-20"><div className="mx-auto grid max-w-[1440px] gap-8 px-6 lg:grid-cols-[.85fr_1.15fr] lg:items-center lg:px-[72px]"><div><p className="text-xs font-bold tracking-[0.15em] text-[#087F83]">COMMON SEARCH STARTS</p><h2 className="mt-4 text-3xl font-bold tracking-[-0.035em] md:text-[36px]">Not sure which specialty to choose?</h2><p className="mt-4 max-w-xl text-sm leading-7 text-[#526D66]">Choose a common search to open the patient guide with that topic ready. It will show specialties commonly associated with the words you entered. This is a directory starting point, not a diagnosis or personal medical recommendation.</p><Link href="/care-guide" className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#087F83] px-5 text-sm font-bold text-white hover:bg-[#066D70]">Open the care guide <ArrowRight size={16} /></Link></div><div className="grid gap-3 sm:grid-cols-2">{guideExamples.map(({ concern, query, specialty, icon: Icon }) => <Link key={concern} href={`/care-guide?q=${encodeURIComponent(query)}`} className="group rounded-2xl border border-[#DCEAE5] bg-[#F8FBF9] p-5 transition hover:-translate-y-0.5 hover:border-[#B8DCD0] hover:bg-white hover:shadow-[0_14px_34px_rgba(23,58,55,0.08)]"><div className="flex items-center justify-between gap-3"><div className="flex items-center gap-3"><span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#E3F3ED] text-[#087F83]"><Icon size={19} /></span><p className="text-xs font-bold uppercase tracking-wide text-[#789089]">A common search</p></div><ArrowRight size={16} aria-hidden="true" className="text-[#087F83] transition group-hover:translate-x-1" /></div><h3 className="mt-3 font-bold">{concern}</h3><p className="mt-2 text-sm leading-6 text-[#526D66]">Commonly associated with: <span className="font-semibold text-[#087F83]">{specialty}</span></p><span className="mt-4 inline-flex text-xs font-bold text-[#087F83]">Explore this topic</span></Link>)}</div></div></section>
-
-    <ProviderSourceGuide />
-
-    <section className="relative isolate overflow-hidden bg-[radial-gradient(circle_at_82%_12%,#102B46_0%,#071426_58%)] py-16 text-white md:py-20">
-      <div aria-hidden="true" className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full border border-[#17C8E5]/20" />
-      <div className="relative mx-auto grid max-w-[1440px] gap-8 px-6 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:px-[72px]">
-        <div>
-          <p className="text-xs font-bold tracking-[0.15em] text-[#17C8E5]">FOR DOCTORS, CLINICS &amp; HOSPITALS</p>
-          <h2 className="mt-4 text-3xl font-bold leading-tight tracking-[-0.035em] text-white md:text-[38px]">Practical tools for care teams are in development.</h2>
-          <p className="mt-5 max-w-xl text-sm leading-7 text-[#D4E0EB]">Doctors can request a public profile correction today. Clinics and hospitals can contact DOCVY to discuss planned workflows. Self-service claims, provider dashboards, appointment routing and slot booking are not live.</p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <Link href="/for-doctors" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#17C8E5] px-5 text-sm font-semibold text-[#071426] transition hover:bg-[#41D5EC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#071426]">Doctor profile help <ArrowRight size={16} /></Link>
-            <Link href="/pricing" className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#60748A] px-5 text-sm font-semibold text-white transition hover:border-[#17C8E5] hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#17C8E5]">Clinic &amp; hospital plans <ArrowRight size={16} /></Link>
-          </div>
+    <section className="docvy-home-section border-y border-line bg-surface" aria-labelledby="procedure-heading">
+      <div className="mx-auto max-w-site px-5 sm:px-8">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 id="procedure-heading">Popular procedures</h2>
+          <Link href="/surgery-guide#procedures" className="docvy-pill">View all procedures <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden="true" /></Link>
         </div>
-        <div className="grid gap-3 sm:grid-cols-3">
-          {providerAreas.map((card, index) => <article key={card.title} className="flex min-h-[230px] flex-col rounded-2xl border border-[#29445D] bg-[#102B46]/90 p-5 shadow-[0_12px_36px_rgba(0,0,0,0.15)]">
-            <div className="flex items-center justify-between"><span className="text-xs font-semibold text-[#17C8E5]">0{index + 1}</span><Clock3 size={17} aria-hidden="true" className="text-[#17C8E5]" /></div>
-            <h3 className="mt-8 text-sm font-bold leading-6 text-white">{card.title}</h3>
-            <p className="mt-3 text-xs leading-6 text-[#D4E0EB]">{card.text}</p>
-            <span className="mt-auto pt-5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#17C8E5]">Planned · not live</span>
-          </article>)}
-        </div>
+        <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {directoryProcedures.filter(({ slug }) => popularProcedures.includes(slug)).map(({ slug, name }) => <li key={slug}>
+            <Link className="docvy-glass flex min-h-12 items-center justify-between gap-2 p-4 font-medium text-primary hover:border-primary" href={"/surgeries/" + slug}>{name}<ArrowUpRight size={16} strokeWidth={1.5} className="shrink-0" aria-hidden="true" /></Link>
+          </li>)}
+        </ul>
       </div>
     </section>
 
+    <section className="docvy-home-section mx-auto max-w-site px-5 sm:px-8" aria-labelledby="guide-heading">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 id="guide-heading">Health guides</h2>
+        <Link href="/care-guide" className="docvy-pill">View all guides <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden="true" /></Link>
+      </div>
+      <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {featuredGuides.map(({ slug, label, description: detail }) => <li key={slug}>
+          <Link href={"/patient-guides/" + slug} className="docvy-glass block h-full p-5 hover:border-primary">
+            <HealthTopicIcon slug={slug} />
+            <h3 className="mt-4 text-lg font-medium">{label}</h3>
+            <p className="docvy-home-copy mt-1 text-grey">{detail}</p>
+          </Link>
+        </li>)}
+      </ul>
+    </section>
   </div>;
 }

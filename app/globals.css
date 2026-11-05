@@ -4,6 +4,17 @@
 
 :root {
   color-scheme: light;
+  --bg: #FAFAF8;
+  --surface: #F1F1EE;
+  --primary: #171717;
+  --primary-hover: #333333;
+  --primary-tint: #F1F1EE;
+  --text: #202020;
+  --muted: #626262;
+  --border: #DEDEDA;
+  --success: #333333;
+  --warning: #626262;
+  --danger: #B42318;
 }
 
 html {
@@ -12,13 +23,13 @@ html {
 }
 
 body {
-  @apply bg-sand text-ink font-body leading-[1.65] antialiased;
+  @apply bg-porc text-ink font-body leading-[1.6] antialiased;
 }
 
 h1,
 h2,
 h3 {
-  @apply font-head text-plum tracking-tight;
+  @apply font-head text-ink;
 }
 
 button,
@@ -27,14 +38,14 @@ a {
 }
 
 :focus-visible {
-  outline: 3px solid #087F83;
+  outline: 3px solid var(--primary);
   outline-offset: 3px;
   border-radius: 6px;
 }
 
 ::selection {
-  background: #DDF0E9;
-  color: #173A37;
+  background: var(--surface);
+  color: var(--primary);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -47,3 +58,75 @@ a {
     scroll-behavior: auto !important;
   }
 }
+
+.docvy-garden {
+  color: var(--text);
+  background: var(--bg);
+}
+.docvy-glass {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--bg);
+}
+.docvy-home {
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1.0625rem;
+}
+.docvy-home h1 {
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+.docvy-home h2 {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -.02em;
+}
+.docvy-home-copy {
+  max-width: 65ch;
+  font-size: clamp(1.0625rem, 1.4vw, 1.125rem);
+  line-height: 1.6;
+}
+.docvy-home-section { padding-block: 56px; }
+@media (min-width: 768px) {
+  .docvy-home-section { padding-block: 104px; }
+}
+.docvy-eyebrow {
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .13em;
+}
+.docvy-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  min-height: 44px;
+  padding: .55rem .95rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--primary);
+  font-size: .875rem;
+  font-weight: 700;
+  white-space: nowrap;
+  font-family: var(--font-head), "Google Sans", system-ui, sans-serif;
+}
+.docvy-pill:hover { background: var(--surface); }
+.docvy-pill-primary { min-height: 48px; background: var(--primary); color: #fff; border-color: var(--primary); }
+.docvy-pill-primary:hover { background: var(--primary-hover); }
+.docvy-select {
+  width: 100%;
+  min-height: 44px;
+  padding: .5rem .75rem;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+dialog::backdrop { background: rgba(23, 23, 23, .5); }
