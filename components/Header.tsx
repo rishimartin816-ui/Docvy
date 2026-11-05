@@ -24,10 +24,10 @@ export default function Header() {
   const current = (href: string) => pathname === href ? "page" : undefined;
   const close = () => mobile.current?.close();
 
-  return <><p className="bg-lavender px-5 text-center text-xs leading-6 text-plum sm:text-sm">In an emergency, call <a href="tel:112" className="inline-flex min-h-11 items-center font-semibold underline underline-offset-4">112</a> or go to the nearest hospital.</p><header className="sticky top-0 z-30 border-b border-line bg-porcelain">
+  return <><p className="bg-surface px-5 text-center text-xs leading-6 text-primary sm:text-sm">In an emergency, call <a href="tel:112" className="inline-flex min-h-11 items-center font-semibold underline underline-offset-4">112</a> or go to the nearest hospital.</p><header className="sticky top-0 z-30 border-b border-line bg-porc">
     {process.env.NEXT_PUBLIC_DEMO_MODE === "true" && <p className="bg-primary-tint px-4 py-2 text-center text-[13px] text-ink">Demo mode: doctors shown are fictional.</p>}
     <div className="mx-auto flex h-16 max-w-site items-center justify-between gap-4 px-5 sm:px-8 lg:h-[72px]">
-      <Link href="/" aria-label="DOCVY home" className="inline-flex min-h-12 items-center gap-2 font-head text-xl font-semibold text-plum">
+      <Link href="/" aria-label="DOCVY home" className="inline-flex min-h-12 items-center gap-2 font-head text-xl font-semibold text-primary">
         <Image src="/icon.svg" alt="" width={29} height={29} unoptimized /> DOCVY
       </Link>
       <nav aria-label="Main" className="hidden items-center gap-5 lg:flex">
@@ -37,7 +37,7 @@ export default function Header() {
           <summary className="flex min-h-12 cursor-pointer list-none items-center gap-1 whitespace-nowrap text-sm font-medium">
             Find doctors <ChevronDown size={16} strokeWidth={1.5} aria-hidden="true" />
           </summary>
-          <ul className="absolute left-0 top-full grid w-[360px] grid-cols-2 gap-x-2 rounded-card border border-line bg-porcelain p-3">
+          <ul className="absolute left-0 top-full grid w-[360px] grid-cols-2 gap-x-2 rounded-card border border-line bg-porc p-3">
             {specialties.map(([slug, label]) => {
               const href = "/doctors/specialty/" + slug;
               return <li key={slug}><Link href={href} aria-current={current(href)} onClick={() => desktop.current?.removeAttribute("open")} className="flex min-h-11 items-center px-2 text-sm hover:underline">{label}</Link></li>;
@@ -56,7 +56,7 @@ export default function Header() {
         <button ref={menu} type="button" aria-label="Open menu" aria-haspopup="dialog" aria-controls="docvy-mobile-menu" onClick={() => mobile.current?.showModal()} className="grid h-12 w-12 place-items-center"><Menu size={24} strokeWidth={1.5} /></button>
       </div>
     </div>
-    <dialog id="docvy-mobile-menu" ref={mobile} aria-labelledby="mobile-menu-title" onClose={() => menu.current?.focus()} className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none border-0 bg-porcelain p-0 text-ink">
+    <dialog id="docvy-mobile-menu" ref={mobile} aria-labelledby="mobile-menu-title" onClose={() => menu.current?.focus()} className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none border-0 bg-porc p-0 text-ink">
       <div className="flex h-full flex-col">
         <div className="flex h-16 shrink-0 items-center justify-between border-b border-line px-5">
           <h2 id="mobile-menu-title" className="font-head text-xl font-semibold">Menu</h2>

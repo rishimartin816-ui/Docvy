@@ -13,5 +13,10 @@ export const healthTopics = [
 
 export function HealthTopicIcon({ slug, size = 23 }: { slug: string; size?: number }) {
   const Icon = healthTopics.find((topic) => topic.slug === slug)?.icon ?? Stethoscope;
-  return <Icon size={size} strokeWidth={1.5} aria-hidden="true" />;
+  const tones: Record<string, string> = {
+    "kidney-stones": "text-icon-cobalt", gallstones: "text-icon-teal", "high-blood-pressure": "text-icon-berry",
+    diabetes: "text-icon-amber", "joint-pain-arthritis": "text-icon-ocean", "pcos-pcod": "text-icon-violet",
+    cataract: "text-icon-ocean", asthma: "text-icon-teal",
+  };
+  return <Icon size={size} strokeWidth={1.5} aria-hidden="true" className={tones[slug] ?? "text-icon-teal"} />;
 }
