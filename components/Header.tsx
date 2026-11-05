@@ -24,7 +24,7 @@ export default function Header() {
   const current = (href: string) => pathname === href ? "page" : undefined;
   const close = () => mobile.current?.close();
 
-  return <><p className="bg-lavender px-5 py-2.5 text-center text-xs leading-6 text-plum sm:text-sm">In an emergency, call <a href="tel:112" className="inline-flex min-h-11 items-center font-semibold underline underline-offset-4">112</a> or go to the nearest hospital.</p><header className="sticky top-0 z-30 border-b border-line bg-porcelain">
+  return <><p className="bg-lavender px-5 text-center text-xs leading-6 text-plum sm:text-sm">In an emergency, call <a href="tel:112" className="inline-flex min-h-11 items-center font-semibold underline underline-offset-4">112</a> or go to the nearest hospital.</p><header className="sticky top-0 z-30 border-b border-line bg-porcelain">
     {process.env.NEXT_PUBLIC_DEMO_MODE === "true" && <p className="bg-primary-tint px-4 py-2 text-center text-[13px] text-ink">Demo mode: doctors shown are fictional.</p>}
     <div className="mx-auto flex h-16 max-w-site items-center justify-between gap-4 px-5 sm:px-8 lg:h-[72px]">
       <Link href="/" aria-label="DOCVY home" className="inline-flex min-h-12 items-center gap-2 font-head text-xl font-semibold text-plum">

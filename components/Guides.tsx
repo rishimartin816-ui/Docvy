@@ -2,10 +2,10 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 const guides = [
-  { title: "Kidney stones", slug: "kidney-stones", text: "Prepare for a urology visit." },
-  { title: "High blood pressure", slug: "high-blood-pressure", text: "Know what to bring to your visit." },
-  { title: "Diabetes", slug: "diabetes", text: "Find where to start with your care." },
-  { title: "Joint pain", slug: "joint-pain-arthritis", text: "Plan your next step for joint pain." },
+  { title: "Kidney stones", slug: "kidney-stones", text: "Plan a urology visit." },
+  { title: "High blood pressure", slug: "high-blood-pressure", text: "Prepare for your visit." },
+  { title: "Diabetes", slug: "diabetes", text: "Find where to start." },
+  { title: "Joint pain", slug: "joint-pain-arthritis", text: "Plan your next step." },
 ];
 
 export default function Guides() {
