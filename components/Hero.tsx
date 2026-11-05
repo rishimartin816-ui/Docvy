@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Search } from "lucide-react";
 import RecentBookingActivity from "./RecentBookingActivity";
 
@@ -10,8 +11,11 @@ const topics = [
 ];
 
 export default function Hero() {
-  return <section className="calm-hero calm-section">
-    <div className="calm-wrap">
+  return <section className="calm-hero calm-section relative isolate overflow-hidden">
+    <div aria-hidden="true" className="pointer-events-none absolute -right-20 top-8 w-[380px] opacity-[0.10] md:right-0 md:top-1/2 md:w-[560px] md:-translate-y-1/2 md:opacity-20 xl:right-[max(0px,calc((100vw-1440px)/2))]">
+      <Image src="/images/hero-healthcare-doctor.jpg" alt="" width={512} height={512} sizes="(min-width: 768px) 560px, 380px" priority className="h-auto w-full" />
+    </div>
+    <div className="calm-wrap relative z-10">
       <p className="mb-5 text-sm font-medium text-primary">A little clarity. A confident next step.</p>
       <h1 className="max-w-[900px] text-[clamp(2.25rem,5.2vw,4.4rem)] font-medium leading-[1.12] tracking-[-0.035em]">Find the right doctor and book with confidence.</h1>
       <p className="mt-6 max-w-[65ch] text-base leading-relaxed text-ink sm:text-lg">Explore specialties and procedures across India. Request an appointment where clinic intake is available.</p>
