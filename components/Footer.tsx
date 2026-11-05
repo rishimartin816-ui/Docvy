@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import FooterIllustration from "./footer/FooterIllustration";
 
 const care = [["Find doctors", "/doctors"], ["Specialties", "/specialties"], ["Surgeries", "/surgery-guide"], ["Guides", "/care-guide"], ["How it works", "/how-it-works"]];
 const company = [["For doctors", "/for-doctors"], ["For clinics", "/for-clinics"], ["Pricing", "/pricing"], ["About", "/about"], ["Contact", "/contact"], ["FAQs", "/faqs"]];
@@ -7,6 +8,7 @@ const legal = [["Privacy", "/legal/privacy"], ["Terms", "/legal/terms"], ["Refun
 
 export default function Footer() {
   return <footer className="border-t border-taupe bg-sand text-sm text-ink">
+    <FooterIllustration />
     <div className="calm-wrap py-12 md:py-16">
       <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr] md:gap-16">
         <div>
