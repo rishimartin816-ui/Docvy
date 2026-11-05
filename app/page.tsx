@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, CalendarCheck, ClipboardList, Search } from "lucide-react";
 import DiscoverySearch from "@/components/DiscoverySearch";
+import RecentBookingActivity from "@/components/RecentBookingActivity";
 import { DoctorCards } from "@/components/DirectoryPage";
 import { HealthTopicIcon, healthTopics } from "@/components/HealthTopicIcon";
 import SpecialtyIcon from "@/components/SpecialtyIcon";
@@ -51,6 +52,7 @@ export default function Home() {
         <Link href="/specialties/dermatology" className="docvy-pill">Skin and hair</Link>
         <Link href="/surgery-guide" className="docvy-pill">Planning surgery</Link>
       </nav>
+      {process.env.VERCEL_ENV !== "production" && process.env.DOCVY_CRM_STAGING === "true" && <RecentBookingActivity />}
     </section>
 
     <section className="docvy-home-section border-y border-line bg-surface" aria-labelledby="specialty-heading">
