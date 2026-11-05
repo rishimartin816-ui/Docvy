@@ -68,7 +68,7 @@ export default function Home() {
         <Link href="/specialties/dermatology" className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline">Skin and hair</Link>
         <Link href="/patient-guides/high-blood-pressure" className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline">Blood pressure</Link>
       </nav>
-      {process.env.VERCEL_ENV !== "production" && process.env.DOCVY_CRM_STAGING === "true" && <RecentBookingActivity />}
+      <RecentBookingActivity />
       <aside className="mt-6 flex max-w-3xl flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
         <p className="max-w-lg text-sm text-grey">For doctors and clinics. Help patients understand your practice and find their next step.</p>
         <Link href="/for-doctors" className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-primary underline underline-offset-4">Explore DOCVY <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden="true" /></Link>
