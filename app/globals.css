@@ -4,16 +4,16 @@
 
 :root {
   color-scheme: light;
-  --bg: #FFFFFF;
-  --surface: #F4F8F8;
-  --primary: #0F766E;
-  --primary-hover: #0B5F59;
-  --primary-tint: #E3F2F0;
-  --text: #0F2A3D;
-  --muted: #5B6B7A;
-  --border: #DCE5E8;
-  --success: #15803D;
-  --warning: #B45309;
+  --bg: #FAFAF8;
+  --surface: #F1F1EE;
+  --primary: #171717;
+  --primary-hover: #333333;
+  --primary-tint: #F1F1EE;
+  --text: #202020;
+  --muted: #626262;
+  --border: #DEDEDA;
+  --success: #333333;
+  --warning: #626262;
   --danger: #B42318;
 }
 
@@ -129,4 +129,4 @@ a {
   color: var(--text);
 }
 
-dialog::backdrop { background: rgba(15, 42, 61, .5); }
+dialog::backdrop { background: rgba(23, 23, 23, .5); }

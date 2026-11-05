@@ -59,47 +59,47 @@ export default function PatientJourneyMap({ intakeEnabled, headingLevel = 3 }: {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
-      <div className="relative overflow-hidden rounded-[28px] border border-[#DCE5E8] bg-[#E3F2F0] p-6 sm:p-8">
+      <div className="relative overflow-hidden rounded-[28px] border border-[#DEDEDA] bg-[#F1F1EE] p-6 sm:p-8">
         <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-12 h-48 w-48 rounded-full border-[24px] border-white/50" />
-        <div aria-hidden="true" className="pointer-events-none absolute -bottom-14 -left-10 h-44 w-44 rounded-full bg-[#DCE5E8]" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-14 -left-10 h-44 w-44 rounded-full bg-[#DEDEDA]" />
         <div className="relative">
-          <p className="text-[11px] font-extrabold tracking-[0.15em] text-[#0F2A3D]">A SIMPLE WAY THROUGH</p>
-          <MapHeading className="mt-3 max-w-sm text-2xl font-black leading-tight tracking-[-0.035em] text-[#0F2A3D] sm:text-3xl">From your first question to the right place to check next.</MapHeading>
-          <p className="mt-4 max-w-sm text-sm leading-7 text-[#5B6B7A]">You do not need to know a medical specialty before you start. Follow the steps that fit you and leave the clinical decision to a qualified professional.</p>
+          <p className="text-[11px] font-extrabold tracking-[0.15em] text-[#202020]">A SIMPLE WAY THROUGH</p>
+          <MapHeading className="mt-3 max-w-sm text-2xl font-black leading-tight tracking-[-0.035em] text-[#202020] sm:text-3xl">From your first question to the right place to check next.</MapHeading>
+          <p className="mt-4 max-w-sm text-sm leading-7 text-[#626262]">You do not need to know a medical specialty before you start. Follow the steps that fit you and leave the clinical decision to a qualified professional.</p>
 
           <div className="mt-7 rounded-2xl border border-white bg-white/90 p-4 ">
             <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#E3F2F0] text-[#0F2A3D]"><Search strokeWidth={1.5} size={21} /></span>
-              <div><p className="text-[10px] font-extrabold tracking-[0.13em] text-[#5B6B7A]">YOUR STARTING POINT</p><p className="mt-1 font-bold text-[#0F2A3D]">“I have a health concern”</p></div>
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#F1F1EE] text-[#202020]"><Search strokeWidth={1.5} size={21} /></span>
+              <div><p className="text-[10px] font-extrabold tracking-[0.13em] text-[#626262]">YOUR STARTING POINT</p><p className="mt-1 font-bold text-[#202020]">“I have a health concern”</p></div>
             </div>
-            <div className="ml-5 flex h-8 items-center border-l-2 border-dashed border-[#DCE5E8]"><ArrowDown strokeWidth={1.5} size={16} className="-ml-[9px] rounded-full bg-white text-[#0F2A3D]" /></div>
+            <div className="ml-5 flex h-8 items-center border-l-2 border-dashed border-[#DEDEDA]"><ArrowDown strokeWidth={1.5} size={16} className="-ml-[9px] rounded-full bg-white text-[#202020]" /></div>
             <div className="flex items-center gap-3">
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#FFF2E9] text-[#B56543]"><BookOpenCheck strokeWidth={1.5} size={20} /></span>
-              <div><p className="text-[10px] font-extrabold tracking-[0.13em] text-[#5B6B7A]">A CLEARER SEARCH</p><p className="mt-1 font-bold text-[#0F2A3D]">Explore a related specialty</p></div>
+              <div><p className="text-[10px] font-extrabold tracking-[0.13em] text-[#626262]">A CLEARER SEARCH</p><p className="mt-1 font-bold text-[#202020]">Explore a related specialty</p></div>
             </div>
-            <div className="ml-5 flex h-8 items-center border-l-2 border-dashed border-[#DCE5E8]"><ArrowDown strokeWidth={1.5} size={16} className="-ml-[9px] rounded-full bg-white text-[#0F2A3D]" /></div>
+            <div className="ml-5 flex h-8 items-center border-l-2 border-dashed border-[#DEDEDA]"><ArrowDown strokeWidth={1.5} size={16} className="-ml-[9px] rounded-full bg-white text-[#202020]" /></div>
             <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#E3F2F0] text-[#0F2A3D]"><MapPin strokeWidth={1.5} size={20} /></span>
-              <div><p className="text-[10px] font-extrabold tracking-[0.13em] text-[#5B6B7A]">CURRENT DIRECTORY</p><p className="mt-1 font-bold text-[#0F2A3D]">{providerCityListLabel}</p></div>
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#F1F1EE] text-[#202020]"><MapPin strokeWidth={1.5} size={20} /></span>
+              <div><p className="text-[10px] font-extrabold tracking-[0.13em] text-[#626262]">CURRENT DIRECTORY</p><p className="mt-1 font-bold text-[#202020]">{providerCityListLabel}</p></div>
             </div>
           </div>
 
-          <div className="mt-4 flex items-start gap-2 rounded-xl bg-[#F4F8F8] p-3 text-xs leading-5 text-[#B45309]">
+          <div className="mt-4 flex items-start gap-2 rounded-xl bg-[#F1F1EE] p-3 text-xs leading-5 text-[#B45309]">
             <ShieldAlert strokeWidth={1.5} size={16} className="mt-0.5 shrink-0 text-[#B45309]" />
             <p>DOCVY listings are not a medical recommendation. Check profile details and availability with the linked care provider.</p>
           </div>
-          <Link href="/care-guide" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#0F2A3D] px-4 text-sm font-bold text-white transition hover:bg-[#0F2A3D]">Start with the patient guide <ArrowUpRight strokeWidth={1.5} size={16} /></Link>
+          <Link href="/care-guide" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#202020] px-4 text-sm font-bold text-white transition hover:bg-[#202020]">Start with the patient guide <ArrowUpRight strokeWidth={1.5} size={16} /></Link>
         </div>
       </div>
 
-      <ol className="relative space-y-3 before:absolute before:bottom-10 before:left-[22px] before:top-10 before:w-px before:bg-[#DCE5E8]">
+      <ol className="relative space-y-3 before:absolute before:bottom-10 before:left-[22px] before:top-10 before:w-px before:bg-[#DEDEDA]">
         {stepsWithAvailability.map(({ number, icon: Icon, title, text, label }) => (
-          <li key={number} className="relative flex gap-4 rounded-2xl border border-[#DCE5E8] bg-white p-4 sm:gap-5 sm:p-5">
-            <span className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[#DCE5E8] bg-[#FFFFFF] text-[#0F2A3D]"><Icon strokeWidth={1.5} size={20} aria-hidden="true" /></span>
+          <li key={number} className="relative flex gap-4 rounded-2xl border border-[#DEDEDA] bg-white p-4 sm:gap-5 sm:p-5">
+            <span className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[#DEDEDA] bg-[#FFFFFF] text-[#202020]"><Icon strokeWidth={1.5} size={20} aria-hidden="true" /></span>
             <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2"><span className="text-[10px] font-extrabold tracking-[0.12em] text-[#0F2A3D]">STEP {number}</span><span className="rounded-full bg-[#E3F2F0] px-2.5 py-1 text-[9px] font-extrabold tracking-[0.08em] text-[#5B6B7A]">{label}</span></div>
-              <StepHeading className="mt-2 text-base font-bold text-[#0F2A3D] sm:text-lg">{title}</StepHeading>
-              <p className="mt-1.5 text-sm leading-6 text-[#5B6B7A]">{text}</p>
+              <div className="flex flex-wrap items-center gap-2"><span className="text-[10px] font-extrabold tracking-[0.12em] text-[#202020]">STEP {number}</span><span className="rounded-full bg-[#F1F1EE] px-2.5 py-1 text-[9px] font-extrabold tracking-[0.08em] text-[#626262]">{label}</span></div>
+              <StepHeading className="mt-2 text-base font-bold text-[#202020] sm:text-lg">{title}</StepHeading>
+              <p className="mt-1.5 text-sm leading-6 text-[#626262]">{text}</p>
             </div>
           </li>
         ))}

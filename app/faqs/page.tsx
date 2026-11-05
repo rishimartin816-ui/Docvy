@@ -44,13 +44,13 @@ export default function FaqsPage() {
   return <div className="docvy-garden px-5 py-12 sm:px-8 sm:py-16">
     <div className="mx-auto max-w-3xl">
       <p className="docvy-eyebrow">DOCVY HELP</p>
-      <h1 className="mt-3 text-4xl font-bold tracking-tight text-[#0F2A3D] sm:text-5xl">Questions about using DOCVY</h1>
-      <p className="mt-4 text-lg text-[#5B6B7A]">Find out where to start, what the patient guide covers, and what you can try in the clinic demo.</p>
+      <h1 className="mt-3 text-4xl font-bold tracking-tight text-[#202020] sm:text-5xl">Questions about using DOCVY</h1>
+      <p className="mt-4 text-lg text-[#626262]">Find out where to start, what the patient guide covers, and what you can try in the clinic demo.</p>
       <div className="mt-8 space-y-4">
         {questions.map(({ question, answer, href, label }) => <section key={question} className="docvy-glass p-5 sm:p-7">
-          <h2 className="text-xl font-bold text-[#0F2A3D]">{question}</h2>
-          <p className="mt-2 text-[#5B6B7A]">{answer}</p>
-          <Link href={href} className="mt-3 inline-flex min-h-11 items-center font-semibold text-[#0F2A3D] underline underline-offset-4">{label}</Link>
+          <h2 className="text-xl font-bold text-[#202020]">{question}</h2>
+          <p className="mt-2 text-[#626262]">{answer}</p>
+          <Link href={href} className="mt-3 inline-flex min-h-11 items-center font-semibold text-[#202020] underline underline-offset-4">{label}</Link>
         </section>)}
       </div>
     </div>

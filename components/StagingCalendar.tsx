@@ -354,10 +354,10 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
 
   if (clinic) return (
     <section className="mx-auto max-w-[1440px] px-3 py-5 sm:px-8 lg:py-10">
-      <div className="overflow-hidden rounded-[32px] border border-white bg-[#FFFFFF] text-[#0F2A3D]  lg:grid lg:grid-cols-[222px_minmax(0,1fr)]">
+      <div className="overflow-hidden rounded-[32px] border border-white bg-[#FFFFFF] text-[#202020]  lg:grid lg:grid-cols-[222px_minmax(0,1fr)]">
         <aside className="border-b border-white/90 bg-white/60 px-4 py-5 text-ink backdrop-blur-2xl lg:border-b-0 lg:border-r">
           <div className="flex items-center gap-3 rounded-2xl border border-white/90 bg-white/65 p-3 ">
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#E3F2F0] text-[#0F2A3D]"><ShieldCheck strokeWidth={1.5} size={21} aria-hidden="true" /></span>
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#F1F1EE] text-[#202020]"><ShieldCheck strokeWidth={1.5} size={21} aria-hidden="true" /></span>
             <div><p className="font-head font-bold tracking-wide">DOCVY CRM</p><p className="text-xs text-grey">{clinicName}</p></div>
           </div>
           {session && <nav aria-label="Clinic workspace" className="mt-6 flex flex-wrap gap-2 lg:flex-col">
@@ -375,12 +375,12 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
         <div className="min-w-0 p-3 sm:p-6">
           <header id="crm-overview" className="relative isolate grid items-center overflow-hidden rounded-[28px] border border-white bg-white px-5 pt-6   sm:gap-2 sm:px-8 sm:py-6 lg:px-10">
             <div className="relative z-10 py-2">
-              <p className="inline-flex items-center gap-2 rounded-full border border-white bg-white/70 px-3 py-1 text-xs font-semibold text-[#5B6B7A] ">
-                <span className="h-2 w-2 rounded-full bg-[#0F2A3D]" aria-hidden="true" />
+              <p className="inline-flex items-center gap-2 rounded-full border border-white bg-white/70 px-3 py-1 text-xs font-semibold text-[#626262] ">
+                <span className="h-2 w-2 rounded-full bg-[#202020]" aria-hidden="true" />
                 {clinicName}{staging ? " · Demo" : ""}
               </p>
-              <h1 className="mt-4 text-4xl font-bold leading-[1.05] tracking-[-0.055em] text-[#0F2A3D] lg:text-5xl">{title}</h1>
-              <p className="mt-3 max-w-sm text-sm leading-6 text-[#5B6B7A] sm:text-base">Manage appointments, publish availability, and follow up on patient enquiries.</p>
+              <h1 className="mt-4 text-4xl font-bold leading-[1.05] tracking-[-0.055em] text-[#202020] lg:text-5xl">{title}</h1>
+              <p className="mt-3 max-w-sm text-sm leading-6 text-[#626262] sm:text-base">Manage appointments, publish availability, and follow up on patient enquiries.</p>
             </div>
           </header>
 
@@ -397,7 +397,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                 { label: "Blocked slots", count: blocked, icon: CalendarX },
               ].map(({ label, count, icon: Icon }) => (
                 <div key={label} className={glass + " flex items-center gap-3 p-4"}>
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#E3F2F0] text-[#0F2A3D]"><Icon strokeWidth={1.5} size={21} aria-hidden="true" /></span>
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#F1F1EE] text-[#202020]"><Icon strokeWidth={1.5} size={21} aria-hidden="true" /></span>
                   <div><p className="text-sm text-grey">{label}</p><p className="text-2xl font-bold tabular-nums">{count}</p></div>
                 </div>
               ))}
@@ -415,7 +415,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                   <span className="text-sm font-semibold">{label}</span>
                   <div>
                     <div className="flex h-3 overflow-hidden rounded-full bg-surface" aria-hidden="true">
-                      <span className="bg-[#0F2A3D]" style={{ width: (booked / chartMax * 100) + "%" }} />
+                      <span className="bg-[#202020]" style={{ width: (booked / chartMax * 100) + "%" }} />
                       <span className="bg-success" style={{ width: (open / chartMax * 100) + "%" }} />
                       <span className="bg-grey" style={{ width: (blocked / chartMax * 100) + "%" }} />
                     </div>
