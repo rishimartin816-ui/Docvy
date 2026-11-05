@@ -1,7 +1,6 @@
-import IllustrationBackground from "@/components/IllustrationBackground";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight, CalendarCheck, ClipboardList, Search } from "lucide-react";
+import { ArrowUpRight, BookOpen, Building2, CalendarCheck, ClipboardList, Search, Stethoscope } from "lucide-react";
 import DiscoverySearch from "@/components/DiscoverySearch";
 import RecentBookingActivity from "@/components/RecentBookingActivity";
 import { DoctorCards } from "@/components/DirectoryPage";
@@ -23,6 +22,13 @@ export const metadata: Metadata = {
 
 const featuredSpecialties = specialties.filter(({ slug }) => slug !== "dentistry" && slug !== "mental-health");
 const featuredGuides = healthTopics.filter(({ slug }) => ["high-blood-pressure", "diabetes", "joint-pain-arthritis", "kidney-stones"].includes(slug));
+const quickActions = [
+  { label: "Find a doctor", href: "/doctors", icon: CalendarCheck },
+  { label: "Specialties", href: "/specialties", icon: Stethoscope },
+  { label: "Plan surgery", href: "/surgery-guide", icon: ClipboardList },
+  { label: "Health guides", href: "/care-guide", icon: BookOpen },
+  { label: "For clinics", href: "/for-clinics", icon: Building2 },
+];
 const steps = [
   { icon: Search, title: "Find the right specialty", text: "Start with a symptom, doctor, specialty, or clinic. Use the guides if you’re unsure who to see." },
   { icon: ClipboardList, title: "Request a visit", text: "Where a clinic accepts DOCVY enquiries, send an appointment request from the doctor’s profile." },
@@ -42,17 +48,31 @@ export default function Home() {
       potentialAction: { "@type": "SearchAction", target: productionOrigin + "/doctors?q={search_term_string}", "query-input": "required name=search_term_string" },
     }).replace(/</g, "\\u003c") }} />
 
-    <section className="relative isolate overflow-hidden docvy-home-section mx-auto max-w-site px-5 sm:px-8"><IllustrationBackground slug="home-care-search" alt="Meera helps her father Ramesh look for a doctor." priority />
+    <nav aria-label="Care shortcuts" className="border-b border-line bg-white">
+      <div className="mx-auto flex max-w-site overflow-x-auto px-3 sm:px-8">
+        {quickActions.map(({ label, href, icon: Icon }) => <Link key={href} href={href} className="flex min-h-24 min-w-28 flex-1 shrink-0 flex-col items-center justify-center gap-2 px-3 text-center text-sm font-medium text-ink hover:bg-surface">
+          <Icon size={23} strokeWidth={1.5} aria-hidden="true" />{label}
+        </Link>)}
+      </div>
+    </nav>
+
+    <section className="mx-auto max-w-site px-5 py-12 sm:px-8 md:py-20">
+      <p className="mb-4 text-sm font-medium text-grey">Care starts with a question.</p>
       <h1 className="max-w-4xl">Find the right doctor and book with confidence.</h1>
       <p className="docvy-home-copy mt-5 text-grey">Explore specialties and procedures across India. Request an appointment where clinic intake is available.</p>
       <div className="mt-8 max-w-3xl"><DiscoverySearch /></div>
-      <nav aria-label="Quick searches" className="mt-5 flex flex-wrap gap-2">
-        <Link href="/specialties/general-medicine" className="docvy-pill">General physician</Link>
-        <Link href="/patient-guides/joint-pain-arthritis" className="docvy-pill">Joint pain</Link>
-        <Link href="/specialties/dermatology" className="docvy-pill">Skin and hair</Link>
-        <Link href="/surgery-guide" className="docvy-pill">Planning surgery</Link>
+      <nav aria-label="Quick searches" className="mt-4 flex max-w-3xl flex-wrap items-center gap-x-5 gap-y-1 text-sm">
+        <span className="text-grey">Explore topics</span>
+        <Link href="/patient-guides/diabetes" className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline">Diabetes</Link>
+        <Link href="/patient-guides/joint-pain-arthritis" className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline">Joint pain</Link>
+        <Link href="/specialties/dermatology" className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline">Skin and hair</Link>
+        <Link href="/patient-guides/high-blood-pressure" className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline">Blood pressure</Link>
       </nav>
       {process.env.VERCEL_ENV !== "production" && process.env.DOCVY_CRM_STAGING === "true" && <RecentBookingActivity />}
+      <aside className="mt-6 flex max-w-3xl flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
+        <p className="max-w-lg text-sm text-grey">For doctors and clinics. Help patients understand your practice and find their next step.</p>
+        <Link href="/for-doctors" className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-primary underline underline-offset-4">Explore DOCVY <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden="true" /></Link>
+      </aside>
     </section>
 
     <section className="docvy-home-section border-y border-line bg-surface" aria-labelledby="specialty-heading">
