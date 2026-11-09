@@ -5,7 +5,9 @@ import { ArrowRight, CalendarClock, CheckCircle2, Search } from "lucide-react";
 import PatientJourneyMap from "@/components/PatientJourneyMap";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
 import { buildPageSocialMetadata } from "@/lib/metadata";
-import { providerCityListLabel, providerProfileCount } from "@/lib/provider-candidates";
+import { providerCityListLabel } from "@/lib/directory-coverage";
+import { getDirectoryDoctors } from "@/lib/public-directory";
+import { canRequestAppointment } from "@/lib/profile-policy";
 
 const howItWorksDescription = `See how DOCVY's India-wide care discovery works. The patient guide is available across India; current source-linked doctor listings are in ${providerCityListLabel}.`;
 
@@ -16,8 +18,10 @@ export const metadata: Metadata = {
   ...buildPageSocialMetadata("How to use the patient guide and doctor directory | DOCVY", howItWorksDescription, "/how-it-works"),
 };
 
-export default function HowItWorksPage() {
-  const intakeEnabled = isAppointmentIntakeConfigured();
+export default async function HowItWorksPage() {
+  const doctors = await getDirectoryDoctors();
+  const providerProfileCount = doctors.length;
+  const intakeEnabled = isAppointmentIntakeConfigured() && doctors.some(canRequestAppointment);
   return <div className="relative isolate overflow-hidden min-h-[70vh] bg-[#FFFFFF] py-14 md:py-20"><IllustrationBackground slug="how-it-works-planning" alt="Meera and Aarav plan a clinic visit."  /><div className="mx-auto max-w-site px-6">
     <p className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-ink"><CheckCircle2 strokeWidth={1.5} size={15} /> PATIENT GUIDE · PAN-INDIA</p>
     <h1 className="mt-4 max-w-4xl text-4xl font-bold tracking-[-0.04em] text-ink md:text-[52px]">Arrive with a question. Leave knowing where to check next.</h1>

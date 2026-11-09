@@ -6,10 +6,11 @@ import ReferenceCareSection from "./ReferenceCareSection";
 import SpecialtyIcon from "./SpecialtyIcon";
 import { DoctorCards } from "./DirectoryPage";
 import { HealthTopicIcon, healthTopics } from "./HealthTopicIcon";
-import RecentBookingActivity from "./RecentBookingActivity";
+
 import { specialties } from "@/lib/care-directory";
-import { directoryProcedures, liveDoctors, popularProcedures } from "@/lib/directory";
-import { facilities } from "@/lib/facilities";
+import { directoryProcedures, popularProcedures } from "@/lib/directory";
+import { facilitiesFrom } from "@/lib/facilities";
+import { getDirectoryDoctors } from "@/lib/public-directory";
 
 const categories = [
   { label: "Find doctors", href: "/doctors", scene: "doctor" },
@@ -25,26 +26,28 @@ const trust = [
 ];
 const steps = [
   { title: "Search for care", text: "Start with a doctor, specialty, symptom or hospital. Add a city if you have a location in mind." },
-  { title: "Explore your options", text: "Read the doctor’s specialty, published experience and practice location. Use our guides to prepare your questions." },
-  { title: "Request your visit", text: "Send your preferences through DOCVY. You receive a reference number, and the provider must confirm the appointment." },
+  { title: "Explore your options", text: "Read the doctor’s specialty, specialty and practice location. Use our guides to prepare your questions." },
+  { title: "Request your visit", text: "For doctors who have opted in, send your preferences through DOCVY. This does not reserve a slot. The clinic confirms time and fee." },
 ];
 const questions = [
-  ["What can I do on DOCVY?", "Explore real doctor profiles, practice locations and specialties, read patient guides, and send an appointment request through DOCVY."],
+  ["What can I do on DOCVY?", "Compare sourced doctor profiles and practice locations, read patient guides, and send appointment requests only to doctors who have opted in."],
   ["Is my appointment confirmed when I submit a request?", "Your request is saved with a reference number. It does not reserve a slot. The clinic or hospital must confirm the time, availability and consultation fee before you travel."],
-  ["Where does doctor information come from?", "Each real profile links to its official hospital source. Published experience is shown where it can be confirmed. A DOCVY Verified badge requires a separate manual registration check."],
+  ["Where does doctor information come from?", "Each real profile links to its official hospital source. Unclaimed profiles show limited sourced details and are not yet partnered with DOCVY. A DOCVY Verified badge requires a separate manual registration check."],
   ["Can I find an independent clinic?", "You can explore the published clinic and hospital practice locations of the doctors listed on DOCVY. More clinic profiles will be added as their details are checked."],
   ["Does DOCVY offer medical advice?", "The guides help you prepare for a conversation with a clinician. They cannot diagnose your symptoms or replace personalised medical advice."],
 ];
 
-export default function ReferenceHome() {
+export default async function ReferenceHome() {
+  const liveDoctors = await getDirectoryDoctors();
+  const facilities = facilitiesFrom(liveDoctors);
   const featuredSpecialties = specialties.filter(({ slug }) => !["dentistry", "mental-health"].includes(slug));
   return <div className="reference-home">
     <section className="reference-hero" aria-labelledby="home-heading">
       <div className="reference-wordmark" aria-hidden="true">DOCVY</div>
       <div className="reference-wrap relative">
         <p className="reference-eyebrow"><span className="mr-2 inline-block h-2 w-2 rounded-full bg-[#A5D4AE]" aria-hidden="true" />Find care closer to you</p>
-        <h1 id="home-heading" className="mt-6">Find the right doctor.<br /><em>Care closer</em> to you.</h1>
-        <p className="hero-description mt-6 text-base">Explore doctors, specialties and procedures across India.<br className="hidden sm:block" /> Find a practice that fits your needs. Request your visit through DOCVY.</p>
+        <h1 id="home-heading" className="mt-6">Find the right doctor, close to home.</h1>
+        <p className="hero-description mt-6 text-base">Search by specialty, symptom or hospital. Compare sourced profiles and send an appointment request. The doctor’s team confirms your slot.</p>
         <div className="reference-search"><DiscoverySearch /></div>
         <nav aria-label="Explore care" className="reference-hero-categories">
           {categories.map(({ label, href, scene }) => <Link key={href} href={href} className="reference-category">
@@ -54,12 +57,11 @@ export default function ReferenceHome() {
         </nav>
       </div>
     </section>
-    <section className="reference-activity reference-wrap" aria-label="Appointment activity"><RecentBookingActivity /></section>
     <div className="reference-trust">{trust.map(({ icon: Icon, label }) => <span key={label}><Icon size={24} strokeWidth={1.5} aria-hidden="true" />{label}</span>)}</div>
 
     <ReferenceCareSection id="doctors" scene="doctor" kicker="Doctor discovery" title={<>The right specialty.<br /><em>A doctor near you.</em></>}
-      benefits={["Explore medical specialties", "Read sourced doctor profiles", "Check practice locations", "Request a visit through DOCVY"]}
-      text="When you’re looking for care, a little clarity helps. Explore the doctor’s specialty, experience and practice location, then send your preferences through DOCVY. The provider confirms the visit."
+      benefits={["Explore medical specialties", "Read sourced doctor profiles", "Check practice locations", "Requests for opted-in doctors"]}
+      text="When you’re looking for care, a little clarity helps. Explore the doctor’s specialty and practice location, then send your preferences through DOCVY. The provider confirms the visit."
       href="/doctors" label="Find a doctor">
       <DoctorCards doctors={liveDoctors.slice(0, 2)} />
     </ReferenceCareSection>
@@ -71,11 +73,11 @@ export default function ReferenceHome() {
 
     <ReferenceCareSection id="clinics" tone="rose" scene="calendar" kicker="Clinics & outpatient visits" title={<>Make time<br /><em>for your health.</em></>}
       benefits={["Find outpatient doctors", "Check the hospital branch", "Share your preferences", "Keep your request reference"]}
-      text="For a first consultation or a follow-up, start with where the doctor practises. Explore outpatient locations and make a request. Check the clinic or hospital address and send your request through DOCVY."
+      text="For a first consultation or a follow-up, start with where the doctor practises. Compare the sourced profiles and check whether the doctor has opted in to appointment requests."
       href="/clinics" label="Explore outpatient care" />
 
     <ReferenceCareSection id="hospitals" tone="sand" scene="hospital" kicker="Hospital discovery" title={<>Explore hospitals.<br /><em>Plan your next visit.</em></>}
-      benefits={["View practice locations", "Explore the specialties", "Find associated doctors", "Request through DOCVY"]}
+      benefits={["View practice locations", "Explore the specialties", "Find associated doctors", "Check profile status"]}
       text="A familiar hospital name is just the start. Check the department, doctor and branch address so you know where you’re going and what to ask before your visit."
       href="/hospitals" label="Find hospitals">
       <ul className="mt-7 space-y-3">{facilities.filter((facility) => facility.kind === "hospital").slice(0, 3).map((facility) => <li key={facility.name}><Link href={{ pathname: "/doctors", query: { q: facility.name } }} className="reference-link-card flex items-center justify-between gap-4 p-5"><div><h3 className="font-medium">{facility.name}</h3><p className="mt-1 text-sm text-grey">{facility.location.locality}, {facility.location.city}</p></div><ArrowUpRight size={19} strokeWidth={1.5} className="shrink-0 text-primary" aria-hidden="true" /></Link></li>)}</ul>

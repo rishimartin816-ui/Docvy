@@ -1,3 +1,4 @@
+import { canRequestAppointment } from "./profile-policy";
 import { clinicCrmConfig } from "./clinic-crm-config";
 import { directoryIntakeConfig } from "./directory-intake";
 import type { ProviderCandidate } from "./provider-candidates";
@@ -25,6 +26,7 @@ export function isAppointmentIntakeConfigured() {
 }
 
 export async function providersWithAppointmentIntake(providers: ProviderCandidate[]) {
+  providers = providers.filter(canRequestAppointment);
   if (!providers.length) return [];
   if (directoryIntakeConfig()) return providers.filter((provider) => provider.live === true);
   if (process.env.DOCVY_CRM_INTAKE_ENABLED !== "true") {

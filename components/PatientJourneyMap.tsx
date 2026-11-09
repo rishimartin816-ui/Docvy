@@ -8,7 +8,7 @@ import {
   Search,
   ShieldAlert,
 } from "lucide-react";
-import { providerCityListLabel } from "@/lib/provider-candidates";
+import { providerCityListLabel } from "@/lib/directory-coverage";
 
 const steps = [
   {

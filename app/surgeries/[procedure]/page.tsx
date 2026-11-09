@@ -1,3 +1,4 @@
+import { getDirectoryDoctors } from "@/lib/public-directory";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs, DoctorCards } from "@/components/DirectoryPage";
@@ -18,10 +19,10 @@ export function generateMetadata({ params }: Props) {
   const path = "/surgeries/" + procedure.slug;
   return { title: procedure.name, description, alternates: { canonical: path }, ...buildPageSocialMetadata(procedure.name + " | DOCVY", description, path) };
 }
-export default function SurgeryPage({ params }: Props) {
+export default async function SurgeryPage({ params }: Props) {
   const procedure = lookup(params.procedure);
   const specialty = slugify(procedure.specialty);
-  const doctors = doctorsIn(undefined, specialty).filter((doctor) => doctor.procedures?.some((name) => slugify(name) === procedure.slug));
+  const doctors = doctorsIn(undefined, specialty, await getDirectoryDoctors());
   return <div className="docvy-garden"><div className="mx-auto max-w-5xl px-5 py-12 sm:px-9">
     <Breadcrumbs items={[{ name: "Surgery guide", href: "/surgery-guide" }, { name: procedure.name, href: "/surgeries/" + procedure.slug }]} />
     <h1 className="text-4xl font-bold sm:text-6xl">{procedure.name}</h1>
@@ -31,6 +32,6 @@ export default function SurgeryPage({ params }: Props) {
       <ul className="mt-3 list-disc space-y-2 pl-5"><li>Why is this procedure being considered for me, and what are my alternatives?</li><li>What should I bring and what should I plan for after the visit?</li><li>Who can explain the likely costs and follow-up arrangements?</li></ul>
       <Link className="docvy-pill mt-5" href="/surgery-guide">Open the surgery preparation guide</Link>
     </section>
-    <section className="mt-7"><h2 className="text-2xl font-bold">Doctors listed for this procedure</h2>{doctors.length ? <DoctorCards doctors={doctors} /> : <p className="mt-3">There are no live listings for this procedure yet.</p>}</section>
+    <section className="mt-7"><h2 className="text-2xl font-bold">Doctors in the relevant specialty</h2>{doctors.length ? <DoctorCards doctors={doctors} /> : <p className="mt-3">No profiles are listed for this specialty yet.</p>}</section>
   </div></div>;
 }

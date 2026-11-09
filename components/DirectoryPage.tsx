@@ -1,3 +1,5 @@
+import { getDirectoryDoctors } from "@/lib/public-directory";
+import { canRequestAppointment, isVerified } from "@/lib/profile-policy";
 import DoctorPortrait from "@/components/DoctorPortrait";
 import IllustrationBackground from "@/components/IllustrationBackground";
 import Link from "next/link";
@@ -24,27 +26,33 @@ export function Breadcrumbs({ items }: { items: { name: string; href: string }[]
 }
 
 export function DoctorCards({ doctors }: { doctors: ProviderCandidate[] }) {
-  return <ul className="mt-5 grid gap-4 sm:grid-cols-2">{doctors.map((doctor) => <li key={doctor.id} className="docvy-glass p-5">
-    <div className="flex items-start gap-4"><DoctorPortrait name={doctor.name} src={doctor.photoUrl} /><div className="min-w-0">
-    <h3 className="text-xl font-bold"><Link href={"/doctor/" + slugify(doctor.id)} className="underline underline-offset-4">{doctor.name}</Link></h3>
-    <p className="mt-2 text-sm leading-6"><span className="font-semibold">Specialty:</span> {doctor.specialties.join(", ")}</p>
-    <p className="mt-2 text-sm text-grey">{doctor.experienceLabel ? doctor.experienceLabel + " of experience" : "Experience details awaiting confirmation"}</p>
+  return <ul className="mt-5 grid gap-4 sm:grid-cols-2">{doctors.map(doctor => <li key={doctor.id} className="docvy-glass p-5">
+    <div className="flex items-start gap-4"><DoctorPortrait name={doctor.name} src={canRequestAppointment(doctor) ? doctor.photoUrl : null} /><div className="min-w-0">
+      <h3 className="text-xl font-medium"><Link href={"/doctor/" + slugify(doctor.id)} className="underline underline-offset-4">{doctor.name}</Link></h3>
+      <p className="mt-2 text-sm leading-6">{doctor.specialties.join(", ")}</p>
+      <p className="mt-2 text-sm text-grey">{doctor.hospital} · {doctor.locations[0].city}</p>
+      {isVerified(doctor) && <p className="mt-3 text-sm font-semibold text-primary">DOCVY Verified</p>}
     </div></div>
-    <p className="mt-2 text-sm text-grey">{doctor.locations.map(({ city, facility, locality }) => [facility, locality, citySlug(city) === "gurgaon" ? "Gurgaon" : city].filter(Boolean).join(", ")).join(" · ")}</p>
-    {doctor.summary && <p className="mt-3 text-sm leading-6 text-grey">{doctor.summary}</p>}
-    {doctor.qualifications && <p className="mt-3 line-clamp-2 text-xs leading-6 text-grey">{doctor.qualifications}</p>}
-    <Link href={{ pathname: "/request", query: { provider: doctor.id, city: doctor.locations[0].city, facility: doctor.locations[0].facility } }} className="docvy-pill docvy-pill-primary mt-5">Request through DOCVY</Link>
-    <p className="mt-2 text-xs text-grey">Availability and fees are confirmed after provider acceptance.</p>
+    {canRequestAppointment(doctor) ? <>
+      {doctor.summary && <p className="mt-4 text-sm leading-7 text-grey">{doctor.summary}</p>}
+      <Link href={{ pathname: "/request", query: { provider: doctor.id, city: doctor.locations[0].city, facility: doctor.locations[0].facility } }} className="docvy-pill docvy-pill-primary mt-5">Request appointment</Link>
+      <p className="mt-3 text-xs text-grey">This does not reserve a slot. The clinic confirms time and fee.</p>
+    </> : <>
+      <p className="mt-4 text-sm font-medium">Not yet partnered with DOCVY</p>
+      <Link href={{ pathname: "/claim-profile", query: { provider: doctor.id } }} className="mt-2 inline-flex min-h-11 items-center text-sm underline underline-offset-4">Claim or request removal of this profile</Link>
+    </>}
+    <a className="mt-2 flex min-h-11 items-center text-sm underline underline-offset-4" href={doctor.sourceUrl} target="_blank" rel="noopener noreferrer">Official profile source</a>
   </li>)}</ul>;
 }
 
-export default function DirectoryPage({ city, specialty }: { city: typeof cities[number]; specialty?: typeof directorySpecialties[number] }) {
-  const doctors = doctorsIn(city.slug, specialty?.slug);
+export default async function DirectoryPage({ city, specialty }: { city: typeof cities[number]; specialty?: typeof directorySpecialties[number] }) {
+  const listed = await getDirectoryDoctors();
+  const doctors = doctorsIn(city.slug, specialty?.slug, listed);
   const ready = doctors.length >= 3;
   const cityPath = "/doctors/" + city.slug;
   const title = (specialty ? specialty.name + " doctors" : "Doctors") + " in " + city.name;
-  const cityDoctors = doctorsIn(city.slug);
-  const availableSpecialties = directorySpecialties.filter(({ slug }) => doctorsIn(city.slug, slug).length > 0);
+  const cityDoctors = doctorsIn(city.slug, undefined, listed);
+  const availableSpecialties = directorySpecialties.filter(({ slug }) => doctorsIn(city.slug, slug, listed).length > 0);
   const procedureList = directoryProcedures.filter(({ slug, specialty: name }) => specialty ? slugify(name) === specialty.slug : popularProcedures.includes(slug));
   const items = [{ name: "Doctors", href: "/doctors" }, { name: city.name, href: cityPath }, ...(specialty ? [{ name: specialty.name, href: cityPath + "/" + specialty.slug }] : [])];
 

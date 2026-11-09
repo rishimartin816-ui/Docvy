@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Building2, CalendarCheck } from "lucide-react";
 import AppointmentRequestForm from "@/components/AppointmentRequestForm";
-import { providerCandidates } from "@/lib/provider-candidates";
+import { getDirectoryDoctors } from "@/lib/public-directory";
+import { canRequestAppointment } from "@/lib/profile-policy";
 import { isAppointmentIntakeConfigured, providersWithAppointmentIntake } from "@/lib/appointment-intake";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 
@@ -16,9 +17,9 @@ export function generateMetadata(): Metadata {
 type Params = { provider?: string; city?: string; facility?: string };
 export default async function RequestPage({ searchParams }: { searchParams: Promise<Params> }) {
   const params = await searchParams;
-  const doctors = providerCandidates.filter((doctor) => doctor.live === true);
+  const doctors = await getDirectoryDoctors();
   const available = await providersWithAppointmentIntake(doctors);
-  const enabled = isAppointmentIntakeConfigured() && available.length > 0;
+  const enabled = isAppointmentIntakeConfigured() && available.length > 0 && (!params.provider || available.some((doctor) => doctor.id === params.provider));
   const selected = doctors.find((doctor) => doctor.id === params.provider);
   return <div className="mx-auto max-w-site px-5 py-12 sm:px-9 md:py-16">
     <div className="mb-8 max-w-3xl">
@@ -38,14 +39,14 @@ export default async function RequestPage({ searchParams }: { searchParams: Prom
         <div className="docvy-glass p-6">
           <CalendarCheck size={25} strokeWidth={1.5} className="text-ink" aria-hidden="true" />
           <h2 className="mt-4 text-xl font-semibold">What happens next</h2>
-          <p className="mt-3 text-sm leading-7 text-grey">Once saved, your request has a DOCVY reference number and waits for coordination. No slot is reserved until the provider accepts it. DOCVY does not take payment here.</p>
+          <p className="mt-3 text-sm leading-7 text-grey">Once saved, your request has a DOCVY reference number and waits for coordination. This does not reserve a slot. The clinic confirms time and fee. DOCVY does not take payment here.</p>
           <p className="mt-3 text-sm leading-7 text-grey">Hospital profile sources describe the doctor’s practice. A listing does not establish a DOCVY hospital partnership. Share contact details and appointment preferences only. Please keep symptoms, diagnoses, identity documents and medical records out of this form.</p>
         </div>
       </section>
       {enabled ? <AppointmentRequestForm doctors={available} initialProvider={params.provider ?? ""} initialCity={params.city ?? ""} initialFacility={params.facility} enabled /> : <section className="docvy-glass p-6">
-        <h2 className="text-xl font-semibold">DOCVY request intake is currently unavailable</h2>
-        <p className="mt-3 text-sm leading-7 text-grey">Your details have not been collected. You can contact DOCVY about this doctor and practice location.</p>
-        <a href="mailto:contact@docvy.in?subject=Appointment%20request" className="docvy-pill docvy-pill-primary mt-5">Email DOCVY</a>
+        <h2 className="text-xl font-semibold">{selected && !canRequestAppointment(selected) ? "Not yet partnered with DOCVY" : "No appointment requests available"}</h2>
+        <p className="mt-3 text-sm leading-7 text-grey">Your details have not been collected. Appointment requests are enabled only after the doctor or clinic gives written consent.</p>
+        <Link href={{ pathname: "/claim-profile", query: { provider: selected?.id } }} className="docvy-pill mt-5">Claim a profile</Link>
       </section>}
     </div>
   </div>;

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, ShieldCheck } from "lucide-react";
+import { getDirectoryDoctors } from "@/lib/public-directory";
 import CareGuideSearch from "@/components/CareGuideSearch";
 import IllustrationBackground from "@/components/IllustrationBackground";
 import { HealthTopicIcon } from "@/components/HealthTopicIcon";
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
   ...buildPageSocialMetadata(title + " | DOCVY", description, "/care-guide"),
 };
 
-export default function CareGuidePage() {
+export default async function CareGuidePage() {
   const collection = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -56,7 +57,7 @@ export default function CareGuidePage() {
       <div className="docvy-glass p-5 sm:p-8">
         <h2 id="guide-search-heading" className="text-2xl font-bold tracking-tight sm:text-3xl">Start with your question</h2>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-grey">Try a symptom, condition, or type of doctor. The guide explains common specialty roles to help you prepare for a conversation with a clinician.</p>
-        <CareGuideSearch />
+        <CareGuideSearch doctors={await getDirectoryDoctors()} />
       </div>
     </section>
 

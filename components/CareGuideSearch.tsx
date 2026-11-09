@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Activity, ArrowRight, ExternalLink, HeartPulse, MapPin, Search, Sparkles, Stethoscope, X } from "lucide-react";
 import { careGuide } from "@/lib/care-guide";
-import { providerCandidates, providerCities, providerCityListLabel, type ProviderCity } from "@/lib/provider-candidates";
+import type { ProviderCandidate, ProviderCity } from "@/lib/provider-candidates";
 
 const examples = ["diabetes", "skin rash", "pregnancy", "joint pain", "children", "heart"];
 const featuredSpecialties = ["General physician / internal medicine", "Cardiology", "Dermatology", "Diabetology / endocrinology"];
@@ -12,7 +12,9 @@ const featuredIcons = { "General physician / internal medicine": Stethoscope, Ca
 const searchFillers = new Set(["a", "an", "and", "are", "can", "doctor", "doctors", "do", "does", "for", "have", "help", "i", "kind", "me", "my", "of", "or", "see", "should", "specialist", "specialists", "specialty", "specialties", "the", "to", "type", "what", "which", "with"]);
 const anyCurrentCity = "Any current city";
 
-export default function CareGuideSearch() {
+export default function CareGuideSearch({ doctors: providerCandidates }: { doctors: ProviderCandidate[] }) {
+  const providerCities = Array.from(new Set(providerCandidates.flatMap(d=>d.locations.map(l=>l.city))));
+  const providerCityListLabel = providerCities.join(", ") || "no current city listings";
   const [query, setQuery] = useState("");
   const [city, setCity] = useState<ProviderCity | typeof anyCurrentCity>(anyCurrentCity);
   const [showAll, setShowAll] = useState(false);

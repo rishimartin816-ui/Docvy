@@ -1,7 +1,9 @@
 import { Search } from "lucide-react";
-import { liveCities } from "@/lib/directory";
+import { availableCities } from "@/lib/directory";
+import { getDirectoryDoctors } from "@/lib/public-directory";
 
-export default function DiscoverySearch({ query = "", city = "" }: { query?: string; city?: string }) {
+export default async function DiscoverySearch({ query = "", city = "" }: { query?: string; city?: string }) {
+  const liveCities = availableCities(await getDirectoryDoctors());
   return <div>
     <form action="/doctors" className="docvy-glass flex flex-wrap items-end gap-3 p-4">
       <label className="min-w-0 flex-1 basis-52 text-sm font-semibold">

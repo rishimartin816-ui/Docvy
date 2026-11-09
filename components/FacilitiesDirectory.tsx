@@ -1,17 +1,19 @@
 import Link from "next/link";
 import { ArrowUpRight, MapPin } from "lucide-react";
-import { facilities } from "@/lib/facilities";
+import { facilitiesFrom } from "@/lib/facilities";
+import { getDirectoryDoctors } from "@/lib/public-directory";
 import ReferenceArtwork from "./ReferenceArtwork";
 
-export default function FacilitiesDirectory({ outpatient = false }: { outpatient?: boolean }) {
+export default async function FacilitiesDirectory({ outpatient = false }: { outpatient?: boolean }) {
+  const facilities = facilitiesFrom(await getDirectoryDoctors());
   const listedFacilities = facilities.filter((facility) => outpatient || facility.kind === "hospital");
   const hasClinics = facilities.some((facility) => facility.kind === "clinic");
   return <div className="docvy-garden">
     <section className="reference-wrap reference-section grid items-center gap-8 md:grid-cols-[1fr_260px]">
       <div><p className="reference-eyebrow text-primary">{outpatient ? "CLINICS & OUTPATIENT VISITS" : "HOSPITAL DISCOVERY"}</p>
         <h1 className="mt-5 text-4xl font-medium leading-tight tracking-tight sm:text-6xl">{outpatient ? "Make time for your health." : "Explore hospitals. Plan your next visit."}</h1>
-        <p className="reference-copy mt-5">{outpatient ? "Looking for a consultation without a hospital stay? Explore doctors at the outpatient locations below and send an appointment request through DOCVY." : "Start with the specialty you need, then review the doctors and practice address. Send your request through DOCVY and wait for the provider to confirm."}</p>
-        {outpatient && <p className="mt-4 text-sm text-grey">{hasClinics ? "Browse clinic and hospital outpatient locations linked to sourced doctor profiles. Check the address and send your request through DOCVY." : "Independent clinic listings are not available yet. These are hospital practice locations sourced from the listed doctors’ official profiles."}</p>}
+        <p className="reference-copy mt-5">{outpatient ? "Explore sourced doctor profiles at the outpatient locations below. Appointment requests are available only after a doctor or clinic opts in." : "Start with the specialty you need, then review the sourced doctor profiles and check whether the practice has opted in to appointment requests."}</p>
+        {outpatient && <p className="mt-4 text-sm text-grey">{hasClinics ? "Browse clinic and hospital outpatient locations linked to sourced doctor profiles. Check whether the doctor has opted in before requesting a visit." : "Independent clinic listings are not available yet. These are hospital practice locations sourced from the listed doctors’ official profiles."}</p>}
       </div><ReferenceArtwork scene={outpatient ? "calendar" : "hospital"} className="mx-auto w-52 md:w-full" />
     </section>
     <section className="reference-wrap pb-20" aria-labelledby="facility-heading">

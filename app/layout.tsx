@@ -1,4 +1,6 @@
 import "./globals.css";
+// Publication and removal changes must be reflected in every public view, including footer links.
+export const dynamic = "force-dynamic";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";

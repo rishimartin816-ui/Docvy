@@ -1,8 +1,10 @@
-import { liveDoctors } from "./directory";
+import type { ProviderCandidate } from "./provider-candidates";
 
-export const facilities = Array.from(new Set(liveDoctors.flatMap((doctor) => doctor.locations.map((location) => location.facility))))
+export function facilitiesFrom(liveDoctors: ProviderCandidate[]) { return Array.from(new Set(liveDoctors.flatMap((doctor) => doctor.locations.map((location) => location.facility))))
   .map((name) => {
     const doctors = liveDoctors.filter((doctor) => doctor.locations.some((location) => location.facility === name));
     const location = doctors[0].locations.find((item) => item.facility === name)!;
-    return { name, location, kind: location.kind ?? "hospital", doctors, specialties: Array.from(new Set(doctors.flatMap((doctor) => doctor.specialties))) };
+    return { name, location, kind: location.kind ?? (/clinic/i.test(name) ? "clinic" : "hospital"), doctors, specialties: Array.from(new Set(doctors.flatMap((doctor) => doctor.specialties))) };
   });
+
+}

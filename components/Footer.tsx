@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { indexableCities } from "@/lib/directory";
+import { availableCities } from "@/lib/directory";
+import { getDirectoryDoctors } from "@/lib/public-directory";
 
 const careLinks = [
   ["/doctors", "Find doctors"], ["/clinics", "Outpatient care"], ["/hospitals", "Hospitals"], ["/specialties", "All specialties"], ["/surgery-guide", "Surgeries"],
@@ -15,7 +16,7 @@ const specialtyLinks = [
 
 const teamLinks = [
   ["/for-doctors", "For doctors"], ["/for-clinics", "For clinics"], ["/pricing", "Pricing"],
-  ["/about", "About"], ["/contact", "Contact"], ["/faqs", "FAQs"],
+  ["/claim-profile", "Claim a profile"], ["/remove-profile", "Request removal"], ["/about", "About"], ["/contact", "Contact"], ["/faqs", "FAQs"],
 ] as const;
 
 const legalLinks = [
@@ -27,7 +28,8 @@ function LinkList({ links }: { links: readonly (readonly [string, string])[] }) 
   return <ul>{links.map(([href, label]) => <li key={href}><Link href={href} className="inline-flex min-h-11 items-center text-ink hover:underline">{label}</Link></li>)}</ul>;
 }
 
-export default function Footer() {
+export default async function Footer() {
+  const indexableCities = availableCities(await getDirectoryDoctors(), 3);
   const sections = [
     { heading: "Find care", links: careLinks },
     { heading: "Popular specialties", links: specialtyLinks },

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Building2, Info } from "lucide-react";
 import { buildPageSocialMetadata } from "@/lib/metadata";
-import { providerCityListLabel } from "@/lib/provider-candidates";
+import { providerCityListLabel } from "@/lib/directory-coverage";
 
 export const metadata: Metadata = {
   title: "Appointment status",

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 
 const title = "DOCVY Help: Patient Guides and Appointments";
-const description = "Learn what DOCVY offers, how to find the right specialty, and what to expect from the demo booking and clinic dashboard.";
+const description = "Learn how DOCVY sourced profiles, written consent, appointment requests, registration verification and profile removal work.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -13,6 +13,8 @@ export const metadata: Metadata = {
 };
 
 const questions = [
+  { question: "What do unclaimed, claimed and verified mean?", answer: "Unclaimed profiles show limited professional details from an official source. Claimed means DOCVY reviewed written consent to listing and appointment requests. DOCVY Verified additionally requires a manual registration check with the state medical council or NMC.", href: "/for-doctors", label: "Understand profile status" },
+  { question: "How can a doctor claim or remove a profile?", answer: "Use the claim form to provide your registration details, work contact and written consent. DOCVY reviews your authority before approving a claim. If you prefer removal, use the removal form; requests are actioned within 48 hours.", href: "/claim-profile", label: "Claim or request removal" },
   {
     question: "What is DOCVY?",
     answer: "DOCVY is a patient guide for people in India. It explains what different specialists do and helps you prepare questions for your visit.",
@@ -25,8 +27,8 @@ const questions = [
   },
   {
     question: "Can I book a real appointment on DOCVY?",
-    answer: "The current booking experience is a demo using a fictional doctor and clinic. For a real appointment, contact your chosen clinic or hospital directly.",
-    href: "/doctors", label: "See the demo directory",
+    answer: "Only claimed or verified doctors who have given written consent can receive appointment requests. Unclaimed profiles are not yet partnered with DOCVY and have no request button. This does not reserve a slot. The clinic confirms time and fee.",
+    href: "/doctors", label: "Browse sourced doctor profiles",
   },
   {
     question: "What can I try in the booking demo?",
@@ -45,7 +47,7 @@ export default function FaqsPage() {
     <div className="mx-auto max-w-3xl">
       <p className="docvy-eyebrow">DOCVY HELP</p>
       <h1 className="mt-3 text-4xl font-bold tracking-tight text-ink sm:text-5xl">Questions about using DOCVY</h1>
-      <p className="mt-4 text-lg text-grey">Find out where to start, what the patient guide covers, and what you can try in the clinic demo.</p>
+      <p className="mt-4 text-lg text-grey">Find out how sourced profiles, appointment requests and consent work. The clinic booking demo is a separate experience.</p>
       <div className="mt-8 space-y-4">
         {questions.map(({ question, answer, href, label }) => <section key={question} className="docvy-glass p-5 sm:p-7">
           <h2 className="text-xl font-bold text-ink">{question}</h2>

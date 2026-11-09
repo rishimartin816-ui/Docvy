@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import ReferenceHome from "@/components/ReferenceHome";
 import { buildPageSocialMetadata, productionOrigin } from "@/lib/metadata";
 
-const title = "Find & Book Doctors in India | DOCVY";
-const description = "Find doctors and clinics across India, explore specialties and procedures, and learn what to check before requesting an appointment through DOCVY.";
+const title = "Find Doctors in Delhi NCR | Request an Appointment | DOCVY";
+const description = "Search doctors by specialty and hospital across Delhi NCR. Read sourced profiles, check practice locations and send an appointment request in minutes.";
 export const metadata: Metadata = {
   title: { absolute: title }, description, alternates: { canonical: "/" },
   ...buildPageSocialMetadata(title, description, "/"),

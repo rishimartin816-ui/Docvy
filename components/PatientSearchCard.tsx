@@ -1,7 +1,9 @@
 import { ArrowRight, MapPin, Search } from "lucide-react";
-import { providerCities } from "@/lib/provider-candidates";
+import { getDirectoryDoctors } from "@/lib/public-directory";
+import { availableCities } from "@/lib/directory";
 
-export default function PatientSearchCard() {
+export default async function PatientSearchCard() {
+ const providerCities = availableCities(await getDirectoryDoctors()).map(c=>c.name);
   return (
     <div className="w-full rounded-[22px] border border-line bg-white/95 p-4  sm:p-5">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">

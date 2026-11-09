@@ -1,7 +1,9 @@
+import { signedDirectoryWrite } from "@/lib/directory-rpc";
 import { createHmac, randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { crmIntakeConfig } from "@/lib/appointment-intake";
-import { providerCandidates } from "@/lib/provider-candidates";
+import { getDirectoryDoctors } from "@/lib/public-directory";
+import { canRequestAppointment } from "@/lib/profile-policy";
 import { directoryIntakeConfig } from "@/lib/directory-intake";
 
 export const runtime = "nodejs";
@@ -50,7 +52,8 @@ export async function POST(request: Request) {
   const providerId = maxText(body.providerId, 80);
   const city = maxText(body.city, 40);
   const facility = maxText(body.facility, 120);
-  const provider = providerCandidates.find((candidate) => candidate.id === providerId);
+  const provider = (await getDirectoryDoctors()).find((candidate) => candidate.id === providerId);
+  if (!provider || !canRequestAppointment(provider)) return response(403, { ok: false, error: "This doctor has not enabled appointment requests." });
   const location = provider?.locations.find((item) => item.city === city && item.facility === facility);
 
   if (!name || !/^[6-9]\d{9}$/.test(mobile.replace(/^\+?91(?=\d{10}$)/, "")) || (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) || !location || body.consent !== true) {
@@ -67,19 +70,10 @@ export async function POST(request: Request) {
     }
     const network = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
     try {
-      const saved = await fetch(new URL("/rest/v1/rpc/docvy_submit_directory_request", directory.url), {
-        method: "POST",
-        headers: { apikey: directory.key, "Content-Type": "application/json" },
-        body: JSON.stringify({
-          p_request_id: body.requestId,
-          p_network_hash: createHmac("sha256", directory.key).update(network).digest("hex"),
-          p_payload: {
-            providerId, city, facility, name, mobile: "+91" + mobile.replace(/^\+?91(?=\d{10}$)/, ""),
-            email, requestedDate, requestedTime, consent: true,
-          },
-        }),
-        cache: "no-store",
-        signal: AbortSignal.timeout(8000),
+      const saved = await signedDirectoryWrite("appointment", {
+        requestId: body.requestId,
+        networkHash: createHmac("sha256", process.env.DOCVY_DIRECTORY_WRITE_SECRET || directory.key).update(network).digest("hex"),
+        payload: { providerId, city, facility, name, mobile: "+91" + mobile.replace(/^\+?91(?=\d{10}$)/, ""), email, requestedDate, requestedTime, consent: true },
       });
       if ([400, 409, 422, 429].includes(saved.status)) {
         const detail = await saved.json() as { message?: string };
