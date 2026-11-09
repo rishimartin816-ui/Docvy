@@ -46,8 +46,7 @@ export default async function DoctorPage({ params }: Props) {
         {partnered && <Link className="docvy-pill docvy-pill-primary mt-5" href={{ pathname: "/request", query: { provider: doctor.id, city: location.city, facility: location.facility } }}>Request appointment</Link>}
       </div>)}
       {partnered && <p className="mt-4 text-sm text-grey">This does not reserve a slot. The clinic confirms time and fee.</p>}
-      <a className="mt-4 inline-flex min-h-11 items-center underline underline-offset-4" href={doctor.sourceUrl} target="_blank" rel="noopener noreferrer">Official profile source</a>
-      {!partnered && <div className="mt-4"><Link className="inline-flex min-h-11 items-center underline underline-offset-4" href={{ pathname: "/claim-profile", query: { provider: doctor.id } }}>Claim or request removal of this profile</Link></div>}
+      {!partnered && <div className="mt-4"><div className="doctor-profile-claim"><div><h3 className="font-medium">Is this your profile?</h3><p className="mt-2 text-sm text-grey">Make it yours. Share your practice details and choose how patients reach you.</p></div><Link className="doctor-claim-button" href={{ pathname: "/claim-profile", query: { provider: doctor.id } }}>Claim profile</Link></div><Link className="mt-4 inline-flex min-h-11 items-center text-sm underline underline-offset-4" href={{ pathname: "/remove-profile", query: { provider: doctor.id } }}>Request profile removal</Link></div>}
     </section>
   </div>;
 }

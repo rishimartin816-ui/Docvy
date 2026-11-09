@@ -241,3 +241,55 @@ main h2[class] { font-weight: 500; }
 .reference-care-main > ul.grid { grid-template-columns: minmax(0, 1fr); }
 .reference-care-main > ul.grid > li { border-radius: 22px; }
 .site-header-home .site-logo img, .site-footer .site-logo img { filter: grayscale(1) invert(1); }
+
+/* Doctor discovery preview: quiet glass surfaces and a clear provider action. */
+.hero-doctor-highlight {
+  display: inline-block;
+  color: #BDE7CD;
+  background: #A5D4AE1A;
+  border-bottom: 2px solid #BDE7CD80;
+  border-radius: .18em;
+  padding: 0 .12em .025em;
+}
+.reference-home .reference-trust { position: relative; margin-top: 86px; }
+.doctor-results { display: grid; gap: 14px; margin-top: 24px; padding: 14px; border-radius: 28px; background: var(--surface); }
+.doctor-results > li { min-width: 0; }
+.doctor-card { overflow: hidden; border: 1px solid #FFFFFF; border-bottom-color: var(--border); border-radius: 22px; background: rgb(255 255 255 / .82); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+.doctor-card-main { display: grid; grid-template-columns: 88px minmax(0, 1fr) auto; align-items: start; gap: 24px; padding: 26px; }
+.doctor-card-portrait { width: 88px; height: 102px; border-color: #DDE8DF; background: #EAF1EB; }
+.doctor-card-portrait svg { color: #73877B; }
+.doctor-card-details { min-width: 0; }
+.doctor-card-title { font-size: 1.3rem; font-weight: 600; line-height: 1.35; letter-spacing: -.025em; }
+.doctor-card-title a { color: var(--text); text-decoration: none; }
+.doctor-card-title a:hover { color: var(--primary); text-decoration: underline; text-underline-offset: 4px; }
+.doctor-card-specialty { margin-top: 6px; color: var(--primary); font-size: .9rem; line-height: 1.65; }
+.doctor-card-location { display: grid; gap: 6px; margin-top: 15px; }
+.doctor-card-location p { display: flex; align-items: start; gap: 9px; color: var(--muted); font-size: .85rem; line-height: 1.65; }
+.doctor-card-location svg { flex-shrink: 0; margin-top: 3px; color: #73877B; }
+.doctor-profile-link { display: inline-flex; min-height: 44px; align-items: center; gap: 12px; border: 1px solid var(--border); border-radius: 999px; padding: 8px 17px; color: var(--text); font-size: .8rem; font-weight: 500; white-space: nowrap; }
+.doctor-profile-link:hover { background: var(--surface); border-color: #C4D7CA; }
+.doctor-card-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding: 16px 26px; border-top: 1px solid #E4ECE6; background: rgb(245 249 246 / .78); }
+.doctor-card-status { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: .75rem; line-height: 1.6; }
+.doctor-status-dot { flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; background: #8A8D85; }
+.doctor-card-claim { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
+.doctor-card-claim > span { font-size: .75rem; color: var(--muted); }
+.doctor-claim-button { display: inline-flex; min-height: 46px; align-items: center; justify-content: center; gap: 9px; padding: 11px 20px; border: 1px solid var(--primary); border-radius: 999px; background: var(--primary); color: #FFFFFF; font-size: .8rem; font-weight: 600; line-height: 1.4; }
+.doctor-claim-button:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+.doctor-claim-button:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+.doctor-card-note { color: var(--muted); font-size: .75rem; line-height: 1.7; }
+.doctor-verified { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; color: var(--primary); background: var(--primary-tint); border-radius: 999px; padding: 4px 10px; font-size: .75rem; font-weight: 500; }
+.doctor-profile-claim { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; border: 1px solid #D5E3D8; border-radius: 20px; padding: 22px; background: var(--surface); }
+@media (max-width: 639px) {
+  .reference-home .reference-trust { margin-top: 94px; }
+  .doctor-results { padding: 8px; gap: 12px; border-radius: 24px; }
+  .doctor-card { border-radius: 18px; }
+  .doctor-card-main { grid-template-columns: 64px minmax(0, 1fr); gap: 16px; padding: 20px 16px; }
+  .doctor-card-portrait { width: 64px; height: 78px; border-radius: 15px; }
+  .doctor-card-title { font-size: 1.1rem; }
+  .doctor-card-specialty { font-size: .8rem; }
+  .doctor-card-location p { font-size: .78rem; }
+  .doctor-profile-link { grid-column: 2; justify-self: start; padding: 8px 15px; }
+  .doctor-card-footer { align-items: stretch; flex-direction: column; gap: 14px; padding: 16px; }
+  .doctor-card-claim { justify-content: space-between; gap: 10px; }
+  .doctor-claim-button { padding-inline: 16px; }
+}

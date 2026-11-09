@@ -4,7 +4,6 @@ import DiscoverySearch from "./DiscoverySearch";
 import ReferenceArtwork from "./ReferenceArtwork";
 import ReferenceCareSection from "./ReferenceCareSection";
 import SpecialtyIcon from "./SpecialtyIcon";
-import { DoctorCards } from "./DirectoryPage";
 import { HealthTopicIcon, healthTopics } from "./HealthTopicIcon";
 
 import { specialties } from "@/lib/care-directory";
@@ -26,13 +25,13 @@ const trust = [
 ];
 const steps = [
   { title: "Search for care", text: "Start with a doctor, specialty, symptom or hospital. Add a city if you have a location in mind." },
-  { title: "Explore your options", text: "Read the doctor’s specialty, specialty and practice location. Use our guides to prepare your questions." },
+  { title: "Explore your options", text: "Read the doctor’s specialty and practice location. Use our guides to prepare your questions." },
   { title: "Request your visit", text: "For doctors who have opted in, send your preferences through DOCVY. This does not reserve a slot. The clinic confirms time and fee." },
 ];
 const questions = [
   ["What can I do on DOCVY?", "Compare sourced doctor profiles and practice locations, read patient guides, and send appointment requests only to doctors who have opted in."],
   ["Is my appointment confirmed when I submit a request?", "Your request is saved with a reference number. It does not reserve a slot. The clinic or hospital must confirm the time, availability and consultation fee before you travel."],
-  ["Where does doctor information come from?", "Each real profile links to its official hospital source. Unclaimed profiles show limited sourced details and are not yet partnered with DOCVY. A DOCVY Verified badge requires a separate manual registration check."],
+  ["Where does doctor information come from?", "Doctor details come from published professional information. Unclaimed profiles show limited sourced details and are not yet partnered with DOCVY. A DOCVY Verified badge requires a separate manual registration check."],
   ["Can I find an independent clinic?", "You can explore the published clinic and hospital practice locations of the doctors listed on DOCVY. More clinic profiles will be added as their details are checked."],
   ["Does DOCVY offer medical advice?", "The guides help you prepare for a conversation with a clinician. They cannot diagnose your symptoms or replace personalised medical advice."],
 ];
@@ -46,7 +45,7 @@ export default async function ReferenceHome() {
       <div className="reference-wordmark" aria-hidden="true">DOCVY</div>
       <div className="reference-wrap relative">
         <p className="reference-eyebrow"><span className="mr-2 inline-block h-2 w-2 rounded-full bg-[#A5D4AE]" aria-hidden="true" />Find care closer to you</p>
-        <h1 id="home-heading" className="mt-6">Find the right doctor, close to home.</h1>
+        <h1 id="home-heading" className="mt-6">Find the right <span className="hero-doctor-highlight">doctor</span>,<br className="hidden sm:block" /> close to home.</h1>
         <p className="hero-description mt-6 text-base">Search by specialty, symptom or hospital. Compare sourced profiles and send an appointment request. The doctor’s team confirms your slot.</p>
         <div className="reference-search"><DiscoverySearch /></div>
         <nav aria-label="Explore care" className="reference-hero-categories">
@@ -59,14 +58,7 @@ export default async function ReferenceHome() {
     </section>
     <div className="reference-trust">{trust.map(({ icon: Icon, label }) => <span key={label}><Icon size={24} strokeWidth={1.5} aria-hidden="true" />{label}</span>)}</div>
 
-    <ReferenceCareSection id="doctors" scene="doctor" kicker="Doctor discovery" title={<>The right specialty.<br /><em>A doctor near you.</em></>}
-      benefits={["Explore medical specialties", "Read sourced doctor profiles", "Check practice locations", "Requests for opted-in doctors"]}
-      text="When you’re looking for care, a little clarity helps. Explore the doctor’s specialty and practice location, then send your preferences through DOCVY. The provider confirms the visit."
-      href="/doctors" label="Find a doctor">
-      <DoctorCards doctors={liveDoctors.slice(0, 2)} />
-    </ReferenceCareSection>
-
-    <section className="reference-wrap pb-14 md:pb-20" aria-labelledby="specialties-heading">
+    <section className="reference-wrap py-14 md:py-20" aria-labelledby="specialties-heading">
       <div className="flex flex-wrap items-center justify-between gap-4"><h2 id="specialties-heading" className="text-2xl font-medium">Start with the specialty you need</h2><Link href="/specialties" className="docvy-pill">View all specialties <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden="true" /></Link></div>
       <ul className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">{featuredSpecialties.map(({ slug, name, plain }) => <li key={slug}><Link href={"/specialties/" + slug} className="reference-link-card block h-full p-5"><SpecialtyIcon slug={slug} /><h3 className="mt-4 text-base font-medium">{name}</h3><p className="mt-2 text-sm leading-6 text-grey">{plain}</p></Link></li>)}</ul>
     </section>

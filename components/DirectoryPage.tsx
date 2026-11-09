@@ -1,6 +1,5 @@
 import { getDirectoryDoctors } from "@/lib/public-directory";
-import { canRequestAppointment, isVerified } from "@/lib/profile-policy";
-import DoctorPortrait from "@/components/DoctorPortrait";
+import DoctorCard from "./DoctorCard";
 import IllustrationBackground from "@/components/IllustrationBackground";
 import Link from "next/link";
 import { clinicCrmConfig } from "@/lib/clinic-crm-config";
@@ -26,23 +25,7 @@ export function Breadcrumbs({ items }: { items: { name: string; href: string }[]
 }
 
 export function DoctorCards({ doctors }: { doctors: ProviderCandidate[] }) {
-  return <ul className="mt-5 grid gap-4 sm:grid-cols-2">{doctors.map(doctor => <li key={doctor.id} className="docvy-glass p-5">
-    <div className="flex items-start gap-4"><DoctorPortrait name={doctor.name} src={canRequestAppointment(doctor) ? doctor.photoUrl : null} /><div className="min-w-0">
-      <h3 className="text-xl font-medium"><Link href={"/doctor/" + slugify(doctor.id)} className="underline underline-offset-4">{doctor.name}</Link></h3>
-      <p className="mt-2 text-sm leading-6">{doctor.specialties.join(", ")}</p>
-      <p className="mt-2 text-sm text-grey">{doctor.hospital} · {doctor.locations[0].city}</p>
-      {isVerified(doctor) && <p className="mt-3 text-sm font-semibold text-primary">DOCVY Verified</p>}
-    </div></div>
-    {canRequestAppointment(doctor) ? <>
-      {doctor.summary && <p className="mt-4 text-sm leading-7 text-grey">{doctor.summary}</p>}
-      <Link href={{ pathname: "/request", query: { provider: doctor.id, city: doctor.locations[0].city, facility: doctor.locations[0].facility } }} className="docvy-pill docvy-pill-primary mt-5">Request appointment</Link>
-      <p className="mt-3 text-xs text-grey">This does not reserve a slot. The clinic confirms time and fee.</p>
-    </> : <>
-      <p className="mt-4 text-sm font-medium">Not yet partnered with DOCVY</p>
-      <Link href={{ pathname: "/claim-profile", query: { provider: doctor.id } }} className="mt-2 inline-flex min-h-11 items-center text-sm underline underline-offset-4">Claim or request removal of this profile</Link>
-    </>}
-    <a className="mt-2 flex min-h-11 items-center text-sm underline underline-offset-4" href={doctor.sourceUrl} target="_blank" rel="noopener noreferrer">Official profile source</a>
-  </li>)}</ul>;
+  return <ul className="doctor-results">{doctors.map(doctor => <li key={doctor.id}><DoctorCard doctor={doctor} /></li>)}</ul>;
 }
 
 export default async function DirectoryPage({ city, specialty }: { city: typeof cities[number]; specialty?: typeof directorySpecialties[number] }) {
