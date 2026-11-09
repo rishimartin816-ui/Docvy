@@ -19,6 +19,9 @@ export type ProviderCandidate = {
   otherNcrLocations: string[];
   hospital: string;
   summary?: string;
+  photoUrl?: string;
+  experienceLabel?: string;
+  profileDetailsChecked?: string;
   sourceUrl: string;
   sourceChecked: string;
 };
@@ -26,6 +29,9 @@ export type ProviderCandidate = {
 export const providerCandidates: ProviderCandidate[] = [
   {
     "id": "dr-naresh-trehan",
+    "photoUrl": "https://medanta.s3.ap-south-1.amazonaws.com/all-doctor-with-slug/dr-naresh-trehan.png",
+    "profileDetailsChecked": "2026-11-09",
+    "experienceLabel": "57+ years",
     "live": true,
     "name": "Dr. Naresh Trehan",
     "specialties": [
@@ -51,6 +57,8 @@ export const providerCandidates: ProviderCandidate[] = [
   },
   {
     "id": "dr-praveen-chandra",
+    "photoUrl": "https://medanta.s3.ap-south-1.amazonaws.com/all-doctor-with-slug/dr-praveen-chandra.png",
+    "profileDetailsChecked": "2026-11-09",
     "live": true,
     "name": "Dr. Praveen Chandra",
     "specialties": [
@@ -73,6 +81,8 @@ export const providerCandidates: ProviderCandidate[] = [
   },
   {
     "id": "dr-randeep-guleria",
+    "photoUrl": "https://medanta.s3.ap-south-1.amazonaws.com/all-doctor-with-slug/dr-randeep-guleria.png",
+    "profileDetailsChecked": "2026-11-09",
     "live": true,
     "name": "Dr. Randeep Guleria",
     "specialties": [
@@ -96,6 +106,9 @@ export const providerCandidates: ProviderCandidate[] = [
   },
   {
     "id": "dr-rajesh-puri",
+    "photoUrl": "https://medanta.s3.ap-south-1.amazonaws.com/all-doctor-with-slug/dr-rajesh-puri.png",
+    "profileDetailsChecked": "2026-11-09",
+    "experienceLabel": "20 years",
     "live": true,
     "name": "Dr. Rajesh Puri",
     "specialties": [
@@ -118,6 +131,9 @@ export const providerCandidates: ProviderCandidate[] = [
   },
   {
     "id": "dr-ashok-kumar-vaid",
+    "photoUrl": "https://medanta.s3.ap-south-1.amazonaws.com/doctors/September2026/O455h06TrYYNnKVZgvrhrE38WH5B0M-metaRHIuIGFzaG9rIHZhaWQucG5n-.png",
+    "profileDetailsChecked": "2026-11-09",
+    "experienceLabel": "41+ years",
     "live": true,
     "name": "Dr. Ashok Kumar Vaid",
     "specialties": [
@@ -140,6 +156,9 @@ export const providerCandidates: ProviderCandidate[] = [
   },
   {
     "id": "dr-aditya-gupta",
+    "photoUrl": "https://www.artemishospitals.com/BackEndImages/DoctorImage/dr-dr-aditya-gupta.jpg",
+    "profileDetailsChecked": "2026-11-09",
+    "experienceLabel": "32+ years",
     "live": true,
     "name": "Dr. Aditya Gupta",
     "specialties": [
@@ -164,6 +183,9 @@ export const providerCandidates: ProviderCandidate[] = [
   },
   {
     "id": "dr-i-p-s-oberoi",
+    "photoUrl": "https://www.artemishospitals.com/BackEndImages/DoctorImage/dr-dr-i-p-s-oberoi.jpg",
+    "profileDetailsChecked": "2026-11-09",
+    "experienceLabel": "35 years",
     "live": true,
     "name": "Dr. I P S Oberoi",
     "specialties": [
@@ -189,6 +211,8 @@ export const providerCandidates: ProviderCandidate[] = [
   },
   {
     "id": "dr-nidhi-rawal",
+    "photoUrl": "https://www.artemishospitals.com/BackEndImages/DoctorImage/dr-dr-nidhi-rawal.jpg",
+    "profileDetailsChecked": "2026-11-09",
     "live": true,
     "name": "Dr. Nidhi Rawal",
     "specialties": [
@@ -211,6 +235,8 @@ export const providerCandidates: ProviderCandidate[] = [
   },
   {
     "id": "dr-giriraj-bora",
+    "photoUrl": "https://www.artemishospitals.com/BackEndImages/DoctorImage/dr-dr-giriraj-bora.jpg",
+    "profileDetailsChecked": "2026-11-09",
     "live": true,
     "name": "Dr. Giriraj Bora",
     "specialties": [
@@ -234,6 +260,9 @@ export const providerCandidates: ProviderCandidate[] = [
   },
   {
     "id": "dr-anjali-kumar",
+    "photoUrl": "https://backend.ckbhospital.com/wp-content/uploads/2026/07/Dr-Anjali-Kumar-2.jpeg",
+    "profileDetailsChecked": "2026-11-09",
+    "experienceLabel": "35+ years",
     "live": true,
     "name": "Dr. Anjali Kumar",
     "specialties": [

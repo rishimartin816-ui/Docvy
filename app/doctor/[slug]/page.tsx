@@ -1,3 +1,4 @@
+import DoctorPortrait from "@/components/DoctorPortrait";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/DirectoryPage";
@@ -29,16 +30,19 @@ export default async function DoctorPage({ params }: Props) {
       "@context": "https://schema.org", "@type": "Physician", name: doctor.name, url: productionOrigin + path, sameAs: doctor.sourceUrl,
       ...(verified ? { identifier: { "@type": "PropertyValue", propertyID: "Medical registration", value: doctor.nmcRegistrationNumber } } : {}),
     }).replace(/</g, "\\u003c") }} />
+    <div className="flex flex-col items-start gap-6 sm:flex-row"><DoctorPortrait name={doctor.name} src={doctor.photoUrl} large /><div className="min-w-0">
     <h1 className="text-4xl font-bold sm:text-6xl">{doctor.name}</h1>
-    <p className="mt-3">{doctor.specialties.join(", ")}</p>{doctor.summary && <p className="mt-4 max-w-3xl text-grey">{doctor.summary}</p>}
+    <p className="mt-3"><strong>Specialty:</strong> {doctor.specialties.join(", ")}</p>
+    <p className="mt-3 text-grey">{doctor.experienceLabel ? doctor.experienceLabel + " of experience" : "Experience details awaiting confirmation"}</p>{doctor.summary && <p className="mt-4 max-w-3xl text-grey">{doctor.summary}</p>}
     {verified && <p className="mt-3"><strong className="rounded-full border border-line bg-primary-tint px-2 py-1 text-primary">Verified</strong> · NMC registration {doctor.nmcRegistrationNumber}</p>}
+    </div></div>
     <section className="docvy-glass mt-6 p-6"><h2 className="text-2xl font-bold">Practice locations</h2>
       <ul className="mt-3 space-y-3">{doctor.locations.map((location) => <li key={location.city + location.facility}>
         {location.facility}{location.locality ? ", " + location.locality : ""}, {citySlug(location.city) === "gurgaon" ? "Gurgaon" : location.city}
         {
           <Link className="docvy-pill docvy-pill-primary ml-3" href={{ pathname: "/request", query: { provider: doctor.id, city: location.city, facility: location.facility } }}>Request through DOCVY</Link>}
       </li>)}</ul>
-      <p className="mt-5 text-sm text-grey">Practice details are sourced from the hospital public profile, checked {doctor.sourceChecked}. DOCVY coordinates requests and the provider confirms availability.</p><a className="mt-3 inline-flex min-h-11 items-center text-sm underline underline-offset-4" href={doctor.sourceUrl} target="_blank" rel="noopener noreferrer">Hospital information source</a>
+      <p className="mt-5 text-sm text-grey">Practice details, portrait and any experience figure shown are sourced from the hospital public profile, checked {doctor.profileDetailsChecked ?? doctor.sourceChecked}. DOCVY coordinates requests and the provider confirms availability.</p><a className="mt-3 inline-flex min-h-11 items-center text-sm underline underline-offset-4" href={doctor.sourceUrl} target="_blank" rel="noopener noreferrer">Hospital information source</a>
     </section>
   </div></div>;
 }
