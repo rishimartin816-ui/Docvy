@@ -4,5 +4,5 @@ export const facilities = Array.from(new Set(liveDoctors.flatMap((doctor) => doc
   .map((name) => {
     const doctors = liveDoctors.filter((doctor) => doctor.locations.some((location) => location.facility === name));
     const location = doctors[0].locations.find((item) => item.facility === name)!;
-    return { name, location, doctors, specialties: Array.from(new Set(doctors.flatMap((doctor) => doctor.specialties))) };
+    return { name, location, kind: location.kind ?? "hospital", doctors, specialties: Array.from(new Set(doctors.flatMap((doctor) => doctor.specialties))) };
   });

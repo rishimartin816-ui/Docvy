@@ -13,6 +13,15 @@ export type CareGuideEntry = {
 /** General navigation examples only; not a diagnostic or triage tool. */
 export const careGuide: CareGuideEntry[] = [
   {
+    specialty: "General surgery / proctology",
+    description: "Directory navigation for general surgical and anorectal concerns. A consultation is needed to assess symptoms and discuss the appropriate care.",
+    examples: ["Piles or haemorrhoids", "Anal fissure or fistula concerns", "Hernia or gallbladder surgery discussions"],
+    keywords: ["piles", "pile", "haemorrhoids", "hemorrhoids", "haemorrhoid", "hemorrhoid", "bawasir", "bawaseer", "बवासीर", "fissure", "fistula", "proctologist", "proctology", "colorectal", "hernia", "gallbladder", "gall bladder", "gallstones"],
+    directorySpecialties: ["General surgery", "Proctology", "Colorectal surgery", "Laparoscopic surgery"],
+    directoryQuery: "general surgery",
+    references: [{ label: "Fortis: Dr. Nitin Jha’s surgical practice", url: "https://www.fortishealthcare.com/doctors/dr-nitin-jha-1099" }, { label: "Yashoda: Dr. Arun Kumar Singh’s colorectal practice", url: "https://www.yashodahealthcare.com/doctor/arun-kumar-singh" }],
+  },
+  {
     specialty: "General physician / internal medicine",
     description: "A practical first contact when a concern is new, unclear, or involves more than one part of your health.",
     examples: ["A new or unclear health concern", "Fever or several symptoms that need assessment", "A first review before specialist care"],

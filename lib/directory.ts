@@ -11,7 +11,7 @@ export const cities = [
   },
   {
     slug: "delhi", name: "Delhi",
-    intro: "In Delhi, the first step in planning a consultation is often narrowing down the area you can reach comfortably. Check the facility’s full address, especially if the same department operates at different sites. For a repeat visit, ask whether your records can be retrieved at that branch or whether you should carry copies. If a family member will accompany you, find out where they can wait and whether they can join the consultation. For a procedure discussion, write down what the referring clinician said and take any reports you already have. DOCVY’s guides can help you prepare while local doctor listings are being added.",
+    intro: "In Delhi, the first step in planning a consultation is often narrowing down the area you can reach comfortably. Check the facility’s full address, especially if the same department operates at different sites. For a repeat visit, ask whether your records can be retrieved at that branch or whether you should carry copies. If a family member will accompany you, find out where they can wait and whether they can join the consultation. For a procedure discussion, write down what the referring clinician said and take any reports you already have. Use DOCVY’s guides to prepare questions, then review a sourced doctor profile and request a visit.",
     question: "How do I check which Delhi branch to visit?",
     answer: "Confirm the full address and outpatient department with the clinic before travelling.",
   },
@@ -20,6 +20,16 @@ export const cities = [
     intro: "When arranging a consultation in Noida, check the sector and branch details together. Two facilities with similar names may be in different areas, and a listing may cover only one of them. If you’re booking around school or work, ask how the clinic handles delays and whether you need a separate visit for tests. For a child’s appointment, check which previous records the clinic asks you to bring. For a follow-up, note what changed since your last visit and keep the previous prescription handy. Start with the guides below to understand the type of specialist involved and decide what to confirm with the facility.",
     question: "What should I confirm with a clinic in Noida?",
     answer: "Ask which sector and branch to visit, when to arrive, and which reports to bring.",
+  },
+  {
+    slug: "ghaziabad", name: "Ghaziabad",
+    intro: "Planning care in Ghaziabad starts with checking the neighbourhood and the hospital branch. Nehru Nagar, Sanjay Nagar, Vaishali and Indirapuram are separate destinations, so a hospital name alone may not tell you where to go. Review the practice address on the doctor’s profile and keep any directions handy. If you are accompanying a parent, ask about step-free access and how long before the visit to arrive. For a repeat consultation, take the previous prescription and any reports your care team has requested. DOCVY brings the published doctor and practice details together so you can compare the relevant specialties and send an appointment request. The provider still needs to confirm the final time and consultation fee.",
+    question: "How do I choose the correct Ghaziabad branch?", answer: "Check the locality, full practice address and doctor profile before sending your request. Wait for confirmation before travelling.",
+  },
+  {
+    slug: "faridabad", name: "Faridabad",
+    intro: "For a consultation in Faridabad, start with the specialty your clinician has suggested or the concern you want assessed. Check the sector and full hospital address together, especially when you are comparing departments at different facilities. A first consultation is a chance to explain what has changed, review relevant reports and ask what should happen next. If surgery has been mentioned, write down questions about alternatives, recovery, costs and who will coordinate follow-up. You can browse the source-linked profiles below and request a visit through DOCVY. Published consulting hours can help you plan, but they do not show a live appointment slot. The provider must confirm availability, fees and the final timing before your visit.",
+    question: "Are published consulting hours a confirmed appointment?", answer: "No. They are information from the practice source. Send a request and wait for the provider to confirm your visit.",
   },
 ] as const;
 
@@ -53,7 +63,7 @@ export function searchDoctors(query: string, city?: string) {
   const words = query.toLowerCase().replace(/\bgurugram\b/g, "gurgaon").trim().split(/\s+/).filter(Boolean);
   return doctorsIn(city).filter((doctor) => {
     const doctorSpecialties = doctor.specialties.map(slugify);
-    const symptomTerms = careGuide.filter((entry) => [entry.directoryQuery ?? "", ...entry.directorySpecialties ?? []]
+    const symptomTerms = careGuide.filter((entry) => [entry.specialty, entry.directoryQuery ?? "", ...entry.directorySpecialties ?? []]
       .some((label) => doctorSpecialties.includes(slugify(label)))).flatMap((entry) => entry.keywords);
     const terms = [
       doctor.name, ...doctor.specialties, ...(doctor.procedures ?? []), ...symptomTerms,

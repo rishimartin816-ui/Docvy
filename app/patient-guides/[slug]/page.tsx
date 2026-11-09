@@ -103,7 +103,7 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
             <p className="mt-2 text-sm leading-7 text-grey">This page explains broad specialty roles, not a diagnosis or a personal referral. The same concern can have different causes and care routes.</p>
             <div className="mt-5 rounded-2xl bg-surface p-4">
               <div className="flex items-center gap-2 text-xs font-extrabold tracking-wide text-ink"><MapPin strokeWidth={1.5} size={15} aria-hidden="true" /> CURRENT LISTING AREA</div>
-              <p className="mt-2 text-sm leading-6 text-grey">The guide is for people across India. Real doctor profiles are currently listed in Gurgaon.</p>
+              <p className="mt-2 text-sm leading-6 text-grey">The guide is for people across India. Explore real doctor profiles in Delhi, Noida, Gurgaon, Ghaziabad and Faridabad.</p>
             </div>
           </aside>
         </div>

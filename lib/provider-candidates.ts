@@ -1,10 +1,18 @@
-export type ProviderCity = "Delhi" | "Gurgaon" | "Gurugram" | "Noida";
+import { ncrProviders } from "./provider-ncr";
+
+export type ProviderCity = "Delhi" | "Gurgaon" | "Gurugram" | "Noida" | "Ghaziabad" | "Faridabad";
 
 export type ProviderLocation = {
   city: ProviderCity;
   locality?: string;
   facility: string;
   primary?: boolean;
+  address?: string;
+  practicePhone?: string;
+  mapsUrl?: string;
+  mapsPlaceId?: string;
+  mapsSourceUrl?: string;
+  kind?: "clinic" | "hospital";
 };
 
 export type ProviderCandidate = {
@@ -19,6 +27,9 @@ export type ProviderCandidate = {
   otherNcrLocations: string[];
   hospital: string;
   summary?: string;
+  qualifications?: string;
+  publishedConsultingHours?: string;
+  procedureSourceUrl?: string;
   photoUrl?: string;
   experienceLabel?: string;
   profileDetailsChecked?: string;
@@ -46,6 +57,12 @@ export const providerCandidates: ProviderCandidate[] = [
         "city": "Gurgaon",
         "locality": "Sector 38",
         "facility": "Medanta – The Medicity",
+        "address": "Medanta- The Medicity, CH Baktawar Singh Rd, Medicity, Islampur Colony, Sector 38, Gurugram, Haryana 122018",
+        "practicePhone": "0124 414 1414",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Medanta%20-%20The%20Medicity%20Gurgaon%20%7C%20Multispeciality%20Hospital%20in%20Gurugram%20Medanta-%20The%20Medicity%2C%20CH%20Baktawar%20Singh%20Rd%2C%20Medicity%2C%20Islampur%20Colony%2C%20Sector%2038%2C%20Gurugram%2C%20Haryana%20122018&query_place_id=ChIJG3WfyG4YDTkRrFxnxC-zKtw",
+        "mapsPlaceId": "ChIJG3WfyG4YDTkRrFxnxC-zKtw",
+        "mapsSourceUrl": "https://maps.firecrawl.dev/place/0x390d186ec89f751b%3A0xdc2ab32fc4675cac",
+        "kind": "hospital",
         "primary": true
       }
     ],
@@ -70,6 +87,12 @@ export const providerCandidates: ProviderCandidate[] = [
         "city": "Gurgaon",
         "locality": "Sector 38",
         "facility": "Medanta – The Medicity",
+        "address": "Medanta- The Medicity, CH Baktawar Singh Rd, Medicity, Islampur Colony, Sector 38, Gurugram, Haryana 122018",
+        "practicePhone": "0124 414 1414",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Medanta%20-%20The%20Medicity%20Gurgaon%20%7C%20Multispeciality%20Hospital%20in%20Gurugram%20Medanta-%20The%20Medicity%2C%20CH%20Baktawar%20Singh%20Rd%2C%20Medicity%2C%20Islampur%20Colony%2C%20Sector%2038%2C%20Gurugram%2C%20Haryana%20122018&query_place_id=ChIJG3WfyG4YDTkRrFxnxC-zKtw",
+        "mapsPlaceId": "ChIJG3WfyG4YDTkRrFxnxC-zKtw",
+        "mapsSourceUrl": "https://maps.firecrawl.dev/place/0x390d186ec89f751b%3A0xdc2ab32fc4675cac",
+        "kind": "hospital",
         "primary": true
       }
     ],
@@ -95,6 +118,12 @@ export const providerCandidates: ProviderCandidate[] = [
         "city": "Gurgaon",
         "locality": "Sector 38",
         "facility": "Medanta – The Medicity",
+        "address": "Medanta- The Medicity, CH Baktawar Singh Rd, Medicity, Islampur Colony, Sector 38, Gurugram, Haryana 122018",
+        "practicePhone": "0124 414 1414",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Medanta%20-%20The%20Medicity%20Gurgaon%20%7C%20Multispeciality%20Hospital%20in%20Gurugram%20Medanta-%20The%20Medicity%2C%20CH%20Baktawar%20Singh%20Rd%2C%20Medicity%2C%20Islampur%20Colony%2C%20Sector%2038%2C%20Gurugram%2C%20Haryana%20122018&query_place_id=ChIJG3WfyG4YDTkRrFxnxC-zKtw",
+        "mapsPlaceId": "ChIJG3WfyG4YDTkRrFxnxC-zKtw",
+        "mapsSourceUrl": "https://maps.firecrawl.dev/place/0x390d186ec89f751b%3A0xdc2ab32fc4675cac",
+        "kind": "hospital",
         "primary": true
       }
     ],
@@ -120,6 +149,12 @@ export const providerCandidates: ProviderCandidate[] = [
         "city": "Gurgaon",
         "locality": "Sector 38",
         "facility": "Medanta – The Medicity",
+        "address": "Medanta- The Medicity, CH Baktawar Singh Rd, Medicity, Islampur Colony, Sector 38, Gurugram, Haryana 122018",
+        "practicePhone": "0124 414 1414",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Medanta%20-%20The%20Medicity%20Gurgaon%20%7C%20Multispeciality%20Hospital%20in%20Gurugram%20Medanta-%20The%20Medicity%2C%20CH%20Baktawar%20Singh%20Rd%2C%20Medicity%2C%20Islampur%20Colony%2C%20Sector%2038%2C%20Gurugram%2C%20Haryana%20122018&query_place_id=ChIJG3WfyG4YDTkRrFxnxC-zKtw",
+        "mapsPlaceId": "ChIJG3WfyG4YDTkRrFxnxC-zKtw",
+        "mapsSourceUrl": "https://maps.firecrawl.dev/place/0x390d186ec89f751b%3A0xdc2ab32fc4675cac",
+        "kind": "hospital",
         "primary": true
       }
     ],
@@ -145,6 +180,12 @@ export const providerCandidates: ProviderCandidate[] = [
         "city": "Gurgaon",
         "locality": "Sector 38",
         "facility": "Medanta – The Medicity",
+        "address": "Medanta- The Medicity, CH Baktawar Singh Rd, Medicity, Islampur Colony, Sector 38, Gurugram, Haryana 122018",
+        "practicePhone": "0124 414 1414",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Medanta%20-%20The%20Medicity%20Gurgaon%20%7C%20Multispeciality%20Hospital%20in%20Gurugram%20Medanta-%20The%20Medicity%2C%20CH%20Baktawar%20Singh%20Rd%2C%20Medicity%2C%20Islampur%20Colony%2C%20Sector%2038%2C%20Gurugram%2C%20Haryana%20122018&query_place_id=ChIJG3WfyG4YDTkRrFxnxC-zKtw",
+        "mapsPlaceId": "ChIJG3WfyG4YDTkRrFxnxC-zKtw",
+        "mapsSourceUrl": "https://maps.firecrawl.dev/place/0x390d186ec89f751b%3A0xdc2ab32fc4675cac",
+        "kind": "hospital",
         "primary": true
       }
     ],
@@ -172,6 +213,12 @@ export const providerCandidates: ProviderCandidate[] = [
         "city": "Gurgaon",
         "locality": "Sector 51",
         "facility": "Artemis Hospitals",
+        "address": "Sector 51, Gurugram, Haryana 122018",
+        "practicePhone": "0124 451 1111",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Artemis%20Hospitals%20Sector%2051%2C%20Gurugram%2C%20Bindapur%2C%20Haryana%20122018&query_place_id=ChIJq6qqqoMYDTkRKPp1AxSFQEA",
+        "mapsPlaceId": "ChIJq6qqqoMYDTkRKPp1AxSFQEA",
+        "mapsSourceUrl": "https://maps.firecrawl.dev/place/0x390d1883aaaaaaab%3A0x404085140375fa28",
+        "kind": "hospital",
         "primary": true
       }
     ],
@@ -200,6 +247,12 @@ export const providerCandidates: ProviderCandidate[] = [
         "city": "Gurgaon",
         "locality": "Sector 51",
         "facility": "Artemis Hospitals",
+        "address": "Sector 51, Gurugram, Bindapur, Haryana 122018",
+        "practicePhone": "0124 451 1111",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Artemis%20Hospitals%20Sector%2051%2C%20Gurugram%2C%20Bindapur%2C%20Haryana%20122018&query_place_id=ChIJq6qqqoMYDTkRKPp1AxSFQEA",
+        "mapsPlaceId": "ChIJq6qqqoMYDTkRKPp1AxSFQEA",
+        "mapsSourceUrl": "https://maps.firecrawl.dev/place/0x390d1883aaaaaaab%3A0x404085140375fa28",
+        "kind": "hospital",
         "primary": true
       }
     ],
@@ -224,6 +277,12 @@ export const providerCandidates: ProviderCandidate[] = [
         "city": "Gurgaon",
         "locality": "Sector 51",
         "facility": "Artemis Hospitals",
+        "address": "Sector 51, Gurugram, Bindapur, Haryana 122018",
+        "practicePhone": "0124 451 1111",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Artemis%20Hospitals%20Sector%2051%2C%20Gurugram%2C%20Bindapur%2C%20Haryana%20122018&query_place_id=ChIJq6qqqoMYDTkRKPp1AxSFQEA",
+        "mapsPlaceId": "ChIJq6qqqoMYDTkRKPp1AxSFQEA",
+        "mapsSourceUrl": "https://maps.firecrawl.dev/place/0x390d1883aaaaaaab%3A0x404085140375fa28",
+        "kind": "hospital",
         "primary": true
       }
     ],
@@ -249,6 +308,12 @@ export const providerCandidates: ProviderCandidate[] = [
         "city": "Gurgaon",
         "locality": "Sector 51",
         "facility": "Artemis Hospitals",
+        "address": "Sector 51, Gurugram, Bindapur, Haryana 122018",
+        "practicePhone": "0124 451 1111",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Artemis%20Hospitals%20Sector%2051%2C%20Gurugram%2C%20Bindapur%2C%20Haryana%20122018&query_place_id=ChIJq6qqqoMYDTkRKPp1AxSFQEA",
+        "mapsPlaceId": "ChIJq6qqqoMYDTkRKPp1AxSFQEA",
+        "mapsSourceUrl": "https://maps.firecrawl.dev/place/0x390d1883aaaaaaab%3A0x404085140375fa28",
+        "kind": "hospital",
         "primary": true
       }
     ],
@@ -280,6 +345,12 @@ export const providerCandidates: ProviderCandidate[] = [
         "city": "Gurgaon",
         "locality": "Mayfield Garden, Sector 51",
         "facility": "CK Birla Hospital",
+        "address": "Nirvana Central Rd, Block J, Mayfield Garden, Sector 51, Gurugram, Haryana 122018",
+        "practicePhone": "0124 488 2248",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=CK%20Birla%20Hospital%2C%20Gurgaon%20Nirvana%20Central%20Rd%2C%20Block%20J%2C%20Mayfield%20Garden%2C%20Sector%2051%2C%20Gurugram%2C%20Haryana%20122018&query_place_id=ChIJNfuG5XgiDTkRavrWbIUPbpY",
+        "mapsPlaceId": "ChIJNfuG5XgiDTkRavrWbIUPbpY",
+        "mapsSourceUrl": "https://maps.firecrawl.dev/place/0x390d2278e586fb35%3A0x966e0f856cd6fa6a",
+        "kind": "hospital",
         "primary": true
       }
     ],
@@ -289,6 +360,7 @@ export const providerCandidates: ProviderCandidate[] = [
     "sourceUrl": "https://www.ckbhospital.com/dr-anjali-kumar-1",
     "sourceChecked": "2026-11-09"
   }
+, ...ncrProviders
 ];
 
 export const providerCities: ProviderCity[] = Array.from(new Set(providerCandidates.filter((doctor) => doctor.live === true).flatMap((doctor) => doctor.locations.map((location) => location.city === "Gurugram" ? "Gurgaon" as const : location.city))));

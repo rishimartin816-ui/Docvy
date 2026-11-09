@@ -22,6 +22,7 @@ export default function DoctorsPage({ searchParams }: { searchParams: { q?: stri
     <h1 className="text-4xl font-bold sm:text-6xl">Find doctors across India</h1>
     <div className="mt-5"><DiscoverySearch query={query} city={city} /></div>
     <section className="mt-8"><h2 className="text-2xl font-bold">Doctor listings</h2>
+      {results.length > 0 && <p className="mt-3 text-sm text-grey">{results.length} {results.length === 1 ? "doctor profile" : "doctor profiles"}{query ? ` matching “${query}”` : " available"}. Specialty matches help you explore the directory and do not replace a clinical assessment.</p>}
       {results.length ? <DoctorCards doctors={results} /> : <p className="mt-3">No live doctor listings match this search. You can <Link href="/specialties" className="underline">explore specialty guides</Link> while listings are being added.</p>}
     </section>
     <section className="mt-8"><h2 className="text-2xl font-bold">Browse by city</h2>

@@ -32,6 +32,7 @@ export function DoctorCards({ doctors }: { doctors: ProviderCandidate[] }) {
     </div></div>
     <p className="mt-2 text-sm text-grey">{doctor.locations.map(({ city, facility, locality }) => [facility, locality, citySlug(city) === "gurgaon" ? "Gurgaon" : city].filter(Boolean).join(", ")).join(" · ")}</p>
     {doctor.summary && <p className="mt-3 text-sm leading-6 text-grey">{doctor.summary}</p>}
+    {doctor.qualifications && <p className="mt-3 line-clamp-2 text-xs leading-6 text-grey">{doctor.qualifications}</p>}
     <Link href={{ pathname: "/request", query: { provider: doctor.id, city: doctor.locations[0].city, facility: doctor.locations[0].facility } }} className="docvy-pill docvy-pill-primary mt-5">Request through DOCVY</Link>
     <p className="mt-2 text-xs text-grey">Availability and fees are confirmed after provider acceptance.</p>
   </li>)}</ul>;
@@ -63,7 +64,7 @@ export default function DirectoryPage({ city, specialty }: { city: typeof cities
     <section className="mt-8">
       <h2 className="text-2xl font-bold">Specialties {cityDoctors.length ? "with listings" : "to explore"}</h2>
       <ul className="mt-3 flex flex-wrap gap-2">{(availableSpecialties.length ? availableSpecialties : directorySpecialties).map(({ slug, name }) =>
-        <li key={slug}><Link href={cityPath + "/" + slug} className="docvy-pill">{name}</Link></li>
+        <li key={slug}><Link href={doctorsIn(city.slug, slug).length >= 3 ? cityPath + "/" + slug : { pathname: "/doctors", query: { location: city.slug, specialty: slug } }} className="docvy-pill">{name}</Link></li>
       )}</ul>
     </section>
     {procedureList.length > 0 && <section className="mt-8">

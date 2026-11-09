@@ -32,7 +32,7 @@ const questions = [
   ["What can I do on DOCVY?", "Explore real doctor profiles, practice locations and specialties, read patient guides, and send an appointment request through DOCVY."],
   ["Is my appointment confirmed when I submit a request?", "Your request is saved with a reference number. It does not reserve a slot. The clinic or hospital must confirm the time, availability and consultation fee before you travel."],
   ["Where does doctor information come from?", "Each real profile links to its official hospital source. Published experience is shown where it can be confirmed. A DOCVY Verified badge requires a separate manual registration check."],
-  ["Can I find an independent clinic?", "Independent clinic listings are being added. For now, the outpatient care page points to the hospital practice locations of the doctors listed on DOCVY."],
+  ["Can I find an independent clinic?", "You can explore the published clinic and hospital practice locations of the doctors listed on DOCVY. More clinic profiles will be added as their details are checked."],
   ["Does DOCVY offer medical advice?", "The guides help you prepare for a conversation with a clinician. They cannot diagnose your symptoms or replace personalised medical advice."],
 ];
 
@@ -71,14 +71,14 @@ export default function ReferenceHome() {
 
     <ReferenceCareSection id="clinics" tone="rose" scene="calendar" kicker="Clinics & outpatient visits" title={<>Make time<br /><em>for your health.</em></>}
       benefits={["Find outpatient doctors", "Check the hospital branch", "Share your preferences", "Keep your request reference"]}
-      text="For a first consultation or a follow-up, start with where the doctor practises. Explore outpatient locations and make a request. Independent clinic listings are being added."
+      text="For a first consultation or a follow-up, start with where the doctor practises. Explore outpatient locations and make a request. Check the clinic or hospital address and send your request through DOCVY."
       href="/clinics" label="Explore outpatient care" />
 
     <ReferenceCareSection id="hospitals" tone="sand" scene="hospital" kicker="Hospital discovery" title={<>Explore hospitals.<br /><em>Plan your next visit.</em></>}
       benefits={["View practice locations", "Explore the specialties", "Find associated doctors", "Request through DOCVY"]}
       text="A familiar hospital name is just the start. Check the department, doctor and branch address so you know where you’re going and what to ask before your visit."
       href="/hospitals" label="Find hospitals">
-      <ul className="mt-7 space-y-3">{facilities.map((facility) => <li key={facility.name}><Link href={{ pathname: "/doctors", query: { q: facility.name } }} className="reference-link-card flex items-center justify-between gap-4 p-5"><div><h3 className="font-medium">{facility.name}</h3><p className="mt-1 text-sm text-grey">{facility.location.locality}, {facility.location.city}</p></div><ArrowUpRight size={19} strokeWidth={1.5} className="shrink-0 text-primary" aria-hidden="true" /></Link></li>)}</ul>
+      <ul className="mt-7 space-y-3">{facilities.filter((facility) => facility.kind === "hospital").slice(0, 3).map((facility) => <li key={facility.name}><Link href={{ pathname: "/doctors", query: { q: facility.name } }} className="reference-link-card flex items-center justify-between gap-4 p-5"><div><h3 className="font-medium">{facility.name}</h3><p className="mt-1 text-sm text-grey">{facility.location.locality}, {facility.location.city}</p></div><ArrowUpRight size={19} strokeWidth={1.5} className="shrink-0 text-primary" aria-hidden="true" /></Link></li>)}</ul>
     </ReferenceCareSection>
 
     <section className="reference-steps" id="how-it-works" aria-labelledby="steps-heading"><div className="reference-wrap">
