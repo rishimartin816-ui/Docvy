@@ -1,3 +1,5 @@
+import { docvyTerms } from "./terms";
+
 export const faqs = [
   ["What is DOCVY?", "DOCVY offers a nationwide patient guide, city and specialty discovery, and a fictional clinic appointment workflow. Real provider listings are currently paused."],
   ["Can I request an appointment through DOCVY?", "Check the request page for the current status. When the form is open, you can choose a listed doctor and submit an enquiry to DOCVY. DOCVY records it privately and may share it with authorized staff at the selected clinic or hospital for follow-up. The hospital or clinic must confirm availability and fees. A request is not a confirmed appointment."],
@@ -14,7 +16,7 @@ export const faqs = [
   ["Does DOCVY provide medical advice or emergency care?", "No. DOCVY does not diagnose or treat through this website and is not an emergency service. In India, call 112 or go to the nearest emergency department for urgent medical help."],
 ] as const;
 
-export const legal: Record<string, { title: string; intro: string; sections: { heading: string; body: string[] }[] }> = {
+export const legal: Record<string, { title: string; intro: string; preparedOn?: string; draft?: boolean; sections: { heading: string; body: string[] }[] }> = {
   privacy: {
     title: "Privacy Policy",
     intro: "DOCVY provides an informational specialty guide and a limited doctor directory. Check the appointment request page to see whether its enquiry form is currently open.",
@@ -26,17 +28,7 @@ export const legal: Record<string, { title: string; intro: string; sections: { h
       { heading: "Retention and your choices", body: ["Appointment enquiry records are reviewed by DOCVY staff and manually deleted when no longer needed for follow-up. Automatic expiry is not configured. To ask for access, correction, or deletion, or to withdraw consent, email contact@docvy.in with your reference if you have one. We may verify your identity before acting and may retain records where the law requires it. Website technical logs may be retained under hosting-provider settings. Do not email health records or identity documents."] },
     ],
   },
-  terms: {
-    title: "Terms of Service",
-    intro: "DOCVY provides an informational guide and a limited doctor directory. The request page shows whether its appointment enquiry form is currently open.",
-    sections: [
-      { heading: "Provider information", body: ["Profiles are based on public official hospital information and are pending DOCVY review. Their appearance does not mean DOCVY has independently verified credentials or appointment availability. Directory information does not replace independent care decisions or a clinician's advice."] },
-      { heading: "Appointment enquiries", body: ["If the request page shows the form as open, you may send an enquiry to DOCVY using your contact details. DOCVY records your details privately and may make them available to authorized staff at the selected clinic or hospital for follow-up. An enquiry does not reserve a slot. Provider email notifications are disabled. Contact the provider directly to confirm the doctor, location, time and any fee. DOCVY does not collect patient payment."] },
-      { heading: "No medical or emergency service", body: ["DOCVY does not provide diagnosis, treatment or medical advice through this website. It is not an emergency service. In India, call 112 for emergencies or go to the nearest emergency department."] },
-      { heading: "Provider plans and payment", body: ["Provider pricing or any lead/referral arrangement must be agreed separately in writing with DOCVY before it applies. There is no provider checkout on this website. A patient pays any consultation fee directly to the provider after that provider confirms it."] },
-      { heading: "Availability and contact", body: ["Check the request page for the current enquiry-form status. Provider dashboards and appointment management are not open. For provider and privacy enquiries, use the Contact page or email contact@docvy.in."] },
-    ],
-  },
+  terms: docvyTerms,
   refund: {
     title: "Cancellation and Refund Policy",
     intro: "The current DOCVY website has no patient fees, subscription checkout or payment facility. No purchase can be made through this site.",
