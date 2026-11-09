@@ -1,0 +1,44 @@
+[
+  {
+    "device": "mobile",
+    "home": {
+      "status": 200,
+      "h1": "Find a doctor for the care you need.",
+      "wordHighlight": 0,
+      "sections": 6,
+      "individualDoctorLinks": 0,
+      "overflow": false,
+      "robots": "noindex, nofollow",
+      "description": "Find doctors by specialty, hospital or city. Explore health and surgery guides, check practice details and prepare for your next appointment with DOCVY."
+    },
+    "diabetesCards": 4,
+    "write": {
+      "status": 409,
+      "body": {
+        "error": "This is a design preview. Submissions are disabled and no changes have been saved."
+      }
+    },
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "home": {
+      "status": 200,
+      "h1": "Find a doctor for\nthe care you need.",
+      "wordHighlight": 0,
+      "sections": 6,
+      "individualDoctorLinks": 0,
+      "overflow": false,
+      "robots": "noindex, nofollow",
+      "description": "Find doctors by specialty, hospital or city. Explore health and surgery guides, check practice details and prepare for your next appointment with DOCVY."
+    },
+    "diabetesCards": 4,
+    "write": {
+      "status": 409,
+      "body": {
+        "error": "This is a design preview. Submissions are disabled and no changes have been saved."
+      }
+    },
+    "errors": []
+  }
+]

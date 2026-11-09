@@ -11,7 +11,7 @@ This branch is a design review, not a live release. DOCVY's existing green palet
 ## Proposed implementation
 
 - Homepage remains search-led. Individual doctor listings and the repeated discovery feature block are removed. Specialty navigation, procedures and health guides remain.
-- Only the word “doctor” receives a pale green highlight in the hero. This is a DOCVY design choice, not an extracted competitor color.
+- The hero now uses the plain headline “Find a doctor for the care you need.” The earlier single-word highlight was removed following review.
 - Result cards use horizontal identity/location groups on desktop, a stacked action area on mobile, and subtle translucent white over the existing mist surface. There are no fabricated portraits, ratings, fees, experience figures, availability or verification badges.
 - Proposed card measurements: 22px radius, 26px desktop padding, 18px mobile radius, 16px mobile side padding, minimum 44px actions. These are implementation choices rather than measured reference values.
 - “View profile” is a quiet patient action. Unclaimed entries have a highlighted “Claim profile” provider CTA and keep their explicit partnership status. Claimed entries retain their consent-gated appointment action.
@@ -44,3 +44,5 @@ The homepage has six sections: search and starting points; eight specialties; pr
 Search labels, the directory introduction, metadata and footer copy were rewritten. The new diabetes topic link exposed a missing search alias; Endocrinology and Diabetology now map to the existing diabetes guide terms. No clinical advice, provider credentials, source data or consent state was changed.
 
 Browser checks passed at 320, 390, 768 and 1440 pixels: one h1, six homepage sections, no word highlight, no homepage doctor-profile links, no required search fields, no horizontal overflow or page errors. All four concern links returned actual directory matches, and the primary search form reached the expected results. TypeScript passed. This remains preview-only pending review.
+
+Latest content preview: deployment `dpl_21Y8BRqhUBjikAjxz1nQjExbXmEX`, commit `452390e198fff5db6d5632a9f52e64381b4f4ee1`. The shared branch alias now serves this content revision. Fresh phone and desktop sessions passed the headline, six-section layout, search, noindex and read-only checks. The production website remained unchanged.
