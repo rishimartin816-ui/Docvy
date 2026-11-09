@@ -55,3 +55,15 @@ Security advisor warnings for intentionally exposed limited public RPCs and expl
 - Check sitemap excludes unpublished profiles and demo booking pages; city/specialty URLs need at least three published profiles.
 - Production indexing requires `VERCEL_ENV=production` and `DOCVY_INDEXING_ENABLED=true`. Preview remains noindex; preview sitemap is empty.
 - Check production HTML/canonicals/JSON-LD and run external Lighthouse and Google Rich Results tests separately. No external score or eligibility result is claimed here.
+
+## Live release — 9 November 2026
+
+Deployed application commit: `0e681715414678410b078a2fab3b2a0c30560f1f`.
+Vercel deployment: `dpl_FKNTdvURsWm8PLSSgMhKzXKxSJrL`, READY.
+Both docvy.in aliases point to this deployment; the apex redirects to www with HTTP 308.
+
+[Live verification results](verification/directory-consent-live.json) confirm eight public/admin routes, correct canonical and robots metadata, no third-party portraits or unclaimed request links, no browser errors or mobile overflow, a 200-row current export (40 in each city), 200 doctor URLs in the sitemap, no demo booking URLs, blocked unclaimed appointment submissions, rejected missing consent and anonymous admin denial. Live pages and exports return no-store caching rules.
+
+The database has 200 unclaimed profiles, zero enabled appointment providers, no test review records, no temporary photos or policies, and zero owner Auth accounts. Owner account creation and mailbox confirmation remain required. Email notification delivery is still pending a service connection; it has not been tested or represented as sent.
+
+Local preview-mode checks returned noindex,nofollow and an empty sitemap. The older demo.docvy.in hostname did not resolve during the release check, so no remote preview check is claimed. Production docvy.in checks passed. External Lighthouse and Google Rich Results scores were not run.

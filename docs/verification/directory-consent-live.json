@@ -1,0 +1,164 @@
+{
+  "pages": [
+    {
+      "path": "/",
+      "status": 200,
+      "h1": 1,
+      "heading": "Find the right doctor, close to home.",
+      "canonical": "https://www.docvy.in",
+      "robots": "index, follow",
+      "responseRobots": null,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "overflow": false,
+      "requestLinks": 0,
+      "privateDataLeaked": false,
+      "thirdPartyPortraits": 0
+    },
+    {
+      "path": "/doctors",
+      "status": 200,
+      "h1": 1,
+      "heading": "Find the right doctor, close to home.",
+      "canonical": "https://www.docvy.in/doctors",
+      "robots": "index, follow",
+      "responseRobots": null,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "overflow": false,
+      "requestLinks": 0,
+      "summary": "200 profiles.",
+      "privateDataLeaked": false,
+      "thirdPartyPortraits": 0
+    },
+    {
+      "path": "/doctors?location=gurgaon&q=piles",
+      "status": 200,
+      "h1": 1,
+      "heading": "Find the right doctor, close to home.",
+      "canonical": "https://www.docvy.in/doctors",
+      "robots": "index, follow",
+      "responseRobots": null,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "overflow": false,
+      "requestLinks": 0,
+      "summary": "1 profiles matching “piles”.",
+      "privateDataLeaked": false,
+      "thirdPartyPortraits": 0
+    },
+    {
+      "path": "/doctors?specialty=General%20medicine",
+      "status": 200,
+      "h1": 1,
+      "heading": "Find the right doctor, close to home.",
+      "canonical": "https://www.docvy.in/doctors",
+      "robots": "index, follow",
+      "responseRobots": null,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "overflow": false,
+      "requestLinks": 0,
+      "summary": "12 profiles.",
+      "privateDataLeaked": false,
+      "thirdPartyPortraits": 0
+    },
+    {
+      "path": "/doctor/dr-naresh-trehan",
+      "status": 200,
+      "h1": 1,
+      "heading": "Dr. Naresh Trehan",
+      "canonical": "https://www.docvy.in/doctor/dr-naresh-trehan",
+      "robots": "index, follow",
+      "responseRobots": null,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "overflow": false,
+      "requestLinks": 0,
+      "privateDataLeaked": false,
+      "thirdPartyPortraits": 0
+    },
+    {
+      "path": "/claim-profile?provider=dr-naresh-trehan",
+      "status": 200,
+      "h1": 1,
+      "heading": "Claim your doctor profile",
+      "canonical": "https://www.docvy.in/claim-profile",
+      "robots": "noindex, follow",
+      "responseRobots": null,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "overflow": false,
+      "requestLinks": 0,
+      "privateDataLeaked": false,
+      "thirdPartyPortraits": 0
+    },
+    {
+      "path": "/remove-profile?provider=dr-naresh-trehan",
+      "status": 200,
+      "h1": 1,
+      "heading": "Request profile removal",
+      "canonical": "https://www.docvy.in/remove-profile",
+      "robots": "noindex, follow",
+      "responseRobots": null,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "overflow": false,
+      "requestLinks": 0,
+      "privateDataLeaked": false,
+      "thirdPartyPortraits": 0
+    },
+    {
+      "path": "/admin/directory",
+      "status": 200,
+      "h1": 1,
+      "heading": "Directory review",
+      "canonical": "https://www.docvy.in/admin/directory",
+      "robots": "noindex, nofollow",
+      "responseRobots": null,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "overflow": false,
+      "requestLinks": 0,
+      "privateDataLeaked": false,
+      "thirdPartyPortraits": 0
+    }
+  ],
+  "errors": [],
+  "csv": {
+    "status": 200,
+    "rows": 200,
+    "cities": {
+      "Delhi": 40,
+      "Faridabad": 40,
+      "Ghaziabad": 40,
+      "Gurgaon": 40,
+      "Noida": 40
+    },
+    "cache": "no-store"
+  },
+  "sitemap": {
+    "status": 200,
+    "total": 314,
+    "doctors": 200,
+    "demoUrls": [],
+    "cityUrls": [
+      "https://www.docvy.in/doctors/gurgaon",
+      "https://www.docvy.in/doctors/delhi",
+      "https://www.docvy.in/doctors/noida",
+      "https://www.docvy.in/doctors/ghaziabad",
+      "https://www.docvy.in/doctors/faridabad"
+    ]
+  },
+  "robots": "User-Agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: https://www.docvy.in/sitemap.xml\n",
+  "blocked": {
+    "status": 403,
+    "data": {
+      "ok": false,
+      "error": "This doctor has not enabled appointment requests."
+    }
+  },
+  "invalidConsent": {
+    "status": 400,
+    "data": {
+      "error": "Check the form and consent"
+    }
+  },
+  "anonymousAdmin": 401,
+  "apexRedirect": {
+    "status": 308,
+    "to": "https://www.docvy.in/doctors"
+  }
+}
