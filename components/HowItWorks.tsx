@@ -18,7 +18,7 @@ export default function HowItWorks() {
           <h3 className="mt-5 text-lg font-semibold">{title}</h3><p className="mt-2 max-w-[38ch] text-base leading-relaxed text-grey">{text}</p>
         </li>)}
       </ol>
-      <p className="mt-10 max-w-[70ch] rounded-2xl border border-line px-5 py-4 text-sm leading-7 text-grey">Live appointments are currently unavailable. <Link href="https://docvy-clinic-demo.vercel.app/book" className="inline-flex min-h-11 items-center font-medium text-primary underline underline-offset-4 hover:text-primary-hover">Try the fictional booking demo.</Link></p>
+      <p className="mt-10 max-w-[70ch] rounded-2xl border border-line px-5 py-4 text-sm leading-7 text-grey">Send your request through DOCVY. The provider confirms the appointment. <Link href="https://docvy-clinic-demo.vercel.app/book" className="inline-flex min-h-11 items-center font-medium text-primary underline underline-offset-4 hover:text-primary-hover">Explore the separate booking walkthrough.</Link></p>
     </div>
   </section>;
 }

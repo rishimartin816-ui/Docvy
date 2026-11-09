@@ -2,7 +2,7 @@ import IllustrationBackground from "@/components/IllustrationBackground";
 import Link from "next/link";
 import DiscoverySearch from "@/components/DiscoverySearch";
 import { Breadcrumbs, DoctorCards } from "@/components/DirectoryPage";
-import { cities, citySlug, searchDoctors, slugify } from "@/lib/directory";
+import { cities, citySlug, searchDoctors, slugify, liveDoctors } from "@/lib/directory";
 import { clinicCrmConfig } from "@/lib/clinic-crm-config";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 
@@ -27,6 +27,6 @@ export default function DoctorsPage({ searchParams }: { searchParams: { q?: stri
     <section className="mt-8"><h2 className="text-2xl font-bold">Browse by city</h2>
       <ul className="mt-3 flex flex-wrap gap-2">{cities.map(({ slug, name }) => <li key={slug}><Link className="docvy-pill" href={"/doctors/" + slug}>{name}</Link></li>)}</ul>
     </section>
-    {!query && !specialty && !city && <section className="mt-8"><h2 className="mb-3 text-2xl font-bold">Try a fictional consultation</h2><Link className="docvy-pill" href={clinicCrmConfig()?.staging ? "/book" : "https://docvy-clinic-demo.vercel.app/book"}>Open the fictional booking demo</Link></section>}
+    {!liveDoctors.length && !query && !specialty && !city && <section className="mt-8"><h2 className="mb-3 text-2xl font-bold">Try a fictional consultation</h2><Link className="docvy-pill" href={clinicCrmConfig()?.staging ? "/book" : "https://docvy-clinic-demo.vercel.app/book"}>Open the fictional booking demo</Link></section>}
   </div></div>;
 }

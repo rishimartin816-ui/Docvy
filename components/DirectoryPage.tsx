@@ -26,7 +26,10 @@ export function DoctorCards({ doctors }: { doctors: ProviderCandidate[] }) {
   return <ul className="mt-5 grid gap-4 sm:grid-cols-2">{doctors.map((doctor) => <li key={doctor.id} className="docvy-glass p-5">
     <h3 className="text-xl font-bold"><Link href={"/doctor/" + slugify(doctor.id)} className="underline underline-offset-4">{doctor.name}</Link></h3>
     <p>{doctor.specialties.join(", ")}</p>
-    <p className="text-sm">{doctor.locations.map(({ city, facility }) => facility + ", " + (citySlug(city) === "gurgaon" ? "Gurgaon" : city)).join(" · ")}</p>
+    <p className="mt-2 text-sm text-grey">{doctor.locations.map(({ city, facility, locality }) => [facility, locality, citySlug(city) === "gurgaon" ? "Gurgaon" : city].filter(Boolean).join(", ")).join(" · ")}</p>
+    {doctor.summary && <p className="mt-3 text-sm leading-6 text-grey">{doctor.summary}</p>}
+    <Link href={{ pathname: "/request", query: { provider: doctor.id, city: doctor.locations[0].city, facility: doctor.locations[0].facility } }} className="docvy-pill docvy-pill-primary mt-5">Request through DOCVY</Link>
+    <p className="mt-2 text-xs text-grey">Availability and fees are confirmed after provider acceptance.</p>
   </li>)}</ul>;
 }
 

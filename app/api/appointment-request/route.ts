@@ -2,6 +2,7 @@ import { createHmac, randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { crmIntakeConfig } from "@/lib/appointment-intake";
 import { providerCandidates } from "@/lib/provider-candidates";
+import { directoryIntakeConfig } from "@/lib/directory-intake";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -24,7 +25,8 @@ export async function POST(request: Request) {
   const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
   const webhookToken = process.env.GOOGLE_SHEETS_WEBHOOK_TOKEN;
   const crm = crmIntakeConfig();
-  if (!crm && (process.env.DOCVY_CRM_INTAKE_ENABLED === "true" || !webhookUrl || !webhookToken)) {
+  const directory = directoryIntakeConfig();
+  if (!directory && !crm && (process.env.DOCVY_CRM_INTAKE_ENABLED === "true" || !webhookUrl || !webhookToken)) {
     return response(503, { ok: false, error: "Appointment enquiries are not connected yet. Please try again later." });
   }
 
@@ -51,7 +53,7 @@ export async function POST(request: Request) {
   const provider = providerCandidates.find((candidate) => candidate.id === providerId);
   const location = provider?.locations.find((item) => item.city === city && item.facility === facility);
 
-  if (!name || !/^[6-9]\d{9}$/.test(mobile.replace(/^\+?91/, "")) || (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) || !location || body.consent !== true) {
+  if (!name || !/^[6-9]\d{9}$/.test(mobile.replace(/^\+?91(?=\d{10}$)/, "")) || (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) || !location || body.consent !== true) {
     return response(400, { ok: false, error: "Check your name, mobile number, provider selection and consent, then try again." });
   }
   if ((requestedDate && !/^\d{4}-\d{2}-\d{2}$/.test(requestedDate)) || (requestedTime && !/^\d{2}:\d{2}$/.test(requestedTime))) {
@@ -59,6 +61,40 @@ export async function POST(request: Request) {
   }
 
   const referenceId = `DV-${randomUUID().slice(0, 8).toUpperCase()}`;
+  if (directory) {
+    if (provider?.live !== true || typeof body.requestId !== "string" || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(body.requestId)) {
+      return response(400, { ok: false, error: "Choose a listed doctor and try again." });
+    }
+    const network = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+    try {
+      const saved = await fetch(new URL("/rest/v1/rpc/docvy_submit_directory_request", directory.url), {
+        method: "POST",
+        headers: { apikey: directory.key, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          p_request_id: body.requestId,
+          p_network_hash: createHmac("sha256", directory.key).update(network).digest("hex"),
+          p_payload: {
+            providerId, city, facility, name, mobile: "+91" + mobile.replace(/^\+?91(?=\d{10}$)/, ""),
+            email, requestedDate, requestedTime, consent: true,
+          },
+        }),
+        cache: "no-store",
+        signal: AbortSignal.timeout(8000),
+      });
+      if ([400, 409, 422, 429].includes(saved.status)) {
+        const detail = await saved.json() as { message?: string };
+        return response(saved.status, { ok: false, error: detail.message || "Check your details and try again." });
+      }
+      if (!saved.ok) return response(502, { ok: false, error: "DOCVY could not save your request. Please retry with the same details." });
+      const storedReference: unknown = await saved.json();
+      if (typeof storedReference !== "string" || !/^DV-[A-F0-9]{16}$/.test(storedReference)) {
+        return response(502, { ok: false, error: "We could not verify the saved request. Please retry with the same details." });
+      }
+      return response(201, { ok: true, referenceId: storedReference });
+    } catch {
+      return response(502, { ok: false, error: "Your request could not be confirmed as saved. Please retry with the same details." });
+    }
+  }
   if (crm) {
     try {
       const result = await fetch(new URL("/rest/v1/rpc/crm_submit_enquiry", crm.url), {
