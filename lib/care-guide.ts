@@ -50,6 +50,8 @@ export const careGuide: CareGuideEntry[] = [
   },
   {
     specialty: "Diabetology / endocrinology",
+    directorySpecialties: ["Diabetology", "Endocrinology"],
+    directoryQuery: "diabetes",
     description: "Care for diabetes and conditions involving hormones, thyroid, and metabolism.",
     examples: ["Type 1 or type 2 diabetes care", "Thyroid conditions", "PCOS or other hormone concerns"],
     keywords: ["diabetes", "type 1 diabetes", "type 2 diabetes", "blood sugar", "sugar", "thyroid", "hypothyroidism", "hyperthyroidism", "pcos", "pcod", "polycystic ovary syndrome", "hormone", "endocrine", "endocrinology", "diabetology", "metabolism"],

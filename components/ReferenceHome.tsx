@@ -1,102 +1,87 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Compass, HeartHandshake, MapPin, ShieldCheck } from "lucide-react";
+import { ArrowRight, ArrowUpRight, BookOpen, ClipboardList, MapPin, Search, Stethoscope } from "lucide-react";
 import DiscoverySearch from "./DiscoverySearch";
-import ReferenceArtwork from "./ReferenceArtwork";
-import ReferenceCareSection from "./ReferenceCareSection";
 import SpecialtyIcon from "./SpecialtyIcon";
-import { HealthTopicIcon, healthTopics } from "./HealthTopicIcon";
-
+import { HealthTopicIcon } from "./HealthTopicIcon";
 import { specialties } from "@/lib/care-directory";
-import { directoryProcedures, popularProcedures } from "@/lib/directory";
-import { facilitiesFrom } from "@/lib/facilities";
-import { getDirectoryDoctors } from "@/lib/public-directory";
 
-const categories = [
-  { label: "Find doctors", href: "/doctors", scene: "doctor" },
-  { label: "Explore clinics", href: "/clinics", scene: "clinic" },
-  { label: "Find hospitals", href: "/hospitals", scene: "hospital" },
-  { label: "For providers", href: "/for-clinics", scene: "workspace" },
-] as const;
-const trust = [
-  { icon: HeartHandshake, label: "Care around your needs" },
-  { icon: Compass, label: "A clearer next step" },
-  { icon: ShieldCheck, label: "Sourced doctor profiles" },
-  { icon: MapPin, label: "Practice locations" },
+const startingPoints = [
+  { title: "Find a doctor", text: "Browse by specialty, hospital or city.", href: "/doctors", icon: Stethoscope },
+  { title: "Understand a health concern", text: "Read a guide before your next visit.", href: "/care-guide", icon: BookOpen },
+  { title: "Prepare for a surgery discussion", text: "Know which questions to take with you.", href: "/surgery-guide", icon: ClipboardList },
+];
+const commonSearches = [
+  { label: "Skin & hair", query: "skin" },
+  { label: "Joint pain", query: "joint pain" },
+  { label: "Diabetes", query: "diabetes" },
+  { label: "Children’s health", query: "children" },
 ];
 const steps = [
-  { title: "Search for care", text: "Start with a doctor, specialty, symptom or hospital. Add a city if you have a location in mind." },
-  { title: "Explore your options", text: "Read the doctor’s specialty and practice location. Use our guides to prepare your questions." },
-  { title: "Request your visit", text: "For doctors who have opted in, send your preferences through DOCVY. This does not reserve a slot. The clinic confirms time and fee." },
+  { title: "Start with your concern", text: "Search a specialty, doctor or hospital. Add a city to see the profiles listed there. If you’re unsure where to start, explore the health guides.", icon: Search },
+  { title: "Check the practice details", text: "Read the specialty, hospital or clinic, and city on the profile. Confirm the branch with the practice before you travel.", icon: MapPin },
+  { title: "Arrange the next step", text: "Where an appointment-request button is available, share your preferences. The clinic confirms the time and fee; sending a request does not reserve a slot.", icon: ClipboardList },
+];
+const procedures = [
+  { slug: "hernia-repair", name: "Hernia repair", text: "Ask about treatment choices and recovery." },
+  { slug: "gallbladder-removal", name: "Gallbladder removal", text: "Prepare for the conversation about surgery." },
+  { slug: "knee-replacement", name: "Knee replacement", text: "Discuss movement, recovery and follow-up." },
+  { slug: "cataract-surgery", name: "Cataract surgery", text: "Write down questions about your vision." },
+  { slug: "kidney-stone-removal", name: "Kidney stone removal", text: "Make a list of questions for your urologist." },
+  { slug: "tonsil-removal", name: "Tonsil removal", text: "Ask what to plan for before and after the procedure." },
+];
+const guides = [
+  { slug: "kidney-stones", name: "Kidney stones", text: "What the term means and questions for a urology visit." },
+  { slug: "high-blood-pressure", name: "High blood pressure", text: "The specialties involved and what to ask at a review." },
+  { slug: "diabetes", name: "Diabetes", text: "Who to speak with and what to bring to your appointment." },
+  { slug: "joint-pain-arthritis", name: "Joint pain", text: "A starting point for understanding your next consultation." },
 ];
 const questions = [
-  ["What can I do on DOCVY?", "Compare sourced doctor profiles and practice locations, read patient guides, and send appointment requests only to doctors who have opted in."],
-  ["Is my appointment confirmed when I submit a request?", "Your request is saved with a reference number. It does not reserve a slot. The clinic or hospital must confirm the time, availability and consultation fee before you travel."],
-  ["Where does doctor information come from?", "Doctor details come from published professional information. Unclaimed profiles show limited sourced details and are not yet partnered with DOCVY. A DOCVY Verified badge requires a separate manual registration check."],
-  ["Can I find an independent clinic?", "You can explore the published clinic and hospital practice locations of the doctors listed on DOCVY. More clinic profiles will be added as their details are checked."],
-  ["Does DOCVY offer medical advice?", "The guides help you prepare for a conversation with a clinician. They cannot diagnose your symptoms or replace personalised medical advice."],
+  ["What can I use DOCVY for?", "You can search doctor profiles, check their listed specialties and practice locations, and read guides to help prepare for a visit. DOCVY is a directory and information service; it does not diagnose or recommend a treatment for you."],
+  ["Can I request an appointment with every doctor listed?", "Appointment requests are available only after a doctor or clinic has agreed to receive them through DOCVY. Look for the request button on the profile. A profile marked ‘Not yet partnered with DOCVY’ does not accept requests here."],
+  ["Does an appointment request confirm my visit?", "You receive a reference when DOCVY saves your request. This does not reserve a slot. The clinic confirms time and fee. Wait for confirmation before making travel plans."],
+  ["What does DOCVY Verified mean?", "The doctor or clinic has given written consent to their profile, and DOCVY has separately checked the registration number with the relevant medical council or NMC. A listed hospital name or a claimed profile alone does not mean the doctor is verified."],
+  ["Where should I start if I’m not sure which specialty to search?", "Read the specialty descriptions and health guides to get familiar with the terms. They provide background for a conversation with a qualified clinician and cannot decide which doctor or treatment is right for your situation."],
 ];
 
-export default async function ReferenceHome() {
-  const liveDoctors = await getDirectoryDoctors();
-  const facilities = facilitiesFrom(liveDoctors);
+export default function ReferenceHome() {
   const featuredSpecialties = specialties.filter(({ slug }) => !["dentistry", "mental-health"].includes(slug));
-  return <div className="reference-home">
-    <section className="reference-hero" aria-labelledby="home-heading">
-      <div className="reference-wordmark" aria-hidden="true">DOCVY</div>
-      <div className="reference-wrap relative">
-        <p className="reference-eyebrow"><span className="mr-2 inline-block h-2 w-2 rounded-full bg-[#A5D4AE]" aria-hidden="true" />Find care closer to you</p>
-        <h1 id="home-heading" className="mt-6">Find the right <span className="hero-doctor-highlight">doctor</span>,<br className="hidden sm:block" /> close to home.</h1>
-        <p className="hero-description mt-6 text-base">Search by specialty, symptom or hospital. Compare sourced profiles and send an appointment request. The doctor’s team confirms your slot.</p>
-        <div className="reference-search"><DiscoverySearch /></div>
-        <nav aria-label="Explore care" className="reference-hero-categories">
-          {categories.map(({ label, href, scene }) => <Link key={href} href={href} className="reference-category">
-            <div className="reference-category-image"><ReferenceArtwork scene={scene} /></div>
-            <div className="reference-category-label">{label}<ArrowRight size={18} strokeWidth={1.5} aria-hidden="true" /></div>
-          </Link>)}
-        </nav>
+  return <div className="reference-home care-home">
+    <section className="reference-hero care-hero" aria-labelledby="home-heading">
+      <div className="reference-wrap">
+        <p className="reference-eyebrow">DOCTORS, SPECIALTIES &amp; HEALTH GUIDES</p>
+        <h1 id="home-heading">Find a doctor for<br className="hidden sm:block" /> the care you need.</h1>
+        <p className="hero-description">Search doctors by specialty, hospital or city. Check practice details and read health guides before your next visit.</p>
+        <div className="reference-search"><DiscoverySearch homepage /></div>
+        <nav className="care-common-searches" aria-label="Health topics to explore"><span>Explore a concern</span>{commonSearches.map(({ label, query }) => <Link key={query} href={{ pathname: "/doctors", query: { q: query } }}>{label}<ArrowUpRight size={13} strokeWidth={1.5} aria-hidden="true" /></Link>)}</nav>
+        <nav className="care-starting-points" aria-label="Choose where to start">{startingPoints.map(({ title, text, href, icon: Icon }) => <Link key={href} href={href} className="care-starting-point"><Icon size={24} strokeWidth={1.5} aria-hidden="true" /><div><h2>{title}</h2><p>{text}</p></div><ArrowUpRight size={18} strokeWidth={1.5} aria-hidden="true" /></Link>)}</nav>
       </div>
     </section>
-    <div className="reference-trust">{trust.map(({ icon: Icon, label }) => <span key={label}><Icon size={24} strokeWidth={1.5} aria-hidden="true" />{label}</span>)}</div>
 
-    <section className="reference-wrap py-14 md:py-20" aria-labelledby="specialties-heading">
-      <div className="flex flex-wrap items-center justify-between gap-4"><h2 id="specialties-heading" className="text-2xl font-medium">Start with the specialty you need</h2><Link href="/specialties" className="docvy-pill">View all specialties <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden="true" /></Link></div>
-      <ul className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">{featuredSpecialties.map(({ slug, name, plain }) => <li key={slug}><Link href={"/specialties/" + slug} className="reference-link-card block h-full p-5"><SpecialtyIcon slug={slug} /><h3 className="mt-4 text-base font-medium">{name}</h3><p className="mt-2 text-sm leading-6 text-grey">{plain}</p></Link></li>)}</ul>
+    <section className="reference-wrap care-section" aria-labelledby="specialties-heading">
+      <div className="care-section-heading"><div><p className="care-kicker">Medical specialties</p><h2 id="specialties-heading">Know which specialist to look for.</h2><p>Explore what different specialists do, then browse the doctors listed in that specialty.</p></div><Link className="care-text-link" href="/specialties">All specialties <ArrowRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link></div>
+      <ul className="care-specialty-grid">{featuredSpecialties.map(({ slug, name, plain }) => <li key={slug}><Link href={"/specialties/" + slug} className="care-specialty-tile"><SpecialtyIcon slug={slug} /><h3>{name}</h3><p>{plain}</p><span>Explore specialty <ArrowRight size={14} strokeWidth={1.5} aria-hidden="true" /></span></Link></li>)}</ul>
     </section>
 
-    <ReferenceCareSection id="clinics" tone="rose" scene="calendar" kicker="Clinics & outpatient visits" title={<>Make time<br /><em>for your health.</em></>}
-      benefits={["Find outpatient doctors", "Check the hospital branch", "Share your preferences", "Keep your request reference"]}
-      text="For a first consultation or a follow-up, start with where the doctor practises. Compare the sourced profiles and check whether the doctor has opted in to appointment requests."
-      href="/clinics" label="Explore outpatient care" />
-
-    <ReferenceCareSection id="hospitals" tone="sand" scene="hospital" kicker="Hospital discovery" title={<>Explore hospitals.<br /><em>Plan your next visit.</em></>}
-      benefits={["View practice locations", "Explore the specialties", "Find associated doctors", "Check profile status"]}
-      text="A familiar hospital name is just the start. Check the department, doctor and branch address so you know where you’re going and what to ask before your visit."
-      href="/hospitals" label="Find hospitals">
-      <ul className="mt-7 space-y-3">{facilities.filter((facility) => facility.kind === "hospital").slice(0, 3).map((facility) => <li key={facility.name}><Link href={{ pathname: "/doctors", query: { q: facility.name } }} className="reference-link-card flex items-center justify-between gap-4 p-5"><div><h3 className="font-medium">{facility.name}</h3><p className="mt-1 text-sm text-grey">{facility.location.locality}, {facility.location.city}</p></div><ArrowUpRight size={19} strokeWidth={1.5} className="shrink-0 text-primary" aria-hidden="true" /></Link></li>)}</ul>
-    </ReferenceCareSection>
-
-    <section className="reference-steps" id="how-it-works" aria-labelledby="steps-heading"><div className="reference-wrap">
-      <p className="reference-eyebrow text-center text-grey">From search to appointment request</p><h2 id="steps-heading" className="reference-heading mt-4 text-center">Find. Choose.<br /><em>Take the next step.</em></h2>
-      <ol>{steps.map((step, index) => <li key={step.title}><span className="text-sm font-semibold text-primary">0{index + 1}</span><h3 className="mt-4 text-xl font-medium">{step.title}</h3><p className="reference-copy mt-3 text-sm">{step.text}</p></li>)}</ol>
+    <section className="care-alternate" aria-labelledby="steps-heading"><div className="reference-wrap care-section">
+      <div className="care-section-heading"><div><p className="care-kicker">Using DOCVY</p><h2 id="steps-heading">Know what to check before your visit.</h2><p>A doctor’s name is only the beginning. Look at the specialty, practice location and appointment status.</p></div></div>
+      <ol className="care-steps">{steps.map(({ title, text, icon: Icon }, index) => <li key={title}><div className="care-step-top"><span>0{index + 1}</span><Icon size={23} strokeWidth={1.5} aria-hidden="true" /></div><h3>{title}</h3><p>{text}</p>{index === 1 && <div className="care-inline-links"><Link href="/hospitals">Browse hospitals <ArrowRight size={14} strokeWidth={1.5} aria-hidden="true" /></Link><Link href="/clinics">Outpatient locations <ArrowRight size={14} strokeWidth={1.5} aria-hidden="true" /></Link></div>}</li>)}</ol>
     </div></section>
 
-    <section className="reference-section reference-section-sand" id="procedures" aria-labelledby="procedure-heading"><div className="reference-wrap">
-      <div className="flex flex-wrap items-end justify-between gap-6"><div><p className="reference-eyebrow text-grey">Surgery, explained simply</p><h2 id="procedure-heading" className="reference-heading mt-4">More clarity.<br /><em>Before you decide.</em></h2></div><Link href="/surgery-guide" className="docvy-pill">View all procedures <ArrowUpRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link></div>
-      <p className="reference-copy mt-5">Understand the questions to ask about treatment choices, hospital stays and recovery. Your surgeon can help you decide what is right for you.</p>
-      <ul className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{directoryProcedures.filter(({ slug }) => popularProcedures.includes(slug)).map(({ slug, name }) => <li key={slug}><Link href={"/surgeries/" + slug} className="reference-link-card flex min-h-20 items-center justify-between gap-4 p-5 font-medium">{name}<ArrowUpRight size={18} strokeWidth={1.5} className="shrink-0 text-primary" aria-hidden="true" /></Link></li>)}</ul>
-    </div></section>
-
-    <section className="reference-section reference-wrap" id="care-library" aria-labelledby="guides-heading">
-      <span id="concerns" aria-hidden="true" />
-      <div className="flex flex-wrap items-end justify-between gap-6"><div><p className="reference-eyebrow text-grey">Health guides for everyday questions</p><h2 id="guides-heading" className="reference-heading mt-4">A little understanding.<br /><em>A more confident visit.</em></h2></div><Link href="/care-guide" className="docvy-pill">All health guides <ArrowUpRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link></div>
-      <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{healthTopics.filter(({ slug }) => ["high-blood-pressure", "diabetes", "joint-pain-arthritis", "kidney-stones"].includes(slug)).map(({ slug, label, description }) => <li key={slug}><Link href={"/patient-guides/" + slug} className="reference-link-card block h-full p-6"><HealthTopicIcon slug={slug} /><h3 className="mt-5 text-lg font-medium">{label}</h3><p className="mt-3 text-sm leading-7 text-grey">{description}</p></Link></li>)}</ul>
+    <section className="reference-wrap care-section" aria-labelledby="procedure-heading">
+      <div className="care-section-heading"><div><p className="care-kicker">Surgery preparation</p><h2 id="procedure-heading">Questions to ask before surgery.</h2><p>If a procedure has been suggested, take time to ask about alternatives, recovery and follow-up. These guides help you prepare for that conversation.</p></div><Link className="care-text-link" href="/surgery-guide">All surgery guides <ArrowRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link></div>
+      <ul className="care-procedure-grid">{procedures.map(({ slug, name, text }) => <li key={slug}><Link href={"/surgeries/" + slug} className="care-procedure-card"><div><h3>{name}</h3><p>{text}</p></div><ArrowUpRight size={19} strokeWidth={1.5} aria-hidden="true" /></Link></li>)}</ul>
     </section>
 
-    <ReferenceCareSection id="providers" scene="workspace" kicker="For doctors, clinics & hospitals" title={<>Your practice.<br /><em>A connected next step.</em></>}
-      benefits={["Help patients find your practice", "Discuss your clinic workflow", "Explore appointment tools", "Arrange authorised staff access"]}
-      text="Give patients a clearer picture of your practice. Talk to DOCVY about a listing, appointment requests and the clinic workspace. Operational access is reviewed with your organisation before it is enabled."
-      href="/for-clinics" label="Explore DOCVY for providers" />
+    <section className="care-alternate" aria-labelledby="guides-heading"><div className="reference-wrap care-section">
+      <div className="care-section-heading"><div><p className="care-kicker">Health guides</p><h2 id="guides-heading">Understand your health concern.</h2><p>Plain-language introductions to common conditions, with questions to take to your appointment. Each guide links to its references.</p></div><Link className="care-text-link" href="/care-guide">All health guides <ArrowRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link></div>
+      <ul className="care-guide-grid">{guides.map(({ slug, name, text }) => <li key={slug}><Link href={"/patient-guides/" + slug} className="care-guide-card"><HealthTopicIcon slug={slug} /><h3>{name}</h3><p>{text}</p><span>Read guide <ArrowRight size={15} strokeWidth={1.5} aria-hidden="true" /></span></Link></li>)}</ul>
+    </div></section>
 
-    <section id="faq" className="reference-section reference-wrap" aria-labelledby="faq-heading"><div className="reference-faq"><p className="reference-eyebrow text-center text-grey">Here to help you understand</p><h2 id="faq-heading" className="reference-heading mb-8 mt-4 text-center">Your questions, answered.</h2>{questions.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}<div className="mt-8 text-center"><Link href="/faqs" className="docvy-pill">More about DOCVY <ArrowUpRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link></div></div></section>
+    <section className="reference-wrap care-section care-faq-section" aria-labelledby="faq-heading">
+      <div><p className="care-kicker">Appointments &amp; profiles</p><h2 id="faq-heading">Before you request an appointment.</h2><p className="care-section-intro">A few things to know about listings, consent and clinic confirmation.</p><Link className="care-text-link" href="/faqs">More about using DOCVY <ArrowRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link></div>
+      <div className="care-faq-list">{questions.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div>
+    </section>
+
+    <aside className="care-provider-band" aria-labelledby="provider-heading"><div className="reference-wrap"><div><p className="care-kicker">For doctors &amp; clinic teams</p><h2 id="provider-heading">Help patients get to know your practice.</h2><p>Claim your profile and add your own practice details. We review your submitted changes and written consent before enabling appointment requests.</p></div><div className="care-provider-actions"><Link className="docvy-pill docvy-pill-primary" href="/claim-profile">Claim your profile <ArrowUpRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link><Link className="care-text-link" href="/for-clinics">See the clinic workspace demo <ArrowRight size={15} strokeWidth={1.5} aria-hidden="true" /></Link></div></div></aside>
   </div>;
 }

@@ -34,3 +34,13 @@ Local preview: http://localhost:3130 — directory: http://localhost:3130/doctor
 Deployment `dpl_Hb6bTQWE5cNcafBeZCh6WVA6pbtv` serves commit `af41e687d3c20f73b795abb3d1303cd9c1225e31` from `preview/doctor-glass-claim`. A temporary Vercel share link permits review without a Vercel account. The link token is not stored in this repository.
 
 Fresh mobile and desktop browser sessions both passed: homepage and cards rendered; hero highlight and prominent claim actions appeared; source buttons and homepage doctor listings were absent; claim links preselected the correct doctor; no page errors or horizontal overflow occurred. The preview is noindex, and POST submissions return HTTP 409 without saving anything.
+
+## Patient-content revision
+
+The first headline treatment was rejected in review. The replacement is “Find a doctor for the care you need.” with plain, consistent typography and no boxed or coloured word. The introduction now states the actual tasks: search doctors, check practice details and read health guides.
+
+The homepage has six sections: search and starting points; eight specialties; practical visit preparation; six surgery discussion guides; four health guides; appointment/profile FAQs. A separate provider band links to profile claims. Repeated illustrated marketing blocks and vague slogans were removed. Doctor cards and their consent controls remain unchanged.
+
+Search labels, the directory introduction, metadata and footer copy were rewritten. The new diabetes topic link exposed a missing search alias; Endocrinology and Diabetology now map to the existing diabetes guide terms. No clinical advice, provider credentials, source data or consent state was changed.
+
+Browser checks passed at 320, 390, 768 and 1440 pixels: one h1, six homepage sections, no word highlight, no homepage doctor-profile links, no required search fields, no horizontal overflow or page errors. All four concern links returned actual directory matches, and the primary search form reached the expected results. TypeScript passed. This remains preview-only pending review.

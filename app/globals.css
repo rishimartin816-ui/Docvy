@@ -242,15 +242,106 @@ main h2[class] { font-weight: 500; }
 .reference-care-main > ul.grid > li { border-radius: 22px; }
 .site-header-home .site-logo img, .site-footer .site-logo img { filter: grayscale(1) invert(1); }
 
-/* Doctor discovery preview: quiet glass surfaces and a clear provider action. */
-.hero-doctor-highlight {
-  display: inline-block;
-  color: #BDE7CD;
-  background: #A5D4AE1A;
-  border-bottom: 2px solid #BDE7CD80;
-  border-radius: .18em;
-  padding: 0 .12em .025em;
+/* Patient-facing homepage: useful information, plain headlines and clear next steps. */
+.care-hero { padding: 126px 0 48px; }
+.care-hero #home-heading { max-width: 20ch; margin: 22px auto 0; font-size: clamp(2.45rem, 5.1vw, 4.25rem); font-weight: 500; line-height: 1.1; letter-spacing: -.045em; text-wrap: balance; }
+.care-hero .hero-description { max-width: 58ch; margin-top: 24px; font-size: 1.05rem; line-height: 1.75; }
+.care-hero .reference-search { max-width: 840px; margin-top: 30px; }
+.care-common-searches { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.care-common-searches > span { padding-right: 7px; color: #D0E5D6; font-size: .75rem; }
+.care-common-searches a { display: inline-flex; min-height: 38px; align-items: center; gap: 7px; padding: 6px 13px; border: 1px solid #FFFFFF40; border-radius: 999px; color: #F0F7F1; font-size: .75rem; }
+.care-common-searches a:hover { background: #FFFFFF14; border-color: #FFFFFF80; }
+.care-starting-points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 42px; text-align: left; }
+.care-starting-point { display: grid; grid-template-columns: 28px minmax(0, 1fr) 18px; align-items: start; gap: 14px; min-height: 114px; padding: 23px 20px; border: 1px solid #FFFFFF33; border-radius: 18px; background: #FFFFFF08; }
+.care-starting-point > svg { margin-top: 2px; color: #CBE5D3; }
+.care-starting-point h2 { color: #FFFFFF; font-size: .95rem; line-height: 1.5; letter-spacing: -.015em; font-weight: 500; }
+.care-starting-point p { margin-top: 6px; color: #D4E6DA; font-size: .78rem; line-height: 1.6; }
+.care-starting-point:hover { border-color: #FFFFFF80; background: #FFFFFF10; }
+.care-starting-point:focus-visible, .care-common-searches a:focus-visible { outline-color: #E0F1E5; }
+.care-section { padding-block: 88px; }
+.care-alternate { background: #F5F8F5; border-block: 1px solid #EAF0EA; }
+.care-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 28px; margin-bottom: 30px; }
+.care-section-heading > div { max-width: 690px; }
+.care-kicker { color: var(--primary); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
+.care-section h2, .care-provider-band h2 { margin-top: 12px; font-size: clamp(1.75rem, 3vw, 2.3rem); font-weight: 500; line-height: 1.22; letter-spacing: -.035em; }
+.care-section-heading > div > p:last-child:not(.care-kicker), .care-section-intro { max-width: 65ch; margin-top: 17px; color: var(--muted); font-size: 1rem; line-height: 1.85; }
+.care-text-link { display: inline-flex; min-height: 44px; align-items: center; gap: 10px; color: var(--primary); font-size: .85rem; font-weight: 500; white-space: nowrap; }
+.care-text-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+.care-specialty-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.care-specialty-tile { display: flex; height: 100%; min-height: 211px; flex-direction: column; align-items: start; padding: 24px; border: 1px solid var(--border); border-radius: 18px; background: var(--bg); }
+.care-specialty-tile h3 { margin-top: 20px; font-size: 1rem; font-weight: 500; }
+.care-specialty-tile p { margin-top: 5px; color: var(--muted); font-size: .8rem; line-height: 1.7; }
+.care-specialty-tile > span { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 18px; color: var(--primary); font-size: .75rem; }
+.care-specialty-tile:hover, .care-procedure-card:hover, .care-guide-card:hover { border-color: #9BBDA6; }
+.care-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; margin-top: 35px; }
+.care-step-top { display: flex; align-items: center; justify-content: space-between; color: var(--primary); padding-bottom: 20px; border-bottom: 1px solid #CEDDCF; }
+.care-step-top span { font-size: .8rem; font-weight: 500; }
+.care-steps h3 { margin-top: 22px; font-size: 1.08rem; font-weight: 500; line-height: 1.5; }
+.care-steps li > p { margin-top: 12px; color: var(--muted); font-size: .875rem; line-height: 1.85; }
+.care-inline-links { display: grid; gap: 2px; margin-top: 12px; }
+.care-inline-links a { display: inline-flex; min-height: 38px; align-items: center; gap: 8px; color: var(--primary); font-size: .8rem; }
+.care-inline-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.care-procedure-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.care-procedure-card { display: flex; align-items: start; justify-content: space-between; gap: 16px; min-height: 126px; padding: 23px; border: 1px solid var(--border); border-radius: 16px; }
+.care-procedure-card > svg { flex-shrink: 0; color: var(--primary); margin-top: 2px; }
+.care-procedure-card h3 { font-size: .95rem; font-weight: 500; }
+.care-procedure-card p { margin-top: 10px; color: var(--muted); font-size: .8rem; line-height: 1.7; }
+.care-guide-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.care-guide-card { display: flex; height: 100%; flex-direction: column; align-items: start; padding: 25px; background: var(--bg); border: 1px solid var(--border); border-radius: 18px; }
+.care-guide-card > svg { color: var(--primary); }
+.care-guide-card h3 { margin-top: 25px; font-size: 1.02rem; font-weight: 500; }
+.care-guide-card p { margin-top: 10px; color: var(--muted); font-size: .825rem; line-height: 1.8; }
+.care-guide-card > span { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 24px; color: var(--primary); font-size: .8rem; }
+.care-faq-section { display: grid; grid-template-columns: .8fr 1.2fr; gap: 64px; }
+.care-faq-section .care-text-link { margin-top: 15px; }
+.care-faq-list details { border-bottom: 1px solid var(--border); }
+.care-faq-list summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 70px; padding: 18px 0; font-size: .9rem; font-weight: 500; line-height: 1.65; list-style: none; cursor: pointer; }
+.care-faq-list summary::-webkit-details-marker { display: none; }
+.care-faq-list summary::after { content: '+'; flex-shrink: 0; color: var(--primary); font-size: 21px; font-weight: 400; }
+.care-faq-list details[open] summary::after { content: '−'; }
+.care-faq-list details > p { padding-bottom: 24px; color: var(--muted); font-size: .85rem; line-height: 1.85; }
+.care-provider-band { padding-block: 44px; border-top: 1px solid #DCE7DE; background: #EAF2EC; }
+.care-provider-band > div { display: flex; align-items: center; justify-content: space-between; gap: 36px; }
+.care-provider-band > div > div:first-child { max-width: 660px; }
+.care-provider-band h2 { font-size: clamp(1.5rem, 2.4vw, 1.9rem); }
+.care-provider-band p:last-child { max-width: 64ch; margin-top: 14px; color: var(--muted); font-size: .875rem; line-height: 1.8; }
+.care-provider-actions { display: flex; flex-direction: column; align-items: start; gap: 7px; flex-shrink: 0; }
+@media (max-width: 767px) {
+  .care-hero { padding-top: 100px; padding-bottom: 30px; }
+  .care-hero #home-heading { margin-top: 20px; max-width: 19ch; font-size: 2.45rem; line-height: 1.13; }
+  .care-hero .hero-description { margin-top: 20px; font-size: .98rem; line-height: 1.8; }
+  .care-hero .reference-search { margin-top: 24px; }
+  .care-hero > div > .reference-eyebrow { font-size: .62rem; letter-spacing: .1em; }
+  .care-common-searches { gap: 7px; margin-top: 16px; }
+  .care-common-searches > span { width: 100%; padding-bottom: 4px; }
+  .care-common-searches a { min-height: 44px; padding-inline: 13px; }
+  .care-starting-points { grid-template-columns: 1fr; gap: 10px; margin-top: 28px; }
+  .care-starting-point { align-items: center; min-height: 86px; padding: 16px; }
+  .care-starting-point h2 { font-size: .875rem; }
+  .care-starting-point p { margin-top: 3px; font-size: .75rem; }
+  .care-section { padding-block: 56px; }
+  .care-section-heading { align-items: start; flex-direction: column; gap: 12px; margin-bottom: 23px; }
+  .care-section h2 { font-size: 1.8rem; }
+  .care-section-heading > div > p:last-child:not(.care-kicker), .care-section-intro { font-size: .925rem; line-height: 1.85; }
+  .care-specialty-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .care-specialty-tile { min-height: 212px; padding: 18px 15px; }
+  .care-specialty-tile h3 { font-size: .9rem; }
+  .care-specialty-tile p { font-size: .75rem; }
+  .care-specialty-tile > span { font-size: .7rem; }
+  .care-steps { grid-template-columns: 1fr; gap: 30px; margin-top: 26px; }
+  .care-steps h3 { margin-top: 16px; }
+  .care-procedure-grid { grid-template-columns: 1fr; gap: 10px; }
+  .care-procedure-card { min-height: 105px; padding: 20px; }
+  .care-guide-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .care-guide-card { padding: 20px 16px; }
+  .care-guide-card h3 { font-size: .95rem; margin-top: 20px; }
+  .care-guide-card p { font-size: .75rem; }
+  .care-faq-section { grid-template-columns: 1fr; gap: 24px; }
+  .care-provider-band { padding-block: 36px; }
+  .care-provider-band > div { align-items: start; flex-direction: column; gap: 24px; }
 }
+
+/* Doctor discovery preview: quiet glass surfaces and a clear provider action. */
 .reference-home .reference-trust { position: relative; margin-top: 86px; }
 .doctor-results { display: grid; gap: 14px; margin-top: 24px; padding: 14px; border-radius: 28px; background: var(--surface); }
 .doctor-results > li { min-width: 0; }

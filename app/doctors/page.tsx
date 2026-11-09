@@ -5,8 +5,8 @@ import { availableCities, citySlug, searchDoctors, specialtyMatches } from "@/li
 import { getDirectoryDoctors } from "@/lib/public-directory";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 export const dynamic = "force-dynamic";
-const title = "Find Doctors in Delhi NCR | Request an Appointment | DOCVY";
-const description = "Search doctors by specialty and hospital across Delhi NCR. Read sourced profiles, check practice locations and send an appointment request in minutes.";
+const title = "Find Doctors by Specialty & City | DOCVY";
+const description = "Search doctor profiles by specialty, hospital and city across Delhi NCR. Check practice locations and see which clinics accept appointment requests.";
 export function generateMetadata() { return { title: { absolute: title }, description, alternates: { canonical: "/doctors" }, ...buildPageSocialMetadata(title, description, "/doctors") }; }
 type Filters = { q?: string; specialty?: string; location?: string; page?: string };
 export default async function DoctorsPage({ searchParams }: { searchParams: Filters }) {
@@ -20,11 +20,11 @@ export default async function DoctorsPage({ searchParams }: { searchParams: Filt
   const href = (p: number) => ({ pathname: "/doctors", query: { ...(query ? { q: query } : {}), ...(city ? { location: city } : {}), ...(specialty ? { specialty } : {}), page: p } });
   return <div className="mx-auto max-w-site px-5 py-12 sm:px-9">
     <Breadcrumbs items={[{ name: "Doctors", href: "/doctors" }]} />
-    <h1 className="text-4xl font-medium sm:text-6xl">Find the right doctor, close to home.</h1>
-    <p className="mt-5 max-w-3xl leading-8">Search by specialty, symptom or hospital. Compare sourced profiles and send an appointment request. The doctor&apos;s team confirms your slot.</p>
+    <h1 className="text-4xl font-medium sm:text-6xl">Find doctors by specialty and city.</h1>
+    <p className="mt-5 max-w-3xl leading-8">Compare listed specialties and practice locations. You can request an appointment when the doctor or clinic has opted in.</p>
     <div className="mt-6"><DiscoverySearch query={query} city={city} /></div>
     <section className="mt-8"><h2 className="text-2xl font-medium">Doctor listings</h2>
-      <p className="mt-3 text-sm text-grey">{results.length} profiles{query ? ` matching “${query}”` : ""}. Appointment requests are available only for doctors who have opted in. A specialty match does not replace a clinical assessment.</p>
+      <p className="mt-3 text-sm text-grey">{results.length} {results.length === 1 ? "profile" : "profiles"}{query ? ` matching “${query}”` : ""}. Appointment requests are available only for doctors who have opted in. A specialty match does not replace a clinical assessment.</p>
       {results.length ? <DoctorCards doctors={results.slice((page - 1) * 20, page * 20)} /> : <p className="mt-5">No profiles match this search. <Link href="/doctors" className="underline">Clear the filters</Link> or <Link href="/specialties" className="underline">explore specialty guides</Link>.</p>}
       {pages > 1 && <nav aria-label="Doctor directory pages" className="mt-8 flex flex-wrap items-center gap-3">{page > 1 && <Link href={href(page - 1)} className="docvy-pill">Previous</Link>}<span>Page {page} of {pages}</span>{page < pages && <Link href={href(page + 1)} className="docvy-pill">Next</Link>}</nav>}
     </section>

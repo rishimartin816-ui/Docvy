@@ -42,11 +42,11 @@ export default async function Footer() {
       In an emergency, call <a href="tel:112" className="inline-flex min-h-11 items-center font-semibold underline">112</a> or go to the nearest hospital.
     </p>
     <footer className="site-footer border-t border-line text-sm">
-      <div className="mx-auto max-w-site px-5 pt-14 sm:px-8"><p className="reference-eyebrow text-[#ACD5B5]">A clearer next step in healthcare</p><p className="mt-4 max-w-xl font-head text-3xl font-medium leading-tight text-white sm:text-4xl">Find care closer to you.</p></div>
+      <div className="mx-auto max-w-site px-5 pt-14 sm:px-8"><p className="reference-eyebrow text-[#ACD5B5]">Doctor discovery & patient guides</p><p className="mt-4 max-w-xl font-head text-3xl font-medium leading-tight text-white sm:text-4xl">Find a doctor. Prepare for your visit.</p></div>
       <nav aria-label="Footer" className={"mx-auto max-w-site gap-6 px-5 py-10 sm:px-8 md:grid " + (indexableCities.length ? "md:grid-cols-5" : "md:grid-cols-4")}>
         <div className="mb-6 md:mb-0">
           <Link href="/" className="site-logo inline-flex min-h-11 items-center gap-2 font-head text-xl font-bold"><Image src="/icon.svg" alt="" width={29} height={29} unoptimized /> DOCVY</Link>
-          <p className="footer-description mt-2 leading-6">Find doctors, explore specialties, and prepare for appointments across India.</p>
+          <p className="footer-description mt-2 leading-6">Browse doctor profiles and read health guides to prepare for a conversation with your clinician.</p>
           <a href="mailto:contact@docvy.in" className="inline-flex min-h-11 items-center text-ink hover:underline">contact@docvy.in</a>
         </div>
         {sections.map(({ heading, links }) => <div key={heading}>
