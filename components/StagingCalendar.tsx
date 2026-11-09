@@ -43,6 +43,8 @@ const chartDay = new Intl.DateTimeFormat("en-IN", { weekday: "short", day: "nume
 const calendarDay = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" });
 
 export default function StagingCalendar({ clinic = false, admin = false, clinicName = "DOCVY Test Hospital", staging = true }: { clinic?: boolean; admin?: boolean; clinicName?: string; staging?: boolean }) {
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
   const [session, setSession] = useState("");
   const [canManageDoctors, setCanManageDoctors] = useState(false);
   const [canSchedule, setCanSchedule] = useState(false);
@@ -384,11 +386,11 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
             </div>
           </header>
 
-          {!session ? <form className={glass + " mt-5 max-w-md space-y-4 p-5 sm:p-7"} onSubmit={signIn}>
+          {!session ? <form method="post" action="/api/crm" className={glass + " mt-5 max-w-md space-y-4 p-5 sm:p-7"} onSubmit={signIn}>
             <h2 className="text-xl font-bold">Staff sign-in</h2>
             <label className="block">Staff email <input className={field} type="email" name="email" autoComplete="username" required /></label>
             <label className="block">Password <input className={field} type="password" name="password" autoComplete="current-password" required /></label>
-            <button className="docvy-pill docvy-pill-primary disabled:opacity-50" disabled={busy}>Sign in</button>
+            <button className="docvy-pill docvy-pill-primary disabled:opacity-50" disabled={!ready || busy}>Sign in</button>
           </form> : <>
             <div className="my-5 grid gap-3 sm:grid-cols-3">
               {[
@@ -459,7 +461,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
               </div>
               {canSchedule && <details className="mb-4 rounded-btn border border-line bg-surface p-3">
                 <summary className="cursor-pointer font-semibold">Add appointment slot</summary>
-                <form className="mt-3 flex flex-wrap items-end gap-3 text-sm" onSubmit={createSlot}>
+                <form method="post" action="/api/crm" className="mt-3 flex flex-wrap items-end gap-3 text-sm" onSubmit={createSlot}>
                   <label>Starts (IST)<input className={field} type="datetime-local" name="starts" required /></label>
                   <label>Ends (IST)<input className={field} type="datetime-local" name="ends" required /></label>
                   <button className={button} disabled={busy}>Add slot</button>
@@ -479,7 +481,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                           <button className={button} disabled={busy} onClick={() => void change(slot, "completed")}>Complete</button>
                           <button className={button} disabled={busy} onClick={() => void change(slot, "no_show")}>Mark no-show</button>
                         </> : <>
-                          {destinations.length > 0 && <form className="flex flex-wrap items-center gap-2" onSubmit={(event) => {
+                          {destinations.length > 0 && <form method="post" action="/api/crm" className="flex flex-wrap items-center gap-2" onSubmit={(event) => {
                             event.preventDefault();
                             const destination = new FormData(event.currentTarget).get("destination");
                             if (typeof destination === "string" && destination) void change(slot, undefined, destination);
@@ -502,7 +504,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
             {canSchedule && <>
             <section id="crm-history" className={glass + " mt-5 scroll-mt-28 p-4 sm:p-6"}>
               <h2 ref={historyHeading} tabIndex={-1} className="scroll-mt-28 text-xl font-bold">Appointment history</h2>
-              <form className="mt-3 flex flex-wrap items-end gap-2 text-sm" onSubmit={(event) => {
+              <form method="post" action="/api/crm" className="mt-3 flex flex-wrap items-end gap-2 text-sm" onSubmit={(event) => {
                 event.preventDefault();
                 const reference = String(new FormData(event.currentTarget).get("reference") ?? "").trim();
                 void loadHistory(reference);
@@ -516,7 +518,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                 {history.reference && history.fee_paise !== undefined && <div className="mt-3 rounded-btn bg-surface p-3">
                   <p className="text-sm font-semibold">Booking fee {history.fee_paise === null ? "· Not set" : "· " + rupees.format(history.fee_paise / 100)}</p>
                   <p className="mt-1 text-xs text-grey">Quoted fee for the appointment. Payments are handled by the clinic.</p>
-                  <form key={history.reference + ":" + history.fee_paise} className="mt-3 flex flex-wrap items-end gap-2 text-sm" onSubmit={(event) => void saveBookingFee(event, history)}>
+                  <form method="post" action="/api/crm" key={history.reference + ":" + history.fee_paise} className="mt-3 flex flex-wrap items-end gap-2 text-sm" onSubmit={(event) => void saveBookingFee(event, history)}>
                     <label>Amount (₹)<input className={field} name="fee" type="number" min="0" max="100000" step="0.01" required defaultValue={history.fee_paise === null ? "" : history.fee_paise / 100} /></label>
                     <button className={button} disabled={busy}>Save fee</button>
                   </form>
@@ -559,7 +561,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                   </p>
                   {item.booking_id && <button type="button" className={button + " mt-2"} disabled={busy} onClick={() => { if (item.booking_id) void loadHistory(item.booking_id); }}>View confirmed booking</button>}
                   {item.status !== "closed" && destinations.length > 0 &&
-                    <form className="mt-2 flex flex-wrap items-center gap-2" onSubmit={(event) => void bookEnquiry(event, item)}>
+                    <form method="post" action="/api/crm" className="mt-2 flex flex-wrap items-center gap-2" onSubmit={(event) => void bookEnquiry(event, item)}>
                       <select aria-label="Appointment time" name="slot" className={button} defaultValue="" required disabled={busy}>
                         <option value="">Choose an appointment time</option>
                         {destinations.map((slot) => <option key={slot.id} value={slot.id}>{dateLabel.format(new Date(slot.starts_at))}</option>)}
@@ -588,7 +590,7 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
     <p role="status">{message}</p>
     <ul className="space-y-2">{slots.map((slot) => <li className="flex flex-wrap items-center justify-between gap-3 rounded border p-3" key={slot.id}>
       <span>{dateLabel.format(new Date(slot.starts_at))} – {dateLabel.format(new Date(slot.ends_at))}</span>
-      <button className={button} disabled={busy} onClick={() => void change(slot)}>Reserve test slot</button>
+      <button className={button} disabled={!ready || busy} onClick={() => void change(slot)}>Reserve test slot</button>
     </li>)}</ul>
     {slots.length === 0 && <p>No slots to show.</p>}
   </section>;

@@ -16,7 +16,7 @@ const tools = [
 export default function ForClinicsPage() {
   const crm = clinicCrmConfig();
   const live = crm?.staging === false;
-  const workspaceHref = crm ? "/crm/clinic" : "https://docvy-clinic-demo.vercel.app/crm/clinic";
+  const workspaceHref = "/crm/clinic";
 
   return <div className="relative isolate overflow-hidden docvy-garden px-5 py-12 sm:px-9"><IllustrationBackground slug="for-clinics-welcome" alt="A clinic team welcomes Meera and Ramesh."  />
     <div className="mx-auto max-w-5xl">

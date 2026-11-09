@@ -1,8 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cities, citySlug, directoryProcedures, directorySpecialties, slugify } from "@/lib/directory";
+import { canonicalSiteRedirect } from "@/lib/site-domain";
 
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
+  const destination = canonicalSiteRedirect(new URL(request.url), process.env.VERCEL_ENV === "production");
+  if (destination) {
+    if (request.method === "GET" || request.method === "HEAD") return NextResponse.redirect(destination, 308);
+    return NextResponse.json({ error: "Open https://www.docvy.in and submit your request there." }, { status: 421, headers: { "Cache-Control": "no-store" } });
+  }
+  if (url.pathname === "/crm" || url.pathname === "/crm/") {
+    url.pathname = "/crm/clinic";
+    return NextResponse.redirect(url, 308);
+  }
   if (url.pathname === "/doctors" && url.searchParams.has("procedure")) {
     const procedure = slugify(url.searchParams.get("procedure") ?? "");
     if (directoryProcedures.some(({ slug }) => slug === procedure)) {
@@ -29,4 +39,4 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-export const config = { matcher: ["/doctors/:path*"] };
+export const config = { matcher: ["/((?!_next/static|_next/image|favicon.ico|icon.svg).*)"] };

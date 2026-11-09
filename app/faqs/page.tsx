@@ -33,7 +33,7 @@ const questions = [
   {
     question: "What can I try in the booking demo?",
     answer: "You can pick an available test slot and see what a confirmation looks like. Clinic staff can use the demo workspace to see how booking and calendar changes fit together.",
-    href: "https://docvy-clinic-demo.vercel.app/book", label: "Try a demo booking",
+    href: "/book", label: "Try a demo booking",
   },
   {
     question: "Can my clinic see how DOCVY works?",

@@ -9,10 +9,10 @@ function configuration() {
     throw new Error("Set the staging preview, staff email, and staff password in your local environment.");
   }
   const preview = new URL(DOCVY_STAGING_PREVIEW);
-  const allowedHost = preview.hostname === "docvy-clinic-demo.vercel.app" || /^docvy-crm-staging-[a-z0-9-]+\.vercel\.app$/.test(preview.hostname);
+  const allowedHost = preview.hostname === "www.docvy.in";
   if (preview.protocol !== "https:" || !allowedHost ||
       preview.username || preview.password || preview.port) {
-    throw new Error("Use an isolated DOCVY staging or public demo Vercel URL.");
+    throw new Error("Use https://www.docvy.in, which hosts the isolated fictional clinic workspace.");
   }
   return preview.origin;
 }
