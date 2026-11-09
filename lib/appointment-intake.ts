@@ -1,4 +1,5 @@
 import { clinicCrmConfig } from "./clinic-crm-config";
+import { directoryIntakeConfig } from "./directory-intake";
 import type { ProviderCandidate } from "./provider-candidates";
 
 export function crmIntakeConfig() {
@@ -18,12 +19,14 @@ export function crmIntakeConfig() {
 
 /** Configuration presence only; successful delivery is verified separately. */
 export function isAppointmentIntakeConfigured() {
+  if (directoryIntakeConfig()) return true;
   if (process.env.DOCVY_CRM_INTAKE_ENABLED === "true") return Boolean(crmIntakeConfig());
   return Boolean(process.env.GOOGLE_SHEETS_WEBHOOK_URL && process.env.GOOGLE_SHEETS_WEBHOOK_TOKEN);
 }
 
 export async function providersWithAppointmentIntake(providers: ProviderCandidate[]) {
   if (!providers.length) return [];
+  if (directoryIntakeConfig()) return providers.filter((provider) => provider.live === true);
   if (process.env.DOCVY_CRM_INTAKE_ENABLED !== "true") {
     return isAppointmentIntakeConfigured() ? providers : [];
   }

@@ -5,7 +5,7 @@ import { providerCandidates } from "./provider-candidates";
 export const cities = [
   {
     slug: "gurgaon", name: "Gurgaon",
-    intro: "Finding a doctor in Gurgaon often means choosing between a neighbourhood clinic and a hospital outpatient department. Start with the kind of visit you need, then check the branch address before you make plans. A hospital group may have more than one location, and a doctor’s schedule can differ between them. If you’re arranging care for a parent or travelling across the city after work, ask about lift access, parking, and how early to arrive. Bring relevant reports and prescriptions, and check whether the clinic wants them in print or on your phone. Use the specialty and procedure guides below to prepare questions while DOCVY adds live listings.",
+    intro: "Finding a doctor in Gurgaon often means choosing between a neighbourhood clinic and a hospital outpatient department. Start with the kind of visit you need, then check the branch address before you make plans. A hospital group may have more than one location, and a doctor’s schedule can differ between them. If you’re arranging care for a parent or travelling across the city after work, ask about lift access, parking, and how early to arrive. Bring relevant reports and prescriptions, and check whether the clinic wants them in print or on your phone. Use the specialty and procedure guides below to prepare questions, explore the sourced doctor profiles and send an appointment request through DOCVY.",
     question: "What should I check before travelling to a Gurgaon clinic?",
     answer: "Check the branch address, arrival time, and whether the clinic can accommodate anyone coming with you.",
   },
@@ -34,7 +34,7 @@ export function citySlug(value: string) {
 
 export const directorySpecialties = [
   ...specialties.map(({ slug, name }) => ({ slug, name })),
-  ...Array.from(new Set(surgeryGroups.map(({ specialty }) => specialty)))
+  ...Array.from(new Set([...surgeryGroups.map(({ specialty }) => specialty), ...providerCandidates.filter((doctor) => doctor.live).flatMap((doctor) => doctor.specialties)]))
     .filter((name) => !specialties.some((item) => item.name === name))
     .map((name) => ({ slug: slugify(name), name })),
 ];

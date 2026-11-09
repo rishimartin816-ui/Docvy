@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/DirectoryPage";
 import { liveDoctors, citySlug, slugify } from "@/lib/directory";
 import { buildPageSocialMetadata, productionOrigin } from "@/lib/metadata";
-import { crmIntakeConfig, providersWithAppointmentIntake } from "@/lib/appointment-intake";
+
 
 type Props = { params: { slug: string } };
 function lookup(slug: string) {
@@ -22,7 +22,7 @@ export default async function DoctorPage({ params }: Props) {
   const doctor = lookup(params.slug);
   const path = "/doctor/" + params.slug;
   const verified = doctor.manuallyVerified === true && Boolean(doctor.nmcRegistrationNumber?.trim());
-  const routed = crmIntakeConfig() ? (await providersWithAppointmentIntake([doctor]))[0] : undefined;
+
   return <div className="docvy-garden"><div className="mx-auto max-w-5xl px-5 py-12 sm:px-9">
     <Breadcrumbs items={[{ name: "Doctors", href: "/doctors" }, { name: doctor.name, href: path }]} />
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
@@ -30,15 +30,15 @@ export default async function DoctorPage({ params }: Props) {
       ...(verified ? { identifier: { "@type": "PropertyValue", propertyID: "Medical registration", value: doctor.nmcRegistrationNumber } } : {}),
     }).replace(/</g, "\\u003c") }} />
     <h1 className="text-4xl font-bold sm:text-6xl">{doctor.name}</h1>
-    <p className="mt-3">{doctor.specialties.join(", ")}</p>
+    <p className="mt-3">{doctor.specialties.join(", ")}</p>{doctor.summary && <p className="mt-4 max-w-3xl text-grey">{doctor.summary}</p>}
     {verified && <p className="mt-3"><strong className="rounded-full border border-line bg-primary-tint px-2 py-1 text-primary">Verified</strong> · NMC registration {doctor.nmcRegistrationNumber}</p>}
     <section className="docvy-glass mt-6 p-6"><h2 className="text-2xl font-bold">Practice locations</h2>
       <ul className="mt-3 space-y-3">{doctor.locations.map((location) => <li key={location.city + location.facility}>
-        {location.facility}, {citySlug(location.city) === "gurgaon" ? "Gurgaon" : location.city}
-        {routed?.locations.some(({ city, facility }) => city === location.city && facility === location.facility) &&
-          <Link className="docvy-pill docvy-pill-primary ml-3" href={{ pathname: "/request", query: { provider: doctor.id, city: location.city, facility: location.facility } }}>Request an appointment</Link>}
+        {location.facility}{location.locality ? ", " + location.locality : ""}, {citySlug(location.city) === "gurgaon" ? "Gurgaon" : location.city}
+        {
+          <Link className="docvy-pill docvy-pill-primary ml-3" href={{ pathname: "/request", query: { provider: doctor.id, city: location.city, facility: location.facility } }}>Request through DOCVY</Link>}
       </li>)}</ul>
-      <a className="docvy-pill mt-5" href={doctor.sourceUrl}>View official hospital profile</a>
+      <p className="mt-5 text-sm text-grey">Practice details are sourced from the hospital public profile, checked {doctor.sourceChecked}. DOCVY coordinates requests and the provider confirms availability.</p><a className="mt-3 inline-flex min-h-11 items-center text-sm underline underline-offset-4" href={doctor.sourceUrl} target="_blank" rel="noopener noreferrer">Hospital information source</a>
     </section>
   </div></div>;
 }

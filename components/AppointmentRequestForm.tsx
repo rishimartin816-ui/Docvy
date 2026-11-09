@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type FormEvent } from "react";
+import { useMemo, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, LoaderCircle } from "lucide-react";
 import type { ProviderCandidate } from "@/lib/provider-candidates";
@@ -26,6 +26,7 @@ export default function AppointmentRequestForm({ doctors, initialProvider, initi
   const [busy, setBusy] = useState(false);
   const [referenceId, setReferenceId] = useState("");
   const [error, setError] = useState("");
+  const requestId = useRef("");
   const selected = locations.find((item) => item.key === selection);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -35,7 +36,9 @@ export default function AppointmentRequestForm({ doctors, initialProvider, initi
     setError("");
     const formElement = event.currentTarget;
     const form = new FormData(formElement);
+    if (!requestId.current) requestId.current = crypto.randomUUID();
     const payload = {
+      requestId: requestId.current,
       providerId: selected.providerId,
       city: selected.city,
       facility: selected.facility,
@@ -56,6 +59,7 @@ export default function AppointmentRequestForm({ doctors, initialProvider, initi
       const result = await response.json() as Result;
       if (!response.ok || !result.ok || !result.referenceId) throw new Error(result.error || "We could not send your enquiry. Please try again later.");
       setReferenceId(result.referenceId);
+      requestId.current = "";
       formElement.reset();
       setSelection(initialOption);
     } catch (cause) {
@@ -73,7 +77,7 @@ export default function AppointmentRequestForm({ doctors, initialProvider, initi
     <Link href="/doctors" className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#202020] px-5 text-sm font-bold text-white">Return to doctor listings <ArrowRight strokeWidth={1.5} size={16}/></Link>
   </section>;
 
-  return <form onSubmit={submit} className="rounded-[24px] border border-[#DEDEDA] bg-white p-6  md:p-8">
+  return <form onSubmit={submit} onChange={() => { requestId.current = ""; }} className="rounded-[24px] border border-[#DEDEDA] bg-white p-6  md:p-8">
     {!enabled && <div role="status" className="mb-5 rounded-xl border border-[#DEDEDA] bg-[#F1F1EE] p-4 text-sm leading-6 text-[#B45309]">Appointment enquiries are not open yet because DOCVY’s private intake connection is not configured. This form is not collecting your details.</div>}
     <div className="grid gap-4 sm:grid-cols-2">
       <label className="sm:col-span-2"><span className="mb-2 block text-sm font-bold text-[#202020]">Choose a doctor and location <span className="text-[#B42318]">*</span></span><select required disabled={!enabled || busy} value={selection} onChange={(event) => setSelection(event.target.value)} className="min-h-12 w-full rounded-xl border border-[#DEDEDA] bg-white px-3 text-sm text-[#202020] outline-none focus:ring-2 focus:ring-[#202020]"><option value="">Select a listed doctor</option>{locations.map((item) => <option key={item.key} value={item.key}>{item.provider} · {item.city} · {item.facility}</option>)}</select></label>
@@ -83,7 +87,7 @@ export default function AppointmentRequestForm({ doctors, initialProvider, initi
       <label><span className="mb-2 block text-sm font-bold text-[#202020]">Preferred date <span className="font-normal text-[#626262]">(optional)</span></span><input disabled={!enabled || busy} name="requestedDate" type="date" className="min-h-12 w-full rounded-xl border border-[#DEDEDA] px-3 text-sm outline-none focus:ring-2 focus:ring-[#202020]"/></label>
       <label><span className="mb-2 block text-sm font-bold text-[#202020]">Preferred time <span className="font-normal text-[#626262]">(optional)</span></span><input disabled={!enabled || busy} name="requestedTime" type="time" className="min-h-12 w-full rounded-xl border border-[#DEDEDA] px-3 text-sm outline-none focus:ring-2 focus:ring-[#202020]"/></label>
     </div>
-    <p className="mt-3 rounded-xl bg-[#F1F1EE] px-4 py-3 text-sm leading-6 text-[#626262]">No suitable slot showing? Leave the date and time blank and send your request anyway. The provider still needs to confirm availability.</p>
+    <p className="mt-3 rounded-xl bg-[#F1F1EE] px-4 py-3 text-sm leading-6 text-[#626262]">Not sure of a date or time? Leave your preferences blank and send the request. The provider still needs to confirm availability.</p>
     <label className="mt-5 flex items-start gap-3 text-sm leading-6 text-[#626262]"><input required disabled={!enabled || busy} name="consent" type="checkbox" className="mt-1 h-4 w-4 accent-[#202020]"/><span>I agree that DOCVY may store my contact details and appointment preferences and share them with authorized staff at the selected clinic or hospital for appointment follow-up. I understand sending it does not reserve a slot or confirm an appointment. Read the <Link className="font-semibold text-[#202020] underline" href="/legal/privacy" target="_blank">Privacy Policy</Link> and <Link className="font-semibold text-[#202020] underline" href="/legal/terms" target="_blank">Terms</Link>.</span></label>
     <label aria-hidden="true" className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden"><span>Leave this field blank</span><input tabIndex={-1} autoComplete="off" name="website"/></label>
     {error && <p role="alert" className="mt-4 rounded-xl bg-[#FFFFFF] p-3 text-sm text-[#B42318]">{error}</p>}
