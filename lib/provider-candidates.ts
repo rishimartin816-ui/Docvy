@@ -2504,7 +2504,6 @@ export const providerCandidates: ProviderCandidate[] = [
     "live": true,
     "name": "Dr. Anurag Krishna",
     "specialties": [
-      "Urology",
       "Paediatric surgery"
     ],
     "locations": [
@@ -3006,12 +3005,7 @@ export const providerCandidates: ProviderCandidate[] = [
     "live": true,
     "name": "Dr. Charu Garg",
     "specialties": [
-      "Urology",
-      "Gastroenterology",
-      "Gynaecology",
-      "Paediatrics",
-      "Radiation oncology",
-      "Medical oncology"
+      "Radiation oncology"
     ],
     "locations": [
       {
@@ -3065,9 +3059,6 @@ export const providerCandidates: ProviderCandidate[] = [
     "live": true,
     "name": "Dr. Pramod Kumar Julka",
     "specialties": [
-      "Urology",
-      "Gynaecology",
-      "Paediatrics",
       "Medical oncology"
     ],
     "locations": [
@@ -4110,12 +4101,12 @@ export const providerCandidates: ProviderCandidate[] = [
     "locations": [
       {
         "city": "Ghaziabad",
-        "facility": "Yashoda Hospital & Research Centre, Nehru Nagar",
+        "facility": "Yashoda Hospitals",
         "primary": true
       }
     ],
     "otherNcrLocations": [],
-    "hospital": "Yashoda Hospital & Research Centre, Nehru Nagar",
+    "hospital": "Yashoda Hospitals",
     "sourceUrl": "https://www.yashodahealthcare.com/doctor/Dr-Shailendra-Kumar",
     "sourceChecked": "2026-11-09",
     "profileStatus": "unclaimed",
@@ -4164,12 +4155,12 @@ export const providerCandidates: ProviderCandidate[] = [
     "locations": [
       {
         "city": "Ghaziabad",
-        "facility": "Yashoda Hospital & Research Centre, Nehru Nagar",
+        "facility": "Yashoda Hospitals",
         "primary": true
       }
     ],
     "otherNcrLocations": [],
-    "hospital": "Yashoda Hospital & Research Centre, Nehru Nagar",
+    "hospital": "Yashoda Hospitals",
     "sourceUrl": "https://www.yashodahealthcare.com/doctor/Dr-Siddharth-Badola",
     "sourceChecked": "2026-11-09",
     "profileStatus": "unclaimed",
@@ -4301,12 +4292,12 @@ export const providerCandidates: ProviderCandidate[] = [
     "locations": [
       {
         "city": "Ghaziabad",
-        "facility": "Yashoda Hospital & Research Centre, Nehru Nagar",
+        "facility": "Yashoda Hospitals",
         "primary": true
       }
     ],
     "otherNcrLocations": [],
-    "hospital": "Yashoda Hospital & Research Centre, Nehru Nagar",
+    "hospital": "Yashoda Hospitals",
     "sourceUrl": "https://www.yashodahealthcare.com/doctor/anushree-vartak",
     "sourceChecked": "2026-11-09",
     "profileStatus": "unclaimed",
@@ -4600,12 +4591,12 @@ export const providerCandidates: ProviderCandidate[] = [
     "locations": [
       {
         "city": "Ghaziabad",
-        "facility": "Yashoda Hospital & Research Centre, Nehru Nagar",
+        "facility": "Yashoda Hospitals",
         "primary": true
       }
     ],
     "otherNcrLocations": [],
-    "hospital": "Yashoda Hospital & Research Centre, Nehru Nagar",
+    "hospital": "Yashoda Hospitals",
     "sourceUrl": "https://www.yashodahealthcare.com/doctor/Dr-Manish-Kumar-Sharma",
     "sourceChecked": "2026-11-09",
     "profileStatus": "unclaimed",
@@ -4705,7 +4696,6 @@ export const providerCandidates: ProviderCandidate[] = [
     "live": true,
     "name": "Dr. K. Naveen Kumar",
     "specialties": [
-      "Vascular surgery",
       "Radiology"
     ],
     "locations": [
