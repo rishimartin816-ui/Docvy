@@ -1,7 +1,7 @@
 import Link from "next/link";
 import DiscoverySearch from "@/components/DiscoverySearch";
 import { Breadcrumbs, DoctorCards } from "@/components/DirectoryPage";
-import { availableCities, citySlug, searchDoctors, slugify } from "@/lib/directory";
+import { availableCities, citySlug, searchDoctors, specialtyMatches } from "@/lib/directory";
 import { getDirectoryDoctors } from "@/lib/public-directory";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 export const dynamic = "force-dynamic";
@@ -14,7 +14,7 @@ export default async function DoctorsPage({ searchParams }: { searchParams: Filt
   const query = typeof searchParams.q === "string" ? searchParams.q.slice(0, 120).trim() : "";
   const specialty = typeof searchParams.specialty === "string" ? searchParams.specialty : "";
   const city = typeof searchParams.location === "string" ? citySlug(searchParams.location) : "";
-  const results = searchDoctors(query, city || undefined, listed).filter(d => !specialty || d.specialties.some(name => slugify(name) === slugify(specialty)));
+  const results = searchDoctors(query, city || undefined, listed).filter(d => !specialty || d.specialties.some(name => specialtyMatches(name, specialty)));
   const pages = Math.max(1, Math.ceil(results.length / 20));
   const page = Math.min(pages, Math.max(1, Number.parseInt(searchParams.page || "1", 10) || 1));
   const href = (p: number) => ({ pathname: "/doctors", query: { ...(query ? { q: query } : {}), ...(city ? { location: city } : {}), ...(specialty ? { specialty } : {}), page: p } });

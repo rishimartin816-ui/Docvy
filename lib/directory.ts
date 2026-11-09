@@ -42,32 +42,38 @@ export function citySlug(value: string) {
   return slug === "gurugram" ? "gurgaon" : slug;
 }
 
+export function specialtySlug(value: string) {
+  const slug = slugify(value);
+  return ["internal-medicine", "general-physician", "general-medicine"].includes(slug) ? "general-medicine" : slug === "psychiatry" ? "mental-health" : slug;
+}
+export function specialtyMatches(name: string, requested: string) { return specialtySlug(name) === specialtySlug(requested); }
+
 export const directorySpecialties = [
   ...specialties.map(({ slug, name }) => ({ slug, name })),
   ...Array.from(new Set([...surgeryGroups.map(({ specialty }) => specialty), ...providerCandidates.filter((doctor) => doctor.live).flatMap((doctor) => doctor.specialties)]))
     .filter((name) => !specialties.some((item) => item.name === name))
     .map((name) => ({ slug: slugify(name), name })),
-];
-
+].filter((item, index, list) => list.findIndex(other => specialtySlug(other.slug) === specialtySlug(item.slug)) === index)
+  .map(item => ({ ...item, slug: specialtySlug(item.slug) }));
 
 export const directoryProcedures = procedures.map((procedure) => ({ ...procedure, slug: slugify(procedure.name) }));
 
 export function doctorsIn(city?: string, specialty?: string, doctors: ProviderCandidate[] = []) {
   return doctors.filter((doctor) =>
     (!city || doctor.locations.some((location) => citySlug(location.city) === city)) &&
-    (!specialty || doctor.specialties.some((name) => slugify(name) === specialty))
+    (!specialty || doctor.specialties.some((name) => specialtyMatches(name, specialty)))
   );
 }
 
 export function searchDoctors(query: string, city?: string, doctors: ProviderCandidate[] = []) {
   const words = query.toLowerCase().replace(/\bgurugram\b/g, "gurgaon").trim().split(/\s+/).filter(Boolean);
   return doctorsIn(city, undefined, doctors).filter((doctor) => {
-    const doctorSpecialties = doctor.specialties.map(slugify);
+    const doctorSpecialties = doctor.specialties.map(specialtySlug);
     const symptomTerms = careGuide.filter((entry) => [entry.specialty, entry.directoryQuery ?? "", ...entry.directorySpecialties ?? []]
-      .some((label) => doctorSpecialties.includes(slugify(label)))).flatMap((entry) => entry.keywords);
+      .some((label) => doctorSpecialties.includes(specialtySlug(label)))).flatMap((entry) => entry.keywords);
     const terms = [
       doctor.name, ...doctor.specialties, ...(doctor.procedures ?? []), ...symptomTerms,
-      ...doctor.specialties.flatMap((name) => specialties.filter((specialty) => specialty.slug === slugify(name)).map(({ plain }) => plain)),
+      ...doctor.specialties.flatMap((name) => specialties.filter((specialty) => specialty.slug === specialtySlug(name)).map(({ plain }) => plain)),
       ...doctor.locations.flatMap(({ city, facility, locality }) => [citySlug(city), facility, locality ?? ""]),
     ].join(" ").toLowerCase();
     return words.every((word) => terms.includes(word));
