@@ -1,3 +1,4 @@
+import DoctorPortrait from "@/components/DoctorPortrait";
 import IllustrationBackground from "@/components/IllustrationBackground";
 import Link from "next/link";
 import { clinicCrmConfig } from "@/lib/clinic-crm-config";
@@ -24,8 +25,11 @@ export function Breadcrumbs({ items }: { items: { name: string; href: string }[]
 
 export function DoctorCards({ doctors }: { doctors: ProviderCandidate[] }) {
   return <ul className="mt-5 grid gap-4 sm:grid-cols-2">{doctors.map((doctor) => <li key={doctor.id} className="docvy-glass p-5">
+    <div className="flex items-start gap-4"><DoctorPortrait name={doctor.name} src={doctor.photoUrl} /><div className="min-w-0">
     <h3 className="text-xl font-bold"><Link href={"/doctor/" + slugify(doctor.id)} className="underline underline-offset-4">{doctor.name}</Link></h3>
-    <p>{doctor.specialties.join(", ")}</p>
+    <p className="mt-2 text-sm leading-6"><span className="font-semibold">Specialty:</span> {doctor.specialties.join(", ")}</p>
+    <p className="mt-2 text-sm text-grey">{doctor.experienceLabel ? doctor.experienceLabel + " of experience" : "Experience details awaiting confirmation"}</p>
+    </div></div>
     <p className="mt-2 text-sm text-grey">{doctor.locations.map(({ city, facility, locality }) => [facility, locality, citySlug(city) === "gurgaon" ? "Gurgaon" : city].filter(Boolean).join(", ")).join(" · ")}</p>
     {doctor.summary && <p className="mt-3 text-sm leading-6 text-grey">{doctor.summary}</p>}
     <Link href={{ pathname: "/request", query: { provider: doctor.id, city: doctor.locations[0].city, facility: doctor.locations[0].facility } }} className="docvy-pill docvy-pill-primary mt-5">Request through DOCVY</Link>
