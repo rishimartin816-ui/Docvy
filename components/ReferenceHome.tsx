@@ -54,6 +54,7 @@ export default function ReferenceHome() {
         </nav>
       </div>
     </section>
+    <section className="reference-activity reference-wrap" aria-label="Appointment activity"><RecentBookingActivity /></section>
     <div className="reference-trust">{trust.map(({ icon: Icon, label }) => <span key={label}><Icon size={24} strokeWidth={1.5} aria-hidden="true" />{label}</span>)}</div>
 
     <ReferenceCareSection id="doctors" scene="doctor" kicker="Doctor discovery" title={<>The right specialty.<br /><em>A doctor near you.</em></>}
@@ -83,7 +84,6 @@ export default function ReferenceHome() {
     <section className="reference-steps" id="how-it-works" aria-labelledby="steps-heading"><div className="reference-wrap">
       <p className="reference-eyebrow text-center text-grey">From search to appointment request</p><h2 id="steps-heading" className="reference-heading mt-4 text-center">Find. Choose.<br /><em>Take the next step.</em></h2>
       <ol>{steps.map((step, index) => <li key={step.title}><span className="text-sm font-semibold text-primary">0{index + 1}</span><h3 className="mt-4 text-xl font-medium">{step.title}</h3><p className="reference-copy mt-3 text-sm">{step.text}</p></li>)}</ol>
-      <div className="mx-auto mt-8 max-w-xl"><RecentBookingActivity /></div>
     </div></section>
 
     <section className="reference-section reference-section-sand" id="procedures" aria-labelledby="procedure-heading"><div className="reference-wrap">

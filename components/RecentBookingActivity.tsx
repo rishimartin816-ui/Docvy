@@ -40,13 +40,10 @@ export default function RecentBookingActivity() {
     onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
     onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
     title="Hover or focus to pause activity"
-    className="mt-6 max-w-3xl rounded-2xl border border-line bg-porc px-4 py-3 sm:px-5">
-    <div className="flex min-h-16 items-center gap-3" aria-live="off">
-      <span className="flex min-w-20 shrink-0 flex-col items-center gap-1 rounded-xl border border-dashed border-line px-3 py-2 text-xs text-grey sm:min-w-24">
-        <CalendarCheck size={18} strokeWidth={1.5} aria-hidden="true" />
-        <span>{booking.minutesAgo + elapsedMinutes} min ago</span>
-      </span>
-      <p className="text-sm leading-6 text-ink">Someone booked an appointment for <span className="font-medium">{booking.specialty}</span> in <span className="font-medium">{booking.city}</span>.</p>
+    className="booking-activity">
+    <div className="flex items-center gap-3 sm:gap-4" aria-live="off">
+      <span className="activity-icon"><CalendarCheck size={21} strokeWidth={1.5} aria-hidden="true" /></span>
+      <p className="min-w-0 text-sm leading-7 text-ink">Someone booked an appointment for <span className="activity-specialty">{booking.specialty}</span> in <span className="activity-city">{booking.city}</span>. <span className="activity-time">{booking.minutesAgo + elapsedMinutes} min ago</span></p>
     </div>
   </aside>;
 }
