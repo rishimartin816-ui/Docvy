@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { productionOrigin } from "@/lib/metadata";
 
 const labels: Record<string, string> = {
+  "/clinics": "Outpatient care",
+  "/hospitals": "Hospitals",
   "/about": "About DOCVY",
   "/book": "Demo booking",
   "/care-guide": "Patient guide",
@@ -32,7 +34,7 @@ export default function RouteBreadcrumbs() {
   const path = usePathname();
   const name = labels[path];
   if (!name) return null;
-  return <div className="mx-auto max-w-[1320px] px-5 pt-4 sm:px-9">
+  return <div className="mx-auto max-w-site px-5 pt-4 sm:px-9">
     <nav aria-label="Breadcrumb" className="text-sm">
       <ol className="flex gap-2"><li><Link href="/" className="underline">Home</Link></li><li aria-current="page"><span aria-hidden="true">/ </span>{name}</li></ol>
     </nav>

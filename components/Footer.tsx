@@ -1,10 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import IllustrationBackground from "@/components/IllustrationBackground";
 import { indexableCities } from "@/lib/directory";
 
 const careLinks = [
-  ["/doctors", "Find doctors"], ["/specialties", "All specialties"], ["/surgery-guide", "Surgeries"],
+  ["/doctors", "Find doctors"], ["/clinics", "Outpatient care"], ["/hospitals", "Hospitals"], ["/specialties", "All specialties"], ["/surgery-guide", "Surgeries"],
   ["/care-guide", "Health guides"], ["/how-it-works", "How it works"],
 ] as const;
 
@@ -40,12 +39,12 @@ export default function Footer() {
     <p className="border-t border-line px-5 py-4 text-center text-sm text-danger">
       In an emergency, call <a href="tel:112" className="inline-flex min-h-11 items-center font-semibold underline">112</a> or go to the nearest hospital.
     </p>
-    <footer className="border-t border-line bg-surface text-sm text-grey">
-      <IllustrationBackground slug="footer-care-together" alt="" footer />
+    <footer className="site-footer border-t border-line text-sm">
+      <div className="mx-auto max-w-site px-5 pt-14 sm:px-8"><p className="reference-eyebrow text-[#ACD5B5]">A clearer next step in healthcare</p><p className="mt-4 max-w-xl font-head text-3xl font-medium leading-tight text-white sm:text-4xl">Find care closer to you.</p></div>
       <nav aria-label="Footer" className={"mx-auto max-w-site gap-6 px-5 py-10 sm:px-8 md:grid " + (indexableCities.length ? "md:grid-cols-5" : "md:grid-cols-4")}>
         <div className="mb-6 md:mb-0">
-          <Link href="/" className="inline-flex min-h-11 items-center gap-2 font-head text-xl font-bold text-ink"><Image src="/icon.svg" alt="" width={29} height={29} unoptimized /> DOCVY</Link>
-          <p className="mt-2 leading-6">Find doctors, explore specialties, and prepare for appointments across India.</p>
+          <Link href="/" className="site-logo inline-flex min-h-11 items-center gap-2 font-head text-xl font-bold"><Image src="/icon.svg" alt="" width={29} height={29} unoptimized /> DOCVY</Link>
+          <p className="footer-description mt-2 leading-6">Find doctors, explore specialties, and prepare for appointments across India.</p>
           <a href="mailto:contact@docvy.in" className="inline-flex min-h-11 items-center text-ink hover:underline">contact@docvy.in</a>
         </div>
         {sections.map(({ heading, links }) => <div key={heading}>

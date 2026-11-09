@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const pages = [
     ["", 1],
     ["/doctors", 0.9],
+    ["/hospitals", 0.7],
     ["/about", 0.6],
     ["/care-guide", 0.9],
     ["/surgery-guide", 0.8],
@@ -34,7 +35,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...liveDoctors.map(({ id }) => [`/doctor/${slugify(id)}`, 0.7] as const),
     ...directoryProcedures.map(({ slug }) => [`/surgeries/${slug}`, 0.7] as const), ...specialties.map(({ slug }) => [`/specialties/${slug}`, 0.7] as const), ...patientTopicGuides.map(({ slug }) => [`/patient-guides/${slug}`, 0.7] as const)].map(([path, priority]) => ({
     url: `${site}${path}`,
-    lastModified: "2026-11-04",
+    lastModified: "2026-11-09",
     changeFrequency: path === "" ? "weekly" : "monthly",
     priority,
   }));

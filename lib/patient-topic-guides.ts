@@ -53,7 +53,7 @@ export const patientTopicGuides: PatientTopicGuide[] = [
     relatedSpecialties: ["General physician / internal medicine", "Cardiology"],
     questions: [
       { question: "Does high blood pressure always mean I need a cardiologist?", answer: "No single online directory can decide that. A clinician can consider your health and advise whether general care or specialist input is suitable." },
-      { question: "Can DOCVY confirm an appointment or treatment plan?", answer: "No. DOCVY does not diagnose, reserve a slot, or confirm treatment. The current enquiry form is closed; contact the hospital or clinic through its official profile." },
+      { question: "Can DOCVY confirm an appointment or treatment plan?", answer: "DOCVY does not diagnose or confirm treatment. You can request a visit for a listed doctor through DOCVY. The provider must confirm availability and the final appointment." },
     ],
     references: [
       { label: "National Health Mission, Government of India: 2025–26 medical-officer training module on hypertension", url: "https://nhm.gov.in/New-Update-2025-26/Whats-new/NCD-Medical-Officers.pdf" },
@@ -84,7 +84,7 @@ export const patientTopicGuides: PatientTopicGuide[] = [
     relatedSpecialties: ["Diabetology / endocrinology", "Obstetrics and gynaecology"],
     questions: [
       { question: "Should I choose an endocrinologist or a gynaecologist for PCOS?", answer: "There is no one answer for everyone. These specialties can address different aspects of care; discuss your concern with a qualified clinician who understands your situation." },
-      { question: "Can DOCVY book a PCOS appointment?", answer: "No. Appointment booking is not live. DOCVY’s enquiry form is closed, so contact a clinic or hospital directly using its official information." },
+      { question: "Can DOCVY book a PCOS appointment?", answer: "For a listed gynaecologist, send an appointment request through DOCVY. The request is saved for coordination and needs provider confirmation." },
     ],
     references: [
       { label: "VMMC & Safdarjung Hospital, Government of India: PCOS in endocrinology services", url: "https://www.vmmc-sjh.mohfw.gov.in/endocrinology" },
@@ -131,7 +131,7 @@ export const patientTopicGuides: PatientTopicGuide[] = [
     relatedSpecialties: ["Pulmonology / respiratory medicine", "General physician / internal medicine"],
     questions: [
       { question: "Can a DOCVY search assess asthma symptoms?", answer: "No. DOCVY search only connects words to broad specialty information; it cannot assess symptoms or urgency. For a life-threatening emergency in India, call 112 or go to the nearest emergency department." },
-      { question: "Does DOCVY arrange an asthma appointment?", answer: "No. Booking is not live and the enquiry form is closed. Use an official clinic or hospital contact to confirm services and availability." },
+      { question: "Does DOCVY arrange an asthma appointment?", answer: "If a suitable respiratory specialist is listed, you can request a visit through DOCVY. The provider must confirm availability and whether the service fits your needs." },
     ],
     references: [
       { label: "National Health Mission, Government of India: medical-officer training module on asthma", url: "https://nhm.gov.in/New-Update-2025-26/Whats-new/NCD-Medical-Officers.pdf" },

@@ -20,7 +20,7 @@ export default async function RequestPage({ searchParams }: { searchParams: Prom
   const available = await providersWithAppointmentIntake(doctors);
   const enabled = isAppointmentIntakeConfigured() && available.length > 0;
   const selected = doctors.find((doctor) => doctor.id === params.provider);
-  return <div className="mx-auto max-w-6xl px-5 py-12 sm:px-9 md:py-16">
+  return <div className="mx-auto max-w-site px-5 py-12 sm:px-9 md:py-16">
     <div className="mb-8 max-w-3xl">
       <p className="text-sm font-medium text-grey">APPOINTMENT REQUEST</p>
       <h1 className="mt-4 text-4xl font-medium leading-tight md:text-5xl">Request your visit through DOCVY.</h1>

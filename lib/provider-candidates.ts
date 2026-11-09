@@ -291,7 +291,7 @@ export const providerCandidates: ProviderCandidate[] = [
   }
 ];
 
-export const providerCities: ProviderCity[] = ["Delhi", "Gurgaon", "Noida"];
+export const providerCities: ProviderCity[] = Array.from(new Set(providerCandidates.filter((doctor) => doctor.live === true).flatMap((doctor) => doctor.locations.map((location) => location.city === "Gurugram" ? "Gurgaon" as const : location.city))));
 
 export const providerProfileCount = providerCandidates.filter((doctor) => doctor.live === true).length;
 export const providerCityListLabel = providerCities.length < 2

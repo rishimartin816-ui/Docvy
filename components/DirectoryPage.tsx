@@ -47,7 +47,7 @@ export default function DirectoryPage({ city, specialty }: { city: typeof cities
   const procedureList = directoryProcedures.filter(({ slug, specialty: name }) => specialty ? slugify(name) === specialty.slug : popularProcedures.includes(slug));
   const items = [{ name: "Doctors", href: "/doctors" }, { name: city.name, href: cityPath }, ...(specialty ? [{ name: specialty.name, href: cityPath + "/" + specialty.slug }] : [])];
 
-  return <div className="docvy-garden"><div className="mx-auto max-w-6xl px-5 py-12 sm:px-9">
+  return <div className="docvy-garden"><div className="mx-auto max-w-site px-5 py-12 sm:px-9">
     <Breadcrumbs items={items} />
     <h1 className="text-4xl font-bold sm:text-6xl">{title}</h1>
     <p className="mt-5 max-w-3xl leading-7">{city.intro}</p>

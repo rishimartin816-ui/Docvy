@@ -13,7 +13,7 @@ const specialties = [
 ] as const;
 
 const links = [
-  ["/surgery-guide", "Surgeries"], ["/care-guide", "Health guides"], ["/for-clinics", "For clinics & doctors"],
+  ["/hospitals", "Hospitals"], ["/surgery-guide", "Surgeries"], ["/care-guide", "Health guides"], ["/for-clinics", "For clinics & doctors"],
 ] as const;
 
 export default function Nav() {
@@ -24,20 +24,20 @@ export default function Nav() {
   const current = (href: string) => pathname === href ? "page" : undefined;
   const close = () => mobile.current?.close();
 
-  return <header className="sticky top-0 z-30 border-b border-line bg-white">
+  return <header className={"site-header sticky top-0 z-30 border-b border-line " + (pathname === "/" ? "site-header-home" : "")}>
     {process.env.NEXT_PUBLIC_DEMO_MODE === "true" && <p className="bg-primary-tint px-4 py-2 text-center text-[13px] text-ink">Demo mode: doctors shown are fictional.</p>}
     <div className="mx-auto flex h-16 max-w-site items-center justify-between gap-4 px-5 sm:px-8 lg:h-[72px]">
-      <Link href="/" aria-label="DOCVY home" className="inline-flex min-h-12 items-center gap-2 font-head text-xl font-bold text-ink">
+      <Link href="/" aria-label="DOCVY home" className="site-logo inline-flex min-h-12 items-center gap-2 font-head text-xl font-bold text-ink">
         <Image src="/icon.svg" alt="" width={29} height={29} unoptimized /> DOCVY
       </Link>
       <nav aria-label="Main" className="hidden items-center gap-5 lg:flex">
         <details ref={desktop} className="relative" onKeyDown={(event) => {
           if (event.key === "Escape") { desktop.current?.removeAttribute("open"); desktop.current?.querySelector("summary")?.focus(); }
         }}>
-          <summary className="flex min-h-12 cursor-pointer list-none items-center gap-1 whitespace-nowrap text-sm font-medium">
+          <summary className="site-nav-link flex min-h-12 cursor-pointer list-none items-center gap-1 whitespace-nowrap text-sm font-medium">
             Find doctors <ChevronDown size={16} strokeWidth={1.5} aria-hidden="true" />
           </summary>
-          <ul className="absolute left-0 top-full grid w-[360px] grid-cols-2 gap-x-2 rounded-card border border-line bg-white p-3">
+          <ul className="absolute left-0 top-full grid w-[360px] grid-cols-2 gap-x-2 rounded-card border border-line bg-white p-3 text-ink">
             {specialties.map(([slug, label]) => {
               const href = "/doctors/specialty/" + slug;
               return <li key={slug}><Link href={href} aria-current={current(href)} onClick={() => desktop.current?.removeAttribute("open")} className="flex min-h-11 items-center px-2 text-sm hover:underline">{label}</Link></li>;
@@ -45,11 +45,11 @@ export default function Nav() {
             <li className="col-span-2"><Link href="/specialties" aria-current={current("/specialties")} onClick={() => desktop.current?.removeAttribute("open")} className="flex min-h-11 items-center px-2 font-medium text-primary hover:underline">View all specialties</Link></li>
           </ul>
         </details>
-        {links.map(([href, label]) => <Link key={href} href={href} aria-current={current(href)} className="flex min-h-12 items-center whitespace-nowrap text-sm font-medium hover:underline">{label}</Link>)}
+        {links.map(([href, label]) => <Link key={href} href={href} aria-current={current(href)} className="site-nav-link flex min-h-12 items-center whitespace-nowrap text-sm font-medium hover:underline">{label}</Link>)}
       </nav>
       <div className="hidden items-center gap-4 lg:flex">
         <Link href="/for-clinics" aria-current={current("/for-clinics")} className="flex min-h-12 items-center whitespace-nowrap text-sm font-medium hover:underline">Log in</Link>
-        <Link href="/doctors" aria-current={current("/doctors")} className="docvy-pill docvy-pill-primary">Find a doctor</Link>
+        <Link href="/doctors" aria-current={current("/doctors")} className="site-header-cta docvy-pill docvy-pill-primary">Find a doctor</Link>
       </div>
       <div className="flex items-center gap-1 lg:hidden">
         <Link href="/doctors" aria-label="Search for a doctor" aria-current={current("/doctors")} className="grid h-12 w-12 place-items-center"><Search size={22} strokeWidth={1.5} /></Link>

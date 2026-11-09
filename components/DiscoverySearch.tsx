@@ -17,6 +17,6 @@ export default function DiscoverySearch({ query = "", city = "" }: { query?: str
       </label>}
       <button type="submit" className="docvy-pill docvy-pill-primary"><Search size={17} strokeWidth={1.5} aria-hidden="true" /> Search</button>
     </form>
-    <p className="mt-3 text-sm text-danger">In an emergency, call <a href="tel:112" className="inline-flex min-h-11 items-center font-bold underline">112</a> or go to the nearest hospital.</p>
+    <p className="emergency-line mt-3 text-sm text-danger">In an emergency, call <a href="tel:112" className="inline-flex min-h-11 items-center font-bold underline">112</a> or go to the nearest hospital.</p>
   </div>;
 }

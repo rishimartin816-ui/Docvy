@@ -27,9 +27,9 @@ export default function SpecialtyPage({ params }: { params: { slug: string } }) 
         <SpecialtyIcon slug={item.slug} />
         <p className="docvy-eyebrow">{item.plain}</p>
         <h1 className="text-4xl font-bold tracking-tight">{item.name}</h1>
-        <p className="text-lg text-[#626262]">{item.description}</p>
+        <p className="text-lg text-grey">{item.description}</p>
         <h2 className="text-xl font-bold">Before your visit</h2>
-        <p className="text-[#626262]">{item.prep}</p>
+        <p className="text-grey">{item.prep}</p>
         <Link href={{ pathname: "/doctors", query: { specialty: item.name } }} className="docvy-pill docvy-pill-primary">Browse this specialty</Link>
       </div>
     </div>
