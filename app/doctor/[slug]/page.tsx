@@ -16,7 +16,7 @@ async function lookup(slug: string) {
 }
 export async function generateMetadata({ params }: Props) {
   const doctor = await lookup(params.slug);
-  const description = `${doctor.name}: ${doctor.specialties.join(", ")} at ${doctor.hospital}, ${doctor.locations[0].city}. Read the sourced profile and DOCVY partnership status.`;
+  const description = `${doctor.name}: ${doctor.specialties.join(", ")} ${doctor.hospital ? "at " + doctor.hospital + ", " : "in "}${doctor.locations[0].city}. Read the sourced profile and DOCVY partnership status.`;
   const path = "/doctor/" + params.slug;
   return { title: doctor.name, description, alternates: { canonical: path }, ...buildPageSocialMetadata(doctor.name + " | DOCVY", description, path) };
 }
@@ -29,20 +29,20 @@ export default async function DoctorPage({ params }: Props) {
     <Breadcrumbs items={[{ name: "Doctors", href: "/doctors" }, { name: doctor.name, href: path }]} />
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
       "@context": "https://schema.org", "@type": doctor.specialties.includes("Dentistry") ? "Dentist" : "Physician",
-      name: doctor.name, url: productionOrigin + path, sameAs: doctor.sourceUrl,
+      name: doctor.name, url: productionOrigin + path, ...(doctor.sourceUrl !== productionOrigin + path ? { sameAs: doctor.sourceUrl } : {}),
       ...(partnered && doctor.photoUrl ? { image: doctor.photoUrl } : {}),
       ...(verified ? { identifier: { "@type": "PropertyValue", propertyID: doctor.registrationCouncil, value: doctor.registrationNumber } } : {}),
     }).replace(/</g, "\\u003c") }} />
     <div className="flex flex-col items-start gap-6 sm:flex-row"><DoctorPortrait name={doctor.name} src={partnered ? doctor.photoUrl : null} large /><div>
       <h1 className="text-4xl font-medium sm:text-5xl">{doctor.name}</h1>
       <p className="mt-4">{doctor.specialties.join(", ")}</p>
-      <p className="mt-3 text-grey">{doctor.hospital} · {doctor.locations[0].city}</p>
+      <p className="mt-3 text-grey">{[doctor.hospital, doctor.locations[0].city].filter(Boolean).join(" · ")}</p>
       {verified && <div className="mt-4"><strong className="text-primary">DOCVY Verified</strong><p className="mt-2 text-sm">Registration: {doctor.registrationNumber} · {doctor.registrationCouncil}</p></div>}
       {!partnered && <p className="mt-5 font-medium">Not yet partnered with DOCVY</p>}
     </div></div>
     {partnered && doctor.summary && <section className="mt-8"><h2 className="text-2xl font-medium">About the doctor</h2><p className="mt-4 max-w-3xl leading-8">{doctor.summary}</p></section>}
     <section className="docvy-glass mt-8 p-6"><h2 className="text-2xl font-medium">Practice location</h2>
-      {doctor.locations.map(location => <div className="mt-4" key={location.city + location.facility}><h3 className="font-medium">{location.facility}</h3><p className="mt-2 text-grey">{[location.locality,location.city].filter(Boolean).join(", ")}</p>{location.address && <p className="mt-2 text-grey">{location.address}</p>}
+      {doctor.locations.map(location => <div className="mt-4" key={location.city + location.facility}><h3 className="font-medium">{location.facility || "Independent practice"}</h3><p className="mt-2 text-grey">{[location.locality,location.city].filter(Boolean).join(", ")}</p>{location.address && <p className="mt-2 text-grey">{location.address}</p>}
         {partnered && <Link className="docvy-pill docvy-pill-primary mt-5" href={{ pathname: "/request", query: { provider: doctor.id, city: location.city, facility: location.facility } }}>Request appointment</Link>}
       </div>)}
       {partnered && <p className="mt-4 text-sm text-grey">This does not reserve a slot. The clinic confirms time and fee.</p>}

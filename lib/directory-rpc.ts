@@ -15,7 +15,7 @@ export function sameOrigin(request: Request) {
   return request.headers.get("origin") === new URL(request.url).origin;
 }
 
-export function signedDirectoryWrite(operation: "profile" | "appointment", body: Record<string, unknown>) {
+export function signedDirectoryWrite(operation: "profile" | "appointment" | "partner", body: Record<string, unknown>) {
   const secret = process.env.DOCVY_DIRECTORY_WRITE_SECRET;
   if (!secret) throw new Error("Directory write connection unavailable");
   const serialized = JSON.stringify(body);

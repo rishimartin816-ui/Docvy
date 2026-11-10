@@ -16,7 +16,7 @@ const specialtyLinks = [
 
 const teamLinks = [
   ["/for-doctors", "For doctors"], ["/for-clinics", "For clinics"], ["/pricing", "Pricing"],
-  ["/claim-profile", "Claim a profile"], ["/remove-profile", "Request removal"], ["/about", "About"], ["/contact", "Contact"], ["/faqs", "FAQs"],
+  ["/partner-with-us", "Partner with us"], ["/claim-profile", "Claim a profile"], ["/remove-profile", "Request removal"], ["/about", "About"], ["/contact", "Contact"], ["/faqs", "FAQs"],
 ] as const;
 
 const legalLinks = [

@@ -17,7 +17,7 @@ async function areaData(params: Props["params"]) {
 }
 export async function generateStaticParams() {
   const doctors = await getDirectoryDoctors();
-  return availableCities(doctors).flatMap(c=>Array.from(new Set(doctorsIn(c.slug,undefined,doctors).flatMap(d=>d.locations.filter(l=>citySlug(l.city)===c.slug && l.locality).map(l=>slugify(l.locality!))))).map(area=>({city:c.slug,area})));
+  return availableCities(doctors).filter(c=>cities.some(known=>known.slug===c.slug)).flatMap(c=>Array.from(new Set(doctorsIn(c.slug,undefined,doctors).flatMap(d=>d.locations.filter(l=>citySlug(l.city)===c.slug && l.locality).map(l=>slugify(l.locality!))))).map(area=>({city:c.slug,area})));
 }
 export async function generateMetadata({params}:Props) {
   const d=await areaData(params); const title=`Doctors in ${d.area}, ${d.city.name}`;

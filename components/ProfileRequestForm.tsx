@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-type Doctor = { id: string; name: string; city: string };
+import DoctorProfileSearch, { type ClaimDoctor } from "./DoctorProfileSearch";
 async function portraitData(file: File) {
   if (!file.size) return undefined;
   if (file.size > 8 * 1024 * 1024 || !["image/jpeg", "image/png", "image/webp"].includes(file.type)) throw new Error("Choose a JPG, PNG or WebP portrait under 8 MB.");
@@ -16,7 +16,10 @@ async function portraitData(file: File) {
     return canvas.toDataURL("image/webp", 0.85);
   } finally { bitmap.close(); }
 }
-export default function ProfileRequestForm({ kind, doctors, initialProvider }: { kind: "claim" | "removal"; doctors: Doctor[]; initialProvider: string }) {
+export default function ProfileRequestForm({ kind, doctors, initialProvider }: { kind: "claim" | "removal"; doctors: ClaimDoctor[]; initialProvider: string }) {
+  const initial=doctors.find(d=>d.id===initialProvider);
+  const [providerId,setProviderId]=useState(initial?.id??"");
+  const [doctorName,setDoctorName]=useState(initial?.name??"");
   const [ready, setReady] = useState(false);
   useEffect(() => setReady(true), []);
   const [busy, setBusy] = useState(false);
@@ -27,6 +30,7 @@ export default function ProfileRequestForm({ kind, doctors, initialProvider }: {
   if (reference) return <section role="status" className="docvy-glass p-6"><h2 className="text-xl font-medium">Your request is saved</h2><p className="mt-4">Reference: <strong>{reference}</strong>.</p><p className="mt-3">{kind === "removal" ? "Your removal request is due within 48 hours." : "DOCVY will review your authority and written consent before changing the profile. This does not mark it verified."}</p>{photoNotice && <p className="mt-3 text-sm">{photoNotice}</p>}<p className="mt-3 text-sm text-grey">Email notification to contact@docvy.in is pending while email delivery is being connected. Your private review record has been saved.</p></section>;
   return <form method="post" action="/api/profile-request" className="docvy-glass grid gap-5 p-6" onSubmit={async event => {
     event.preventDefault(); setBusy(true); setError("");
+    if(!providerId){setError("Search your name and select the correct profile first.");setBusy(false);return;}
     const form = new FormData(event.currentTarget);
     if (!id.current) id.current = crypto.randomUUID();
     try {
@@ -42,8 +46,8 @@ export default function ProfileRequestForm({ kind, doctors, initialProvider }: {
     } catch (failure) { setError(failure instanceof Error ? failure.message : "Please try again."); }
     finally { setBusy(false); }
   }}>
-    <label className="text-sm font-medium">Profile<select required name="providerId" defaultValue={initialProvider} className="docvy-select mt-2"><option value="">Choose the listed doctor</option>{doctors.map(d => <option key={d.id} value={d.id}>{d.name} · {d.city}</option>)}</select></label>
-    <label className="text-sm font-medium">Doctor name<input required name="doctorName" maxLength={120} autoComplete="name" className="docvy-select mt-2" /></label>
+    <DoctorProfileSearch disabled={!ready || busy} doctors={doctors} selectedId={providerId} onSelect={doctor=>{setProviderId(doctor?.id??"");setDoctorName(doctor?.name??"");}} partnerLink={kind==="claim"}/>
+    <label className="text-sm font-medium">Doctor name<input required name="doctorName" value={doctorName} onChange={e=>setDoctorName(e.target.value)} maxLength={120} autoComplete="name" className="docvy-select mt-2" /></label>
     {kind === "claim" && <><label className="text-sm font-medium">Medical registration number<input required name="registrationNumber" maxLength={100} className="docvy-select mt-2" /></label><label className="text-sm font-medium">Registration council<input required name="registrationCouncil" maxLength={150} placeholder="State medical council or NMC" className="docvy-select mt-2" /></label></>}
     <label className="text-sm font-medium">Work email<input required type="email" name="email" maxLength={254} autoComplete="email" className="docvy-select mt-2" /></label>
     <label className="text-sm font-medium">Work phone (optional)<input type="tel" name="phone" maxLength={24} autoComplete="tel" className="docvy-select mt-2" /></label>
@@ -53,6 +57,6 @@ export default function ProfileRequestForm({ kind, doctors, initialProvider }: {
     <div className="hidden" aria-hidden="true"><label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
     <label className="flex gap-3 text-sm leading-7"><input required type="checkbox" name="consent" className="mt-1.5 h-5 w-5 shrink-0 accent-primary" /><span>{kind === "claim" ? "I am this doctor or an authorised clinic representative. I give written consent to this profile being listed on DOCVY and to receiving appointment requests." : "I am this doctor or an authorised representative and request removal of this profile."} I agree that DOCVY may use these details to review and respond to this request. <Link className="underline" href="/legal/privacy">Privacy policy</Link>.</span></label>
     {error && <p role="alert" className="text-sm text-danger">{error}</p>}
-    <button disabled={!ready || busy || !doctors.length} className="docvy-pill docvy-pill-primary justify-self-start" type="submit">{busy ? "Saving…" : kind === "claim" ? "Submit claim for review" : "Request removal"}</button>
+    <button disabled={!ready || busy || !providerId} className="docvy-pill docvy-pill-primary justify-self-start" type="submit">{busy ? "Saving…" : kind === "claim" ? "Submit claim for review" : "Request removal"}</button>
   </form>;
 }

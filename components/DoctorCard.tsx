@@ -15,7 +15,7 @@ export default function DoctorCard({ doctor }: { doctor: ProviderCandidate }) {
         <h3 id={"doctor-name-" + doctor.id} className="doctor-card-title"><Link href={profile}>{doctor.name}</Link></h3>
         <p className="doctor-card-specialty">{doctor.specialties.join(" · ")}</p>
         <div className="doctor-card-location">
-          <p><Building2 size={16} strokeWidth={1.5} aria-hidden="true" /><span>{doctor.hospital}</span></p>
+          {doctor.hospital && <p><Building2 size={16} strokeWidth={1.5} aria-hidden="true" /><span>{doctor.hospital}</span></p>}
           <p><MapPin size={16} strokeWidth={1.5} aria-hidden="true" /><span>{[location.locality,location.city].filter(Boolean).join(", ")}</span></p>
         </div>
         {isVerified(doctor) && <p className="doctor-verified"><BadgeCheck size={16} strokeWidth={1.5} aria-hidden="true" /> DOCVY Verified</p>}

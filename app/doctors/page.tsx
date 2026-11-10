@@ -1,7 +1,7 @@
 import Link from "next/link";
 import DiscoverySearch from "@/components/DiscoverySearch";
 import { Breadcrumbs, DoctorCards } from "@/components/DirectoryPage";
-import { availableCities, citySlug, searchDoctors, specialtyMatches } from "@/lib/directory";
+import { availableCities, cities, citySlug, searchDoctors, specialtyMatches } from "@/lib/directory";
 import { getDirectoryDoctors } from "@/lib/public-directory";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 export const dynamic = "force-dynamic";
@@ -30,6 +30,6 @@ export default async function DoctorsPage({ searchParams }: { searchParams: Filt
       {results.length ? <DoctorCards doctors={results.slice((page - 1) * 20, page * 20)} /> : <p className="mt-5">No profiles match this search. <Link href="/doctors" className="underline">Clear the filters</Link> or <Link href="/specialties" className="underline">explore specialty guides</Link>.</p>}
       {pages > 1 && <nav aria-label="Doctor directory pages" className="mt-8 flex flex-wrap items-center gap-3">{page > 1 && <Link href={href(page - 1)} className="docvy-pill">Previous</Link>}<span>Page {page} of {pages}</span>{page < pages && <Link href={href(page + 1)} className="docvy-pill">Next</Link>}</nav>}
     </section>
-    <section className="mt-10"><h2 className="text-2xl font-medium">Browse by city</h2><ul className="mt-4 flex flex-wrap gap-2">{availableCities(listed).map(c => <li key={c.slug}><Link className="docvy-pill" href={"/doctors/" + c.slug}>{c.name}</Link></li>)}</ul></section>
+    <section className="mt-10"><h2 className="text-2xl font-medium">Browse by city</h2><ul className="mt-4 flex flex-wrap gap-2">{availableCities(listed).map(c => <li key={c.slug}><Link className="docvy-pill" href={cities.some(known=>known.slug===c.slug) ? "/doctors/" + c.slug : "/doctors?location=" + c.slug}>{c.name}</Link></li>)}</ul></section>
   </div>;
 }

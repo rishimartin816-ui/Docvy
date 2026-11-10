@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, CalendarDays, ClipboardList, ShieldCheck, Stethoscope } from "lucide-react";
 import { clinicCrmConfig } from "@/lib/clinic-crm-config";
+import { workspaceEnabled } from "@/lib/workspace";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "DOCVY clinic workspace", description: "Explore the DOCVY clinic workspace and find staff and owner sign-in.", alternates: { canonical: "/for-clinics" }, robots: { index: false, follow: true } };
@@ -15,7 +16,7 @@ const tools = [
 
 export default function ForClinicsPage() {
   const crm = clinicCrmConfig();
-  const live = crm?.staging === false;
+  const live = workspaceEnabled() || crm?.staging === false;
   const workspaceHref = "/crm/clinic";
 
   return <div className="relative isolate overflow-hidden docvy-garden px-5 py-12 sm:px-9"><IllustrationBackground slug="for-clinics-welcome" alt="A clinic team welcomes Meera and Ramesh."  />
@@ -24,12 +25,14 @@ export default function ForClinicsPage() {
         <p className="docvy-eyebrow">FOR CLINIC TEAMS</p>
         <h1 className="mt-3 text-4xl font-bold tracking-tight">Clinic workspace</h1>
         <p className="mt-4 max-w-2xl text-lg text-grey">
-          {live ? `Staff at ${crm.clinicName} can sign in to manage the clinic’s day-to-day work.` : "Try the workspace with fictional clinic records. You’ll need a demo staff account to sign in."}
+          {live ? "Authorised clinic staff can sign in to manage their clinic’s day-to-day work." : "Try the workspace with fictional clinic records. You’ll need a demo staff account to sign in."}
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link href={workspaceHref} className="docvy-pill docvy-pill-primary">{live ? "Staff sign-in" : "Open CRM demo"} <ArrowUpRight strokeWidth={1.5} size={16} aria-hidden="true" /></Link>
-          {crm && <Link href="/crm/admin" className="docvy-pill"><ShieldCheck strokeWidth={1.5} size={16} aria-hidden="true" /> Owner sign-in</Link>}
+          {(live || crm) && <Link href="/crm/admin" className="docvy-pill"><ShieldCheck strokeWidth={1.5} size={16} aria-hidden="true" /> Owner sign-in</Link>}
+        <Link href="/partner-with-us" className="docvy-pill">Partner with us</Link>
         </div>
+        <p className="mt-4 text-sm text-grey">Not listed yet? Submit a doctor’s profile for review, whether they practise independently or at your clinic.</p>
       </section>
       <section className="mt-6 grid gap-4 md:grid-cols-3" aria-label="Workspace features">
         {tools.map(({ title, text, icon: Icon }) => <article key={title} className="docvy-glass p-5">

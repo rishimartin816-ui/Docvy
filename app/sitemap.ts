@@ -21,6 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ["/specialties", 0.9],
     ["/contact", 0.7],
     ["/for-doctors", 0.7],
+    ["/partner-with-us", 0.6],
     ["/faqs", 0.6],
     ["/grievance", 0.3],
     ["/how-it-works", 0.6],
