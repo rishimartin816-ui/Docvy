@@ -67,12 +67,12 @@
 - Counts describe sourced published profiles and practices, not verified doctors or confirmed appointment slots. No new doctor partnership was inferred.
 - The new patient content has source references; it is not presented as doctor-reviewed. A named qualified clinician should review it before review fields are filled.
 - Lighthouse and Google's hosted Rich Results Test were not run in this change. JSON-LD was parsed and its page-specific content checked in browser tests; rich-result eligibility or search ranking is not promised.
-- The existing apex-domain Vercel redirect status was outside these changes; American route/profile redirects were explicitly tested as 301.
+- The existing apex-domain redirect was rechecked through Vercel configuration and a live request: `docvy.in/doctors?specialty=cardiology` returns 301 to the matching `www.docvy.in` URL, preserving path and query. American specialty/profile redirects also return 301.
 
 ## Release checklist
 
 - [x] Local type, lint, directory browser checks and sidebar/footer regression.
-- [ ] Vercel production build ready for the new commit.
-- [ ] Live alias assigned to `www.docvy.in`.
-- [ ] Repeat directory/SEO and sidebar/footer checks against the live site.
+- [x] Vercel production build ready for commit `67965f4140f2d14c0baf264c96c00af53ce938d1` (deployment `dpl_8csSmyZ7KbQVuVt16QVe44CCF72T`).
+- [x] Live alias assigned to `www.docvy.in`; existing alternative hosts point to the production domain.
+- [x] Repeated directory/SEO and sidebar/footer checks against `https://www.docvy.in`: all passed, with no client exceptions. Server-rendered HTML also contains canonical specialty content and ItemList, with no bare `/doctors` anchor label.
 - [ ] Optional: run mobile Lighthouse and Google Rich Results Test on the live directory and guides.
