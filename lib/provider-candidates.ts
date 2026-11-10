@@ -22420,12 +22420,6 @@ export const providerCandidates: ProviderCandidate[] = [
         "facility": "Manipal Hospitals, Dhakuria",
         "locality": "Dhakuria",
         "primary": true
-      },
-      {
-        "city": "Kolkata",
-        "facility": "Manipal Hospitals, Mukundapur",
-        "locality": "Mukundapur",
-        "primary": false
       }
     ],
     "otherNcrLocations": [],
@@ -25751,12 +25745,6 @@ export const providerCandidates: ProviderCandidate[] = [
         "facility": "Manipal Hospitals, Millers Road",
         "locality": "Millers Road",
         "primary": true
-      },
-      {
-        "city": "Bengaluru",
-        "facility": "Manipal Hospitals, Old Airport Road",
-        "locality": "Old Airport Road",
-        "primary": false
       }
     ],
     "otherNcrLocations": [],
@@ -27592,12 +27580,6 @@ export const providerCandidates: ProviderCandidate[] = [
         "facility": "Manipal Hospitals, Mukundapur",
         "locality": "Mukundapur",
         "primary": true
-      },
-      {
-        "city": "Kolkata",
-        "facility": "Manipal Hospitals, EM Bypass",
-        "locality": "EM Bypass",
-        "primary": false
       }
     ],
     "otherNcrLocations": [],
@@ -31226,12 +31208,6 @@ export const providerCandidates: ProviderCandidate[] = [
         "facility": "Manipal Hospitals, Mukundapur",
         "locality": "Mukundapur",
         "primary": true
-      },
-      {
-        "city": "Kolkata",
-        "facility": "Manipal Hospitals, Dhakuria",
-        "locality": "Dhakuria",
-        "primary": false
       }
     ],
     "otherNcrLocations": [],

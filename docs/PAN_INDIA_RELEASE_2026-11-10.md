@@ -6,7 +6,7 @@ The publication registry contains 1,270 published profiles across 18 cities: 200
 
 - Source: https://www.manipalhospitals.com/doctors-list/ and its public paginated roster responses, inspected on 10 November 2026. Source URLs are retained per record; where a specific profile URL was not present, the official roster page is retained.
 - 1,529 roster entries were inspected across alternate public roster pages. This is not a census of the hospital group or all Indian doctors.
-- Records missing a sourced specialty, ambiguous city labels, duplicate existing names and exclusively non-medical professional categories were held back. Normalised name + city prevents duplicate records in the new batch; distinct sourced branch labels are retained as practice locations.
+- Records missing a sourced specialty, ambiguous city labels, duplicate existing names and exclusively non-medical professional categories were held back. Normalised name + city prevents duplicate records in the new batch. Same-name entries are not automatically merged across branches; the first sourced entry is retained and repeat entries require identity review.
 - Only professional names, original specialty labels, city and branch affiliation were transcribed. No hospital photographs, biographies, patient reviews, fees, schedules or contact details were copied.
 - The branch/location label supplied by the official roster identifies the facility. A full street address or map coordinate is not invented where absent. The current source batch has no doctor-only records without a facility.
 - This is source validation, not manual medical-council verification or a claim of provider consent. Corrections and removal remain available through the existing private review flow.
