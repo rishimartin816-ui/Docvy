@@ -24,7 +24,7 @@
     "Readable mobile and desktop links",
     "One navigation tree",
     "Native modal and focus trap",
-    "Escape, close, link selection and resize",
+    "Escape, close, expanded-specialty link selection and resize",
     "Fixed footer action and scrollable menu",
     "Compact footer and mobile accordions",
     "Outside-click and route dropdown dismissal"
@@ -36,5 +36,6 @@
     "desktopFooterHeight": 1162,
     "menuLinkColour": "white on white"
   },
-  "crmSidebar": "All six tabs checked at 390px and 1440px with a local browser fixture. No database writes; no browser errors."
+  "crmSidebar": "All six tabs checked at 390px and 1440px with a local browser fixture. No database writes; no browser errors.",
+  "shortViewport": "390x600 passed: expanded specialties, pinned controls, scrolling and login navigation."
 }

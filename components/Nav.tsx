@@ -41,6 +41,7 @@ export default function Nav() {
 
   useEffect(() => {
     const dismiss = (event: PointerEvent) => {
+      if (dialog.current?.open) return;
       if (event.target instanceof Node && !dropdown.current?.contains(event.target)) dropdown.current?.removeAttribute("open");
     };
     document.addEventListener("pointerdown", dismiss);
