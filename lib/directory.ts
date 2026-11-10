@@ -1,5 +1,6 @@
 import { procedures, specialties, surgeryGroups } from "./care-directory";
 import { careGuide } from "./care-guide";
+import { nationalCities } from "./national-cities";
 import { providerCandidates, type ProviderCandidate } from "./provider-candidates";
 
 export const cities = [
@@ -31,6 +32,7 @@ export const cities = [
     intro: "For a consultation in Faridabad, start with the specialty your clinician has suggested or the concern you want assessed. Check the sector and full hospital address together, especially when you are comparing departments at different facilities. A first consultation is a chance to explain what has changed, review relevant reports and ask what should happen next. If surgery has been mentioned, write down questions about alternatives, recovery, costs and who will coordinate follow-up. You can browse the source-linked profiles below and request a visit where a doctor has opted in. A profile does not show a live appointment slot. The provider must confirm availability, fees and the final timing before your visit.",
     question: "Are published consulting hours a confirmed appointment?", answer: "No. They are information from the practice source. Send a request and wait for the provider to confirm your visit.",
   },
+  ...nationalCities,
 ] as const;
 
 export function slugify(value: string) {
@@ -39,12 +41,13 @@ export function slugify(value: string) {
 
 export function citySlug(value: string) {
   const slug = slugify(value);
-  return slug === "gurugram" ? "gurgaon" : slug;
+  return ({gurugram:"gurgaon",bangalore:"bengaluru",mangalore:"mangaluru",mysore:"mysuru"} as Record<string,string>)[slug] ?? slug;
 }
 
 export function specialtySlug(value: string) {
   const slug = slugify(value);
-  return ["internal-medicine", "general-physician", "general-medicine"].includes(slug) ? "general-medicine" : slug === "psychiatry" ? "mental-health" : slug;
+  const aliases: Record<string,string> = {"internal-medicine":"general-medicine", "internal-medicine-evening-clinic":"general-medicine", "general-physician":"general-medicine", "psychiatry":"mental-health", "ear-nose-throat":"ent", "dental-medicine":"dentistry", "obstetrics-and-gynaecology":"gynaecology", "paediatric-and-child-care":"paediatrics", "diabetes-and-endocrinology":"endocrinology", "pulmonary-medicine":"pulmonology", "pulmonology-respiratory-and-sleep-medicine":"pulmonology", "gastrointestinal-science":"gastroenterology", "medical-gastro":"gastroenterology", "surgical-gastro":"gastrointestinal-surgery", "cancer-care-oncology":"oncology", "radiotherapy-oncology-radiation":"radiation-oncology"};
+  return aliases[slug] ?? slug;
 }
 export function specialtyMatches(name: string, requested: string) { return specialtySlug(name) === specialtySlug(requested); }
 
@@ -66,13 +69,14 @@ export function doctorsIn(city?: string, specialty?: string, doctors: ProviderCa
 }
 
 export function searchDoctors(query: string, city?: string, doctors: ProviderCandidate[] = []) {
-  const words = query.toLowerCase().replace(/\bgurugram\b/g, "gurgaon").trim().split(/\s+/).filter(Boolean);
+  const queryAliases: Record<string,string> = {cardiologist:"cardiology",dermatologist:"dermatology",paediatrician:"paediatrics",pediatrician:"paediatrics",gynaecologist:"gynaecology",gynecologist:"gynaecology",ophthalmologist:"ophthalmology",urologist:"urology",neurologist:"neurology",nephrologist:"nephrology",dentist:"dentistry",psychiatrist:"psychiatry",gastroenterologist:"gastroenterology"};
+  const words = query.toLowerCase().replace(/\bnear\s+me\b/g, "").replace(/\bgurugram\b/g, "gurgaon").replace(/\bbangalore\b/g,"bengaluru").replace(/\bmangalore\b/g,"mangaluru").replace(/\bmysore\b/g,"mysuru").trim().split(/\s+/).filter(Boolean).map(w=>queryAliases[w]??w);
   return doctorsIn(city, undefined, doctors).filter((doctor) => {
     const doctorSpecialties = doctor.specialties.map(specialtySlug);
     const symptomTerms = careGuide.filter((entry) => [entry.specialty, entry.directoryQuery ?? "", ...entry.directorySpecialties ?? []]
       .some((label) => doctorSpecialties.includes(specialtySlug(label)))).flatMap((entry) => entry.keywords);
     const terms = [
-      doctor.name, ...doctor.specialties, ...(doctor.procedures ?? []), ...symptomTerms,
+      doctor.name, ...doctor.specialties, ...doctor.specialties.map(s=>specialtySlug(s).replace(/-/g," ")), ...(doctor.procedures ?? []), ...symptomTerms,
       ...doctor.specialties.flatMap((name) => specialties.filter((specialty) => specialty.slug === specialtySlug(name)).map(({ plain }) => plain)),
       ...doctor.locations.flatMap(({ city, facility, locality }) => [citySlug(city), facility, locality ?? ""]),
     ].join(" ").toLowerCase();

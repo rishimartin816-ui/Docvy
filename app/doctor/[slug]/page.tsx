@@ -42,7 +42,7 @@ export default async function DoctorPage({ params }: Props) {
     </div></div>
     {partnered && doctor.summary && <section className="mt-8"><h2 className="text-2xl font-medium">About the doctor</h2><p className="mt-4 max-w-3xl leading-8">{doctor.summary}</p></section>}
     <section className="docvy-glass mt-8 p-6"><h2 className="text-2xl font-medium">Practice location</h2>
-      {doctor.locations.map(location => <div className="mt-4" key={location.city + location.facility}><h3 className="font-medium">{location.facility}</h3><p className="mt-2 text-grey">{location.city}</p>
+      {doctor.locations.map(location => <div className="mt-4" key={location.city + location.facility}><h3 className="font-medium">{location.facility}</h3><p className="mt-2 text-grey">{[location.locality,location.city].filter(Boolean).join(", ")}</p>{location.address && <p className="mt-2 text-grey">{location.address}</p>}
         {partnered && <Link className="docvy-pill docvy-pill-primary mt-5" href={{ pathname: "/request", query: { provider: doctor.id, city: location.city, facility: location.facility } }}>Request appointment</Link>}
       </div>)}
       {partnered && <p className="mt-4 text-sm text-grey">This does not reserve a slot. The clinic confirms time and fee.</p>}

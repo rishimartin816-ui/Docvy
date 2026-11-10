@@ -35,6 +35,7 @@ export default async function DirectoryPage({ city, specialty }: { city: typeof 
   const cityPath = "/doctors/" + city.slug;
   const title = (specialty ? specialty.name + " doctors" : "Doctors") + " in " + city.name;
   const cityDoctors = doctorsIn(city.slug, undefined, listed);
+  const areas = Array.from(new Set(cityDoctors.flatMap(d=>d.locations.filter(l=>citySlug(l.city)===city.slug && l.locality).map(l=>l.locality!)))).sort();
   const availableSpecialties = directorySpecialties.filter(({ slug }) => doctorsIn(city.slug, slug, listed).length > 0);
   const procedureList = directoryProcedures.filter(({ slug, specialty: name }) => specialty ? slugify(name) === specialty.slug : popularProcedures.includes(slug));
   const items = [{ name: "Doctors", href: "/doctors" }, { name: city.name, href: cityPath }, ...(specialty ? [{ name: specialty.name, href: cityPath + "/" + specialty.slug }] : [])];
@@ -45,17 +46,18 @@ export default async function DirectoryPage({ city, specialty }: { city: typeof 
     <p className="mt-5 max-w-3xl leading-7">{city.intro}</p>
     {ready && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
       "@context": "https://schema.org", "@type": "ItemList",
-      itemListElement: doctors.map((doctor, i) => ({ "@type": "ListItem", position: i + 1, name: doctor.name, url: productionOrigin + "/doctor/" + slugify(doctor.id) })),
+      itemListElement: doctors.slice(0,20).map((doctor, i) => ({ "@type": "ListItem", position: i + 1, name: doctor.name, url: productionOrigin + "/doctor/" + slugify(doctor.id) })),
     }).replace(/</g, "\\u003c") }} />}
     <section className="relative isolate mt-8 overflow-hidden rounded-card border border-line p-6">
       {!ready && <IllustrationBackground slug="empty-state-more-options" alt="Meera makes a note to look for more care options later." />}
       <h2 className="text-2xl font-bold">{ready ? "Doctor listings" : "Doctors are joining soon"}</h2>
-      {ready ? <DoctorCards doctors={doctors} /> : <CityWaitlist city={city.slug} specialty={specialty?.slug} enabled={process.env.DOCVY_WAITLIST_ENABLED === "true" && Boolean(clinicCrmConfig())} />}
+      {ready ? <><p className="mt-3 text-sm text-grey">{doctors.length} published profiles. Showing up to 20 here.</p><DoctorCards doctors={doctors.slice(0,20)} /><Link className="docvy-pill mt-5" href={{pathname:"/doctors",query:{location:city.slug,...(specialty?{specialty:specialty.slug}:{})}}}>View all results and filter by area</Link></> : <CityWaitlist city={city.slug} specialty={specialty?.slug} enabled={process.env.DOCVY_WAITLIST_ENABLED === "true" && Boolean(clinicCrmConfig())} />}
     </section>
+    {areas.length>0 && <section className="mt-8"><h2 className="text-2xl font-bold">Browse by neighbourhood</h2><ul className="mt-3 flex flex-wrap gap-2">{areas.map(area=><li key={area}><Link className="docvy-pill" href={cityPath+"/areas/"+slugify(area)}>{area}</Link></li>)}</ul></section>}
     <section className="mt-8">
       <h2 className="text-2xl font-bold">Specialties {cityDoctors.length ? "with listings" : "to explore"}</h2>
       <ul className="mt-3 flex flex-wrap gap-2">{(availableSpecialties.length ? availableSpecialties : directorySpecialties).map(({ slug, name }) =>
-        <li key={slug}><Link href={doctorsIn(city.slug, slug).length >= 3 ? cityPath + "/" + slug : { pathname: "/doctors", query: { location: city.slug, specialty: slug } }} className="docvy-pill">{name}</Link></li>
+        <li key={slug}><Link href={doctorsIn(city.slug, slug, listed).length >= 3 ? cityPath + "/" + slug : { pathname: "/doctors", query: { location: city.slug, specialty: slug } }} className="docvy-pill">{name}</Link></li>
       )}</ul>
     </section>
     {procedureList.length > 0 && <section className="mt-8">
