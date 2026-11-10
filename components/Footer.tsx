@@ -2,62 +2,47 @@ import Image from "next/image";
 import Link from "next/link";
 import { availableCities } from "@/lib/directory";
 import { getDirectoryDoctors } from "@/lib/public-directory";
+import FooterLinks from "./FooterLinks";
 
 const careLinks = [
-  ["/doctors", "Find doctors"], ["/clinics", "Outpatient care"], ["/hospitals", "Hospitals"], ["/specialties", "All specialties"], ["/surgery-guide", "Surgeries"],
-  ["/care-guide", "Health guides"], ["/how-it-works", "How it works"],
+  ["/doctors", "Find doctors"], ["/specialties", "All specialties"], ["/surgery-guide", "Surgeries"],
+  ["/care-guide", "Health guides"], ["/hospitals", "Hospitals"], ["/how-it-works", "How it works"],
 ] as const;
-
-const specialtyLinks = [
-  ["general-medicine", "General medicine"], ["cardiology", "Cardiology"], ["dermatology", "Dermatology"],
-  ["orthopaedics", "Orthopaedics"], ["paediatrics", "Paediatrics"], ["gynaecology", "Gynaecology"],
-  ["ophthalmology", "Ophthalmology"], ["ent", "ENT"],
-].map(([slug, label]) => ["/doctors/specialty/" + slug, label] as const);
-
-const teamLinks = [
-  ["/for-doctors", "For doctors"], ["/for-clinics", "For clinics"], ["/pricing", "Pricing"],
-  ["/partner-with-us", "Partner with us"], ["/claim-profile", "Claim a profile"], ["/remove-profile", "Request removal"], ["/about", "About"], ["/contact", "Contact"], ["/faqs", "FAQs"],
+const companyLinks = [
+  ["/about", "About"], ["/contact", "Contact"], ["/faqs", "FAQs"],
+  ["/for-doctors", "For doctors & clinics"], ["/partner-with-us", "Partner with us"],
+  ["/claim-profile", "Claim a profile"], ["/remove-profile", "Request removal"],
 ] as const;
-
 const legalLinks = [
   ["/legal/privacy", "Privacy"], ["/legal/terms", "Terms"], ["/legal/refund", "Refunds"],
   ["/legal/disclaimer", "Medical disclaimer"], ["/grievance", "Grievance"],
 ] as const;
 
-function LinkList({ links }: { links: readonly (readonly [string, string])[] }) {
-  return <ul>{links.map(([href, label]) => <li key={href}><Link href={href} className="inline-flex min-h-11 items-center text-ink hover:underline">{label}</Link></li>)}</ul>;
-}
-
 export default async function Footer() {
-  const indexableCities = availableCities(await getDirectoryDoctors(), 3);
+  const cities = availableCities(await getDirectoryDoctors(), 3).slice(0, 6);
   const sections = [
     { heading: "Find care", links: careLinks },
-    { heading: "Popular specialties", links: specialtyLinks },
-    ...(indexableCities.length ? [{ heading: "Cities", links: indexableCities.map(({ slug, name }) => ["/doctors/" + slug, name] as const) }] : []),
-    { heading: "DOCVY", links: teamLinks },
+    { heading: "DOCVY", links: companyLinks },
+    ...(cities.length ? [{ heading: "Popular cities", links: [...cities.map(city => ["/doctors/" + city.slug, city.name] as const), ["/doctors", "All covered cities"] as const] }] : []),
   ];
 
   return <>
-    <p className="border-t border-line px-5 py-4 text-center text-sm text-danger">
-      In an emergency, call <a href="tel:112" className="inline-flex min-h-11 items-center font-semibold underline">112</a> or go to the nearest hospital.
-    </p>
+    <p className="border-t border-line px-5 py-3 text-center text-sm text-danger">In an emergency, call <a href="tel:112" className="inline-flex min-h-11 items-center font-semibold underline">112</a> or go to the nearest hospital.</p>
     <footer className="site-footer border-t border-line text-sm">
-      <div className="mx-auto max-w-site px-5 pt-14 sm:px-8"><p className="reference-eyebrow text-[#ACD5B5]">Doctor discovery & patient guides</p><p className="mt-4 max-w-xl font-head text-3xl font-medium leading-tight text-white sm:text-4xl">Find a doctor. Prepare for your visit.</p></div>
-      <nav aria-label="Footer" className={"mx-auto max-w-site gap-6 px-5 py-10 sm:px-8 md:grid " + (indexableCities.length ? "md:grid-cols-5" : "md:grid-cols-4")}>
-        <div className="mb-6 md:mb-0">
+      <div className="mx-auto grid max-w-site gap-5 px-5 py-7 sm:px-8 md:grid-cols-3 md:gap-10 md:py-9 lg:grid-cols-4">
+        <div className="min-w-0">
           <Link href="/" className="site-logo inline-flex min-h-11 items-center gap-2 font-head text-xl font-bold"><Image src="/icon.svg" alt="" width={29} height={29} unoptimized /> DOCVY</Link>
-          <p className="footer-description mt-2 leading-6">Operated by DSS Global Technologies Private Limited.</p><address className="mt-3 not-italic leading-6">2nd Floor, Capital Cityscape, Sector 66, Gurugram, Haryana – 122101, India.</address><p className="footer-description mt-2 leading-6">Browse doctor profiles and read health guides to prepare for a conversation with your clinician.</p>
-          <a href="mailto:contact@docvy.in" className="inline-flex min-h-11 items-center text-ink hover:underline">contact@docvy.in</a>
+          <p className="mt-2 max-w-sm leading-6">Find doctors and prepare for your next visit.</p>
+          <a href="mailto:contact@docvy.in" className="inline-flex min-h-11 items-center hover:underline">contact@docvy.in</a>
+          <p className="mt-2 text-xs leading-5">Operated by DSS Global Technologies Private Limited.</p>
+          <address className="mt-1 max-w-sm text-xs not-italic leading-5">2nd Floor, Capital Cityscape, Sector 66, Gurugram, Haryana – 122101, India.</address>
         </div>
-        {sections.map(({ heading, links }) => <section key={heading} className="mt-6 md:mt-0"><h2 className="mb-2 font-semibold text-ink">{heading}</h2><LinkList links={links} /></section>)}
-      </nav>
-      <div className="border-t border-line">
-        <div className="mx-auto max-w-site px-5 py-5 sm:px-8">
-          <p>© {new Date().getFullYear()} DOCVY. All rights reserved.</p>
-          <nav aria-label="Legal" className="mt-2 flex flex-wrap gap-x-4">{legalLinks.map(([href, label]) => <Link key={href} href={href} className="inline-flex min-h-11 items-center text-ink hover:underline">{label}</Link>)}</nav>
-          <p>DOCVY helps you find doctors and prepare for visits. It does not provide emergency care or replace medical advice.</p>
-        </div>
+        <nav aria-label="Footer" className="min-w-0 md:col-span-2 md:contents"><FooterLinks sections={sections} /></nav>
       </div>
+      <div className="border-t border-line"><div className="mx-auto max-w-site px-5 py-4 sm:px-8">
+        <div className="flex flex-wrap items-center justify-between gap-x-6"><p className="text-xs">© {new Date().getFullYear()} DOCVY. All rights reserved.</p><nav aria-label="Legal" className="flex flex-wrap gap-x-4 text-xs">{legalLinks.map(([href, label]) => <Link key={href} href={href} className="inline-flex min-h-11 items-center hover:underline">{label}</Link>)}</nav></div>
+        <p className="mt-1 max-w-5xl text-xs leading-5">DOCVY helps you find doctors and prepare for visits. It does not provide emergency care or replace medical advice.</p>
+      </div></div>
     </footer>
   </>;
 }
