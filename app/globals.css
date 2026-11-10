@@ -140,7 +140,6 @@ dialog::backdrop { background: rgba(16, 36, 20, .65); backdrop-filter: blur(5px)
 .site-header { background: #fff; }
 .site-header-home { position: absolute; inset: 0 0 auto; color: white; background: transparent; border-color: transparent; }
 .site-header-home .site-logo, .site-header-home .site-nav-link { color: white; }
-.site-header-home .site-logo img, .site-footer .site-logo img { filter: brightness(0) invert(1); }
 .site-header-home .site-header-cta { background: white; border-color: white; color: var(--forest); }
 .site-header-home :focus-visible, .site-footer :focus-visible { outline-color: #ACD5B5; }
 .site-footer { background: var(--forest); color: #D5E4D9; }
@@ -240,7 +239,6 @@ main h2[class] { font-weight: 500; }
 .reference-hero #home-heading { font-weight: 600; }
 .reference-care-main > ul.grid { grid-template-columns: minmax(0, 1fr); }
 .reference-care-main > ul.grid > li { border-radius: 22px; }
-.site-header-home .site-logo img, .site-footer .site-logo img { filter: grayscale(1) invert(1); }
 
 /* Patient-facing homepage: useful information, plain headlines and clear next steps. */
 .care-hero { padding: 126px 0 48px; }

@@ -3,10 +3,10 @@ import type { Metadata } from "next";
 export const productionOrigin = "https://www.docvy.in";
 export const homeLanguageLinks = { "en-IN": productionOrigin + "/", "hi-IN": productionOrigin + "/hi", "x-default": productionOrigin + "/" };
 export const docvyOpenGraphImage = {
-  url: productionOrigin + "/opengraph-image",
+  url: productionOrigin + "/brand/13_social_og_brand_banner.png",
   width: 1200,
   height: 630,
-  alt: "DOCVY patient guides for people across India.",
+  alt: "DOCVY — Find your way to care.",
 };
 
 export function buildPageSocialMetadata(

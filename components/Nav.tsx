@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import BrandLogo from "./BrandLogo";
 import Link from "next/link";
 import { ChevronDown, Menu, Search, X } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -68,7 +68,7 @@ export default function Nav() {
   return <header className={"site-header sticky top-0 z-30 border-b border-line " + (path === "/" ? "site-header-home" : "")}>
     {process.env.NEXT_PUBLIC_DEMO_MODE === "true" && <p className="bg-primary-tint px-4 py-2 text-center text-[13px] text-ink">Demo mode: doctors shown are fictional.</p>}
     <div className="mx-auto flex h-16 max-w-site items-center justify-between gap-4 px-5 sm:px-8 lg:h-[72px]">
-      <Link href="/" aria-label="DOCVY home" className="site-logo inline-flex min-h-12 items-center gap-2 font-head text-xl font-bold text-ink"><Image src="/icon.svg" alt="" width={29} height={29} unoptimized /> DOCVY</Link>
+      <Link href="/" aria-label="DOCVY home" className="site-logo inline-flex min-h-12 shrink-0 items-center"><BrandLogo priority darkBackground={path === "/"} className="w-36 min-[380px]:w-[180px]" /></Link>
       {open ? createPortal(<dialog ref={dialog} aria-label="Main menu" onKeyDown={event => {
         if (event.key !== "Tab") return;
         const items = Array.from(event.currentTarget.querySelectorAll<HTMLElement>("a[href],button:not([disabled]),summary")).filter(item => item.getClientRects().length > 0);
