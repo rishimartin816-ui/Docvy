@@ -1,5 +1,7 @@
 export const specialties = [
   { slug: "general-medicine", name: "General medicine", plain: "Check-ups and general concerns", description: "A general physician can review several concerns together and help you plan a next step.", prep: "Write down what has changed, when it began, and the medicines you take." },
+  { slug: "urology", name: "Urology", plain: "Urinary health and kidney stones", description: "Urologists assess urinary tract concerns and discuss treatment options for kidney stones and related conditions.", prep: "Bring relevant reports and note changes you want to discuss." },
+  { slug: "gastroenterology", name: "Gastroenterology", plain: "Digestive health", description: "Gastroenterologists assess concerns involving digestion, the stomach, bowel and liver.", prep: "Note when symptoms started and bring relevant reports and your medicine list." },
   { slug: "cardiology", name: "Cardiology", plain: "Heart and circulation", description: "Cardiologists focus on the heart and circulation. The clinic can tell you whether to start with a general physician or a heart specialist.", prep: "Bring relevant reports and a list of your medicines." },
   { slug: "dermatology", name: "Dermatology", plain: "Skin, hair and nails", description: "Dermatologists see people with concerns involving the skin, scalp, hair and nails.", prep: "Make a note of when changes started and any products or medicines you have used." },
   { slug: "dentistry", name: "Dentistry", plain: "Teeth and gums", description: "Dentists assess concerns involving the teeth, gums and mouth and discuss options for care.", prep: "Mention discomfort, sensitivity, or recent dental work when you call." },
@@ -8,7 +10,7 @@ export const specialties = [
   { slug: "gynaecology", name: "Gynaecology", plain: "Periods and reproductive health", description: "Gynaecologists focus on reproductive health. Ask the clinic which services are available at your chosen location.", prep: "Bring past reports if you have them and note the questions you want to discuss." },
   { slug: "ophthalmology", name: "Ophthalmology", plain: "Eyes and vision", description: "Ophthalmologists assess eye health and discuss options for eye conditions.", prep: "Ask whether to bring your glasses, current prescriptions, or earlier test results." },
   { slug: "ent", name: "ENT", plain: "Ear, nose and throat", description: "ENT specialists assess concerns involving hearing, the nose, and the throat.", prep: "Write down what you are experiencing and how long it has been happening." },
-  { slug: "mental-health", name: "Mental health", plain: "Mood, stress and wellbeing", description: "Mental health services may include psychiatrists and clinical psychologists. Ask the clinic which service is right for your first conversation.", prep: "Think about what you want help with and whether you prefer to ask about an in-person visit." },
+  { slug: "mental-health", name: "Psychiatry", plain: "Mood, stress and wellbeing", description: "Mental health services may include psychiatrists and clinical psychologists. Ask the clinic which service is right for your first conversation.", prep: "Think about what you want help with and whether you prefer to ask about an in-person visit." },
 ] as const;
 
 export const surgeryGroups = [

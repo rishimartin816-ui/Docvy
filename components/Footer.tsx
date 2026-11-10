@@ -46,13 +46,10 @@ export default async function Footer() {
       <nav aria-label="Footer" className={"mx-auto max-w-site gap-6 px-5 py-10 sm:px-8 md:grid " + (indexableCities.length ? "md:grid-cols-5" : "md:grid-cols-4")}>
         <div className="mb-6 md:mb-0">
           <Link href="/" className="site-logo inline-flex min-h-11 items-center gap-2 font-head text-xl font-bold"><Image src="/icon.svg" alt="" width={29} height={29} unoptimized /> DOCVY</Link>
-          <p className="footer-description mt-2 leading-6">Browse doctor profiles and read health guides to prepare for a conversation with your clinician.</p>
+          <p className="footer-description mt-2 leading-6">Operated by DSS Global Technologies Private Limited.</p><address className="mt-3 not-italic leading-6">2nd Floor, Capital Cityscape, Sector 66, Gurugram, Haryana – 122101, India.</address><p className="footer-description mt-2 leading-6">Browse doctor profiles and read health guides to prepare for a conversation with your clinician.</p>
           <a href="mailto:contact@docvy.in" className="inline-flex min-h-11 items-center text-ink hover:underline">contact@docvy.in</a>
         </div>
-        {sections.map(({ heading, links }) => <div key={heading}>
-          <div className="hidden md:block"><h2 className="mb-2 font-semibold text-ink">{heading}</h2><LinkList links={links} /></div>
-          <details className="border-t border-line md:hidden"><summary className="flex min-h-12 cursor-pointer items-center font-semibold text-ink">{heading}</summary><LinkList links={links} /></details>
-        </div>)}
+        {sections.map(({ heading, links }) => <section key={heading} className="mt-6 md:mt-0"><h2 className="mb-2 font-semibold text-ink">{heading}</h2><LinkList links={links} /></section>)}
       </nav>
       <div className="border-t border-line">
         <div className="mx-auto max-w-site px-5 py-5 sm:px-8">

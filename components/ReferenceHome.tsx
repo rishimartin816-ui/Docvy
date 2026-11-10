@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { getDirectoryDoctors } from "@/lib/public-directory";
+import { isVerified } from "@/lib/profile-policy";
+import { citySlug } from "@/lib/directory";
 import { ArrowRight, ArrowUpRight, BookOpen, ClipboardList, MapPin, Search, Stethoscope } from "lucide-react";
 import DiscoverySearch from "./DiscoverySearch";
 import SpecialtyIcon from "./SpecialtyIcon";
@@ -36,22 +39,26 @@ const guides = [
   { slug: "joint-pain-arthritis", name: "Joint pain", text: "A starting point for understanding your next consultation." },
 ];
 const questions = [
-  ["What can I use DOCVY for?", "You can search doctor profiles, check their listed specialties and practice locations, and read guides to help prepare for a visit. DOCVY is a directory and information service; it does not diagnose or recommend a treatment for you."],
-  ["Can I request an appointment with every doctor listed?", "Appointment requests are available only after a doctor or clinic has agreed to receive them through DOCVY. Look for the request button on the profile. A profile marked ‘Not yet partnered with DOCVY’ does not accept requests here."],
-  ["Does an appointment request confirm my visit?", "You receive a reference when DOCVY saves your request. This does not reserve a slot. The clinic confirms time and fee. Wait for confirmation before making travel plans."],
+  ["What can I use DOCVY for?", "Find doctors by specialty, hospital or city, compare practice details, and prepare for your visit with clear health guides."],
+  ["Can I request an appointment with every doctor listed?", "Look for Request appointment on opted-in profiles. Choose your preferences and receive a request reference; the clinic confirms your visit."],
+  ["Does an appointment request confirm my visit?", "You receive a reference when your request is saved. The clinic confirms the time and fee before your visit; the request itself does not reserve a slot."],
   ["What does DOCVY Verified mean?", "The doctor or clinic has given written consent to their profile, and DOCVY has separately checked the registration number with the relevant medical council or NMC. A listed hospital name or a claimed profile alone does not mean the doctor is verified."],
   ["Where should I start if I’m not sure which specialty to search?", "Read the specialty descriptions and health guides to get familiar with the terms. They provide background for a conversation with a qualified clinician and cannot decide which doctor or treatment is right for your situation."],
 ];
 
-export default function ReferenceHome() {
-  const featuredSpecialties = specialties.filter(({ slug }) => !["dentistry", "mental-health"].includes(slug));
+export default async function ReferenceHome() {
+  const doctors = await getDirectoryDoctors();
+  const verified = doctors.filter(isVerified).length;
+  const facilities = new Set(doctors.flatMap(d=>d.locations.map(l=>l.facility).filter(Boolean))).size;
+  const coveredCities = new Set(doctors.flatMap(d=>d.locations.map(l=>citySlug(l.city)))).size;
+  const featuredSpecialties = specialties;
   return <div className="reference-home care-home">
     <section className="reference-hero care-hero" aria-labelledby="home-heading">
       <div className="reference-wrap">
-        <p className="reference-eyebrow">DOCTORS, SPECIALTIES &amp; HEALTH GUIDES</p>
+        <p className="reference-eyebrow">DOCTORS, SPECIALTIES &amp; HEALTH GUIDES</p><Link href="/hi" lang="hi" className="inline-flex min-h-11 items-center text-sm underline">हिन्दी</Link>
         <h1 id="home-heading">Find a doctor for<br className="hidden sm:block" /> the care you need.</h1>
         <p className="hero-description">Search doctors by specialty, hospital or city. Check practice details and read health guides before your next visit.</p>
-        <div className="reference-search"><DiscoverySearch homepage /></div>
+        <div className="reference-search"><DiscoverySearch homepage /></div><p className="mt-4 text-sm text-grey">{doctors.length.toLocaleString("en-IN")} sourced doctor profiles · {facilities} listed practices · {coveredCities} cities · {verified} DOCVY Verified doctors</p>
         <nav className="care-common-searches" aria-label="Health topics to explore"><span>Explore a concern</span>{commonSearches.map(({ label, query }) => <Link key={query} href={{ pathname: "/doctors", query: { q: query } }}>{label}<ArrowUpRight size={13} strokeWidth={1.5} aria-hidden="true" /></Link>)}</nav>
         <nav className="care-starting-points" aria-label="Choose where to start">{startingPoints.map(({ title, text, href, icon: Icon }) => <Link key={href} href={href} className="care-starting-point"><Icon size={24} strokeWidth={1.5} aria-hidden="true" /><div><h2>{title}</h2><p>{text}</p></div><ArrowUpRight size={18} strokeWidth={1.5} aria-hidden="true" /></Link>)}</nav>
       </div>
@@ -78,10 +85,10 @@ export default function ReferenceHome() {
     </div></section>
 
     <section className="reference-wrap care-section care-faq-section" aria-labelledby="faq-heading">
-      <div><p className="care-kicker">Appointments &amp; profiles</p><h2 id="faq-heading">Before you request an appointment.</h2><p className="care-section-intro">A few things to know about listings, consent and clinic confirmation.</p><Link className="care-text-link" href="/faqs">More about using DOCVY <ArrowRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link></div>
+      <div><p className="care-kicker">Appointments &amp; profiles</p><h2 id="faq-heading">Before you request an appointment.</h2><p className="care-section-intro">How to find care and arrange your next visit.</p><p className="mt-4 text-sm"><span className="inline-flex rounded-full border border-line px-3 py-2 font-medium">DOCVY Verified — badge example</span><br />Awarded only after consent and manual registration checks.</p><Link className="care-text-link" href="/faqs">More about using DOCVY <ArrowRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link></div>
       <div className="care-faq-list">{questions.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div>
     </section>
 
-    <aside className="care-provider-band" aria-labelledby="provider-heading"><div className="reference-wrap"><div><p className="care-kicker">For doctors &amp; clinic teams</p><h2 id="provider-heading">Help patients get to know your practice.</h2><p>Claim your profile and add your own practice details. We review your submitted changes and written consent before enabling appointment requests.</p></div><div className="care-provider-actions"><Link className="docvy-pill docvy-pill-primary" href="/claim-profile">Claim your profile <ArrowUpRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link><Link className="care-text-link" href="/for-clinics">See the clinic workspace demo <ArrowRight size={15} strokeWidth={1.5} aria-hidden="true" /></Link></div></div></aside>
+    <aside className="care-provider-band" aria-labelledby="provider-heading"><div className="reference-wrap"><div><p className="care-kicker">For doctors &amp; clinic teams</p><h2 id="provider-heading">Help patients get to know your practice.</h2><p>Claim your profile and add your own practice details. We review your submitted changes and written consent before enabling appointment requests.</p></div><div className="care-provider-actions"><Link className="docvy-pill docvy-pill-primary" href="/claim-profile">Claim your profile <ArrowUpRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link><Link className="care-text-link" href="/for-doctors">For doctors and clinic teams <ArrowRight size={15} strokeWidth={1.5} aria-hidden="true" /></Link></div></div></aside>
   </div>;
 }

@@ -16,6 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ["/doctors", 0.9],
     ["/hospitals", 0.7],
     ["/about", 0.6],
+    ["/hi", 0.5],
     ["/care-guide", 0.9],
     ["/surgery-guide", 0.8],
     ["/specialties", 0.9],

@@ -1,79 +1,29 @@
 "use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown, Menu, Search, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useRef } from "react";
-
-const specialties = [
-  ["general-medicine", "General medicine"], ["cardiology", "Cardiology"], ["dermatology", "Dermatology"],
-  ["orthopaedics", "Orthopaedics"], ["paediatrics", "Paediatrics"], ["gynaecology", "Gynaecology"],
-  ["ophthalmology", "Ophthalmology"], ["ent", "ENT"],
-] as const;
-
-const links = [
-  ["/hospitals", "Hospitals"], ["/surgery-guide", "Surgeries"], ["/care-guide", "Health guides"], ["/for-clinics", "For clinics & doctors"],
-] as const;
-
-export default function Nav() {
-  const pathname = usePathname();
-  const mobile = useRef<HTMLDialogElement>(null);
-  const menu = useRef<HTMLButtonElement>(null);
-  const desktop = useRef<HTMLDetailsElement>(null);
-  const current = (href: string) => pathname === href ? "page" : undefined;
-  const close = () => mobile.current?.close();
-
-  return <header className={"site-header sticky top-0 z-30 border-b border-line " + (pathname === "/" ? "site-header-home" : "")}>
-    {process.env.NEXT_PUBLIC_DEMO_MODE === "true" && <p className="bg-primary-tint px-4 py-2 text-center text-[13px] text-ink">Demo mode: doctors shown are fictional.</p>}
-    <div className="mx-auto flex h-16 max-w-site items-center justify-between gap-4 px-5 sm:px-8 lg:h-[72px]">
-      <Link href="/" aria-label="DOCVY home" className="site-logo inline-flex min-h-12 items-center gap-2 font-head text-xl font-bold text-ink">
-        <Image src="/icon.svg" alt="" width={29} height={29} unoptimized /> DOCVY
-      </Link>
-      <nav aria-label="Main" className="hidden items-center gap-5 lg:flex">
-        <details ref={desktop} className="relative" onKeyDown={(event) => {
-          if (event.key === "Escape") { desktop.current?.removeAttribute("open"); desktop.current?.querySelector("summary")?.focus(); }
-        }}>
-          <summary className="site-nav-link flex min-h-12 cursor-pointer list-none items-center gap-1 whitespace-nowrap text-sm font-medium">
-            Find doctors <ChevronDown size={16} strokeWidth={1.5} aria-hidden="true" />
-          </summary>
-          <ul className="absolute left-0 top-full grid w-[360px] grid-cols-2 gap-x-2 rounded-card border border-line bg-white p-3 text-ink">
-            {specialties.map(([slug, label]) => {
-              const href = "/doctors/specialty/" + slug;
-              return <li key={slug}><Link href={href} aria-current={current(href)} onClick={() => desktop.current?.removeAttribute("open")} className="flex min-h-11 items-center px-2 text-sm hover:underline">{label}</Link></li>;
-            })}
-            <li className="col-span-2"><Link href="/specialties" aria-current={current("/specialties")} onClick={() => desktop.current?.removeAttribute("open")} className="flex min-h-11 items-center px-2 font-medium text-primary hover:underline">View all specialties</Link></li>
-          </ul>
-        </details>
-        {links.map(([href, label]) => <Link key={href} href={href} aria-current={current(href)} className="site-nav-link flex min-h-12 items-center whitespace-nowrap text-sm font-medium hover:underline">{label}</Link>)}
-      </nav>
-      <div className="hidden items-center gap-4 lg:flex">
-        <Link href="/for-clinics" aria-current={current("/for-clinics")} className="flex min-h-12 items-center whitespace-nowrap text-sm font-medium hover:underline">Log in</Link>
-        <Link href="/doctors" aria-current={current("/doctors")} className="site-header-cta docvy-pill docvy-pill-primary">Find a doctor</Link>
-      </div>
-      <div className="flex items-center gap-1 lg:hidden">
-        <Link href="/doctors" aria-label="Search for a doctor" aria-current={current("/doctors")} className="grid h-12 w-12 place-items-center"><Search size={22} strokeWidth={1.5} /></Link>
-        <button ref={menu} type="button" aria-label="Open menu" aria-haspopup="dialog" aria-controls="docvy-mobile-menu" onClick={() => mobile.current?.showModal()} className="grid h-12 w-12 place-items-center"><Menu size={24} strokeWidth={1.5} /></button>
-      </div>
-    </div>
-    <dialog id="docvy-mobile-menu" ref={mobile} aria-labelledby="mobile-menu-title" onClose={() => menu.current?.focus()} className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none border-0 bg-white p-0 text-ink">
-      <div className="flex h-full flex-col">
-        <div className="flex h-16 shrink-0 items-center justify-between border-b border-line px-5">
-          <h2 id="mobile-menu-title" className="font-head text-xl font-semibold">Menu</h2>
-          <button type="button" aria-label="Close menu" onClick={close} className="grid h-12 w-12 place-items-center"><X size={24} strokeWidth={1.5} /></button>
-        </div>
-        <nav aria-label="Main" className="min-h-0 flex-1 overflow-y-auto px-5 py-2">
-          <details><summary className="flex min-h-12 cursor-pointer items-center gap-2 font-medium">Find doctors <ChevronDown size={16} strokeWidth={1.5} aria-hidden="true" /></summary>
-            <ul className="pl-4">{specialties.map(([slug, label]) => {
-              const href = "/doctors/specialty/" + slug;
-              return <li key={slug}><Link href={href} aria-current={current(href)} onClick={close} className="flex min-h-12 items-center">{label}</Link></li>;
-            })}<li><Link href="/specialties" aria-current={current("/specialties")} onClick={close} className="flex min-h-12 items-center text-primary">View all specialties</Link></li></ul>
-          </details>
-          {links.map(([href, label]) => <Link key={href} href={href} aria-current={current(href)} onClick={close} className="flex min-h-12 items-center border-t border-line font-medium">{label}</Link>)}
-          <Link href="/for-clinics" aria-current={current("/for-clinics")} onClick={close} className="flex min-h-12 items-center border-t border-line font-medium">Log in</Link>
-        </nav>
-        <div className="shrink-0 border-t border-line p-5"><Link href="/doctors" aria-current={current("/doctors")} onClick={close} className="docvy-pill docvy-pill-primary w-full">Find a doctor</Link></div>
-      </div>
-    </dialog>
-  </header>;
+import { useEffect, useRef, useState } from "react";
+import { specialties } from "@/lib/care-directory";
+const links=[["/hospitals","Hospitals"],["/surgery-guide","Surgeries"],["/care-guide","Health guides"],["/for-doctors","For clinics & doctors"]] as const;
+export default function Nav(){
+ const path=usePathname();const [open,setOpen]=useState(false);const panel=useRef<HTMLDivElement>(null);const menu=useRef<HTMLButtonElement>(null);const dropdown=useRef<HTMLDetailsElement>(null);
+ const current=(href:string)=>path===href?"page":undefined;
+ useEffect(()=>{if(!open)return;const trigger=menu.current;const before=document.body.style.overflow;document.body.style.overflow="hidden";panel.current?.querySelector<HTMLElement>('button')?.focus();
+ const key=(e:KeyboardEvent)=>{if(e.key==="Escape")setOpen(false);if(e.key==="Tab"){const nodes=Array.from(panel.current?.querySelectorAll<HTMLElement>('a,button,summary')??[]).filter(n=>n.getClientRects().length);const first=nodes[0],last=nodes[nodes.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}};
+ const resize=()=>{if(innerWidth>=1024)setOpen(false);};document.addEventListener('keydown',key);window.addEventListener('resize',resize);return()=>{document.body.style.overflow=before;document.removeEventListener('keydown',key);window.removeEventListener('resize',resize);trigger?.focus();};},[open]);
+ return <header className={"site-header sticky top-0 z-30 border-b border-line "+(path==="/"?"site-header-home":"")}>
+ {process.env.NEXT_PUBLIC_DEMO_MODE==="true"&&<p className="bg-primary-tint px-4 py-2 text-center text-[13px] text-ink">Demo mode: doctors shown are fictional.</p>}
+ <div className="mx-auto flex h-16 max-w-site items-center justify-between gap-4 px-5 sm:px-8 lg:h-[72px]">
+ <Link href="/" aria-label="DOCVY home" className="site-logo inline-flex min-h-12 items-center gap-2 font-head text-xl font-bold text-ink"><Image src="/icon.svg" alt="" width={29} height={29} unoptimized/>DOCVY</Link>
+ <div ref={panel} id="docvy-navigation" role={open?"dialog":undefined} aria-modal={open?true:undefined} aria-label={open?"Main menu":undefined} className={open?"fixed inset-0 z-50 flex flex-col overflow-y-auto bg-white p-5 text-ink":"hidden lg:block"}>
+ {open&&<div className="flex items-center justify-between border-b border-line pb-3"><span className="text-xl font-semibold">Menu</span><button type="button" onClick={()=>setOpen(false)} aria-label="Close menu" className="grid h-12 w-12 place-items-center"><X strokeWidth={1.5}/></button></div>}
+ <nav aria-label="Main" className="flex flex-1 flex-col gap-2 lg:flex-row lg:items-center lg:gap-5">
+ <details ref={dropdown} className="relative" onKeyDown={e=>{if(e.key==="Escape"){dropdown.current?.removeAttribute('open');dropdown.current?.querySelector('summary')?.focus();}}}><summary className="site-nav-link flex min-h-12 cursor-pointer list-none items-center gap-1 whitespace-nowrap text-sm font-medium">Find doctors<ChevronDown size={16} strokeWidth={1.5}/></summary>
+ <ul className="grid grid-cols-2 gap-2 bg-white p-3 lg:absolute lg:left-0 lg:top-full lg:w-[380px] lg:rounded-card lg:border lg:border-line">{specialties.map(({slug,name})=><li key={slug}><Link href={"/doctors/specialty/"+slug} aria-current={current("/doctors/specialty/"+slug)} onClick={()=>{setOpen(false);dropdown.current?.removeAttribute('open');}} className="flex min-h-11 items-center text-sm hover:underline">{name}</Link></li>)}<li className="col-span-2"><Link href="/specialties" className="flex min-h-11 items-center font-medium underline" onClick={()=>setOpen(false)}>View all specialties</Link></li></ul></details>
+ {links.map(([href,label])=><Link href={href} key={href} aria-current={current(href)} onClick={()=>setOpen(false)} className="site-nav-link flex min-h-12 items-center whitespace-nowrap text-sm font-medium hover:underline">{label}</Link>)}
+ <Link href="/login" aria-current={current('/login')} onClick={()=>setOpen(false)} className="flex min-h-12 items-center text-sm font-medium hover:underline">Log in</Link><Link href="/doctors" onClick={()=>setOpen(false)} className="site-header-cta docvy-pill docvy-pill-primary mt-4 lg:mt-0">Find a doctor</Link>
+ </nav></div>
+ <div className="flex items-center gap-1 lg:hidden"><Link href="/doctors" aria-label="Search for a doctor" className="grid h-12 w-12 place-items-center"><Search size={22} strokeWidth={1.5}/></Link><button ref={menu} type="button" aria-label="Open menu" aria-expanded={open} aria-controls="docvy-navigation" onClick={()=>setOpen(true)} className="grid h-12 w-12 place-items-center"><Menu size={24} strokeWidth={1.5}/></button></div>
+ </div></header>;
 }

@@ -11,7 +11,7 @@ export function middleware(request: NextRequest) {
   }
   const destination = canonicalSiteRedirect(new URL(request.url), process.env.VERCEL_ENV === "production");
   if (destination) {
-    if (request.method === "GET" || request.method === "HEAD") return NextResponse.redirect(destination, 308);
+    if (request.method === "GET" || request.method === "HEAD") return NextResponse.redirect(destination, 301);
     return NextResponse.json({ error: "Open https://www.docvy.in and submit your request there." }, { status: 421, headers: { "Cache-Control": "no-store" } });
   }
   if (url.pathname === "/crm" || url.pathname === "/crm/") {
@@ -37,6 +37,7 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(url, 301);
     }
   }
+  if (/^\/doctors\/rangapani(?:\/|$)/.test(url.pathname)) { url.pathname = url.pathname.replace("/doctors/rangapani", "/doctors/siliguri"); return NextResponse.redirect(url, 301); }
   if (/^\/doctors\/gurugram(?:\/|$)/.test(url.pathname)) {
     url.pathname = url.pathname.replace("/doctors/gurugram", "/doctors/gurgaon");
     return NextResponse.redirect(url, 301);

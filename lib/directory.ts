@@ -41,12 +41,12 @@ export function slugify(value: string) {
 
 export function citySlug(value: string) {
   const slug = slugify(value);
-  return ({gurugram:"gurgaon",bangalore:"bengaluru",mangalore:"mangaluru",mysore:"mysuru"} as Record<string,string>)[slug] ?? slug;
+  return ({rangapani:"siliguri",gurugram:"gurgaon",bangalore:"bengaluru",mangalore:"mangaluru",mysore:"mysuru"} as Record<string,string>)[slug] ?? slug;
 }
 
 export function specialtySlug(value: string) {
   const slug = slugify(value);
-  const aliases: Record<string,string> = {"internal-medicine":"general-medicine", "internal-medicine-evening-clinic":"general-medicine", "general-physician":"general-medicine", "psychiatry":"mental-health", "ear-nose-throat":"ent", "dental-medicine":"dentistry", "obstetrics-and-gynaecology":"gynaecology", "paediatric-and-child-care":"paediatrics", "diabetes-and-endocrinology":"endocrinology", "pulmonary-medicine":"pulmonology", "pulmonology-respiratory-and-sleep-medicine":"pulmonology", "gastrointestinal-science":"gastroenterology", "medical-gastro":"gastroenterology", "surgical-gastro":"gastrointestinal-surgery", "cancer-care-oncology":"oncology", "radiotherapy-oncology-radiation":"radiation-oncology"};
+  const aliases: Record<string,string> = {"orthopedics":"orthopaedics", "orthopedic":"orthopaedics", "pediatrics":"paediatrics", "pediatrician":"paediatrics", "gynecology":"gynaecology", "gynecologist":"gynaecology", "internal-medicine":"general-medicine", "internal-medicine-evening-clinic":"general-medicine", "general-physician":"general-medicine", "psychiatry":"mental-health", "ear-nose-throat":"ent", "dental-medicine":"dentistry", "obstetrics-and-gynaecology":"gynaecology", "paediatric-and-child-care":"paediatrics", "diabetes-and-endocrinology":"endocrinology", "pulmonary-medicine":"pulmonology", "pulmonology-respiratory-and-sleep-medicine":"pulmonology", "gastrointestinal-science":"gastroenterology", "medical-gastro":"gastroenterology", "surgical-gastro":"gastrointestinal-surgery", "cancer-care-oncology":"oncology", "radiotherapy-oncology-radiation":"radiation-oncology"};
   return aliases[slug] ?? slug;
 }
 export function specialtyMatches(name: string, requested: string) { return specialtySlug(name) === specialtySlug(requested); }
@@ -69,7 +69,7 @@ export function doctorsIn(city?: string, specialty?: string, doctors: ProviderCa
 }
 
 export function searchDoctors(query: string, city?: string, doctors: ProviderCandidate[] = []) {
-  const queryAliases: Record<string,string> = {cardiologist:"cardiology",dermatologist:"dermatology",paediatrician:"paediatrics",pediatrician:"paediatrics",gynaecologist:"gynaecology",gynecologist:"gynaecology",ophthalmologist:"ophthalmology",urologist:"urology",neurologist:"neurology",nephrologist:"nephrology",dentist:"dentistry",psychiatrist:"psychiatry",gastroenterologist:"gastroenterology"};
+  const queryAliases: Record<string,string> = {orthopedic:"orthopaedics",orthopedics:"orthopaedics",orthopedist:"orthopaedics",pediatric:"paediatrics",pediatrics:"paediatrics",gynecology:"gynaecology",urologist:"urology",cardiologist:"cardiology",dermatologist:"dermatology",paediatrician:"paediatrics",pediatrician:"paediatrics",gynaecologist:"gynaecology",gynecologist:"gynaecology",ophthalmologist:"ophthalmology",neurologist:"neurology",nephrologist:"nephrology",dentist:"dentistry",psychiatrist:"psychiatry",gastroenterologist:"gastroenterology"};
   const words = query.toLowerCase().replace(/\bnear\s+me\b/g, "").replace(/\bgurugram\b/g, "gurgaon").replace(/\bbangalore\b/g,"bengaluru").replace(/\bmangalore\b/g,"mangaluru").replace(/\bmysore\b/g,"mysuru").trim().split(/\s+/).filter(Boolean).map(w=>queryAliases[w]??w);
   return doctorsIn(city, undefined, doctors).filter((doctor) => {
     const doctorSpecialties = doctor.specialties.map(specialtySlug);
