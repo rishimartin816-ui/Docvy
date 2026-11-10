@@ -58,7 +58,7 @@ export default async function ReferenceHome() {
         <p className="reference-eyebrow">DOCTORS, SPECIALTIES &amp; HEALTH GUIDES</p><Link href="/hi" lang="hi" className="inline-flex min-h-11 items-center text-sm underline">हिन्दी</Link>
         <h1 id="home-heading">Find a doctor for<br className="hidden sm:block" /> the care you need.</h1>
         <p className="hero-description">Search doctors by specialty, hospital or city. Check practice details and read health guides before your next visit.</p>
-        <div className="reference-search"><DiscoverySearch homepage /></div><p className="mt-4 text-sm text-grey">{doctors.length.toLocaleString("en-IN")} sourced doctor profiles · {facilities} listed practices · {coveredCities} cities · {verified} DOCVY Verified doctors</p>
+        <div className="reference-search"><DiscoverySearch homepage /></div><p className="mt-4 text-sm text-[#DDECE1]">{doctors.length.toLocaleString("en-IN")} sourced doctor profiles · {facilities} listed practices · {coveredCities} cities · {verified} DOCVY Verified doctors</p>
         <nav className="care-common-searches" aria-label="Health topics to explore"><span>Explore a concern</span>{commonSearches.map(({ label, query }) => <Link key={query} href={{ pathname: "/doctors", query: { q: query } }}>{label}<ArrowUpRight size={13} strokeWidth={1.5} aria-hidden="true" /></Link>)}</nav>
         <nav className="care-starting-points" aria-label="Choose where to start">{startingPoints.map(({ title, text, href, icon: Icon }) => <Link key={href} href={href} className="care-starting-point"><Icon size={24} strokeWidth={1.5} aria-hidden="true" /><div><h2>{title}</h2><p>{text}</p></div><ArrowUpRight size={18} strokeWidth={1.5} aria-hidden="true" /></Link>)}</nav>
       </div>
