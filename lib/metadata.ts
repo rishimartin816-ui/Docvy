@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const productionOrigin = "https://www.docvy.in";
 export const homeLanguageLinks = { "en-IN": productionOrigin + "/", "hi-IN": productionOrigin + "/hi", "x-default": productionOrigin + "/" };
 export const docvyOpenGraphImage = {
-  url: productionOrigin + "/brand/13_social_og_brand_banner.png",
+  url: productionOrigin + "/brand/14_DOCVY_OpenGraph_1200x630.png",
   width: 1200,
   height: 630,
   alt: "DOCVY — Find your way to care.",

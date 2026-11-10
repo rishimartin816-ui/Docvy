@@ -72,7 +72,7 @@ export default function RootLayout({
               name: "DOCVY",
               url: "https://www.docvy.in",
               email: "contact@docvy.in",
-              logo: "https://www.docvy.in/brand/01_primary_wordmark_dark.svg",
+              logo: "https://www.docvy.in/brand/01_DOCVY_Primary_Transparent.png",
               address: {
                 "@type": "PostalAddress",
                 streetAddress: "2nd Floor, Capital Cityscape, Sector 66",
