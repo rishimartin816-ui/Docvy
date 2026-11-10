@@ -1,3 +1,4 @@
+import { doctorPath } from "@/lib/directory-normalization";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Building2, CalendarCheck } from "lucide-react";
@@ -34,7 +35,7 @@ export default async function RequestPage({ searchParams }: { searchParams: Prom
           <h2 className="mt-4 text-xl font-semibold">{selected.name}</h2>
           <p className="mt-2 text-sm text-grey">{selected.specialties.join(" · ")}</p>
           {selected.locations.map((location) => <p className="mt-3 text-sm leading-7" key={location.facility}>{location.facility}<br />{[location.locality, location.city].filter(Boolean).join(", ")}</p>)}
-          <Link href={"/doctor/" + selected.id} className="mt-3 inline-flex min-h-11 items-center text-sm underline underline-offset-4">Review doctor profile</Link>
+          <Link href={doctorPath(selected)} className="mt-3 inline-flex min-h-11 items-center text-sm underline underline-offset-4">Review doctor profile</Link>
         </div>}
         <div className="docvy-glass p-6">
           <CalendarCheck size={25} strokeWidth={1.5} className="text-ink" aria-hidden="true" />

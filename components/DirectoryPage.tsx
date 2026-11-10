@@ -5,6 +5,9 @@ import Link from "next/link";
 import { clinicCrmConfig } from "@/lib/clinic-crm-config";
 import CityWaitlist from "./CityWaitlist";
 import { cities, citySlug, directorySpecialties, doctorsIn, popularProcedures, directoryProcedures, slugify } from "@/lib/directory";
+import { doctorPath } from "@/lib/directory-normalization";
+import { specialtyDoctorTitle } from "@/lib/specialty-taxonomy";
+import { ChevronRight } from "lucide-react";
 import type { ProviderCandidate } from "@/lib/provider-candidates";
 import { productionOrigin } from "@/lib/metadata";
 
@@ -17,7 +20,7 @@ export function Breadcrumbs({ items }: { items: { name: string; href: string }[]
     }).replace(/</g, "\\u003c") }} />
     <nav aria-label="Breadcrumb" className="mb-6 text-sm">
       <ol className="flex flex-wrap gap-2">{trail.map(({ name, href }, i) => <li key={href} className="flex gap-2">
-        {i > 0 && <span aria-hidden="true">/</span>}
+        {i > 0 && <ChevronRight size={14} strokeWidth={1.5} aria-hidden="true" />}
         {i === trail.length - 1 ? <span aria-current="page">{name}</span> : <Link href={href} className="underline underline-offset-4">{name}</Link>}
       </li>)}</ol>
     </nav>
@@ -33,7 +36,7 @@ export default async function DirectoryPage({ city, specialty }: { city: typeof 
   const doctors = doctorsIn(city.slug, specialty?.slug, listed);
   const ready = doctors.length >= 3;
   const cityPath = "/doctors/" + city.slug;
-  const title = (specialty ? specialty.name + " doctors" : "Doctors") + " in " + city.name;
+  const title = (specialty ? specialtyDoctorTitle(specialty.slug,specialty.name) : "Doctors") + " in " + city.name;
   const cityDoctors = doctorsIn(city.slug, undefined, listed);
   const areas = Array.from(new Set(cityDoctors.flatMap(d=>d.locations.filter(l=>citySlug(l.city)===city.slug && l.locality).map(l=>l.locality!)))).sort();
   const availableSpecialties = directorySpecialties.filter(({ slug }) => doctorsIn(city.slug, slug, listed).length > 0);
@@ -46,7 +49,7 @@ export default async function DirectoryPage({ city, specialty }: { city: typeof 
     <p className="mt-5 max-w-3xl leading-7">{city.intro}</p>
     {ready && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
       "@context": "https://schema.org", "@type": "ItemList",
-      itemListElement: doctors.slice(0,20).map((doctor, i) => ({ "@type": "ListItem", position: i + 1, name: doctor.name, url: productionOrigin + "/doctor/" + slugify(doctor.id) })),
+      itemListElement: doctors.slice(0,20).map((doctor, i) => ({ "@type": "ListItem", position: i + 1, name: doctor.name, url: productionOrigin + doctorPath(doctor) })),
     }).replace(/</g, "\\u003c") }} />}
     <section className="relative isolate mt-8 overflow-hidden rounded-card border border-line p-6">
       {!ready && <IllustrationBackground slug="empty-state-more-options" alt="Meera makes a note to look for more care options later." />}

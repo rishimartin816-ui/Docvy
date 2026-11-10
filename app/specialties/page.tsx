@@ -1,3 +1,4 @@
+import { directorySpecialties } from "@/lib/directory";
 import IllustrationBackground from "@/components/IllustrationBackground";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -21,6 +22,7 @@ export default function SpecialtiesPage() {
           <span className="inline-flex items-center gap-2 font-semibold text-ink">Explore specialty <ArrowUpRight strokeWidth={1.5} size={16} aria-hidden="true" /></span>
         </Link>)}
       </div>
+    <section className="mt-10"><h2 className="text-2xl font-medium">All directory specialties</h2><p className="mt-3 text-sm text-grey">Clinical specialties use the same names in search, navigation and doctor profiles. Clinic centres and services are shown separately on profiles.</p><ul className="mt-5 grid gap-3 sm:grid-cols-3">{directorySpecialties.filter(s=>!specialties.some(g=>g.slug===s.slug)).map(s=><li key={s.slug}><Link href={"/doctors/specialty/"+s.slug} className="inline-flex min-h-11 items-center underline">{s.name}</Link></li>)}</ul></section>
     </div>
   </div>;
 }

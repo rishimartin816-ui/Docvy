@@ -1,3 +1,4 @@
+import { additionalPatientGuides, pcosGuide } from "./additional-patient-guides";
 
 
 export type PatientTopicGuide = {
@@ -8,6 +9,8 @@ export type PatientTopicGuide = {
   answer: string;
   relatedSpecialties: string[];
   procedure?: string;
+  sourceChecked?: string;
+  sections?: { heading: string; paragraphs: string[]; points?: string[] }[];
   lastReviewed?: string;
   reviewedBy?: string;
   questions: { question: string; answer: string }[];
@@ -75,21 +78,7 @@ export const patientTopicGuides: PatientTopicGuide[] = [
       { label: "VMMC & Safdarjung Hospital, Government of India: endocrinology and diabetes clinics", url: "https://www.vmmc-sjh.mohfw.gov.in/endocrinology" },
     ],
   },
-  {
-    slug: "pcos-pcod",
-    topic: "PCOS / PCOD",
-    title: "Which doctor should I see for PCOS or PCOD?",
-    metaDescription: "Real appointments are currently unavailable through DOCVY. Contact the clinic directly to check availability.",
-    answer: "Endocrinology and gynaecology may both be relevant to PCOS, depending on the questions and care needed. VMMC & Safdarjung Hospital's endocrinology department lists PCOS among its services; reproductive-health concerns may also involve a gynaecologist. A clinician can help determine the right route for an individual.",
-    relatedSpecialties: ["Diabetology / endocrinology", "Obstetrics and gynaecology"],
-    questions: [
-      { question: "Should I choose an endocrinologist or a gynaecologist for PCOS?", answer: "There is no one answer for everyone. These specialties can address different aspects of care; discuss your concern with a qualified clinician who understands your situation." },
-      { question: "Can DOCVY book a PCOS appointment?", answer: "For a listed gynaecologist, send an appointment request through DOCVY. The request is saved for coordination and needs provider confirmation." },
-    ],
-    references: [
-      { label: "VMMC & Safdarjung Hospital, Government of India: PCOS in endocrinology services", url: "https://www.vmmc-sjh.mohfw.gov.in/endocrinology" },
-    ],
-  },
+  pcosGuide,
   {
     slug: "joint-pain-arthritis",
     topic: "Joint pain and arthritis",
@@ -138,4 +127,5 @@ export const patientTopicGuides: PatientTopicGuide[] = [
       { label: "AIIMS Delhi: Pulmonary, Critical Care & Sleep Medicine", url: "https://aiims.edu/index.php/en/pulmonary-intro" },
     ],
   },
+  ...additionalPatientGuides,
 ];

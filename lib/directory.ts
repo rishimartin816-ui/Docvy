@@ -1,7 +1,8 @@
-import { procedures, specialties, surgeryGroups } from "./care-directory";
+import { procedures, specialties } from "./care-directory";
 import { careGuide } from "./care-guide";
 import { nationalCities } from "./national-cities";
-import { providerCandidates, type ProviderCandidate } from "./provider-candidates";
+import type { ProviderCandidate } from "./provider-candidates";
+import { canonicalSpecialty, specialtyRegistry, americanSpecialtyAliases } from "./specialty-taxonomy";
 
 export const cities = [
   {
@@ -44,20 +45,9 @@ export function citySlug(value: string) {
   return ({rangapani:"siliguri",gurugram:"gurgaon",bangalore:"bengaluru",mangalore:"mangaluru",mysore:"mysuru"} as Record<string,string>)[slug] ?? slug;
 }
 
-export function specialtySlug(value: string) {
-  const slug = slugify(value);
-  const aliases: Record<string,string> = {"orthopedics":"orthopaedics", "orthopedic":"orthopaedics", "pediatrics":"paediatrics", "pediatrician":"paediatrics", "gynecology":"gynaecology", "gynecologist":"gynaecology", "internal-medicine":"general-medicine", "internal-medicine-evening-clinic":"general-medicine", "general-physician":"general-medicine", "psychiatry":"mental-health", "ear-nose-throat":"ent", "dental-medicine":"dentistry", "obstetrics-and-gynaecology":"gynaecology", "paediatric-and-child-care":"paediatrics", "diabetes-and-endocrinology":"endocrinology", "pulmonary-medicine":"pulmonology", "pulmonology-respiratory-and-sleep-medicine":"pulmonology", "gastrointestinal-science":"gastroenterology", "medical-gastro":"gastroenterology", "surgical-gastro":"gastrointestinal-surgery", "cancer-care-oncology":"oncology", "radiotherapy-oncology-radiation":"radiation-oncology"};
-  return aliases[slug] ?? slug;
-}
+export function specialtySlug(value: string) { return americanSpecialtyAliases[slugify(value)] ?? canonicalSpecialty(value)?.slug ?? slugify(value); }
 export function specialtyMatches(name: string, requested: string) { return specialtySlug(name) === specialtySlug(requested); }
-
-export const directorySpecialties = [
-  ...specialties.map(({ slug, name }) => ({ slug, name })),
-  ...Array.from(new Set([...surgeryGroups.map(({ specialty }) => specialty), ...providerCandidates.filter((doctor) => doctor.live).flatMap((doctor) => doctor.specialties)]))
-    .filter((name) => !specialties.some((item) => item.name === name))
-    .map((name) => ({ slug: slugify(name), name })),
-].filter((item, index, list) => list.findIndex(other => specialtySlug(other.slug) === specialtySlug(item.slug)) === index)
-  .map(item => ({ ...item, slug: specialtySlug(item.slug) }));
+export const directorySpecialties = specialtyRegistry.map(({slug,name})=>({slug,name}));
 
 export const directoryProcedures = procedures.map((procedure) => ({ ...procedure, slug: slugify(procedure.name) }));
 
@@ -76,7 +66,7 @@ export function searchDoctors(query: string, city?: string, doctors: ProviderCan
     const symptomTerms = careGuide.filter((entry) => [entry.specialty, entry.directoryQuery ?? "", ...entry.directorySpecialties ?? []]
       .some((label) => doctorSpecialties.includes(specialtySlug(label)))).flatMap((entry) => entry.keywords);
     const terms = [
-      doctor.name, ...doctor.specialties, ...doctor.specialties.map(s=>specialtySlug(s).replace(/-/g," ")), ...(doctor.procedures ?? []), ...symptomTerms,
+      doctor.name, ...(doctor.centres ?? []), ...doctor.specialties, ...doctor.specialties.flatMap(s=>canonicalSpecialty(s)?.aliases ?? []), ...doctor.specialties.map(s=>specialtySlug(s).replace(/-/g," ")), ...(doctor.procedures ?? []), ...symptomTerms,
       ...doctor.specialties.flatMap((name) => specialties.filter((specialty) => specialty.slug === specialtySlug(name)).map(({ plain }) => plain)),
       ...doctor.locations.flatMap(({ city, facility, locality }) => [citySlug(city), facility, locality ?? ""]),
     ].join(" ").toLowerCase();

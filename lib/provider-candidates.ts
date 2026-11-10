@@ -17,6 +17,9 @@ export type ProviderLocation = {
 
 export type ProviderCandidate = {
   id: string;
+  profileSlug?: string;
+  centres?: string[];
+  serviceTitle?: string;
   profileStatus: "unclaimed" | "claimed" | "verified";
   consentGiven: boolean;
   consentDate: string | null;

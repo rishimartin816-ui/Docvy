@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { ArrowRight, BookOpenCheck, ExternalLink, MapPin, ShieldCheck } from "lucide-react";
 import { HealthTopicIcon } from "@/components/HealthTopicIcon";
 import { patientTopicGuides } from "@/lib/patient-topic-guides";
+import { canonicalSpecialty } from "@/lib/specialty-taxonomy";
+import { ChevronRight } from "lucide-react";
 import { slugify } from "@/lib/directory";
 import { procedures, specialties } from "@/lib/care-directory";
 import { buildPageSocialMetadata } from "@/lib/metadata";
@@ -77,7 +79,7 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
         <nav aria-label="Breadcrumb" className="mb-8 text-sm text-grey">
           <ol className="flex flex-wrap items-center gap-2">
             {breadcrumbs.map((crumb, index) => <li key={crumb.item} className="flex items-center gap-2">
-              {index > 0 && <span aria-hidden="true">/</span>}
+              {index > 0 && <ChevronRight size={14} strokeWidth={1.5} aria-hidden="true" />}
               {index === breadcrumbs.length - 1 ? <span aria-current="page" className="font-semibold text-ink">{crumb.name}</span> : <Link href={index === 0 ? "/" : "/care-guide"} className="underline decoration-[#DEDEDA] underline-offset-4 hover:text-ink">{crumb.name}</Link>}
             </li>)}
           </ol>
@@ -103,7 +105,7 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
             <p className="mt-2 text-sm leading-7 text-grey">This page explains broad specialty roles, not a diagnosis or a personal referral. The same concern can have different causes and care routes.</p>
             <div className="mt-5 rounded-2xl bg-surface p-4">
               <div className="flex items-center gap-2 text-xs font-extrabold tracking-wide text-ink"><MapPin strokeWidth={1.5} size={15} aria-hidden="true" /> CURRENT LISTING AREA</div>
-              <p className="mt-2 text-sm leading-6 text-grey">The guide is for people across India. Explore real doctor profiles in Delhi, Noida, Gurgaon, Ghaziabad and Faridabad.</p>
+              <p className="mt-2 text-sm leading-6 text-grey">Use this guide from anywhere in India. Check the current directory for published city profiles; some cities are marked coming soon.</p>
             </div>
           </aside>
         </div>
@@ -123,9 +125,9 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
           <p className="mt-3 text-sm leading-7 text-grey">These specialty names can help you describe what you are looking for when you call a clinic.</p>
           <ul className="mt-5 flex flex-wrap gap-2">
             {guide.relatedSpecialties.map((specialty) => {
-              const match = specialties.find(({ name }) => name === specialty || (name === "General medicine" && specialty.startsWith("General physician")) || (name === "Gynaecology" && specialty.endsWith("gynaecology")));
+              const match = canonicalSpecialty(specialty.split("/")[0].trim());
               return <li key={specialty} className="rounded-full bg-surface px-3 py-1 text-sm font-semibold text-ink">
-                {match ? <Link href={`/specialties/${match.slug}`} className="underline underline-offset-4">{specialty}</Link> : specialty}
+                {match ? <Link href={specialties.some(item=>item.slug===match.slug)?`/specialties/${match.slug}`:`/doctors/specialty/${match.slug}`} className="underline underline-offset-4">{specialty}</Link> : specialty}
               </li>;
             })}
           </ul>
@@ -136,12 +138,14 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
           <h2 className="mt-3 text-2xl font-bold tracking-tight">Check the details directly</h2>
           <ol className="mt-6 space-y-4">{[
             "Review the doctor’s profile, specialty and practice location on DOCVY. Official hospital sources are linked for reference.",
-            "Send your preferred date, time and contact details through the DOCVY request form for a listed doctor.",
+            "Use Request appointment where the doctor has opted in, and share your preferred timing and contact details.",
             "Keep your DOCVY reference number. Your request does not reserve a slot. The provider must confirm availability, time and fees.",
           ].map((text, index) => <li key={text} className="flex gap-3 rounded-2xl bg-surface p-4"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-extrabold text-white">{index + 1}</span><span className="pt-1 text-sm leading-6 text-grey">{text}</span></li>)}</ol>
           <Link href="/doctors" className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-primary px-4 text-sm font-bold text-white hover:bg-primary-hover">Browse by city and specialty <ArrowRight strokeWidth={1.5} size={16} aria-hidden="true" /></Link>
         </aside>
       </div>
+
+      {guide.sections?.map(section=><section key={section.heading} className="mt-10 max-w-3xl"><h2 className="text-2xl font-medium">{section.heading}</h2>{section.paragraphs.map(paragraph=><p key={paragraph} className="mt-4 leading-8 text-grey">{paragraph}</p>)}{section.points&&<ul className="mt-4 list-disc space-y-2 pl-5 leading-7">{section.points.map(point=><li key={point}>{point}</li>)}</ul>}</section>)}
 
       <section className="mt-12" aria-labelledby="guide-questions">
         <p className="text-xs font-extrabold tracking-[0.13em] text-ink">COMMON QUESTIONS</p>
@@ -153,7 +157,7 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
         <p className="text-xs font-extrabold tracking-[0.13em] text-ink">SOURCES AND LIMITS</p>
         <h2 id="guide-sources" className="mt-3 text-2xl font-bold tracking-tight">Read the source information</h2>
         <p className="mt-3 max-w-4xl text-sm leading-7 text-grey">These public health and hospital resources explain the topic in more detail. Ask your own care team how the information applies to you.</p>
-        <p className="mt-3 text-xs font-semibold text-grey">Source links checked 3 November 2026.</p>
+        <p className="mt-3 text-xs font-semibold text-grey">Source links checked {guide.sourceChecked ?? "2026-11-03"}.</p>
         <ul className="mt-5 flex flex-col gap-3">{guide.references.map((reference) => <li key={reference.url}><a href={reference.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-ink underline decoration-[#DEDEDA] underline-offset-4 hover:text-primary">{reference.label}<ExternalLink strokeWidth={1.5} size={14} aria-hidden="true" /></a></li>)}</ul>
       </section>
 

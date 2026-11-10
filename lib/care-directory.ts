@@ -11,6 +11,9 @@ export const specialties = [
   { slug: "ophthalmology", name: "Ophthalmology", plain: "Eyes and vision", description: "Ophthalmologists assess eye health and discuss options for eye conditions.", prep: "Ask whether to bring your glasses, current prescriptions, or earlier test results." },
   { slug: "ent", name: "ENT", plain: "Ear, nose and throat", description: "ENT specialists assess concerns involving hearing, the nose, and the throat.", prep: "Write down what you are experiencing and how long it has been happening." },
   { slug: "mental-health", name: "Psychiatry", plain: "Mood, stress and wellbeing", description: "Mental health services may include psychiatrists and clinical psychologists. Ask the clinic which service is right for your first conversation.", prep: "Think about what you want help with and whether you prefer to ask about an in-person visit." },
+  { slug: "oncology", name: "Oncology", plain: "Cancer care", description: "Oncology teams assess and treat cancer. The relevant specialty may be medical, surgical or radiation oncology, depending on your referral.", prep: "Bring the referral and the reports the treating team asks for." },
+  { slug: "neurology", name: "Neurology", plain: "Brain, nerves and movement", description: "Neurologists assess concerns involving the brain, nerves and nervous system.", prep: "Note when symptoms began and bring relevant reports and a medicine list." },
+  { slug: "endocrinology", name: "Endocrinology", plain: "Hormones, thyroid and diabetes", description: "Endocrinologists assess hormone-related conditions, including thyroid disorders and diabetes.", prep: "Bring previous blood-test results and the names of your medicines and supplements." },
 ] as const;
 
 export const surgeryGroups = [

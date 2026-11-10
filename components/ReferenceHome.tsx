@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getDirectoryDoctors } from "@/lib/public-directory";
 import { isVerified } from "@/lib/profile-policy";
-import { citySlug } from "@/lib/directory";
+import { cities, doctorsIn, citySlug } from "@/lib/directory";
 import { ArrowRight, ArrowUpRight, BookOpen, ClipboardList, MapPin, Search, Stethoscope } from "lucide-react";
 import DiscoverySearch from "./DiscoverySearch";
 import SpecialtyIcon from "./SpecialtyIcon";
@@ -14,10 +14,10 @@ const startingPoints = [
   { title: "Prepare for a surgery discussion", text: "Know which questions to take with you.", href: "/surgery-guide", icon: ClipboardList },
 ];
 const commonSearches = [
-  { label: "Skin & hair", query: "skin" },
-  { label: "Joint pain", query: "joint pain" },
-  { label: "Diabetes", query: "diabetes" },
-  { label: "Children’s health", query: "children" },
+  { label: "Skin & hair", href: "/specialties/dermatology" },
+  { label: "Joint pain", href: "/patient-guides/joint-pain-arthritis" },
+  { label: "Diabetes", href: "/patient-guides/diabetes" },
+  { label: "Children’s health", href: "/specialties/paediatrics" },
 ];
 const steps = [
   { title: "Start with your concern", text: "Search a specialty, doctor or hospital. Add a city to see the profiles listed there. If you’re unsure where to start, explore the health guides.", icon: Search },
@@ -33,11 +33,16 @@ const procedures = [
   { slug: "tonsil-removal", name: "Tonsil removal", text: "Ask what to plan for before and after the procedure." },
 ];
 const guides = [
-  { slug: "kidney-stones", name: "Kidney stones", text: "What the term means and questions for a urology visit." },
-  { slug: "high-blood-pressure", name: "High blood pressure", text: "The specialties involved and what to ask at a review." },
-  { slug: "diabetes", name: "Diabetes", text: "Who to speak with and what to bring to your appointment." },
-  { slug: "joint-pain-arthritis", name: "Joint pain", text: "A starting point for understanding your next consultation." },
+ {slug:"kidney-stones",name:"Kidney stones",text:"What to ask about pain, scans and a urology visit."},
+ {slug:"diabetes",name:"Diabetes",text:"Plan a first visit or prepare for a follow-up."},
+ {slug:"high-blood-pressure",name:"High blood pressure",text:"Know what to bring to your next review."},
+ {slug:"piles",name:"Piles",text:"Bleeding, discomfort and questions about treatment."},
+ {slug:"thyroid",name:"Thyroid concerns",text:"Understand test names and prepare your questions."},
+ {slug:"pcos-pcod",name:"PCOS / PCOD",text:"Periods, hormone concerns and planning your care."},
+ {slug:"hernia",name:"Hernia",text:"What a new bulge could mean and when to get help."},
+ {slug:"fatty-liver",name:"Fatty liver",text:"Make sense of a scan finding and your next visit."},
 ];
+
 const questions = [
   ["What can I use DOCVY for?", "Find doctors by specialty, hospital or city, compare practice details, and prepare for your visit with clear health guides."],
   ["Can I request an appointment with every doctor listed?", "Look for Request appointment on opted-in profiles. Choose your preferences and receive a request reference; the clinic confirms your visit."],
@@ -52,14 +57,16 @@ export default async function ReferenceHome() {
   const facilities = new Set(doctors.flatMap(d=>d.locations.map(l=>l.facility).filter(Boolean))).size;
   const coveredCities = new Set(doctors.flatMap(d=>d.locations.map(l=>citySlug(l.city)))).size;
   const featuredSpecialties = specialties;
+  const comingCities = cities.filter(c=>["mumbai","hyderabad","chennai"].includes(c.slug) && doctorsIn(c.slug,undefined,doctors).length===0);
   return <div className="reference-home care-home">
     <section className="reference-hero care-hero" aria-labelledby="home-heading">
       <div className="reference-wrap">
         <p className="reference-eyebrow">DOCTORS, SPECIALTIES &amp; HEALTH GUIDES</p><Link href="/hi" lang="hi" className="inline-flex min-h-11 items-center text-sm underline">हिन्दी</Link>
         <h1 id="home-heading">Find a doctor for<br className="hidden sm:block" /> the care you need.</h1>
         <p className="hero-description">Search doctors by specialty, hospital or city. Check practice details and read health guides before your next visit.</p>
-        <div className="reference-search"><DiscoverySearch homepage /></div><p className="mt-4 text-sm text-[#DDECE1]">{doctors.length.toLocaleString("en-IN")} sourced doctor profiles · {facilities} listed practices · {coveredCities} cities · {verified} DOCVY Verified doctors</p>
-        <nav className="care-common-searches" aria-label="Health topics to explore"><span>Explore a concern</span>{commonSearches.map(({ label, query }) => <Link key={query} href={{ pathname: "/doctors", query: { q: query } }}>{label}<ArrowUpRight size={13} strokeWidth={1.5} aria-hidden="true" /></Link>)}</nav>
+        <div className="reference-search"><DiscoverySearch homepage /></div><p className="mt-4 text-sm text-[#DDECE1]">{doctors.length.toLocaleString("en-IN")} sourced doctor profiles · {facilities} listed practices · {coveredCities} cities</p>
+        <nav className="care-common-searches" aria-label="Health topics to explore"><span>Explore a concern</span>{commonSearches.map(({ label, href }) => <Link key={href} href={href}>{label}<ArrowUpRight size={13} strokeWidth={1.5} aria-hidden="true" /></Link>)}</nav>
+        <p className="mt-4 text-sm text-[#DDECE1]">{comingCities.length ? <>Coverage expanding: {comingCities.map((c,i)=><span key={c.slug}>{i ? " · " : ""}<Link href={"/doctors/"+c.slug} className="underline">{c.name} — coming soon</Link></span>)}</> : <Link href="/doctors" className="underline">Explore current city coverage</Link>}</p>
         <nav className="care-starting-points" aria-label="Choose where to start">{startingPoints.map(({ title, text, href, icon: Icon }) => <Link key={href} href={href} className="care-starting-point"><Icon size={24} strokeWidth={1.5} aria-hidden="true" /><div><h2>{title}</h2><p>{text}</p></div><ArrowUpRight size={18} strokeWidth={1.5} aria-hidden="true" /></Link>)}</nav>
       </div>
     </section>
@@ -86,7 +93,7 @@ export default async function ReferenceHome() {
 
     <section className="reference-wrap care-section care-faq-section" aria-labelledby="faq-heading">
       <div><p className="care-kicker">Appointments &amp; profiles</p><h2 id="faq-heading">Before you request an appointment.</h2><p className="care-section-intro">How to find care and arrange your next visit.</p><p className="mt-4 text-sm"><span className="inline-flex rounded-full border border-line px-3 py-2 font-medium">DOCVY Verified — badge example</span><br />Awarded only after consent and manual registration checks.</p><Link className="care-text-link" href="/faqs">More about using DOCVY <ArrowRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link></div>
-      <div className="care-faq-list">{questions.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div>
+      <div className="care-faq-list">{questions.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}{question === "What does DOCVY Verified mean?" && <> Currently, {verified} published {verified===1?"profile has":"profiles have"} completed DOCVY verification. This count changes only after manual checks are recorded.</>}</p></details>)}</div>
     </section>
 
     <aside className="care-provider-band" aria-labelledby="provider-heading"><div className="reference-wrap"><div><p className="care-kicker">For doctors &amp; clinic teams</p><h2 id="provider-heading">Help patients get to know your practice.</h2><p>Claim your profile and add your own practice details. We review your submitted changes and written consent before enabling appointment requests.</p></div><div className="care-provider-actions"><Link className="docvy-pill docvy-pill-primary" href="/claim-profile">Claim your profile <ArrowUpRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link><Link className="care-text-link" href="/for-doctors">For doctors and clinic teams <ArrowRight size={15} strokeWidth={1.5} aria-hidden="true" /></Link></div></div></aside>

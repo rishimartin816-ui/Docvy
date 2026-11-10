@@ -82,7 +82,7 @@ export default function Nav() {
           <div className="flex shrink-0 flex-col border-t border-line p-5">{action}</div>
         </div>
       </dialog>, document.body) : <div className="hidden items-center gap-4 lg:flex">{navigation}{action}</div>}
-      <div className="flex items-center gap-1 lg:hidden"><Link href="/doctors" aria-label="Search for a doctor" className="grid h-12 w-12 place-items-center"><Search size={22} strokeWidth={1.5} aria-hidden="true" /></Link><button ref={menu} type="button" aria-label="Open menu" aria-expanded={open} aria-haspopup="dialog" aria-controls="docvy-navigation" onClick={() => setOpen(true)} className="grid h-12 w-12 place-items-center"><Menu size={24} strokeWidth={1.5} aria-hidden="true" /></button></div>
+      <div className="flex items-center gap-1 lg:hidden"><Link href="/doctors" aria-label="Search for a doctor" className="inline-flex h-12 items-center gap-1.5 px-2"><Search size={20} strokeWidth={1.5} aria-hidden="true" /><span className="text-xs font-medium">Search</span></Link><button ref={menu} type="button" aria-label="Open menu" aria-expanded={open} aria-haspopup="dialog" aria-controls="docvy-navigation" onClick={() => setOpen(true)} className="grid h-12 w-12 place-items-center"><Menu size={24} strokeWidth={1.5} aria-hidden="true" /></button></div>
     </div>
   </header>;
 }

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import ReferenceHome from "@/components/ReferenceHome";
-import { buildPageSocialMetadata, productionOrigin } from "@/lib/metadata";
+import { buildPageSocialMetadata, productionOrigin, homeLanguageLinks } from "@/lib/metadata";
 
 const title = "Find Doctors in India by Specialty, Hospital & City | DOCVY";
 const description = "Find doctors by specialty, hospital or city. Explore health and surgery guides, check practice details and prepare for your next appointment with DOCVY.";
 export const metadata: Metadata = {
-  title: { absolute: title }, description, alternates: { canonical: "/", languages: { "en-IN": "/", "hi-IN": "/hi" } },
+  title: { absolute: title }, description, alternates: { canonical: productionOrigin + "/", languages: homeLanguageLinks },
   ...buildPageSocialMetadata(title, description, "/"),
 };
 export default function Home() {

@@ -1,4 +1,5 @@
 "use client";
+import { canonicalSpecialty, specialtyKey } from "@/lib/specialty-taxonomy";
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -13,7 +14,7 @@ const searchFillers = new Set(["a", "an", "and", "are", "can", "doctor", "doctor
 const anyCurrentCity = "Any current city";
 
 export default function CareGuideSearch({ doctors: providerCandidates }: { doctors: ProviderCandidate[] }) {
-  const providerCities = Array.from(new Set(providerCandidates.flatMap(d=>d.locations.map(l=>l.city))));
+  const providerCities = useMemo(() => Array.from(new Set(providerCandidates.flatMap(d=>d.locations.map(l=>l.city)))), [providerCandidates]);
   const providerCityListLabel = providerCities.join(", ") || "no current city listings";
   const [query, setQuery] = useState("");
   const [city, setCity] = useState<ProviderCity | typeof anyCurrentCity>(anyCurrentCity);
@@ -24,7 +25,7 @@ export default function CareGuideSearch({ doctors: providerCandidates }: { docto
     const initialCity = params.get("city");
     if (initialQuery) setQuery(initialQuery);
     if (initialCity && providerCities.includes(initialCity as ProviderCity)) setCity(initialCity as ProviderCity);
-  }, []);
+  }, [providerCities]);
   const results = useMemo(() => {
     const term = query.trim().toLocaleLowerCase().replace(/[^\p{L}\p{N}\s]/gu, " ");
     if (!term) return careGuide;
@@ -60,7 +61,7 @@ export default function CareGuideSearch({ doctors: providerCandidates }: { docto
     <div className="mt-6 flex flex-wrap items-center justify-between gap-3"><p className="text-sm font-semibold text-grey" aria-live="polite">{query.trim() ? `${results.length} ${results.length === 1 ? "specialty" : "specialties"} match this search` : `${showAll ? careGuide.length : visibleResults.length} of ${careGuide.length} specialties`}<span className="mt-1 block text-xs font-normal text-grey">{city === anyCurrentCity ? `Browse current doctor listings` : `Doctor listings filtered to ${city}`}</span></p>{!query.trim() && <button type="button" onClick={() => setShowAll((value) => !value)} className="rounded-lg px-3 py-2 text-xs font-bold text-ink underline decoration-[#DEDEDA] underline-offset-4 hover:bg-surface">{showAll ? "Show common starting points" : `Browse all ${careGuide.length} specialties`}</button>}</div>
     {visibleResults.length ? <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">{visibleResults.map((item) => {
       const Icon = featuredIcons[item.specialty as keyof typeof featuredIcons] ?? Search;
-      const profileMatches = providerCandidates.filter((doctor) => doctor.specialties.some((specialty) => item.directorySpecialties?.includes(specialty)));
+      const profileMatches = providerCandidates.filter((doctor) => doctor.specialties.some((specialty) => item.directorySpecialties?.some(expected=>(canonicalSpecialty(expected)?.slug ?? specialtyKey(expected))===(canonicalSpecialty(specialty)?.slug ?? specialtyKey(specialty)))));
       const cityMatches = city === anyCurrentCity ? profileMatches : profileMatches.filter((doctor) => doctor.locations.some((location) => location.city === city));
       const directoryParams = new URLSearchParams();
       if (item.directoryQuery) directoryParams.set("q", item.directoryQuery);

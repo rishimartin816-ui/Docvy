@@ -2,7 +2,7 @@ import DoctorPortrait from "@/components/DoctorPortrait";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/DirectoryPage";
-import { slugify } from "@/lib/directory";
+import { doctorPath } from "@/lib/directory-normalization";
 import { getDirectoryDoctors } from "@/lib/public-directory";
 import { canRequestAppointment, isVerified } from "@/lib/profile-policy";
 import { buildPageSocialMetadata, productionOrigin } from "@/lib/metadata";
@@ -10,32 +10,32 @@ import { buildPageSocialMetadata, productionOrigin } from "@/lib/metadata";
 export const dynamic = "force-dynamic";
 type Props = { params: { slug: string } };
 async function lookup(slug: string) {
-  const doctor = (await getDirectoryDoctors()).find(item => slugify(item.id) === slug);
+  const doctor = (await getDirectoryDoctors()).find(item => item.id === slug || item.profileSlug === slug);
   if (!doctor) notFound();
   return doctor;
 }
 export async function generateMetadata({ params }: Props) {
   const doctor = await lookup(params.slug);
   const description = `${doctor.name}: ${doctor.specialties.join(", ")} ${doctor.hospital ? "at " + doctor.hospital + ", " : "in "}${doctor.locations[0].city}. Read the sourced profile and DOCVY partnership status.`;
-  const path = "/doctor/" + params.slug;
+  const path = doctorPath(doctor);
   return { title: doctor.name, description, alternates: { canonical: path }, ...buildPageSocialMetadata(doctor.name + " | DOCVY", description, path) };
 }
 export default async function DoctorPage({ params }: Props) {
   const doctor = await lookup(params.slug);
   const partnered = canRequestAppointment(doctor);
   const verified = isVerified(doctor);
-  const path = "/doctor/" + params.slug;
+  const path = doctorPath(doctor);
   return <div className="mx-auto max-w-5xl px-5 py-12 sm:px-9">
     <Breadcrumbs items={[{ name: "Doctors", href: "/doctors" }, { name: doctor.name, href: path }]} />
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+    {verified && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
       "@context": "https://schema.org", "@type": doctor.specialties.includes("Dentistry") ? "Dentist" : "Physician",
       name: doctor.name, url: productionOrigin + path, ...(doctor.sourceUrl !== productionOrigin + path ? { sameAs: doctor.sourceUrl } : {}),
       ...(partnered && doctor.photoUrl ? { image: doctor.photoUrl } : {}),
       ...(verified ? { identifier: { "@type": "PropertyValue", propertyID: doctor.registrationCouncil, value: doctor.registrationNumber } } : {}),
-    }).replace(/</g, "\\u003c") }} />
+    }).replace(/</g, "\\u003c") }} />}
     <div className="flex flex-col items-start gap-6 sm:flex-row"><DoctorPortrait name={doctor.name} src={partnered ? doctor.photoUrl : null} large /><div>
       <h1 className="text-4xl font-medium sm:text-5xl">{doctor.name}</h1>
-      <p className="mt-4">{doctor.specialties.join(", ")}</p>
+      <p className="mt-4">{doctor.specialties.join(", ") || "Specialty details under review"}</p>{doctor.serviceTitle && <p className="mt-2 text-sm text-grey">Service title: {doctor.serviceTitle}</p>}{doctor.centres?.length ? <p className="mt-2 text-sm text-grey">Centres &amp; services: {doctor.centres.join(" · ")}</p> : null}
       <p className="mt-3 text-grey">{[doctor.hospital, doctor.locations[0].city].filter(Boolean).join(" · ")}</p>
       {verified && <div className="mt-4"><strong className="text-primary">DOCVY Verified</strong><p className="mt-2 text-sm">Registration: {doctor.registrationNumber} · {doctor.registrationCouncil}</p></div>}
       {!partnered && <p className="mt-5 font-medium">Not yet partnered with DOCVY</p>}

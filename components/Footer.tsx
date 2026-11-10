@@ -9,7 +9,7 @@ const careLinks = [
   ["/care-guide", "Health guides"], ["/hospitals", "Hospitals"], ["/how-it-works", "How it works"],
 ] as const;
 const companyLinks = [
-  ["/about", "About"], ["/contact", "Contact"], ["/faqs", "FAQs"],
+  ["/pricing", "Pricing"], ["/about", "About"], ["/contact", "Contact"], ["/faqs", "FAQs"],
   ["/for-doctors", "For doctors & clinics"], ["/partner-with-us", "Partner with us"],
   ["/claim-profile", "Claim a profile"], ["/remove-profile", "Request removal"],
 ] as const;

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { doctorPath } from "@/lib/directory-normalization";
 import { notFound } from "next/navigation";
 import { Breadcrumbs, DoctorCards } from "@/components/DirectoryPage";
 import CityWaitlist from "@/components/CityWaitlist";
@@ -32,7 +33,7 @@ export default async function AreaPage({params}:Props) {
     <h1 className="text-4xl font-medium sm:text-6xl">Doctors in {d.area}, {d.city.name}</h1>
     <p className="mt-6 max-w-3xl leading-8">Find the specialty you need at a practice listed in {d.area}. Check the facility on the profile and confirm the full branch address before travelling. A neighbourhood match is based on the published practice label; it does not show distance from you or guarantee a current consultation slot.</p>
     <section className="mt-8"><h2 className="text-2xl font-medium">{ready?"Doctor profiles in this area":"Doctors are joining soon"}</h2>
-      {ready?<><p className="mt-3 text-sm text-grey">{d.doctors.length} published profiles. Appointment requests require approved provider consent.</p><DoctorCards doctors={d.doctors.slice(0,20)} /><Link className="docvy-pill mt-6" href={{pathname:"/doctors",query:{location:d.city.slug,area:d.area}}}>View all profiles and search specialties</Link><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify({"@context":"https://schema.org","@type":"ItemList",itemListElement:d.doctors.slice(0,20).map((doctor,i)=>({"@type":"ListItem",position:i+1,name:doctor.name,url:productionOrigin+"/doctor/"+doctor.id}))}).replace(/</g,"\\u003c")}} /></>:<CityWaitlist city={d.city.slug} enabled={process.env.DOCVY_WAITLIST_ENABLED==="true" && Boolean(clinicCrmConfig())} />}
+      {ready?<><p className="mt-3 text-sm text-grey">{d.doctors.length} published profiles. Appointment requests require approved provider consent.</p><DoctorCards doctors={d.doctors.slice(0,20)} /><Link className="docvy-pill mt-6" href={{pathname:"/doctors",query:{location:d.city.slug,area:d.area}}}>View all profiles and search specialties</Link><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify({"@context":"https://schema.org","@type":"ItemList",itemListElement:d.doctors.slice(0,20).map((doctor,i)=>({"@type":"ListItem",position:i+1,name:doctor.name,url:productionOrigin+doctorPath(doctor)}))}).replace(/</g,"\\u003c")}} /></>:<CityWaitlist city={d.city.slug} enabled={process.env.DOCVY_WAITLIST_ENABLED==="true" && Boolean(clinicCrmConfig())} />}
     </section>
   </div>;
 }

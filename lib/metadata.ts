@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 export const productionOrigin = "https://www.docvy.in";
+export const homeLanguageLinks = { "en-IN": productionOrigin + "/", "hi-IN": productionOrigin + "/hi", "x-default": productionOrigin + "/" };
 export const docvyOpenGraphImage = {
   url: productionOrigin + "/opengraph-image",
   width: 1200,
