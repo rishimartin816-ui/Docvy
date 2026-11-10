@@ -7,6 +7,7 @@ import localFont from "next/font/local";
 import Nav from "@/components/Nav";
 import RouteBreadcrumbs from "@/components/RouteBreadcrumbs";
 import Footer from "@/components/Footer";
+import SiteFrame from "@/components/SiteFrame";
 import { docvyOpenGraphImage } from "@/lib/metadata";
 
 const docvyFont = localFont({
@@ -89,9 +90,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <Nav />
-        <main id="main"><RouteBreadcrumbs />{children}</main>
-        <Footer />
+        <SiteFrame navigation={<Nav />} footer={<Footer />} breadcrumbs={<RouteBreadcrumbs />}>{children}</SiteFrame>
       </body>
     </html>
   );
