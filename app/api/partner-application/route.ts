@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { directoryIntakeConfig } from "@/lib/directory-intake";
 import { jsonBody, sameOrigin, signedDirectoryWrite } from "@/lib/directory-rpc";
 import { crmUuid } from "@/lib/clinic-crm-config";
+import { notifyPartnerApplication } from "@/lib/partner-notification";
 export const runtime="nodejs";export const dynamic="force-dynamic";
 const reply=(status:number,data:object)=>NextResponse.json(data,{status,headers:{"Cache-Control":"private, no-store"}});
 const clean=(v:unknown,n:number)=>typeof v==="string"?v.trim().replace(/[<>\u0000-\u001f]/g,"").slice(0,n):"";
@@ -17,6 +18,7 @@ export async function POST(request:Request){
   const result=await signedDirectoryWrite("partner",{requestId:body.requestId,payload,networkHash:createHmac("sha256",process.env.DOCVY_DIRECTORY_WRITE_SECRET||config.key).update(request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()||"unknown").digest("hex")});
   if(!result.ok){const details=await result.json();return reply([400,409,429].includes(result.status)?result.status:502,{error:[400,409,429].includes(result.status)?details.message:"Your application could not be confirmed. Retry with the same details."});}
   const reference:unknown=await result.json();if(typeof reference!=="string"||!/^PA-[A-F0-9]{16}$/.test(reference))throw new Error("Invalid reference");
-  return reply(201,{reference,emailStatus:"pending_connection"});
+  const emailStatus=await notifyPartnerApplication({reference,doctorName:payload.doctorName,specialty:payload.specialty,city:payload.city});
+  return reply(201,{reference,emailStatus});
  }catch{return reply(502,{error:"Your application could not be confirmed. Retry with the same details."});}
 }
