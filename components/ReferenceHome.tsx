@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getDirectoryDoctors } from "@/lib/public-directory";
 import { isVerified } from "@/lib/profile-policy";
-import { cities, doctorsIn, citySlug } from "@/lib/directory";
+import { cities, doctorsIn } from "@/lib/directory";
 import { ArrowRight, ArrowUpRight, BookOpen, ClipboardList, MapPin, Search, Stethoscope } from "lucide-react";
 import DiscoverySearch from "./DiscoverySearch";
 import SpecialtyIcon from "./SpecialtyIcon";
@@ -54,8 +54,6 @@ const questions = [
 export default async function ReferenceHome() {
   const doctors = await getDirectoryDoctors();
   const verified = doctors.filter(isVerified).length;
-  const facilities = new Set(doctors.flatMap(d=>d.locations.map(l=>l.facility).filter(Boolean))).size;
-  const coveredCities = new Set(doctors.flatMap(d=>d.locations.map(l=>citySlug(l.city)))).size;
   const featuredSpecialties = specialties;
   const comingCities = cities.filter(c=>["mumbai","hyderabad","chennai"].includes(c.slug) && doctorsIn(c.slug,undefined,doctors).length===0);
   return <div className="reference-home care-home">
@@ -64,7 +62,7 @@ export default async function ReferenceHome() {
         <p className="reference-eyebrow">DOCTORS, SPECIALTIES &amp; HEALTH GUIDES</p><Link href="/hi" lang="hi" className="inline-flex min-h-11 items-center text-sm underline">हिन्दी</Link>
         <h1 id="home-heading">Find a doctor for<br className="hidden sm:block" /> the care you need.</h1>
         <p className="hero-description">Search doctors by specialty, hospital or city. Check practice details and read health guides before your next visit.</p>
-        <div className="reference-search"><DiscoverySearch homepage /></div><p className="mt-4 text-sm text-[#DDECE1]">{doctors.length.toLocaleString("en-IN")} sourced doctor profiles · {facilities} listed practices · {coveredCities} cities</p>
+        <div className="reference-search"><DiscoverySearch homepage /></div>
         <nav className="care-common-searches" aria-label="Health topics to explore"><span>Explore a concern</span>{commonSearches.map(({ label, href }) => <Link key={href} href={href}>{label}<ArrowUpRight size={13} strokeWidth={1.5} aria-hidden="true" /></Link>)}</nav>
         <p className="mt-4 text-sm text-[#DDECE1]">{comingCities.length ? <>Coverage expanding: {comingCities.map((c,i)=><span key={c.slug}>{i ? " · " : ""}<Link href={"/doctors/"+c.slug} className="underline">{c.name} — coming soon</Link></span>)}</> : <Link href="/doctors" className="underline">Explore current city coverage</Link>}</p>
         <nav className="care-starting-points" aria-label="Choose where to start">{startingPoints.map(({ title, text, href, icon: Icon }) => <Link key={href} href={href} className="care-starting-point"><Icon size={24} strokeWidth={1.5} aria-hidden="true" /><div><h2>{title}</h2><p>{text}</p></div><ArrowUpRight size={18} strokeWidth={1.5} aria-hidden="true" /></Link>)}</nav>
