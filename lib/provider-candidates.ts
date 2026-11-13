@@ -13,6 +13,9 @@ export type ProviderLocation = {
   mapsPlaceId?: string;
   mapsSourceUrl?: string;
   kind?: "clinic" | "hospital";
+  consultingHours?: string;
+  consultationFee?: number;
+  currency?: string;
 };
 
 export type ProviderCandidate = {
@@ -20,10 +23,16 @@ export type ProviderCandidate = {
   profileSlug?: string;
   centres?: string[];
   serviceTitle?: string;
+  profileDetails?: {
+    qualifications?: string; experienceYears?: number; experienceAsOf?: string;
+    languages?: string[]; consultationFee?: number; currency?: string;
+    practicePhone?: string; appointmentNote?: string;
+    additionalMapsUrl?: string; additionalMapsLabel?: string;
+  };
   profileStatus: "unclaimed" | "claimed" | "verified";
   consentGiven: boolean;
   consentDate: string | null;
-  consentMethod: "email" | "form" | null;
+  consentMethod: "email" | "form" | "owner_approval" | null;
   registrationNumber: string | null;
   registrationCouncil: string | null;
   verifiedAt: string | null;

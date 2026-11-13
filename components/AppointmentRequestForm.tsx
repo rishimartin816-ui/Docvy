@@ -20,6 +20,8 @@ export default function AppointmentRequestForm({ doctors, initialProvider, initi
     organisation: doctor.hospital,
     city: location.city,
     facility: location.facility,
+    hours: location.consultingHours,
+    fee: location.consultationFee ?? doctor.profileDetails?.consultationFee,
   }))), [doctors]);
   const initialOption = locations.find((item) => item.providerId === initialProvider && (!initialCity || item.city.toLowerCase() === initialCity.toLowerCase()) && (!initialFacility || item.facility === initialFacility))?.key ?? "";
   const [selection, setSelection] = useState(initialOption);
@@ -83,6 +85,7 @@ export default function AppointmentRequestForm({ doctors, initialProvider, initi
     {!enabled && <div role="status" className="mb-5 rounded-xl border border-line bg-surface p-4 text-sm leading-6 text-[#B45309]">Appointment enquiries are not open yet because DOCVY’s private intake connection is not configured. This form is not collecting your details.</div>}
     <div className="grid gap-4 sm:grid-cols-2">
       <label className="sm:col-span-2"><span className="mb-2 block text-sm font-bold text-ink">Choose a doctor and location <span className="text-[#B42318]">*</span></span><select required disabled={!ready || !enabled || busy} value={selection} onChange={(event) => setSelection(event.target.value)} className="min-h-12 w-full rounded-xl border border-line bg-white px-3 text-sm text-ink outline-none focus:ring-2 focus:ring-primary"><option value="">Select a listed doctor</option>{locations.map((item) => <option key={item.key} value={item.key}>{item.provider} · {item.city} · {item.facility}</option>)}</select></label>
+      {selected && (selected.hours || selected.fee != null) && <p className="sm:col-span-2 rounded-xl bg-surface p-4 text-sm leading-7">{selected.facility}{selected.hours && <> · Consulting hours: {selected.hours} IST</>}{selected.fee != null && <> · Consultation fee: ₹{selected.fee}</>}<br />Book in advance. The clinic confirms your requested visit.</p>}
       <label><span className="mb-2 block text-sm font-bold text-ink">Your name <span className="text-[#B42318]">*</span></span><input required disabled={!ready || !enabled || busy} name="name" autoComplete="name" maxLength={100} className="min-h-12 w-full rounded-xl border border-line px-3 text-sm outline-none focus:ring-2 focus:ring-primary" placeholder="Full name"/></label>
       <label><span className="mb-2 block text-sm font-bold text-ink">Mobile number <span className="text-[#B42318]">*</span></span><input required disabled={!ready || !enabled || busy} name="mobile" type="tel" inputMode="tel" autoComplete="tel" maxLength={20} className="min-h-12 w-full rounded-xl border border-line px-3 text-sm outline-none focus:ring-2 focus:ring-primary" placeholder="10-digit mobile number"/></label>
       <label className="sm:col-span-2"><span className="mb-2 block text-sm font-bold text-ink">Email <span className="font-normal text-grey">(optional)</span></span><input disabled={!ready || !enabled || busy} name="email" type="email" autoComplete="email" maxLength={254} className="min-h-12 w-full rounded-xl border border-line px-3 text-sm outline-none focus:ring-2 focus:ring-primary" placeholder="you@example.com"/></label>
