@@ -9,7 +9,7 @@ import { createPortal } from "react-dom";
 import { specialties } from "@/lib/care-directory";
 
 const links = [
-  ["/hospitals", "Hospitals"], ["/surgery-guide", "Surgeries"],
+  ["/surgery-guide", "Surgeries"],
   ["/care-guide", "Health guides"], ["/for-doctors", "For clinics & doctors"],
 ] as const;
 
@@ -56,7 +56,8 @@ export default function Nav() {
         Find doctors <ChevronDown size={16} strokeWidth={1.5} aria-hidden="true" />
       </summary>
       <ul className="grid grid-cols-2 gap-2 bg-white p-3 text-ink lg:absolute lg:left-0 lg:top-full lg:w-[380px] lg:rounded-card lg:border lg:border-line">
-        {specialties.map(({ slug, name }) => <li key={slug}><Link href={"/doctors/specialty/" + slug} aria-current={current("/doctors/specialty/" + slug)} onClick={close} className="flex min-h-11 items-center text-sm hover:underline">{name}</Link></li>)}
+        <li className="col-span-2 border-b border-line"><Link href="/doctors" aria-current={current("/doctors")} onClick={close} className="flex min-h-12 items-center font-semibold">All doctors</Link></li>
+        {specialties.slice(0, 8).map(({ slug, name }) => <li key={slug}><Link href={"/doctors/specialty/" + slug} aria-current={current("/doctors/specialty/" + slug)} onClick={close} className="flex min-h-11 items-center text-sm hover:underline">{name}</Link></li>)}
         <li className="col-span-2"><Link href="/specialties" onClick={close} className="flex min-h-11 items-center font-medium underline">View all specialties</Link></li>
       </ul>
     </details>
@@ -65,10 +66,9 @@ export default function Nav() {
   </nav>;
   const action = <Link href="/doctors" onClick={close} className="site-header-cta docvy-pill docvy-pill-primary">Find a doctor</Link>;
 
-  return <header className={"site-header sticky top-0 z-30 border-b border-line " + (path === "/" ? "site-header-home" : "")}>
-    {process.env.NEXT_PUBLIC_DEMO_MODE === "true" && <p className="bg-primary-tint px-4 py-2 text-center text-[13px] text-ink">Demo mode: doctors shown are fictional.</p>}
+  return <header className="site-header sticky top-0 z-30 border-b border-line">
     <div className="mx-auto flex h-16 max-w-site items-center justify-between gap-4 px-5 sm:px-8 lg:h-[72px]">
-      <Link href="/" aria-label="DOCVY home" className="site-logo inline-flex min-h-12 shrink-0 items-center"><BrandLogo priority darkBackground={path === "/"} className="w-36 min-[380px]:w-[180px]" /></Link>
+      <Link href="/" aria-label="DOCVY home" className="site-logo inline-flex min-h-12 shrink-0 items-center"><BrandLogo priority className="w-36 min-[380px]:w-[180px]" /></Link>
       {open ? createPortal(<dialog ref={dialog} aria-label="Main menu" onKeyDown={event => {
         if (event.key !== "Tab") return;
         const items = Array.from(event.currentTarget.querySelectorAll<HTMLElement>("a[href],button:not([disabled]),summary")).filter(item => item.getClientRects().length > 0);

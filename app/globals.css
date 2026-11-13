@@ -138,10 +138,7 @@ a {
 dialog::backdrop { background: rgba(16, 36, 20, .65); backdrop-filter: blur(5px); }
 
 .site-header { background: #fff; }
-.site-header-home { position: absolute; inset: 0 0 auto; color: white; background: transparent; border-color: transparent; }
-.site-header-home .site-logo, .site-header-home .site-nav-link { color: white; }
-.site-header-home .site-header-cta { background: white; border-color: white; color: var(--forest); }
-.site-header-home :focus-visible, .site-footer :focus-visible { outline-color: #ACD5B5; }
+.site-footer :focus-visible { outline-color: #ACD5B5; }
 .site-footer { background: var(--forest); color: #D5E4D9; }
 .site-footer h2, .site-footer .site-logo { color: white; }
 .site-footer a { color: #E5F0E8; }
@@ -241,7 +238,8 @@ main h2[class] { font-weight: 500; }
 .reference-care-main > ul.grid > li { border-radius: 22px; }
 
 /* Patient-facing homepage: useful information, plain headlines and clear next steps. */
-.care-hero { padding: 126px 0 48px; }
+.care-hero { padding: 56px 0 48px; }
+.care-hero-topline { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 20px; }
 .care-hero #home-heading { max-width: 20ch; margin: 22px auto 0; font-size: clamp(2.45rem, 5.1vw, 4.25rem); font-weight: 500; line-height: 1.1; letter-spacing: -.045em; text-wrap: balance; }
 .care-hero .hero-description { max-width: 58ch; margin-top: 24px; font-size: 1.05rem; line-height: 1.75; }
 .care-hero .reference-search { max-width: 840px; margin-top: 30px; }
@@ -266,10 +264,14 @@ main h2[class] { font-weight: 500; }
 .care-text-link { display: inline-flex; min-height: 44px; align-items: center; gap: 10px; color: var(--primary); font-size: .85rem; font-weight: 500; white-space: nowrap; }
 .care-text-link:hover { text-decoration: underline; text-underline-offset: 4px; }
 .care-specialty-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-.care-specialty-tile { display: flex; height: 100%; min-height: 211px; flex-direction: column; align-items: start; padding: 24px; border: 1px solid var(--border); border-radius: 18px; background: var(--bg); }
-.care-specialty-tile h3 { margin-top: 20px; font-size: 1rem; font-weight: 500; }
-.care-specialty-tile p { margin-top: 5px; color: var(--muted); font-size: .8rem; line-height: 1.7; }
-.care-specialty-tile > span { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 18px; color: var(--primary); font-size: .75rem; }
+.care-specialty-tile { display: flex; height: 100%; min-height: 194px; flex-direction: column; align-items: center; justify-content: center; padding: 22px 16px; border: 1px solid var(--border); border-radius: 18px; background: #F6FAF9; text-align: center; }
+.care-specialty-tile h3 { margin-top: 14px; font-size: 1rem; font-weight: 600; line-height: 1.35; }
+.care-specialty-tile p { max-width: 24ch; margin-top: 5px; color: var(--muted); font-size: .8rem; line-height: 1.6; }
+.specialty-icon { display: inline-flex; flex: 0 0 auto; width: 64px; height: 64px; align-items: center; justify-content: center; color: #143F38; }
+.specialty-icon-accent { stroke: #209C82; }
+.specialty-icon-fill { fill: #36B99A; }
+.specialty-icon-tint { fill: #DDF2EB; }
+.care-specialty-tile:hover { background: #EAF5F0; }
 .care-specialty-tile:hover, .care-procedure-card:hover, .care-guide-card:hover { border-color: #9BBDA6; }
 .care-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; margin-top: 35px; }
 .care-step-top { display: flex; align-items: center; justify-content: space-between; color: var(--primary); padding-bottom: 20px; border-bottom: 1px solid #CEDDCF; }
@@ -305,7 +307,7 @@ main h2[class] { font-weight: 500; }
 .care-provider-band p:last-child { max-width: 64ch; margin-top: 14px; color: var(--muted); font-size: .875rem; line-height: 1.8; }
 .care-provider-actions { display: flex; flex-direction: column; align-items: start; gap: 7px; flex-shrink: 0; }
 @media (max-width: 767px) {
-  .care-hero { padding-top: 100px; padding-bottom: 30px; }
+  .care-hero { padding-top: 30px; padding-bottom: 30px; }
   .care-hero #home-heading { margin-top: 20px; max-width: 19ch; font-size: 2.45rem; line-height: 1.13; }
   .care-hero .hero-description { margin-top: 20px; font-size: .98rem; line-height: 1.8; }
   .care-hero .reference-search { margin-top: 24px; }
@@ -322,7 +324,7 @@ main h2[class] { font-weight: 500; }
   .care-section h2 { font-size: 1.8rem; }
   .care-section-heading > div > p:last-child:not(.care-kicker), .care-section-intro { font-size: .925rem; line-height: 1.85; }
   .care-specialty-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .care-specialty-tile { min-height: 212px; padding: 18px 15px; }
+  .care-specialty-tile { min-height: 190px; padding: 20px 12px; }
   .care-specialty-tile h3 { font-size: .9rem; }
   .care-specialty-tile p { font-size: .75rem; }
   .care-specialty-tile > span { font-size: .7rem; }

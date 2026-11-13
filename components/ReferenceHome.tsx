@@ -59,9 +59,9 @@ export default async function ReferenceHome() {
   return <div className="reference-home care-home">
     <section className="reference-hero care-hero" aria-labelledby="home-heading">
       <div className="reference-wrap">
-        <p className="reference-eyebrow">DOCTORS, SPECIALTIES &amp; HEALTH GUIDES</p><Link href="/hi" lang="hi" className="inline-flex min-h-11 items-center text-sm underline">हिन्दी</Link>
-        <h1 id="home-heading">Find a doctor for<br className="hidden sm:block" /> the care you need.</h1>
-        <p className="hero-description">Search doctors by specialty, hospital or city. Check practice details and read health guides before your next visit.</p>
+        <div className="care-hero-topline"><p className="reference-eyebrow">YOUR NEXT STEP TO BETTER CARE</p><Link href="/hi" lang="hi" className="inline-flex min-h-11 items-center text-sm underline">हिन्दी</Link></div>
+        <h1 id="home-heading">The right doctor.<br className="hidden sm:block" /> A clearer next step.</h1>
+        <p className="hero-description">Find doctors by specialty, hospital or city across India. Explore their practice details and request a visit with participating doctors.</p>
         <div className="reference-search"><DiscoverySearch homepage /></div>
         <nav className="care-common-searches" aria-label="Health topics to explore"><span>Explore a concern</span>{commonSearches.map(({ label, href }) => <Link key={href} href={href}>{label}<ArrowUpRight size={13} strokeWidth={1.5} aria-hidden="true" /></Link>)}</nav>
         <p className="mt-4 text-sm text-[#DDECE1]">{comingCities.length ? <>Coverage expanding: {comingCities.map((c,i)=><span key={c.slug}>{i ? " · " : ""}<Link href={"/doctors/"+c.slug} className="underline">{c.name} — coming soon</Link></span>)}</> : <Link href="/doctors" className="underline">Explore current city coverage</Link>}</p>
@@ -70,8 +70,8 @@ export default async function ReferenceHome() {
     </section>
 
     <section className="reference-wrap care-section" aria-labelledby="specialties-heading">
-      <div className="care-section-heading"><div><p className="care-kicker">Medical specialties</p><h2 id="specialties-heading">Know which specialist to look for.</h2><p>Explore what different specialists do, then browse the doctors listed in that specialty.</p></div><Link className="care-text-link" href="/specialties">All specialties <ArrowRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link></div>
-      <ul className="care-specialty-grid">{featuredSpecialties.map(({ slug, name, plain }) => <li key={slug}><Link href={"/specialties/" + slug} className="care-specialty-tile"><SpecialtyIcon slug={slug} /><h3>{name}</h3><p>{plain}</p><span>Explore specialty <ArrowRight size={14} strokeWidth={1.5} aria-hidden="true" /></span></Link></li>)}</ul>
+      <div className="care-section-heading"><div><p className="care-kicker">Medical specialties</p><h2 id="specialties-heading">Care starts with the right specialty.</h2><p>From everyday concerns to specialist care, find a starting point that makes sense for you.</p></div><Link className="care-text-link" href="/specialties">All specialties <ArrowRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link></div>
+      <ul className="care-specialty-grid">{featuredSpecialties.map(({ slug, name, plain }) => <li key={slug}><Link href={"/specialties/" + slug} className="care-specialty-tile"><SpecialtyIcon slug={slug} /><h3>{name}</h3><p>{plain}</p></Link></li>)}</ul>
     </section>
 
     <section className="care-alternate" aria-labelledby="steps-heading"><div className="reference-wrap care-section">

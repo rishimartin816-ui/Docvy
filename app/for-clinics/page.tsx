@@ -25,10 +25,10 @@ export default function ForClinicsPage() {
         <p className="docvy-eyebrow">FOR CLINIC TEAMS</p>
         <h1 className="mt-3 text-4xl font-bold tracking-tight">Clinic workspace</h1>
         <p className="mt-4 max-w-2xl text-lg text-grey">
-          {live ? "Authorised clinic staff can sign in to manage their clinic’s day-to-day work." : "Try the workspace with fictional clinic records. You’ll need a demo staff account to sign in."}
+          {live ? "Authorised clinic staff can sign in to manage their clinic’s day-to-day work." : "Bring your practice to DOCVY. Contact our team to arrange clinic onboarding and staff access."}
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link href={workspaceHref} className="docvy-pill docvy-pill-primary">{live ? "Staff sign-in" : "Open CRM demo"} <ArrowUpRight strokeWidth={1.5} size={16} aria-hidden="true" /></Link>
+          <Link href={live ? workspaceHref : "/partner-with-us"} className="docvy-pill docvy-pill-primary">{live ? "Staff sign-in" : "Get started"} <ArrowUpRight strokeWidth={1.5} size={16} aria-hidden="true" /></Link>
           {(live || crm) && <Link href="/crm/admin" className="docvy-pill"><ShieldCheck strokeWidth={1.5} size={16} aria-hidden="true" /> Owner sign-in</Link>}
         <Link href="/partner-with-us" className="docvy-pill">Partner with us</Link>
         </div>

@@ -17,7 +17,7 @@ const questions = [
   { question: "How can a doctor claim or remove a profile?", answer: "Use the claim form to provide your registration details, work contact and written consent. DOCVY reviews your authority before approving a claim. If you prefer removal, use the removal form; requests are actioned within 48 hours.", href: "/claim-profile", label: "Claim or request removal" },
   {
     question: "What is DOCVY?",
-    answer: "DOCVY is a patient guide for people in India. It explains what different specialists do and helps you prepare questions for your visit.",
+    answer: "DOCVY is a healthcare directory for people in India. Find doctors by specialty and location, check practice details, and send an appointment request where the doctor has opted in. Health guides help you prepare for your visit.",
     href: "/care-guide", label: "Explore patient guides",
   },
   {
@@ -31,9 +31,9 @@ const questions = [
     href: "/doctors", label: "Browse sourced doctor profiles",
   },
   {
-    question: "What can I try in the booking demo?",
-    answer: "You can pick an available test slot and see what a confirmation looks like. Clinic staff can use the demo workspace to see how booking and calendar changes fit together.",
-    href: "/book", label: "Try a demo booking",
+    question: "What happens after I send an appointment request?",
+    answer: "Keep the reference number shown after submission. The doctor’s team confirms the available time and fee. Wait for confirmation before travelling to the clinic; sending a request does not reserve a slot.",
+    href: "/how-it-works", label: "How appointment requests work",
   },
   {
     question: "Can my clinic see how DOCVY works?",
@@ -47,7 +47,7 @@ export default function FaqsPage() {
     <div className="mx-auto max-w-3xl">
       <p className="docvy-eyebrow">DOCVY HELP</p>
       <h1 className="mt-3 text-4xl font-bold tracking-tight text-ink sm:text-5xl">Questions about using DOCVY</h1>
-      <p className="mt-4 text-lg text-grey">Find out how sourced profiles, appointment requests and consent work. The clinic booking demo is a separate experience.</p>
+      <p className="mt-4 text-lg text-grey">Find a doctor, understand profile status and know what happens after you request an appointment.</p>
       <div className="mt-8 space-y-4">
         {questions.map(({ question, answer, href, label }) => <section key={question} className="docvy-glass p-5 sm:p-7">
           <h2 className="text-xl font-bold text-ink">{question}</h2>
