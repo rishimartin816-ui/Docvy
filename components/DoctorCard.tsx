@@ -7,7 +7,6 @@ import type { ProviderCandidate, ProviderLocation } from "@/lib/provider-candida
 
 export default function DoctorCard({ doctor, location = doctor.locations[0] }: { doctor: ProviderCandidate; location?: ProviderLocation }) {
   const partnered = canRequestAppointment(doctor);
-  const location = doctor.locations[0];
   const profile = doctorPath(doctor);
   return <article className="doctor-card" aria-labelledby={"doctor-name-" + doctor.id}>
     <div className="doctor-card-main">
