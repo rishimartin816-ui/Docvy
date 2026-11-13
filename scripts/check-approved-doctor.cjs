@@ -23,7 +23,9 @@ Module._load=function(id,parent,...rest){
  const schema=doctorStructuredData(doctor);assert.equal(schema.location.length,3);assert.deepEqual(schema.location.map(l=>l.description),doctor.locations.map(l=>"Consulting hours: "+l.consultingHours+" IST. Please book in advance."));
  assert(!JSON.stringify(schema).includes("openingHoursSpecification"));assert.equal(schema.identifier.value,"5175");
  const DirectoryPage=require("../components/DirectoryPage.tsx").default;
- for(const slug of ["keri","sankhalim","poriem"]){const city=require("../lib/directory.ts").cities.find(c=>c.slug===slug);const cityHtml=require("react-dom/server").renderToStaticMarkup(await DirectoryPage({city}));assert(cityHtml.includes(doctor.id),"one approved profile must appear on "+slug);}
+ for(const slug of ["keri","sankhalim","poriem"]){const city=require("../lib/directory.ts").cities.find(c=>c.slug===slug);const cityHtml=require("react-dom/server").renderToStaticMarkup(await DirectoryPage({city}));assert(cityHtml.includes(doctor.id),"one approved profile must appear on "+slug);assert(cityHtml.includes("city="+city.name),"clinic context must match "+slug);}
+ const DoctorCards=require("../components/DirectoryPage.tsx").DoctorCards;
+ for(const location of doctor.locations){const cards=require("react-dom/server").renderToStaticMarkup(DoctorCards({doctors:[doctor],city:location.city.toLowerCase(),facility:location.facility,area:location.locality}));assert(cards.includes("city="+location.city),"filtered card request must preserve clinic "+location.city);}
  const page=require("../app/doctor/[slug]/page.tsx");
  const html=require("react-dom/server").renderToStaticMarkup(await page.default({params:{slug:doctor.id}}));
  for(const text of ["DOCVY Verified","5175","MBBS, Goa Medical College","Hindi, English, Marathi, Konkani","9 AM–2 PM","2 PM–5 PM","5 PM–9 PM","₹300","7062035381"])assert(html.includes(text),text);

@@ -27,8 +27,8 @@ export function Breadcrumbs({ items }: { items: { name: string; href: string }[]
   </>;
 }
 
-export function DoctorCards({ doctors }: { doctors: ProviderCandidate[] }) {
-  return <ul className="doctor-results">{doctors.map(doctor => <li key={doctor.id}><DoctorCard doctor={doctor} /></li>)}</ul>;
+export function DoctorCards({ doctors, city, facility, area }: { doctors: ProviderCandidate[]; city?: string; facility?: string; area?: string }) {
+  return <ul className="doctor-results">{doctors.map(doctor => <li key={doctor.id}><DoctorCard doctor={doctor} location={doctor.locations.find(location => (!city || citySlug(location.city) === city) && (!facility || location.facility === facility) && (!area || location.locality?.toLowerCase() === area.toLowerCase()))} /></li>)}</ul>;
 }
 
 export default async function DirectoryPage({ city, specialty }: { city: typeof cities[number]; specialty?: typeof directorySpecialties[number] }) {
@@ -54,7 +54,7 @@ export default async function DirectoryPage({ city, specialty }: { city: typeof 
     <section className="relative isolate mt-8 overflow-hidden rounded-card border border-line p-6">
       {!ready && <IllustrationBackground slug="empty-state-more-options" alt="Meera makes a note to look for more care options later." />}
       <h2 className="text-2xl font-bold">{ready ? "Doctor listings" : "Doctors are joining soon"}</h2>
-      {ready ? <><p className="mt-3 text-sm text-grey">{doctors.length} published profiles. Showing up to 20 here.</p><DoctorCards doctors={doctors.slice(0,20)} /><Link className="docvy-pill mt-5" href={{pathname:"/doctors",query:{location:city.slug,...(specialty?{specialty:specialty.slug}:{})}}}>View all results and filter by area</Link></> : <CityWaitlist city={city.slug} specialty={specialty?.slug} enabled={process.env.DOCVY_WAITLIST_ENABLED === "true" && Boolean(clinicCrmConfig())} />}
+      {ready ? <><p className="mt-3 text-sm text-grey">{doctors.length} published profiles. Showing up to 20 here.</p><DoctorCards doctors={doctors.slice(0,20)} city={city.slug} /><Link className="docvy-pill mt-5" href={{pathname:"/doctors",query:{location:city.slug,...(specialty?{specialty:specialty.slug}:{})}}}>View all results and filter by area</Link></> : <CityWaitlist city={city.slug} specialty={specialty?.slug} enabled={process.env.DOCVY_WAITLIST_ENABLED === "true" && Boolean(clinicCrmConfig())} />}
     </section>
     {areas.length>0 && <section className="mt-8"><h2 className="text-2xl font-bold">Browse by neighbourhood</h2><ul className="mt-3 flex flex-wrap gap-2">{areas.map(area=><li key={area}><Link className="docvy-pill" href={cityPath+"/areas/"+slugify(area)}>{area}</Link></li>)}</ul></section>}
     <section className="mt-8">

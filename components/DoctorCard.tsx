@@ -3,9 +3,9 @@ import { ArrowUpRight, BadgeCheck, Building2, CircleUserRound, MapPin } from "lu
 import DoctorPortrait from "./DoctorPortrait";
 import { doctorPath } from "@/lib/directory-normalization";
 import { canRequestAppointment, isVerified } from "@/lib/profile-policy";
-import type { ProviderCandidate } from "@/lib/provider-candidates";
+import type { ProviderCandidate, ProviderLocation } from "@/lib/provider-candidates";
 
-export default function DoctorCard({ doctor }: { doctor: ProviderCandidate }) {
+export default function DoctorCard({ doctor, location = doctor.locations[0] }: { doctor: ProviderCandidate; location?: ProviderLocation }) {
   const partnered = canRequestAppointment(doctor);
   const location = doctor.locations[0];
   const profile = doctorPath(doctor);
@@ -17,7 +17,7 @@ export default function DoctorCard({ doctor }: { doctor: ProviderCandidate }) {
         <p className="doctor-card-specialty">{doctor.specialties.join(" · ") || "Specialty details under review"}</p>
         {doctor.centres?.length ? <p className="mt-2 text-xs leading-6 text-grey">Centres &amp; services: {doctor.centres.join(" · ")}</p> : null}
         <div className="doctor-card-location">
-          {doctor.hospital && <p><Building2 size={16} strokeWidth={1.5} aria-hidden="true" /><span>{doctor.hospital}</span></p>}
+          {(location.facility || doctor.hospital) && <p><Building2 size={16} strokeWidth={1.5} aria-hidden="true" /><span>{location.facility || doctor.hospital}</span></p>}
           <p><MapPin size={16} strokeWidth={1.5} aria-hidden="true" /><span>{[location.locality,location.city].filter(Boolean).join(", ")}</span></p>
         </div>
         {isVerified(doctor) && <p className="doctor-verified"><BadgeCheck size={16} strokeWidth={1.5} aria-hidden="true" /> DOCVY Verified</p>}
