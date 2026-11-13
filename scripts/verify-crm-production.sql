@@ -102,6 +102,10 @@ $$;
 do $$
 begin
  if has_function_privilege('anon','public.docvy_claim_owner_setup(text)','execute') or has_function_privilege('authenticated','public.docvy_claim_owner_setup(text)','execute') then raise exception 'Owner setup claim exposed to public clients';end if;
+ if exists(select 1 from auth.users where lower(email)='contact@docvy.in') then
+  begin perform public.docvy_claim_owner_setup(repeat('a',64));raise exception 'Existing owner setup was accepted';exception when sqlstate 'PT409' then null;end;
+  return;
+ end if;
  insert into docvy_private.crm_owner_setup(email,code_hash,expires_at) values('contact@docvy.in',repeat('a',64),now()+interval '1 minute') on conflict(email) do update set code_hash=excluded.code_hash,expires_at=excluded.expires_at,used_at=null;
  if public.docvy_claim_owner_setup(repeat('a',64))<>'contact@docvy.in' then raise exception 'Owner setup claim incorrect';end if;
  begin perform public.docvy_claim_owner_setup(repeat('a',64));raise exception 'Setup capability replay accepted';exception when sqlstate 'PT403' then null;end;

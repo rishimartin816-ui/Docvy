@@ -13,7 +13,7 @@ export async function GET(request:NextRequest) {
     return workspaceResult(await workspaceRpc("state",clinic,{...(day?{day}:{}),days:Number(days)},session.token),session);
   }catch{return workspaceReply({error:"The production workspace could not be reached. Please retry."},503);}
 }
-const operations=new Set(["create-clinic","add-doctor","link-provider","presence","patient","patient-update","patient-search","patient-delete","slot","block","book","lead-status","booking-status","reschedule","payment","invite","staff-access"]);
+const operations=new Set(["activate-provider","create-clinic","add-doctor","link-provider","presence","patient","patient-update","patient-search","patient-delete","slot","block","book","lead-status","booking-status","reschedule","payment","invite","staff-access"]);
 export async function POST(request:NextRequest) {
   if(!workspaceEnabled())return workspaceReply({error:"Production workspace is unavailable."},503);
   if(!sameOrigin(request))return workspaceReply({error:"Use the DOCVY workspace to submit changes."},403);
