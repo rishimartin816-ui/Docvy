@@ -1,0 +1,42 @@
+{
+  "id": "dr-hassan-ishtiyaque-ali",
+  "name": "Dr. Hassan Ishtiyaque Ali",
+  "specialties": [
+    "Pulmonology",
+    "General medicine"
+  ],
+  "hospital": "Dr. Hassan Ali Pulmo Clinic",
+  "summary": "Dr. Hassan Ishtiyaque Ali provides respiratory medicine and general medicine consultations at Dr. Hassan Ali Pulmo Clinic in Byculla, Mumbai. His supplied qualifications are MBBS and MD in Respiratory Medicine, with 4 years of experience as of November 2026. He speaks English, Hindi and Marathi. The clinic offers OPD consultations and teleconsultations. The supplied consultation fee is ₹300 and consulting hours are 5 PM–10 PM. Registration number supplied: MMC 2022076184; an independent council check has not yet been recorded.",
+  "registrationNumber": "2022076184",
+  "registrationCouncil": "Maharashtra Medical Council (MMC)",
+  "profileDetails": {
+    "qualifications": "MBBS, MD (Respiratory Medicine)",
+    "experienceYears": 4,
+    "experienceAsOf": "2026-11-14",
+    "languages": [
+      "English",
+      "Hindi",
+      "Marathi"
+    ],
+    "consultationFee": 300,
+    "currency": "INR",
+    "practicePhone": "+918329681590",
+    "appointmentNote": "OPD consultations and teleconsultations are offered. Contact the clinic to confirm the consultation format, consulting days and available time."
+  },
+  "locations": [
+    {
+      "city": "Mumbai",
+      "locality": "Byculla",
+      "facility": "Dr. Hassan Ali Pulmo Clinic",
+      "primary": true,
+      "address": "Noor Buag Square, Byculla, Mumbai, Maharashtra 400009",
+      "kind": "clinic",
+      "practicePhone": "+918329681590",
+      "consultingHours": "5 PM–10 PM",
+      "consultationFee": 300,
+      "currency": "INR",
+      "mapsUrl": "https://www.google.com/maps/dir/?api=1&destination=Dr.%20Hassan%20Ali%20Pulmo%20Clinic%2C%20Noor%20Buag%20Square%2C%20Byculla%2C%20Mumbai%20400009"
+    }
+  ],
+  "photoUrl": "/uploads/dr-hassan-ishtiyaque-ali/portrait.jpg"
+}
