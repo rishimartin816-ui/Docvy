@@ -34,7 +34,7 @@ export function DoctorCards({ doctors }: { doctors: ProviderCandidate[] }) {
 export default async function DirectoryPage({ city, specialty }: { city: typeof cities[number]; specialty?: typeof directorySpecialties[number] }) {
   const listed = await getDirectoryDoctors();
   const doctors = doctorsIn(city.slug, specialty?.slug, listed);
-  const ready = doctors.length >= 3;
+  const ready = doctors.length > 0;
   const cityPath = "/doctors/" + city.slug;
   const title = (specialty ? specialtyDoctorTitle(specialty.slug,specialty.name) : "Doctors") + " in " + city.name;
   const cityDoctors = doctorsIn(city.slug, undefined, listed);
