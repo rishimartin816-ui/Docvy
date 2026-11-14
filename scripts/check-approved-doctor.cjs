@@ -48,6 +48,7 @@ Module._load=function(id,parent,...rest){
 
  const basab={...require("../docs/doctors/dr-basab-raj-ghosh.json"),profileStatus:"verified",consentGiven:true,consentMethod:"owner_approval",verifiedAt:"2026-11-14T00:00:00Z",live:true,sourceUrl:"https://www.docvy.in/doctor/dr-basab-raj-ghosh",sourceChecked:"2026-11-14",otherNcrLocations:[]};
  publishedDoctors=[basab];
+ assert(!/\bCV\b|supplied (?:CV|documents)|listed in his/i.test(basab.summary),"Public biography must use professional patient-facing wording");
  assert(isVerified(basab));assert(ownedPortrait(basab.photoUrl));
  const basabHtml=require("react-dom/server").renderToStaticMarkup(await page.default({params:{slug:basab.id}}));
  for(const text of ["Dr. Basab Raj Ghosh","DOCVY Verified","53433","West Bengal Medical Council","69 Amarendra Sarani","Uttarpara","9830747929","Sunday: opens at 9 AM"])assert(basabHtml.includes(text),text);
