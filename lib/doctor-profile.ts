@@ -5,7 +5,7 @@ import { productionOrigin } from "./metadata";
 export function doctorDescription(doctor: ProviderCandidate) {
   const places = [...new Set(doctor.locations.map(location => location.city))].join(", ");
   const details = doctor.profileDetails;
-  return `${doctor.name}, ${doctor.specialties.join(", ")} in ${places}.${details?.qualifications ? " " + details.qualifications + "." : ""}${details?.consultationFee != null ? " Consultation ₹" + details.consultationFee + "." : ""} View clinic addresses, hours and appointment requests.`;
+  return `${doctor.name}: ${doctor.specialties.join(", ")} in ${places}. View practice locations${details?.consultationFee != null ? ", consultation fee ₹" + details.consultationFee : ""}, contact details and appointment-request options on DOCVY.`;
 }
 
 export function doctorStructuredData(doctor: ProviderCandidate) {

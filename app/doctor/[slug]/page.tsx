@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props) {
   const doctor = await lookup(params.slug);
   const description = doctorDescription(doctor);
   const path = doctorPath(doctor);
-  return { title: doctor.name, description, alternates: { canonical: path }, ...buildPageSocialMetadata(doctor.name + " | DOCVY", description, path) };
+  return { title: doctor.name + " | " + doctor.specialties[0] + " in " + doctor.locations[0].city, description, alternates: { canonical: path }, ...buildPageSocialMetadata(doctor.name + " | DOCVY", description, path) };
 }
 export default async function DoctorPage({ params }: Props) {
   const doctor = await lookup(params.slug);

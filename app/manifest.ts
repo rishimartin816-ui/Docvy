@@ -1,0 +1,2 @@
+import type { MetadataRoute } from "next";
+export default function manifest(): MetadataRoute.Manifest { return { name: "DOCVY", short_name: "DOCVY", description: "Find doctors and prepare for your next visit.", start_url: "/", display: "standalone", background_color: "#FFFFFF", theme_color: "#143C2B", icons: [{src:"/icons/icon-192.png",sizes:"192x192",type:"image/png",purpose:"any"},{src:"/icons/icon-512.png",sizes:"512x512",type:"image/png",purpose:"any"}] }; }

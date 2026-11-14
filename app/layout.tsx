@@ -1,7 +1,7 @@
 import "./globals.css";
 // Publication and removal changes must be reflected in every public view, including footer links.
 export const dynamic = "force-dynamic";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import Nav from "@/components/Nav";
@@ -24,6 +24,8 @@ const docvyBodyFont = Inter({
   display: "swap",
 });
 
+export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#143C2B" };
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.docvy.in"),
   title: {
@@ -32,6 +34,8 @@ export const metadata: Metadata = {
   },
   description: "DOCVY helps people in India understand medical specialties and prepare for a visit with plain-language patient guides.",
   applicationName: "DOCVY",
+  manifest: "/manifest.webmanifest",
+  icons: { icon: [{ url: "/icons/favicon-48.png", sizes: "48x48", type: "image/png" }, { url: "/icons/favicon-96.png", sizes: "96x96", type: "image/png" }] },
   openGraph: {
     type: "website",
     locale: "en_IN",
