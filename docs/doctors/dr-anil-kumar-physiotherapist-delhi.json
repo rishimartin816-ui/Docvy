@@ -1,0 +1,40 @@
+{
+  "id": "dr-anil-kumar-physiotherapist-delhi",
+  "name": "Dr. Anil Kumar",
+  "specialties": [
+    "Neuro physiotherapy",
+    "Physiotherapy"
+  ],
+  "hospital": "Medi-Max Health Care Physiotherapy Centre",
+  "registrationNumber": "71702",
+  "registrationCouncil": null,
+  "summary": "Dr. Anil Kumar is a BPT-qualified physiotherapist with 2 years of experience and a focus on neuro physiotherapy. He provides physiotherapy consultations at Medi-Max Health Care Physiotherapy Centre in Vikas Nagar, Uttam Nagar, Delhi, as well as physiotherapy at home. He speaks Hindi and English. Clinic consultations are available from 9 AM to 9 PM, with a consultation fee of ₹200. For appointments, call 7042440793 or request a visit through DOCVY.",
+  "profileDetails": {
+    "qualifications": "BPT (Bachelor of Physiotherapy)",
+    "experienceYears": 2,
+    "languages": [
+      "Hindi",
+      "English"
+    ],
+    "consultationFee": 200,
+    "currency": "INR",
+    "practicePhone": "+917042440793",
+    "appointmentNote": "For clinic appointments or physiotherapy at home, call 7042440793 or request a visit through DOCVY."
+  },
+  "locations": [
+    {
+      "facility": "Medi-Max Health Care Physiotherapy Centre",
+      "primary": true,
+      "kind": "clinic",
+      "city": "Delhi",
+      "locality": "Vikas Nagar, Uttam Nagar",
+      "address": "Plot No. 09, Sainik Enclave, Main Balaji Road, near Matka Wali Gali, Vikas Nagar, Uttam Nagar, Delhi 110059, India",
+      "consultingHours": "9 AM–9 PM",
+      "consultationFee": 200,
+      "currency": "INR",
+      "practicePhone": "+917042440793",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Medi-Max%20Health%20Care%20Physiotherapy%20Centre%2C%20Plot%20No.%2009%2C%20Sainik%20Enclave%2C%20Main%20Balaji%20Road%2C%20near%20Matka%20Wali%20Gali%2C%20Vikas%20Nagar%2C%20Uttam%20Nagar%2C%20Delhi%20110059%2C%20India"
+    }
+  ],
+  "photoUrl": "/uploads/dr-anil-kumar-physiotherapist-delhi/docvy-watermarked.png"
+}

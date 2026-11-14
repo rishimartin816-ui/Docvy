@@ -11,7 +11,7 @@ export function doctorDescription(doctor: ProviderCandidate) {
 export function doctorStructuredData(doctor: ProviderCandidate) {
   const details = doctor.profileDetails;
   return {
-    "@context": "https://schema.org", "@type": doctor.specialties.includes("Dentistry") ? "Dentist" : "Physician",
+    "@context": "https://schema.org", "@type": doctor.specialties.some(specialty => /physiotherapy/i.test(specialty)) ? "MedicalBusiness" : doctor.specialties.includes("Dentistry") ? "Dentist" : "Physician",
     name: doctor.name, url: productionOrigin + doctorPath(doctor),
     description: doctor.summary || doctorDescription(doctor),
     medicalSpecialty: doctor.specialties,
