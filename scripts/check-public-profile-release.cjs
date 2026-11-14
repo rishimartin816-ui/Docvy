@@ -2,7 +2,7 @@ const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("n
 require.extensions[".ts"]=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,"utf8"),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText,f);
 const {cities,citySlug,specialtySlug}=require("../lib/directory.ts");
 const origin=(process.argv[2]||"https://www.docvy.in").replace(/\/$/,"");
-const doctors=["dr-ummed-kumar-meena","dr-hassan-ishtiyaque-ali"].map(id=>require("../docs/doctors/"+id+".json"));
+const doctors=fs.readdirSync(path.join(__dirname,"../docs/doctors")).filter(name=>name.endsWith(".json")).map(name=>require("../docs/doctors/"+name));
 const forbidden=/does not reserve (?:a slot|or confirm)|no slot is reserved|not a guarantee|independent council check has not yet/i;
 const pages=new Map(),urls=new Set(),issues=[];
 async function get(url){const response=await fetch(url,{signal:AbortSignal.timeout(30000)});return {url,status:response.status,body:await response.text()};}
@@ -31,7 +31,7 @@ function publicPages(dir){for(const file of fs.readdirSync(dir,{withFileTypes:tr
   for(const l of doctor.locations){
    const url=origin+"/request?"+new URLSearchParams({provider:doctor.id,city:l.city,facility:l.facility});
    const r=pages.get(url);const selected=[...r.matchAll(/<option[^>]*value="([^"]*)"[^>]*selected=""[^>]*>/g)].map(m=>m[1].replaceAll("&amp;","&"));
-   assert(selected.includes(doctor.id+"::"+l.city+"::"+l.facility),"Selected clinic "+l.city);assert(r.includes(l.consultingHours),"Clinic hours "+l.city);
+   assert(selected.includes(doctor.id+"::"+l.city+"::"+l.facility),"Selected clinic "+l.city);if(l.consultingHours)assert(r.includes(l.consultingHours),"Clinic hours "+l.city);
   }
  }
  const ummed=pages.get(origin+"/doctor/dr-ummed-kumar-meena");

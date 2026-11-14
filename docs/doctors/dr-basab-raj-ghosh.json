@@ -1,0 +1,31 @@
+{
+  "id": "dr-basab-raj-ghosh",
+  "name": "Dr. Basab Raj Ghosh",
+  "specialties": [
+    "Radiation oncology",
+    "General medicine"
+  ],
+  "hospital": "Dr Basab Raj Ghosh's clinic",
+  "registrationNumber": "53433",
+  "registrationCouncil": "West Bengal Medical Council",
+  "summary": "Dr. Basab Raj Ghosh is a radiation oncologist with MBBS training at NRS Medical College, Kolkata, an MD in Radiotherapy from the University of Calcutta and a DNB in Radiotherapy. His background includes training in radiotherapy, chemotherapy, pain management and palliative care. His supplied CV records additional training in hospital management, counselling and psychotherapy, clinical diabetes, geriatric medicine and clinical cardiology, together with an honorary fellowship in family medicine. It also records a first-place result in the MD Radiotherapy examination and national conference presentations and publications on cancer treatment. Previous clinical experience listed in his CV includes Cancer Centre Welfare Home and Research Institute, Thakurpukur, Chittaranjan National Cancer Institute and Columbia Asia. Professional memberships listed include IMA, IMA College of General Practitioners, AROI, ASCO, ESMO, ICON, ISMPO and ISO.",
+  "profileDetails": {
+    "qualifications": "MBBS, NRS Medical College, Kolkata; MD (Radiotherapy), University of Calcutta; DNB (Radiotherapy)",
+    "appointmentNote": "For appointments, call 9830747929 or request a visit through DOCVY.",
+    "practicePhone": "+919830747929"
+  },
+  "locations": [
+    {
+      "facility": "Dr Basab Raj Ghosh's clinic",
+      "primary": true,
+      "kind": "clinic",
+      "mapsUrl": "https://share.google/tsHnih3aKCuirfG2R",
+      "city": "Uttarpara",
+      "locality": "Amarendra Sarani",
+      "address": "69 Amarendra Sarani, near Muktakeshi Kalibari and Peary Mohan College, Uttarpara, West Bengal 712258, India",
+      "practicePhone": "+919830747929",
+      "consultingHours": "Sunday: opens at 9 AM"
+    }
+  ],
+  "photoUrl": "/uploads/dr-basab-raj-ghosh/docvy-watermarked.png"
+}

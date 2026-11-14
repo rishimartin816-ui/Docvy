@@ -45,6 +45,19 @@ Module._load=function(id,parent,...rest){
  const mumbaiHtml=require("react-dom/server").renderToStaticMarkup(await DirectoryPage({city:require("../lib/directory.ts").cities.find(c=>c.slug==="mumbai")}));assert(mumbaiHtml.includes(hassan.id));assert(!mumbaiHtml.includes("coverage in Mumbai is coming soon"));
  assert(hassanHtml.includes("DOCVY Verified"));assert(hassanHtml.includes("2022076184"));
  assert(!/independent council check|does not reserve|not a guarantee/i.test(hassanHtml));
+
+ const basab={...require("../docs/doctors/dr-basab-raj-ghosh.json"),profileStatus:"verified",consentGiven:true,consentMethod:"owner_approval",verifiedAt:"2026-11-14T00:00:00Z",live:true,sourceUrl:"https://www.docvy.in/doctor/dr-basab-raj-ghosh",sourceChecked:"2026-11-14",otherNcrLocations:[]};
+ publishedDoctors=[basab];
+ assert(isVerified(basab));assert(ownedPortrait(basab.photoUrl));
+ const basabHtml=require("react-dom/server").renderToStaticMarkup(await page.default({params:{slug:basab.id}}));
+ for(const text of ["Dr. Basab Raj Ghosh","DOCVY Verified","53433","West Bengal Medical Council","69 Amarendra Sarani","Uttarpara","9830747929","Sunday: opens at 9 AM"])assert(basabHtml.includes(text),text);
+ assert(basabHtml.includes('href="https://share.google/tsHnih3aKCuirfG2R"'));
+ assert(!basabHtml.includes("Consultation fee:"));assert(!basabHtml.includes(">Languages<"));assert(!basabHtml.includes("27.12.1971"));
+ assert.equal((basabHtml.match(/Request appointment at this clinic/g)||[]).length,1);
+ assert.equal(doctorStructuredData(basab).location.length,1);
+ const uttarparaHtml=require("react-dom/server").renderToStaticMarkup(await DirectoryPage({city:require("../lib/directory.ts").cities.find(c=>c.slug==="uttarpara")}));
+ assert(uttarparaHtml.includes(basab.id));assert(uttarparaHtml.includes("city=Uttarpara"));
+
  const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(require("node:path").join(dir,e.name)):[require("node:path").join(dir,e.name)]);
  for(const file of ["app","components","lib"].flatMap(walk).filter(f=>/\.tsx?$/.test(f))){
   assert(!/does not reserve (?:a slot|or confirm)|no slot is reserved|not a guarantee/i.test(fs.readFileSync(file,"utf8")),"Obsolete reservation copy: "+file);
