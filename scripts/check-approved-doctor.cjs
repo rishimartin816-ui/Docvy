@@ -42,6 +42,7 @@ Module._load=function(id,parent,...rest){
  publishedDoctors=[hassan];
  assert(isVerified(hassan));
  const hassanHtml=require("react-dom/server").renderToStaticMarkup(await page.default({params:{slug:hassan.id}}));
+ const mumbaiHtml=require("react-dom/server").renderToStaticMarkup(await DirectoryPage({city:require("../lib/directory.ts").cities.find(c=>c.slug==="mumbai")}));assert(mumbaiHtml.includes(hassan.id));assert(!mumbaiHtml.includes("coverage in Mumbai is coming soon"));
  assert(hassanHtml.includes("DOCVY Verified"));assert(hassanHtml.includes("2022076184"));
  assert(!/independent council check|does not reserve|not a guarantee/i.test(hassanHtml));
  const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(require("node:path").join(dir,e.name)):[require("node:path").join(dir,e.name)]);
