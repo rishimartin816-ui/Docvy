@@ -1,94 +1,48 @@
+import BrandLogo from "./BrandLogo";
 import Link from "next/link";
-import { ArrowUpRight, FileText, Mail, ShieldCheck } from "lucide-react";
-import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
+import { availableCities } from "@/lib/directory";
+import { getDirectoryDoctors } from "@/lib/public-directory";
+import FooterLinks from "./FooterLinks";
 
-const platformLinks = [
-  ["/care-guide", "Patient guide: conditions & specialties"],
-  ["/doctors", "Doctor directory status"],
-  ["/how-it-works", "How finding care will work"],
-  ["/faqs", "Patient and provider FAQs"],
+const careLinks = [
+  ["/doctors", "Find doctors"], ["/specialties", "All specialties"], ["/surgery-guide", "Surgeries"],
+  ["/care-guide", "Health guides"], ["/hospitals", "Hospitals"], ["/how-it-works", "How it works"],
+] as const;
+const companyLinks = [
+  ["/pricing", "Pricing"], ["/about", "About"], ["/contact", "Contact"], ["/faqs", "FAQs"],
+  ["/for-doctors", "For doctors & clinics"], ["/partner-with-us", "Partner with us"],
+  ["/claim-profile", "Claim a profile"], ["/remove-profile", "Request removal"],
+] as const;
+const legalLinks = [
+  ["/legal/privacy", "Privacy"], ["/legal/terms", "Terms"], ["/legal/refund", "Refunds"],
+  ["/legal/disclaimer", "Medical disclaimer"], ["/grievance", "Grievance"],
 ] as const;
 
-const policyLinks = [
-  ["/legal/privacy", "Privacy policy"],
-  ["/legal/terms", "Terms of service"],
-  ["/legal/refund", "Cancellation and refunds"],
-  ["/legal/disclaimer", "Medical disclaimer"],
-  ["/grievance", "Grievance redressal"],
-] as const;
+export default async function Footer() {
+  const cities = availableCities(await getDirectoryDoctors(), 3).slice(0, 6);
+  const sections = [
+    { heading: "Find care", links: careLinks },
+    { heading: "DOCVY", links: companyLinks },
+    ...(cities.length ? [{ heading: "Popular cities", links: [...cities.map(city => ["/doctors/" + city.slug, city.name] as const), ["/doctors", "All covered cities"] as const] }] : []),
+  ];
 
-export default function Footer() {
-  const intakeEnabled = isAppointmentIntakeConfigured();
-  return (
-    <footer className="border-t border-[#DCEAE5] bg-[#F6FAF8] text-sm">
-      <div className="mx-auto grid max-w-[1440px] gap-10 px-6 py-12 md:grid-cols-[1.3fr_.8fr_1fr] lg:px-[72px] lg:py-14">
-        <div>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2.5 font-head text-[22px] font-extrabold tracking-[0.035em] text-[#071426]"
-          >
-            <span aria-hidden="true" className="h-4 w-4 rounded-[5px] bg-[#17C8E5]" />
-            DOCVY
-          </Link>
-          <p className="mt-3 max-w-sm text-sm leading-6 text-[#526D66]">
-            DOCVY is building healthcare discovery and provider tools for people and care teams across India.
-          </p>
-          <p className="mt-5 flex max-w-sm items-start gap-2 text-xs leading-5 text-[#789089]">
-            <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#087F83]" />
-            Doctor listings currently start in Delhi NCR. {intakeEnabled ? "Enquiries go to DOCVY; bookings are not confirmed here." : "Appointment enquiries are currently closed."}
-          </p>
+  return <>
+    <p className="border-t border-line px-5 py-3 text-center text-sm text-danger">In an emergency, call <a href="tel:112" className="inline-flex min-h-11 items-center font-semibold underline">112</a> or go to the nearest hospital.</p>
+    <footer className="site-footer border-t border-line text-sm">
+      <div className="mx-auto grid max-w-site gap-5 px-5 py-7 sm:px-8 md:grid-cols-3 md:gap-10 md:py-9 lg:grid-cols-4">
+        <div className="min-w-0">
+          <Link href="/" aria-label="DOCVY home" className="site-logo inline-flex min-h-11 items-center"><BrandLogo darkBackground /></Link>
+          <p className="mt-2 max-w-sm leading-6">Find doctors and prepare for your next visit.</p>
+          <a href="mailto:contact@docvy.in" className="inline-flex min-h-11 items-center hover:underline">contact@docvy.in</a>
+          <p className="mt-2 text-xs leading-5">Operated by DSS Global Technologies Private Limited.</p>
+          <address className="mt-1 max-w-sm text-xs not-italic leading-5">2nd Floor, Capital Cityscape, Sector 66, Gurugram, Haryana – 122101, India.</address>
         </div>
-
-        <div>
-          <h2 className="mb-3 text-xs font-bold uppercase tracking-[0.12em] text-[#173A37]">
-            Platform
-          </h2>
-          {platformLinks.map(([href, label]) => (
-            <Link
-              key={href}
-              href={href}
-              className="block rounded py-1.5 text-[#526D66] transition-colors hover:text-[#087F83]"
-            >
-              {label}
-            </Link>
-          ))}
-          <Link href="/pricing" className="block rounded py-1.5 text-[#526D66] transition-colors hover:text-[#087F83]">
-            Clinic &amp; hospital plans
-          </Link>
-          <Link href="/for-doctors" className="block rounded py-1.5 text-[#526D66] transition-colors hover:text-[#087F83]">
-            For doctors
-          </Link>
-        </div>
-
-        <div>
-          <h2 className="mb-3 text-xs font-bold uppercase tracking-[0.12em] text-[#173A37]">
-            Policies & support
-          </h2>
-          {policyLinks.map(([href, label]) => (
-            <Link
-              key={href}
-              href={href}
-              className="flex items-center gap-2 rounded py-1.5 text-[#526D66] transition-colors hover:text-[#087F83]"
-            >
-              <FileText size={14} />
-              {label}
-            </Link>
-          ))}
-          <Link
-            href="/contact"
-            className="mt-2 inline-flex items-center gap-2 py-1.5 font-semibold text-[#087F83] hover:text-[#066D70]"
-          >
-            Contact DOCVY <Mail size={14} /> <ArrowUpRight size={13} />
-          </Link>
-        </div>
+        <nav aria-label="Footer" className="min-w-0 md:col-span-2 md:contents"><FooterLinks sections={sections} /></nav>
       </div>
-
-      <div className="border-t border-[#DCEAE5]">
-        <div className="mx-auto max-w-[1440px] px-6 py-5 text-xs leading-5 text-[#789089] lg:px-[72px]">
-          © {new Date().getFullYear()} DOCVY. Product capabilities are subject to
-          release and operational readiness.
-        </div>
-      </div>
+      <div className="border-t border-line"><div className="mx-auto max-w-site px-5 py-4 sm:px-8">
+        <div className="flex flex-wrap items-center justify-between gap-x-6"><p className="text-xs">© {new Date().getFullYear()} DOCVY. All rights reserved.</p><nav aria-label="Legal" className="flex flex-wrap gap-x-4 text-xs">{legalLinks.map(([href, label]) => <Link key={href} href={href} className="inline-flex min-h-11 items-center hover:underline">{label}</Link>)}</nav></div>
+        <p className="mt-1 max-w-5xl text-xs leading-5">DOCVY helps you find doctors and prepare for visits. It does not provide emergency care or replace medical advice.</p>
+      </div></div>
     </footer>
-  );
+  </>;
 }

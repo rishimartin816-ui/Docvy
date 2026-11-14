@@ -1,16 +1,22 @@
 import "./globals.css";
-import type { Metadata } from "next";
-import { DM_Sans, Inter } from "next/font/google";
+// Publication and removal changes must be reflected in every public view, including footer links.
+export const dynamic = "force-dynamic";
+import type { Metadata, Viewport } from "next";
+import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import Nav from "@/components/Nav";
+import RouteBreadcrumbs from "@/components/RouteBreadcrumbs";
 import Footer from "@/components/Footer";
+import SiteFrame from "@/components/SiteFrame";
 import { docvyOpenGraphImage } from "@/lib/metadata";
-import { providerCityListLabel } from "@/lib/provider-candidates";
 
-const docvyFont = DM_Sans({
-  subsets: ["latin"],
+const docvyFont = localFont({
+  src: "./fonts/google-sans-flex-latin-wght-normal.woff2",
   variable: "--font-head",
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: "100 1000",
   display: "swap",
+  fallback: ["Google Sans", "system-ui"],
+  adjustFontFallback: false,
 });
 const docvyBodyFont = Inter({
   subsets: ["latin"],
@@ -18,30 +24,34 @@ const docvyBodyFont = Inter({
   display: "swap",
 });
 
+export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#143C2B" };
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.docvy.in"),
   title: {
     default: "DOCVY — Healthcare discovery across India",
     template: "%s | DOCVY",
   },
-  description: `Use DOCVY's plain-language specialty guide across India and browse source-linked hospital doctor profiles currently listed in ${providerCityListLabel}.`,
+  description: "DOCVY helps people in India understand medical specialties and prepare for a visit with plain-language patient guides.",
   applicationName: "DOCVY",
+  manifest: "/manifest.webmanifest",
+  icons: { icon: [{ url: "/icons/favicon-48.png", sizes: "48x48", type: "image/png" }, { url: "/icons/favicon-96.png", sizes: "96x96", type: "image/png" }] },
   openGraph: {
     type: "website",
     locale: "en_IN",
     siteName: "DOCVY",
     title: "DOCVY — Healthcare discovery across India",
-    description: `A plain-language specialty guide for India, with a limited set of hospital-source doctor profiles in ${providerCityListLabel}.`,
+    description: "DOCVY helps people in India understand medical specialties and prepare for a visit with plain-language patient guides.",
     url: "/",
     images: [docvyOpenGraphImage],
   },
   twitter: {
     card: "summary_large_image",
     title: "DOCVY — Healthcare discovery across India",
-    description: `Explore medical specialties across India and browse a limited set of hospital-source doctor profiles in ${providerCityListLabel}. Contact providers directly to confirm availability.`,
-    images: ["/opengraph-image"],
+    description: "DOCVY helps people in India understand medical specialties and prepare for a visit with plain-language patient guides.",
+    images: [docvyOpenGraphImage.url],
   },
-  robots: {
+  robots: process.env.VERCEL_ENV !== "production" || process.env.DOCVY_INDEXING_ENABLED !== "true" ? { index: false, follow: false } : {
     index: true,
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
@@ -66,6 +76,7 @@ export default function RootLayout({
               name: "DOCVY",
               url: "https://www.docvy.in",
               email: "contact@docvy.in",
+              logo: "https://www.docvy.in/brand/01_DOCVY_Primary_Transparent.png",
               address: {
                 "@type": "PostalAddress",
                 streetAddress: "2nd Floor, Capital Cityscape, Sector 66",
@@ -79,13 +90,11 @@ export default function RootLayout({
         />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-3 focus:rounded-lg focus:bg-white focus:p-3 focus:text-[#173A37]"
+          className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-3 focus:rounded-lg focus:bg-white focus:p-3 focus:text-ink"
         >
           Skip to content
         </a>
-        <Nav />
-        <main id="main">{children}</main>
-        <Footer />
+        <SiteFrame navigation={<Nav />} footer={<Footer />} breadcrumbs={<RouteBreadcrumbs />}>{children}</SiteFrame>
       </body>
     </html>
   );
