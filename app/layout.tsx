@@ -79,7 +79,7 @@ export default function RootLayout({
               logo: "https://www.docvy.in/brand/01_DOCVY_Primary_Transparent.png",
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "2nd Floor, Capital Cityscape, Sector 66",
+                streetAddress: "Sector 48",
                 addressLocality: "Gurugram",
                 addressRegion: "Haryana",
                 postalCode: "122101",

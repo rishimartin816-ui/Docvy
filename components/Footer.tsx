@@ -35,7 +35,7 @@ export default async function Footer() {
           <p className="mt-2 max-w-sm leading-6">Find doctors and prepare for your next visit.</p>
           <a href="mailto:contact@docvy.in" className="inline-flex min-h-11 items-center hover:underline">contact@docvy.in</a>
           <p className="mt-2 text-xs leading-5">Operated by DSS Global Technologies Private Limited.</p>
-          <address className="mt-1 max-w-sm text-xs not-italic leading-5">2nd Floor, Capital Cityscape, Sector 66, Gurugram, Haryana – 122101, India.</address>
+          <address className="mt-1 max-w-sm text-xs not-italic leading-5">Sector 48, Gurugram, Haryana 122101, India.</address>
         </div>
         <nav aria-label="Footer" className="min-w-0 md:col-span-2 md:contents"><FooterLinks sections={sections} /></nav>
       </div>

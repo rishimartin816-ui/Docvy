@@ -44,7 +44,7 @@ export default function GrievancePage() {
           <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-surface text-[#B45309]"><MapPin strokeWidth={1.5} size={22} aria-hidden="true" /></span>
           <h2 className="mt-5 text-xl font-bold text-ink">Send a written grievance</h2>
           <p className="mt-3 text-sm leading-7 text-grey">Operating entity: <strong className="text-ink">DSS Global Technologies Private Limited</strong>.</p>
-          <address className="mt-3 not-italic text-sm leading-7 text-grey">2nd Floor, Capital Cityscape<br />Sector 66, Gurugram<br />Haryana – 122101, India</address>
+          <address className="mt-3 not-italic text-sm leading-7 text-grey">Sector 48, Gurugram<br />Haryana 122101, India</address>
         </article>
 
         <aside className="rounded-3xl border border-line bg-surface p-6 md:col-span-2 md:flex md:items-start md:gap-4 md:p-7">

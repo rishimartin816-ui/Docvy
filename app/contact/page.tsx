@@ -94,7 +94,7 @@ export default function ContactPage() {
       <article className="rounded-2xl border border-line bg-white p-6">
         <div className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface text-ink"><MapPin strokeWidth={1.5} size={19} aria-hidden="true" /></span><h2 className="text-lg font-bold">Company information</h2></div>
         <p className="mt-4 text-sm font-semibold text-grey">DSS Global Technologies Private Limited</p>
-        <address className="mt-2 not-italic text-sm leading-6 text-grey">2nd Floor, Capital Cityscape, Sector 66,<br />Gurugram, Haryana – 122101, India.</address>
+        <address className="mt-2 not-italic text-sm leading-6 text-grey">Sector 48,<br />Gurugram, Haryana 122101, India.</address>
       </article>
       <article className="rounded-2xl border border-line bg-white p-6">
         <div className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface text-ink"><ShieldCheck strokeWidth={1.5} size={19} aria-hidden="true" /></span><h2 className="text-lg font-bold">Privacy and general enquiries</h2></div>
