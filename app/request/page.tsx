@@ -40,7 +40,7 @@ export default async function RequestPage({ searchParams }: { searchParams: Prom
         <div className="docvy-glass p-6">
           <CalendarCheck size={25} strokeWidth={1.5} className="text-ink" aria-hidden="true" />
           <h2 className="mt-4 text-xl font-semibold">What happens next</h2>
-          <p className="mt-3 text-sm leading-7 text-grey">Once saved, your request has a DOCVY reference number and waits for coordination. This does not reserve a slot. The clinic confirms time and fee. DOCVY does not take payment here.</p>
+          <p className="mt-3 text-sm leading-7 text-grey">Once saved, your request has a DOCVY reference number and waits for coordination. The clinic confirms time and fee. DOCVY does not take payment here.</p>
           <p className="mt-3 text-sm leading-7 text-grey">Hospital profile sources describe the doctor’s practice. A listing does not establish a DOCVY hospital partnership. Share contact details and appointment preferences only. Please keep symptoms, diagnoses, identity documents and medical records out of this form.</p>
         </div>
       </section>

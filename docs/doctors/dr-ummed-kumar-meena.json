@@ -19,9 +19,7 @@
     "consultationFee": 300,
     "currency": "INR",
     "practicePhone": "+917062035381",
-    "appointmentNote": "Please book your appointment in advance.",
-    "additionalMapsUrl": "https://share.google/ucjb9ymNGUxndUkqX",
-    "additionalMapsLabel": "Shree Bhumika Clinic, Parye — supplied Maps link"
+    "appointmentNote": "Please book your appointment in advance."
   },
   "locations": [
     {
@@ -58,7 +56,7 @@
       "consultingHours": "5 PM–9 PM",
       "consultationFee": 300,
       "currency": "INR",
-      "mapsUrl": "https://www.google.com/maps/dir/?api=1&destination=First%20floor%2C%20Bhumika%20Hotel%2C%20opposite%20Poriem%20Panchayat%2C%20Poriem%2C%20Goa"
+      "mapsUrl": "https://share.google/ucjb9ymNGUxndUkqX"
     }
   ]
 }

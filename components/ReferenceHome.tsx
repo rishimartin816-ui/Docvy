@@ -22,7 +22,7 @@ const commonSearches = [
 const steps = [
   { title: "Start with your concern", text: "Search a specialty, doctor or hospital. Add a city to see the profiles listed there. If you’re unsure where to start, explore the health guides.", icon: Search },
   { title: "Check the practice details", text: "Read the specialty, hospital or clinic, and city on the profile. Confirm the branch with the practice before you travel.", icon: MapPin },
-  { title: "Arrange the next step", text: "Where an appointment-request button is available, share your preferences. The clinic confirms the time and fee; sending a request does not reserve a slot.", icon: ClipboardList },
+  { title: "Arrange the next step", text: "Where an appointment-request button is available, share your preferences. The clinic confirms the time and fee; share your preferred visit time.", icon: ClipboardList },
 ];
 const procedures = [
   { slug: "hernia-repair", name: "Hernia repair", text: "Ask about treatment choices and recovery." },
@@ -46,7 +46,7 @@ const guides = [
 const questions = [
   ["What can I use DOCVY for?", "Find doctors by specialty, hospital or city, compare practice details, and prepare for your visit with clear health guides."],
   ["Can I request an appointment with every doctor listed?", "Look for Request appointment on opted-in profiles. Choose your preferences and receive a request reference; the clinic confirms your visit."],
-  ["Does an appointment request confirm my visit?", "You receive a reference when your request is saved. The clinic confirms the time and fee before your visit; the request itself does not reserve a slot."],
+  ["Does an appointment request confirm my visit?", "You receive a reference when your request is saved. The clinic confirms the time and fee before your visit."],
   ["What does DOCVY Verified mean?", "The doctor or clinic has given written consent to their profile, and DOCVY has separately checked the registration number with the relevant medical council or NMC. A listed hospital name or a claimed profile alone does not mean the doctor is verified."],
   ["Where should I start if I’m not sure which specialty to search?", "Read the specialty descriptions and health guides to get familiar with the terms. They provide background for a conversation with a qualified clinician and cannot decide which doctor or treatment is right for your situation."],
 ];

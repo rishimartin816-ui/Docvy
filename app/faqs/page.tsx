@@ -27,12 +27,12 @@ const questions = [
   },
   {
     question: "Can I book a real appointment on DOCVY?",
-    answer: "Only claimed or verified doctors who have given written consent can receive appointment requests. Unclaimed profiles are not yet partnered with DOCVY and have no request button. This does not reserve a slot. The clinic confirms time and fee.",
+    answer: "Only claimed or verified doctors who have given written consent can receive appointment requests. Unclaimed profiles are not yet partnered with DOCVY and have no request button. The clinic confirms time and fee.",
     href: "/doctors", label: "Browse sourced doctor profiles",
   },
   {
     question: "What happens after I send an appointment request?",
-    answer: "Keep the reference number shown after submission. The doctor’s team confirms the available time and fee. Wait for confirmation before travelling to the clinic; sending a request does not reserve a slot.",
+    answer: "Keep the reference number shown after submission. The doctor’s team confirms the available time and fee. Use your reference when following up with the clinic.",
     href: "/how-it-works", label: "How appointment requests work",
   },
   {

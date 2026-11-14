@@ -30,7 +30,7 @@ export const cities = [
   },
   {
     slug: "faridabad", name: "Faridabad",
-    intro: "For a consultation in Faridabad, start with the specialty your clinician has suggested or the concern you want assessed. Check the sector and full hospital address together, especially when you are comparing departments at different facilities. A first consultation is a chance to explain what has changed, review relevant reports and ask what should happen next. If surgery has been mentioned, write down questions about alternatives, recovery, costs and who will coordinate follow-up. You can browse the source-linked profiles below and request a visit where a doctor has opted in. A profile does not show a live appointment slot. The provider must confirm availability, fees and the final timing before your visit.",
+    intro: "For a consultation in Faridabad, start with the specialty your clinician has suggested or the concern you want assessed. Check the sector and full hospital address together, especially when you are comparing departments at different facilities. A first consultation is a chance to explain what has changed, review relevant reports and ask what should happen next. If surgery has been mentioned, write down questions about alternatives, recovery, costs and who will coordinate follow-up. You can browse the source-linked profiles below and request a visit where a doctor has opted in. The provider must confirm availability, fees and the final timing before your visit.",
     question: "Are published consulting hours a confirmed appointment?", answer: "No. They are information from the practice source. Send a request and wait for the provider to confirm your visit.",
   },
   ...nationalCities,

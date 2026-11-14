@@ -61,8 +61,6 @@ export default async function DoctorPage({ params }: Props) {
           {partnered && <Link className="docvy-pill docvy-pill-primary" href={{ pathname: "/request", query: { provider: doctor.id, city: location.city, facility: location.facility } }}>Request appointment at this clinic</Link>}
         </div>
       </div>)}
-      {partnered && <p className="mt-5 text-sm leading-7 text-grey">Please confirm consulting days with the clinic. An appointment request does not reserve a slot; the clinic confirms your visit.</p>}
-      {details?.additionalMapsUrl && /^https:\/\/share\.google\//.test(details.additionalMapsUrl) && <p className="mt-5 text-sm"><a className="underline underline-offset-4" href={details.additionalMapsUrl} target="_blank" rel="noopener noreferrer">{details.additionalMapsLabel}</a></p>}
       {!partnered && <div className="mt-4"><div className="doctor-profile-claim"><div><h3 className="font-medium">Is this your profile?</h3><p className="mt-2 text-sm text-grey">Make it yours. Share your practice details and choose how patients reach you.</p></div><Link className="doctor-claim-button" href={{ pathname: "/claim-profile", query: { provider: doctor.id } }}>Claim profile</Link></div><Link className="mt-4 inline-flex min-h-11 items-center text-sm underline underline-offset-4" href={{ pathname: "/remove-profile", query: { provider: doctor.id } }}>Request profile removal</Link></div>}
     </section>
   </div>;

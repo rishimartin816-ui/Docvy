@@ -47,7 +47,7 @@ export default function ContactPage() {
               <div className="flex items-center justify-between gap-3 rounded-xl border border-line bg-white p-3.5"><dt className="flex items-center gap-3 text-sm font-semibold"><span className="flex h-9 w-9 items-center justify-center rounded-lg bg-surface text-ink"><Stethoscope strokeWidth={1.5} size={18} aria-hidden="true" /></span>Doctor profile corrections</dt><dd className="shrink-0 rounded-full bg-surface px-3 py-1 text-[11px] font-bold text-ink">Owner review</dd></div>
               <div className="flex items-center justify-between gap-3 rounded-xl border border-line bg-white p-3.5"><dt className="flex items-center gap-3 text-sm font-semibold"><span className="flex h-9 w-9 items-center justify-center rounded-lg bg-surface text-ink"><Building2 strokeWidth={1.5} size={18} aria-hidden="true" /></span>Clinic and hospital tools</dt><dd className="shrink-0 rounded-full bg-surface px-3 py-1 text-[11px] font-bold text-[#B45309]">Planned</dd></div>
             </dl>
-            <p className="mt-4 text-xs leading-5 text-grey">A patient enquiry, if the form is open, goes to DOCVY and does not reserve a slot or automatically notify a provider.</p>
+            <p className="mt-4 text-xs leading-5 text-grey">Patient appointment requests are saved privately for follow-up with the selected clinic.</p>
           </div>
         </aside>
       </div>
@@ -85,7 +85,7 @@ export default function ContactPage() {
 
     <section className="border-y border-line bg-white px-6 py-10 md:py-12" aria-label="Patient enquiry status">
       <div className="mx-auto flex max-w-site flex-col gap-4 rounded-2xl border border-line bg-surface p-5 sm:p-6 md:flex-row md:items-center md:justify-between">
-        <div className="flex gap-3"><ShieldAlert className="mt-0.5 shrink-0 text-[#B45309]" size={21} aria-hidden="true" /><div><p className="text-xs font-extrabold tracking-[0.12em] text-[#B45309]">PATIENT APPOINTMENT ENQUIRIES · {intakeEnabled ? "OPEN" : "PAUSED"}</p><p className="mt-2 text-sm leading-6 text-[#B45309]">{intakeEnabled ? "The form sends your request to DOCVY, not directly to the hospital. No slot is reserved and no appointment is confirmed; contact the provider to confirm availability and fees." : "The website is not collecting patient contact details right now. Use the doctor directory to contact a listed hospital or clinic directly; no slot is reserved by DOCVY."} Do not send patient health or contact information by email.</p></div></div>
+        <div className="flex gap-3"><ShieldAlert className="mt-0.5 shrink-0 text-[#B45309]" size={21} aria-hidden="true" /><div><p className="text-xs font-extrabold tracking-[0.12em] text-[#B45309]">PATIENT APPOINTMENT ENQUIRIES · {intakeEnabled ? "OPEN" : "PAUSED"}</p><p className="mt-2 text-sm leading-6 text-[#B45309]">{intakeEnabled ? "Choose your doctor and practice, share your preferred visit time, and keep your DOCVY reference for follow-up." : "Use the doctor directory to find your clinic and contact it to arrange a visit."} Do not send patient health or contact information by email.</p></div></div>
         <div className="flex shrink-0 flex-wrap gap-3 md:pl-4"><Link href={intakeEnabled ? "/request" : "/doctors"} className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-primary px-4 text-sm font-bold text-white hover:bg-primary">{intakeEnabled ? "Open enquiry form" : "Browse doctors"} <ArrowRight strokeWidth={1.5} size={15} aria-hidden="true" /></Link></div>
       </div>
     </section>

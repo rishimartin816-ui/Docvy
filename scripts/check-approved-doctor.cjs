@@ -6,10 +6,11 @@ require.extensions[".ts"] = require.extensions[".tsx"] = (module, filename) => {
   module._compile(ts.transpileModule(fs.readFileSync(filename,"utf8"), {compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.ReactJSX,target:ts.ScriptTarget.ES2020,esModuleInterop:true}}).outputText,filename);
 };
 const doctor={...require("../docs/doctors/dr-ummed-kumar-meena.json"),profileStatus:"verified",consentGiven:true,consentDate:"2026-11-13T00:00:00Z",consentMethod:"owner_approval",registrationNumber:"5175",registrationCouncil:"GMC",verifiedAt:"2026-11-13T00:00:00Z",live:true,sourceUrl:"https://www.docvy.in/doctor/dr-ummed-kumar-meena",sourceChecked:"2026-11-13",photoUrl:"/uploads/dr-ummed-kumar-meena/docvy-watermarked.png",otherNcrLocations:[]};
+let publishedDoctors=[doctor];
 const originalLoad=Module._load;
 Module._load=function(id,parent,...rest){
  if(id.startsWith("@/"))id=require("node:path").join(process.cwd(),id.slice(2));
- if(/public-directory(?:[.]ts)?$/.test(id))return {getDirectoryDoctors:async()=>[doctor]};
+ if(/public-directory(?:[.]ts)?$/.test(id))return {getDirectoryDoctors:async()=>publishedDoctors};
  return originalLoad.call(this,id,parent,...rest);
 };
 (async()=>{
@@ -33,5 +34,20 @@ Module._load=function(id,parent,...rest){
  for(const l of doctor.locations)assert(html.includes("facility="+encodeURIComponent(l.facility).replace(/%20/g,"+")) || html.includes("facility="+encodeURIComponent(l.facility)));
  assert.equal((await page.generateMetadata({params:{slug:doctor.id}})).alternates.canonical,"/doctor/"+doctor.id);
  assert(!html.includes("Marketing consent"));
+ assert(!/does not reserve|no slot is reserved|not a guarantee/i.test(html));
+ assert.equal(doctor.locations.find(l=>l.city==="Poriem").mapsUrl,"https://share.google/ucjb9ymNGUxndUkqX");
+ assert.equal((html.match(/href="https:\/\/share.google\/ucjb9ymNGUxndUkqX"/g)||[]).length,1);
+ assert(!html.includes("supplied Maps link"));
+ const hassan={...require("../docs/doctors/dr-hassan-ishtiyaque-ali.json"),profileStatus:"verified",consentGiven:true,consentMethod:"owner_approval",verifiedAt:"2026-11-14T00:00:00Z",live:true,sourceUrl:"https://www.docvy.in/doctor/dr-hassan-ishtiyaque-ali",sourceChecked:"2026-11-14",otherNcrLocations:[]};
+ publishedDoctors=[hassan];
+ assert(isVerified(hassan));
+ const hassanHtml=require("react-dom/server").renderToStaticMarkup(await page.default({params:{slug:hassan.id}}));
+ assert(hassanHtml.includes("DOCVY Verified"));assert(hassanHtml.includes("2022076184"));
+ assert(!/independent council check|does not reserve|not a guarantee/i.test(hassanHtml));
+ const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(require("node:path").join(dir,e.name)):[require("node:path").join(dir,e.name)]);
+ for(const file of ["app","components","lib"].flatMap(walk).filter(f=>/\.tsx?$/.test(f))){
+  assert(!/does not reserve (?:a slot|or confirm)|no slot is reserved|not a guarantee/i.test(fs.readFileSync(file,"utf8")),"Obsolete reservation copy: "+file);
+ }
+
  console.log("PASS: verified policy, three city/specialty matches, complete profile rendering, three clinic request links, SEO and no invented weekdays/slots");
 })().catch(error=>{console.error(error);process.exitCode=1});

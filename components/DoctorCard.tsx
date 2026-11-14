@@ -23,7 +23,7 @@ export default function DoctorCard({ doctor, location = doctor.locations[0] }: {
       </div>
     </div>
     {partnered ? <div className="doctor-card-footer">
-      <p className="doctor-card-note">This does not reserve a slot.<br />The clinic confirms time and fee.</p>
+      <p className="doctor-card-note">Book an appointment<br />with your chosen clinic.</p>
       <Link href={{ pathname: "/request", query: { provider: doctor.id, city: location.city, facility: location.facility } }} className="doctor-claim-button">Request appointment <ArrowUpRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link>
     </div> : <div className="doctor-card-footer">
       <div className="doctor-card-status"><span className="doctor-status-dot" aria-hidden="true" /><p>Not yet partnered with DOCVY</p></div>

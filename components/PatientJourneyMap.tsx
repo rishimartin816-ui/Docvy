@@ -50,7 +50,7 @@ export default function PatientJourneyMap({ intakeEnabled, headingLevel = 3 }: {
           ...step,
           title: "Confirm details with the care provider",
           text: intakeEnabled
-            ? "You can send an appointment enquiry to DOCVY. It is saved in DOCVY’s private intake; it does not automatically reach the provider or reserve a slot. Contact the hospital or clinic to confirm."
+            ? "You can send an appointment enquiry to DOCVY. It is saved in DOCVY’s private intake; use your reference to follow up with the selected clinic."
             : "DOCVY’s appointment enquiry form is currently closed. Contact the hospital or clinic directly to confirm the doctor, location, time and fee.",
           label: intakeEnabled ? "ENQUIRY TO DOCVY" : "ENQUIRY FORM CLOSED",
         }
