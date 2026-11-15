@@ -17,6 +17,13 @@ export const approvedProviderIds = [
   "dr-basab-raj-ghosh",
 ] as const;
 
+/** Latest owner instruction overrides the general window for Dr. Meena only. */
+export const meenaPracticeWindows = [
+  { city: "Keri", facility: "Shree Bhumika Clinic, Keri", address: "Opposite Govt High School Playground, Behrilwada", opensAt: "09:00", closesAt: "14:00" },
+  { city: "Sankhalim", facility: "Sankhalim practice", address: "Shree Siddhi Vinayak Krupa Apartment, near Lions Club Hall, Desai Nagar", opensAt: "14:00", closesAt: "17:00" },
+  { city: "Poriem", facility: "Shree Bhumika Clinic, Poriem", address: "Opposite Poriem Panchayat, Bhumika Hotel, first floor", opensAt: "17:00", closesAt: "21:00" },
+] as const;
+
 function parseDate(date: string) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error("Use an ISO calendar date");
   const timestamp = Date.parse(date + "T00:00:00Z");
@@ -31,16 +38,20 @@ export function generateApprovedSlotCandidates(startDate: string, endDate: strin
   const start = parseDate(startDate), end = parseDate(endDate);
   const dayMs = 86_400_000;
   if (end <= start || end - start > 90 * dayMs) throw new Error("Choose a range of 1–90 days");
-  const slots: { provider_id: string; starts_at: string; ends_at: string }[] = [];
+  const slots: { provider_id: string; starts_at: string; ends_at: string; location?: { city: string; facility: string; address: string } }[] = [];
   for (let day = start; day < end; day += dayMs) {
     if (new Date(day).getUTCDay() === 0) continue;
     const date = new Date(day).toISOString().slice(0, 10);
     const rule = approvedDoctorSchedule;
-    const firstStart = Date.parse(date + "T" + rule.opensAt + ":00+05:30");
-    const closing = Date.parse(date + "T" + rule.closesAt + ":00+05:30");
     for (const provider_id of approvedProviderIds) {
-      for (let slot = firstStart; slot + rule.appointmentMinutes * 60_000 <= closing; slot += (rule.appointmentMinutes + rule.gapMinutes) * 60_000) {
-        slots.push({ provider_id, starts_at: new Date(slot).toISOString(), ends_at: new Date(slot + rule.appointmentMinutes * 60_000).toISOString() });
+      const windows = provider_id === "dr-ummed-kumar-meena" ? meenaPracticeWindows : [rule];
+      for (const window of windows) {
+        const firstStart = Date.parse(date + "T" + window.opensAt + ":00+05:30");
+        const closing = Date.parse(date + "T" + window.closesAt + ":00+05:30");
+        for (let slot = firstStart; slot + rule.appointmentMinutes * 60_000 <= closing; slot += (rule.appointmentMinutes + rule.gapMinutes) * 60_000) {
+          slots.push({ provider_id, starts_at: new Date(slot).toISOString(), ends_at: new Date(slot + rule.appointmentMinutes * 60_000).toISOString(),
+            ...("city" in window ? { location: { city: window.city, facility: window.facility, address: window.address } } : {}) });
+        }
       }
     }
   }

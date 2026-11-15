@@ -22,7 +22,23 @@ Applied via connected Supabase to `pmyzedtpogmhvcrurcau` (`docvy-crm-staging`):
 
 CLI-generated migration files are under `supabase/migrations/`. These extend the existing crm_* schema rather than introducing another booking store. Production project `cxyscxjauxoizvvllmfu` was used read-only to inspect public professional schedule fields. Unrelated pre-existing QA schemas were left untouched.
 
-## Owner-approved recurring schedule — 2026-11-16
+## Latest approval: Dr. Meena location-specific schedule
+
+The owner's latest instruction supersedes the general 10:00–20:00 window for Dr. Meena only. Carry forward Monday–Saturday IST, 30-minute appointments and 30-minute gaps:
+
+| Practice | Address supplied by owner | Hours | Appointment starts | Slots/day |
+| --- | --- | --- | --- | ---: |
+| Shree Bhumika Clinic, Keri | Opposite Govt High School Playground, Behrilwada | 09:00–14:00 | 09:00, 10:00, 11:00, 12:00, 13:00 | 5 |
+| Sankhalim practice | Shree Siddhi Vinayak Krupa Apartment, near Lions Club Hall, Desai Nagar | 14:00–17:00 | 14:00, 15:00, 16:00 | 3 |
+| Shree Bhumika Clinic, Poriem | Opposite Poriem Panchayat, Bhumika Hotel, first floor | 17:00–21:00 | 17:00, 18:00, 19:00, 20:00 | 4 |
+
+Final appointments end at 13:30, 16:30 and 20:30 respectively. The 30-minute gap is preserved across location transitions. Dr. Meena has 12/day and 72/week; the other five providers retain 10/day and 60/week each. Current combined total: 372/week. Sundays remain excluded by the earlier approval. All three location/address fields are included in his slot candidates; no competing full-day calendars are generated. Existing facility keys remain stable to avoid breaking routing references.
+
+Location allocation for Dr. Meena is now resolved. Operational clinic IDs/staff ownership and closures/date horizon still require setup. Mr. Sahil Kochale's Indore/Online allocation is still pending. Nothing was activated in production.
+
+Tests verify 5/3/4 location counts, IST boundaries, 30-minute gaps across transitions, no overlapping doctor slots, 72 weekly Meena slots and 372 weekly total. TypeScript and lint pass (one existing warning).
+
+## Initial general schedule — Dr. Meena overridden above
 
 Approved for all six verified providers: Monday–Saturday, 10:00–20:00 Asia/Kolkata, 30-minute appointments with a 30-minute gap. Starts are 10:00, 11:00, 12:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00 and 19:00; the final appointment ends at 19:30. Sunday has no slots. This is 10/day and 60/week per provider, 360/week across six providers. The remaining 19:30–20:00 period is the gap, not an extra appointment.
 
@@ -30,7 +46,7 @@ Approved for all six verified providers: Monday–Saturday, 10:00–20:00 Asia/K
 
 Run `node scripts/test-booking-schedule.mjs` for validation. To inspect unassigned candidates for an explicit date range: `node scripts/test-booking-schedule.mjs --generate 2026-11-16 2026-11-23`. This prints candidates only and performs no database writes. Tests cover the 30-minute gap example, IST conversion, final slot, six-provider weekly count, Sunday exclusion, deterministic ordering, duplicate prevention and invalid dates/ranges. TypeScript and lint passed (one existing hook warning).
 
-For Dr. Ummed Kumar Meena, select Keri, Sankhalim or Poriem; for Mr. Sahil Kochale, select Indore or Online (or provide an explicit non-overlapping allocation). The same doctor cannot receive simultaneous full-day calendars at different locations.
+Dr. Meena’s location windows are now resolved by the latest approval above. For Mr. Sahil Kochale, select Indore or Online (or provide an explicit non-overlapping allocation). The same doctor cannot receive simultaneous full-day calendars at different locations.
 
 ## Six verified provider onboarding dependencies
 
