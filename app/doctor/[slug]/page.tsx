@@ -32,6 +32,7 @@ export default async function DoctorPage({ params }: Props) {
     {partnered && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(doctorStructuredData(doctor)).replace(/</g, "\\u003c") }} />}
     <div className="flex flex-col items-start gap-6 sm:flex-row"><DoctorPortrait name={doctor.name} src={partnered ? doctor.photoUrl : null} large /><div>
       <h1 className="text-4xl font-medium sm:text-5xl">{doctor.name}</h1>
+      {details?.experienceYears != null && <p className="doctor-experience mt-4 inline-flex rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-lg font-semibold text-primary">{details.experienceYears} {details.experienceYears === 1 ? "Year" : "Years"} of Experience</p>}
       <p className="mt-4 capitalize">{doctor.specialties.join(", ") || "Specialty details under review"}{details && doctor.specialties.includes("General medicine") ? " · General physician" : ""}</p>
       {doctor.serviceTitle && <p className="mt-2 text-sm text-grey">Service title: {doctor.serviceTitle}</p>}
       {doctor.centres?.length ? <p className="mt-2 text-sm text-grey">Centres &amp; services: {doctor.centres.join(" · ")}</p> : null}

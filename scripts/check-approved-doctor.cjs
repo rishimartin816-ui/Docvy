@@ -72,6 +72,15 @@ Module._load=function(id,parent,...rest){
  assert(ambikaCity.includes(ambika.id));assert(ambikaCity.includes("city=Jhunjhunu"));
  for(const entry of [doctor,hassan,basab,ambika]){assert(entry.locations.every(l=>l.state));assert(doctorDescription(entry).includes(entry.locations[0].state));}
 
+
+ const experienceFigures={"dr-ambika-rao-jhunjhunu-68798490":13,"dr-anil-kumar-physiotherapist-delhi":2,"dr-hassan-ishtiyaque-ali":4,"dr-ummed-kumar-meena":4,"dr-basab-raj-ghosh":null,"bheemreddy-vivek-reddy-karimnagar-24773aea":null};
+ for(const [id,years] of Object.entries(experienceFigures)){
+  const entry={...require("../docs/doctors/"+id+".json"),consentGiven:true,consentMethod:"owner_approval",verifiedAt:"2026-11-15",live:true,otherNcrLocations:[]};publishedDoctors=[entry];
+  const profileHtml=require("react-dom/server").renderToStaticMarkup(await page.default({params:{slug:id}}));
+  const cardHtml=require("react-dom/server").renderToStaticMarkup(DoctorCards({doctors:[entry]}));
+  for(const rendered of [profileHtml,cardHtml]){if(years!=null){assert(rendered.includes("doctor-experience"));assert(rendered.includes(years+" Years of Experience"),id+" experience highlight");}else assert(!rendered.includes("doctor-experience"),id+" must not invent experience");}
+ }
+
  const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(require("node:path").join(dir,e.name)):[require("node:path").join(dir,e.name)]);
  for(const file of ["app","components","lib"].flatMap(walk).filter(f=>/\.tsx?$/.test(f))){
   assert(!/does not reserve (?:a slot|or confirm)|no slot is reserved|not a guarantee/i.test(fs.readFileSync(file,"utf8")),"Obsolete reservation copy: "+file);

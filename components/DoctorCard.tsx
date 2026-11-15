@@ -13,6 +13,7 @@ export default function DoctorCard({ doctor, location = doctor.locations[0] }: {
       <DoctorPortrait name={doctor.name} src={partnered ? doctor.photoUrl : null} compact />
       <div className="doctor-card-details">
         <h3 id={"doctor-name-" + doctor.id} className="doctor-card-title"><Link href={profile}>{doctor.name}</Link></h3>
+        {partnered && doctor.profileDetails?.experienceYears != null && <p className="doctor-experience mt-2 inline-flex rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">{doctor.profileDetails.experienceYears} {doctor.profileDetails.experienceYears === 1 ? "Year" : "Years"} of Experience</p>}
         <p className="doctor-card-specialty capitalize">{doctor.specialties.join(" · ") || "Specialty details under review"}</p>
         {doctor.centres?.length ? <p className="mt-2 text-xs leading-6 text-grey">Centres &amp; services: {doctor.centres.join(" · ")}</p> : null}
         {partnered && doctor.profileDetails?.qualifications && <p className="mt-2 text-sm leading-6 text-grey">{doctor.profileDetails.qualifications}</p>}
