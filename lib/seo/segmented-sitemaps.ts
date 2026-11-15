@@ -1,0 +1,29 @@
+import { patientTopicGuides } from "@/lib/patient-topic-guides";
+
+export const SITE = "https://www.docvy.in";
+export const sitemapGroups = {
+  static: ["", "/about", "/contact", "/for-doctors", "/faqs", "/grievance", "/how-it-works", "/pricing", "/legal/privacy", "/legal/terms", "/legal/refund", "/legal/disclaimer"],
+  doctors: ["/doctors"],
+  cities: ["/doctors/delhi", "/doctors/gurugram", "/doctors/noida"],
+  content: ["/care-guide", ...patientTopicGuides.map(({ slug }) => `/patient-guides/${slug}`)],
+} as const;
+
+export type SitemapGroup = keyof typeof sitemapGroups;
+
+export function escapeXml(value: string) {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+}
+
+export function xmlResponse(body: string) {
+  return new Response(body, { headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" } });
+}
+
+export function renderUrlset(paths: readonly string[]) {
+  const urls = [...new Set(paths)].map(path => `  <url><loc>${escapeXml(SITE + path)}</loc></url>`).join("\n");
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>`;
+}
+
+export function renderIndex(groups: string[]) {
+  const items = groups.map(group => `  <sitemap><loc>${escapeXml(SITE + "/sitemaps/" + group + ".xml")}</loc></sitemap>`).join("\n");
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${items}\n</sitemapindex>`;
+}
