@@ -25,7 +25,14 @@ export async function GET(request: Request) {
     const profiles = permission.isAdmin ? await bookingDb("docvy_booking_provider_options", {
       query:new URLSearchParams({select:"provider_id,mode,enabled_at",limit:"200"}),
     }) : [];
-    return jsonNoStore({ok:true,isAdmin:permission.isAdmin,cases,profiles});
+    const candidates = permission.isAdmin ? await bookingDb("docvy_directory_providers",{
+      query:new URLSearchParams({
+        select:"provider_id,doctor_name,city,facility",
+        profile_status:"eq.verified",consent_given:"eq.true",published:"eq.true",
+        enabled:"eq.true",verified_at:"not.is.null",limit:"200",
+      }),
+    }) : [];
+    return jsonNoStore({ok:true,isAdmin:permission.isAdmin,cases,profiles,candidates});
   } catch {
     return jsonNoStore({error:"Unable to load appointment queue"},503);
   }
