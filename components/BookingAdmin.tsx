@@ -4,6 +4,9 @@ import { useState, type FormEvent } from "react";
 
 type Candidate={provider_id:string;doctor_name:string;city:string;facility:string};
 type Option={provider_id:string;mode:string};
+type Roster={id:string;provider_id:string|null;clinic_id:string;name:string;present:boolean|null};
+type Clinic={id:string;name:string;city:string;booking_enabled:boolean};
+type ScheduleQueue={ok?:boolean;rosters?:Roster[];clinics?:Clinic[]};
 type Booking={id:string;reference:string;doctor_name:string;city:string;facility:string;patient_name:string;patient_mobile:string;patient_email:string|null;preferred_date:string|null;preferred_time:string|null;confirmed_starts_at:string|null;status:string;mode:string;created_at:string};
 type Queue={ok?:boolean;isAdmin?:boolean;cases?:Booking[];candidates?:Candidate[];profiles?:Option[];error?:string};
 type AuthConfig={enabled:boolean;url?:string;anonKey?:string};
@@ -16,6 +19,8 @@ export default function BookingAdmin(){
   const [token,setToken]=useState("");
   const [queue,setQueue]=useState<Queue|null>(null);
   const [busy,setBusy]=useState(false);
+  const [schedules,setSchedules]=useState<ScheduleQueue|null>(null);
+  const [slotInputs,setSlotInputs]=useState<Record<string,{start:string;end:string}>>({});
   const [message,setMessage]=useState("");
   const [filter,setFilter]=useState("all");
   const [pending,setPending]=useState<Record<string,{status:string;note:string;time:string}>>({});
@@ -25,6 +30,10 @@ export default function BookingAdmin(){
     const result=await response.json() as Queue;
     if(!response.ok||!result.ok)throw new Error(result.error||"Not permitted");
     setQueue(result);setMessage("");
+    const scheduleResponse=await fetch("/api/booking/admin/schedules",{
+      headers:{Authorization:`Bearer ${accessToken}`},cache:"no-store",
+    });
+    if(scheduleResponse.ok)setSchedules(await scheduleResponse.json() as ScheduleQueue);
   }
   async function login(e:FormEvent<HTMLFormElement>){
     e.preventDefault();setBusy(true);setMessage("");
@@ -76,6 +85,22 @@ export default function BookingAdmin(){
     }catch(error){setMessage(error instanceof Error?error.message:"Update failed")}
     finally{setBusy(false)}
   }
+  async function scheduleAction(rosterId:string,action:"presence"|"slot"|"activate_clinic"){
+    setBusy(true);setMessage("");
+    try{
+      const slot=slotInputs[rosterId];
+      const startsAt=slot?.start?new Date(slot.start+":00+05:30").toISOString():null;
+      const endsAt=slot?.end?new Date(slot.end+":00+05:30").toISOString():null;
+      const response=await fetch("/api/booking/admin/schedules",{
+        method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`},
+        body:JSON.stringify({action,rosterId,startsAt,endsAt,confirmedByClinic:action==="presence"}),
+      });
+      const output=await response.json() as {error?:string};
+      if(!response.ok)throw new Error(output.error||"Schedule update rejected");
+      await refresh();
+    }catch(error){setMessage(error instanceof Error?error.message:"Schedule error")}
+    finally{setBusy(false)}
+  }
   if(!token)return <form onSubmit={login} className="mt-8 max-w-lg space-y-4 rounded-2xl border bg-white p-6">
     <h2 className="text-xl font-bold">Operator sign-in</h2>
     <p className="text-sm text-[#526D66]">Use your existing verified DOCVY admin or authorized clinic account. Passwords are authenticated by Supabase and are not stored by DOCVY's booking dashboard.</p>
@@ -112,6 +137,33 @@ export default function BookingAdmin(){
         </div>)}
       </div>
     </section>}
+    <section className="rounded-2xl border bg-white p-5">
+      <h2 className="text-xl font-bold">Clinic schedules and doctor availability</h2>
+      <p className="mt-2 text-sm text-[#526D66]">Use only clinic-confirmed timings. A published doctor's general hours are not reservable slots. All times below are in India Standard Time.</p>
+      <div className="mt-4 space-y-4">
+        {(schedules?.rosters??[]).filter(r=>r.provider_id).map(r=>{
+          const clinic=schedules?.clinics?.find(c=>c.id===r.clinic_id);
+          const input=slotInputs[r.id]??{start:"",end:""};
+          return <article key={r.id} className="rounded-xl border p-4">
+            <p className="font-bold">{r.name}</p>
+            <p className="text-sm text-[#526D66]">{clinic?.name??"Clinic"} · {clinic?.city??""} · Clinic bookings: {clinic?.booking_enabled?"Enabled":"Disabled"} · Doctor availability: {r.present===true?"Confirmed":"Not confirmed"}</p>
+            <div className="mt-3 flex flex-wrap items-end gap-3">
+              {r.present!==true&&<button disabled={busy} onClick={()=>scheduleAction(r.id,"presence")}
+                className="rounded-lg border border-[#087F83] px-3 py-2 text-sm font-semibold text-[#087F83]">Confirm doctor availability</button>}
+              <label className="text-xs font-semibold">Slot starts (IST)<input type="datetime-local" className="mt-1 block rounded-lg border p-2" value={input.start}
+                onChange={e=>setSlotInputs(s=>({...s,[r.id]:{...input,start:e.target.value}}))}/></label>
+              <label className="text-xs font-semibold">Slot ends (IST)<input type="datetime-local" className="mt-1 block rounded-lg border p-2" value={input.end}
+                onChange={e=>setSlotInputs(s=>({...s,[r.id]:{...input,end:e.target.value}}))}/></label>
+              <button disabled={busy||!input.start||!input.end||r.present!==true} onClick={()=>scheduleAction(r.id,"slot")}
+                className="rounded-lg bg-[#087F83] px-3 py-2 text-sm font-semibold text-white disabled:opacity-50">Add managed slot</button>
+              {queue?.isAdmin&&!clinic?.booking_enabled&&<button disabled={busy||r.present!==true}
+                onClick={()=>scheduleAction(r.id,"activate_clinic")} className="rounded-lg border px-3 py-2 text-sm font-semibold disabled:opacity-50">Enable clinic bookings</button>}
+            </div>
+          </article>
+        })}
+        {!(schedules?.rosters??[]).length&&<p className="text-sm text-[#526D66]">No mapped doctor rosters are available for this account.</p>}
+      </div>
+    </section>
     <section className="rounded-2xl border bg-white p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-xl font-bold">Appointment queue</h2>
