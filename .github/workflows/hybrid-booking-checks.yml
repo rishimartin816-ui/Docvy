@@ -1,0 +1,32 @@
+name: Hybrid booking checks
+on:
+  push:
+    branches: [feat/hybrid-booking-phase1]
+  pull_request:
+    paths:
+      - 'lib/hybrid-booking.ts'
+      - 'tests/hybrid-booking.test.mjs'
+      - 'app/api/hybrid-booking/**'
+      - 'sql/hybrid_booking_phase1_review.sql'
+      - '.github/workflows/hybrid-booking-checks.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22.16.0'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Hybrid booking unit tests
+        run: node --experimental-strip-types --test tests/hybrid-booking.test.mjs
+      - name: TypeScript validation
+        run: npx tsc --noEmit
+      - name: Next.js build
+        run: npm run build
