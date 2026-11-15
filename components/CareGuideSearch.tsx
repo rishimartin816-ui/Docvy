@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Activity, ArrowRight, Baby, Bone, Brain, Ear, ExternalLink, Eye, Heart, HeartPulse, MapPin, Ribbon, Search, ShieldPlus, Smile, Stethoscope, Syringe, Wind, X } from "lucide-react";
+import { Activity, ArrowRight, Baby, Bone, Brain, Ear, ExternalLink, Eye, Heart, HeartPulse, MapPin, Ribbon, Search, ShieldPlus, Smile, Stethoscope, Wind, X } from "lucide-react";
 import { careGuide } from "@/lib/care-guide";
 import { providerCandidates, providerCities, providerCityListLabel, type ProviderCity } from "@/lib/provider-candidates";
 
