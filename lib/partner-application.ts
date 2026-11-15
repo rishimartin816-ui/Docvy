@@ -1,4 +1,4 @@
-const clean = (value: unknown, max: number) => typeof value === "string" ? value.trim().replace(/[<>\u0000-\u001f]/g, "").slice(0, max) : "";
+const clean = (value: unknown, max: number) => typeof value === "string" ? value.trim().replace(/[\r\n\t]+/g, " ").replace(/[<>\u0000-\u001f]/g, "").slice(0, max) : "";
 const phone = (value: unknown) => {
   const number = clean(value, 24).replace(/[\s()-]/g, "");
   return /^\d{10}$/.test(number) ? "+91" + number : number;

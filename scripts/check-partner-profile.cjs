@@ -27,6 +27,7 @@ const request=(body,origin="https://www.docvy.in")=>new Request("https://www.doc
  const {POST}=require("../app/api/partner-application/route.ts");
  assert.equal((await POST(request(base,"https://example.invalid"))).status,403);
  for(const patch of [{qualifications:""},{experienceYears:""},{experienceYears:"-1"},{experienceYears:"81"},{photo:null},{photo:"data:image/webp;base64,YmFk"},{postalCode:"1234"},{postalCode:"1100599"},{consent:false},{practicePhone:"555"},{consultationFee:""}])assert.equal((await POST(request({...base,...patch}))).status,400,JSON.stringify(patch));
+ assert.equal(require("../lib/partner-application.ts").partnerPayload({...base,address:"10\nFixture\tRoad"}).address,"10 Fixture Road");
  assert.equal(applications.size,0);assert.equal(objects.size,0);
  failPrivate=true;let result=await POST(request(base));assert.equal(result.status,502);assert((await result.json()).error.includes("PA-"));assert.equal(applications.size,1);assert.equal(notifications,0);
  failPrivate=false;result=await POST(request(base));assert.equal(result.status,201);assert.equal(notifications,1);assert.equal(applications.size,1);
