@@ -238,6 +238,29 @@ end $$;
 
 revoke all on function public.docvy_booking_transition(uuid,uuid,text,text,text,timestamptz) from public,anon,authenticated;
 grant execute on function public.docvy_booking_transition(uuid,uuid,text,text,text,timestamptz) to service_role;
+
+-- Atomically lease pending notification jobs. Multiple workers cannot lease same row.
+create or replace function public.docvy_booking_claim_notifications(p_limit integer default 15)
+returns setof public.docvy_booking_notification_outbox
+language sql security definer set search_path = ''
+as $
+  update public.docvy_booking_notification_outbox o
+  set attempts=o.attempts+1,
+      next_attempt_at=clock_timestamp() + make_interval(mins => least(60, power(2,least(5,o.attempts))::integer)),
+      last_error=null
+  from (
+    select id from public.docvy_booking_notification_outbox
+    where delivery_state='queued' and attempts<6 and next_attempt_at<=clock_timestamp()
+    order by created_at
+    limit least(greatest(p_limit,1),50)
+    for update skip locked
+  ) jobs
+  where o.id=jobs.id
+  returning o.*;
+$;
+revoke all on function public.docvy_booking_claim_notifications(integer) from public,anon,authenticated;
+grant execute on function public.docvy_booking_claim_notifications(integer) to service_role;
+
 commit;
  then raise exception 'invalid_rate_token'; end if;
   if (select count(*) from public.docvy_booking_cases where network_hash=p_data->>'networkHash' and created_at>now()-interval '1 hour') >= 5 then raise exception 'too_many_requests'; end if;
