@@ -32,8 +32,9 @@ jobs:
         run: node --experimental-strip-types --test tests/hybrid-booking.test.mjs
       - name: TypeScript validation
         run: npx tsc --noEmit
-      - name: Next.js build
-        run: npm run build
+      - name: Next.js build (retry transient Google Fonts fetch once)
+        run: |
+          npm run build || { echo "Retrying build after transient font/network failure"; sleep 8; npm run build; }
 
   postgres-integration:
     runs-on: ubuntu-latest
