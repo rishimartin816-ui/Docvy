@@ -7,6 +7,11 @@ on:
       - 'lib/hybrid-booking.ts'
       - 'tests/hybrid-booking.test.mjs'
       - 'app/api/hybrid-booking/**'
+      - 'app/api/booking/**'
+      - 'components/Booking*.tsx'
+      - 'app/book/**'
+      - 'tests/hybrid-booking-db-*'
+      - 'sql/docvy_hybrid_booking_operational.sql'
       - 'sql/hybrid_booking_phase1_review.sql'
       - '.github/workflows/hybrid-booking-checks.yml'
 permissions:
@@ -29,3 +34,38 @@ jobs:
         run: npx tsc --noEmit
       - name: Next.js build
         run: npm run build
+
+  postgres-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: docvy_ci
+          POSTGRES_PASSWORD: docvy_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d docvy_ci"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGDATABASE: docvy_ci
+      PGUSER: postgres
+      PGPASSWORD: docvy_ci
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Install PostgreSQL CLI
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
+      - name: Create synthetic schema and apply actual migration
+        run: |
+          psql -X -v ON_ERROR_STOP=1 -f tests/hybrid-booking-db-fixture.sql
+          psql -X -v ON_ERROR_STOP=1 -f sql/docvy_hybrid_booking_operational.sql
+      - name: Approval, idempotency, verification and RLS assertions
+        run: psql -X -v ON_ERROR_STOP=1 -f tests/hybrid-booking-db-assertions.sql
+      - name: Simultaneous booking attempts
+        run: bash tests/hybrid-booking-db-concurrency.sh
