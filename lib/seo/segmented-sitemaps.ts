@@ -16,8 +16,12 @@ export function escapeXml(value: string) {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
 }
 
-export function xmlResponse(body: string) {
-  return new Response(body, { headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" } });
+export function xmlResponse(body: string, maxAge = 3600) {
+  return new Response(body, { headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": `public, s-maxage=${maxAge}, must-revalidate` } });
+}
+
+export function unavailableSitemap() {
+  return new Response("Sitemap temporarily unavailable", { status: 503, headers: { "Cache-Control": "no-store", "Retry-After": "300" } });
 }
 
 export function renderUrlset(paths: readonly string[]) {
@@ -33,7 +37,7 @@ export function paginateGroups(groups: Record<string, readonly string[]>) {
   const seen = new Set<string>();
   const pages: Record<string, string[]> = {};
   for (const [group, paths] of Object.entries(groups)) {
-    if (!/^[a-z]+$/.test(group)) throw new Error("Invalid sitemap group");
+    if (!/^[a-z]+(?:-[a-z]+)*$/.test(group)) throw new Error("Invalid sitemap group");
     const unique = [...new Set(paths)].sort();
     for (const path of unique) {
       if (path !== "" && (!path.startsWith("/") || path.startsWith("//") || /[?#\\\s\u0000-\u001f]/.test(path) || new URL(SITE + path).href !== SITE + path)) {
