@@ -73,7 +73,7 @@ Module._load=function(id,parent,...rest){
  for(const entry of [doctor,hassan,basab,ambika]){assert(entry.locations.every(l=>l.state));assert(doctorDescription(entry).includes(entry.locations[0].state));}
 
 
- const experienceFigures={"dr-ambika-rao-jhunjhunu-68798490":13,"dr-anil-kumar-physiotherapist-delhi":2,"dr-hassan-ishtiyaque-ali":4,"dr-ummed-kumar-meena":4,"dr-basab-raj-ghosh":null,"bheemreddy-vivek-reddy-karimnagar-24773aea":null};
+ const experienceFigures={"dr-ambika-rao-jhunjhunu-68798490":13,"dr-anil-kumar-physiotherapist-delhi":2,"dr-hassan-ishtiyaque-ali":4,"dr-ummed-kumar-meena":4,"dr-basab-raj-ghosh":31,"bheemreddy-vivek-reddy-karimnagar-24773aea":null};
  for(const [id,years] of Object.entries(experienceFigures)){
   const entry={...require("../docs/doctors/"+id+".json"),consentGiven:true,consentMethod:"owner_approval",verifiedAt:"2026-11-15",live:true,otherNcrLocations:[]};publishedDoctors=[entry];
   const profileHtml=require("react-dom/server").renderToStaticMarkup(await page.default({params:{slug:id}}));
