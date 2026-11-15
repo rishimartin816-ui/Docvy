@@ -28,7 +28,7 @@ export async function bookingDb(path: string, options: { method?: "GET" | "POST"
       Authorization: `Bearer ${options.bearer ?? key}`,
       "Content-Type": "application/json",
       Accept: "application/json",
-      Prefer: "return=representation",
+      Prefer: options.method === "POST" && options.query?.get("on_conflict") ? "resolution=merge-duplicates,return=representation" : "return=representation",
     },
     body: options.body === undefined ? undefined : JSON.stringify(options.body),
     cache: "no-store",
