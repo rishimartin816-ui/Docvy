@@ -1,17 +1,14 @@
+import { doctorCitySlugs } from "@/lib/seo/route-registry";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, MapPin } from "lucide-react";
 import DoctorDirectory from "@/components/DoctorDirectory";
-import { providerCandidates, providerCities, providerCityListLabel, type ProviderCity } from "@/lib/provider-candidates";
+import { providerCandidates, providerCities, providerCityListLabel } from "@/lib/provider-candidates";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
 import { docvyOpenGraphImage } from "@/lib/metadata";
 
-const citySlugs: Record<string, ProviderCity> = {
-  delhi: "Delhi",
-  gurugram: "Gurugram",
-  noida: "Noida",
-};
+const citySlugs = doctorCitySlugs;
 
 export function generateStaticParams() {
   return Object.keys(citySlugs).map((city) => ({ city }));

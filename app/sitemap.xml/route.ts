@@ -1,6 +1,6 @@
-import { sitemapGroups, renderIndex, xmlResponse } from "@/lib/seo/segmented-sitemaps";
+import { sitemapPages, renderIndex, xmlResponse } from "@/lib/seo/segmented-sitemaps";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 export function GET() {
-  return xmlResponse(renderIndex(Object.keys(sitemapGroups)));
+  return xmlResponse(renderIndex(Object.keys(sitemapPages)));
 }
