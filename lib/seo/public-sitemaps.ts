@@ -9,5 +9,6 @@ export function doctorProfilePaths(doctors: PublicDoctor[]) {
 
 export async function getPublicSitemapPages() {
   // One read of the existing public RPC, never the provider base table or CRM.
+  // ponytail: RPC aggregates visible records; use bounded keyset reads when volume warrants.
   return paginateGroups({ ...sitemapGroups, "doctor-profiles": doctorProfilePaths(await getDirectoryDoctors()) });
 }

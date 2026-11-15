@@ -28,6 +28,7 @@ assert.throws(() => paginateGroups({a:["/about"], b:["/about"]}));
 for (const invalid of ["https://evil.test", "//evil.test", "/a?b=c", "/a#b", "/a/../b", "/a b", "/a\\b"]) assert.throws(() => paginateGroups({a:[invalid]}));
 assert.throws(() => renderUrlset([]));
 assert.throws(() => renderUrlset(inputs));
+assert.throws(() => paginateGroups({ a: ["/" + "a".repeat(2048)] }));
 assert.equal(paginateGroups({a:["/about","/about"]}).a.length, 1);
 const all = Object.values(sitemapPages).flat();
 assert.equal(new Set(all).size, all.length);

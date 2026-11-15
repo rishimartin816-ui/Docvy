@@ -40,7 +40,7 @@ export function paginateGroups(groups: Record<string, readonly string[]>) {
     if (!/^[a-z]+(?:-[a-z]+)*$/.test(group)) throw new Error("Invalid sitemap group");
     const unique = [...new Set(paths)].sort();
     for (const path of unique) {
-      if (path !== "" && (!path.startsWith("/") || path.startsWith("//") || /[?#\\\s\u0000-\u001f]/.test(path) || new URL(SITE + path).href !== SITE + path)) {
+      if ((SITE + path).length > 2048 || (path !== "" && (!path.startsWith("/") || path.startsWith("//") || /[?#\\\s\u0000-\u001f]/.test(path) || new URL(SITE + path).href !== SITE + path))) {
         throw new Error("Noncanonical sitemap path: " + path);
       }
       if (seen.has(path)) throw new Error("URL belongs to multiple sitemap groups: " + path);
