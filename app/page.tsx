@@ -50,6 +50,7 @@ const currentCityCoverage = providerCities.map((city) => {
 
 export default function Home() {
   const intakeEnabled = isAppointmentIntakeConfigured();
+  const hybridBookingEnabled = process.env.DOCVY_HYBRID_BOOKING_ENABLED === "true";
   return <div className="overflow-hidden bg-[#F6FAF8] text-[#173A37]">
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
       "@context": "https://schema.org",
@@ -68,7 +69,7 @@ export default function Home() {
           <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white/80 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]"><span className="h-2 w-2 rounded-full bg-[#F39B72]" />CARE, CONNECTED</p>
           <h1 className="max-w-[680px] text-[42px] font-black leading-[1.04] tracking-[-0.052em] text-[#173A37] sm:text-[54px] lg:text-[58px] xl:text-[62px]">Find your way to care <span className="text-[#087F83]">across India.</span></h1>
           <p className="mt-7 max-w-[590px] text-base leading-8 text-[#526D66] md:text-[17px]">Start with a health concern or specialty anywhere in India. Read a plain-language guide, then browse source-linked doctor profiles currently listed in {providerCityListLabel}. The guide is nationwide; the doctor directory is still growing.</p>
-          <div className="mt-8 flex flex-wrap gap-3"><Link href="/care-guide" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#087F83] px-6 text-sm font-bold text-white shadow-[0_10px_24px_rgba(8,127,131,0.2)] transition hover:-translate-y-0.5 hover:bg-[#066D70]">Explore the patient guide <ArrowRight size={17} /></Link><Link href="/doctors" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#B7D2C9] bg-white/85 px-6 text-sm font-bold text-[#173A37] transition hover:-translate-y-0.5 hover:bg-white">Browse current doctors</Link></div>
+          <div className="mt-8 flex flex-wrap gap-3"><Link href="/care-guide" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#087F83] px-6 text-sm font-bold text-white shadow-[0_10px_24px_rgba(8,127,131,0.2)] transition hover:-translate-y-0.5 hover:bg-[#066D70]">Explore the patient guide <ArrowRight size={17} /></Link><Link href="/doctors" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#B7D2C9] bg-white/85 px-6 text-sm font-bold text-[#173A37] transition hover:-translate-y-0.5 hover:bg-white">Browse current doctors</Link>{hybridBookingEnabled && <Link href="/book" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#087F83] bg-white px-6 text-sm font-bold text-[#087F83] hover:bg-[#EAF5F1]">Book a verified provider</Link>}</div>
         </div>
         <div className="relative mx-auto hidden w-full max-w-[600px] lg:block">
           <div aria-hidden="true" className="absolute -right-8 -top-8 h-36 w-36 rounded-full bg-[#F39B72]/20 blur-2xl" />
