@@ -47,6 +47,9 @@ create table if not exists public.docvy_booking_cases (
 );
 create index if not exists docvy_booking_cases_network_recent on public.docvy_booking_cases(network_hash,created_at desc);
 create index if not exists docvy_booking_cases_phone_recent on public.docvy_booking_cases(patient_mobile,created_at desc);
+create unique index if not exists docvy_booking_cases_one_confirmed_start
+  on public.docvy_booking_cases(provider_id,confirmed_starts_at)
+  where status='confirmed' and confirmed_starts_at is not null;
 create index if not exists docvy_booking_cases_provider_date on public.docvy_booking_cases(provider_id,created_at desc);
 create index if not exists docvy_booking_cases_status_date on public.docvy_booking_cases(status,created_at desc);
 
@@ -228,10 +231,14 @@ begin
     or (v_old='completed_reported' and p_status in ('completed_verified','disputed'))
     or (v_old='no_show_reported' and p_status='disputed')
   ) then raise exception 'invalid_status_transition'; end if;
-  if p_status='confirmed' and (p_confirmed_start is null or btrim(coalesce(p_note,''))='') then
+  if p_status='confirmed' and (p_confirmed_start is null or p_confirmed_start<=now() or btrim(coalesce(p_note,''))='') then
     raise exception 'confirmation_requires_time_and_evidence';
   end if;
   if p_role='clinic' and p_status='completed_verified' then raise exception 'independent_verification_required'; end if;
+  if p_status='cancelled' and v_case.crm_booking_id is not null then
+    update public.crm_bookings set status='cancelled'
+      where id=v_case.crm_booking_id and status='confirmed';
+  end if;
   update public.docvy_booking_cases
     set status=p_status,
         confirmed_at=case when p_status='confirmed' then clock_timestamp() else confirmed_at end,
