@@ -158,6 +158,15 @@ begin
   end if;
 
   v_mode := v_option.mode;
+  if v_mode = 'approval' then
+    -- Link to a real clinic only when an existing verified roster/location matches.
+    -- Otherwise the request stays in the DOCVY founder queue, not an unrelated clinic.
+    select r.* into v_roster
+      from public.crm_doctor_roster r join public.crm_clinics c on c.id=r.clinic_id
+      where r.provider_id=v_provider.provider_id
+        and c.city=v_requested_city and c.name=v_requested_facility
+      order by r.id limit 1;
+  end if;
   if v_mode = 'instant' then
     if nullif(p_data->>'slotId','') is null then raise exception 'slot_required'; end if;
     v_slot_id := (p_data->>'slotId')::uuid;
@@ -181,8 +190,7 @@ begin
     confirmed_at,confirmed_starts_at,consent_version,consented_at
   ) values (
     v_key,p_data->>'networkHash',v_provider.provider_id,v_provider.doctor_name,v_provider.city,v_provider.facility,
-    case when v_mode='instant' then v_roster.clinic_id else null end,
-    case when v_mode='instant' then v_roster.id else null end,
+    v_roster.clinic_id,v_roster.id,
     v_booking,v_slot_id,v_mode,case when v_mode='instant' then 'confirmed' else 'requested' end,
     btrim(p_data->>'name'),v_mobile,nullif(btrim(p_data->>'email'),''),
     v_date,v_time,case when v_mode='instant' then clock_timestamp() else null end,
