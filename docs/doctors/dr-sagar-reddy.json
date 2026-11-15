@@ -1,0 +1,42 @@
+{
+  "id": "dr-sagar-reddy",
+  "name": "Dr. Sagar Reddy",
+  "specialties": [
+    "Paediatrics"
+  ],
+  "hospital": "Reddy Hospital, Bhokar",
+  "summary": "Dr. Sagar Reddy is a paediatrician with MBBS, DCH and PGPN qualifications and 8 years of experience. He consults at Reddy Hospital in Bhokar, Nanded district, Maharashtra. His services include newborn care, infant care, child health, child nutrition, child growth and vaccination. He speaks Marathi, Hindi, English and Telugu. Consultations are available Monday to Sunday, 9 AM to 9 PM, with a consultation fee of ₹500.",
+  "profileDetails": {
+    "qualifications": "MBBS, DCH, PGPN",
+    "experienceYears": 8,
+    "experienceAsOf": "2026-11-16",
+    "languages": [
+      "Marathi",
+      "Hindi",
+      "English",
+      "Telugu"
+    ],
+    "consultationFee": 500,
+    "currency": "INR",
+    "practicePhone": "+919420338220"
+  },
+  "locations": [
+    {
+      "city": "Bhokar",
+      "state": "Maharashtra",
+      "kind": "hospital",
+      "primary": true,
+      "facility": "Reddy Hospital, Bhokar",
+      "address": "Opposite Panchayat Samiti, Main Road, Bhokar, Nanded District, Maharashtra 431801",
+      "postalCode": "431801",
+      "mapsUrl": "https://maps.app.goo.gl/QULYLgzBp1dQzmh16?g_st=ic",
+      "consultingHours": "Monday–Sunday, 9 AM–9 PM",
+      "consultationFee": 500,
+      "currency": "INR",
+      "practicePhone": "+919420338220"
+    }
+  ],
+  "registrationNumber": "2015/05/2240",
+  "registrationCouncil": "MMC",
+  "profileStatus": "verified"
+}
