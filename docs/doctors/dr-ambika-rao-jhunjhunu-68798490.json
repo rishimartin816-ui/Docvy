@@ -7,11 +7,17 @@
   "hospital": "Dr. Neelam Homoeopathic Clinic",
   "registrationNumber": "5797",
   "registrationCouncil": "Rajasthan University",
-  "summary": "Dr. Ambika Rao is a homoeopathic physician with 13 years of experience. Dr. Rao consults at Dr. Neelam Homoeopathic Clinic on Subhash Marg, Mandawa Mod, opposite CKRDM Hospital, Jhunjhunu, Rajasthan. Additional qualifications include NDDY, DNHE and a diploma in acupressure. Appointment requests can be made through DOCVY.",
+  "summary": "Dr. Ambika Rao is a BHMS-qualified homoeopathic physician with 13 years of experience. Her additional qualifications include NDDY, DNHE and a Diploma in Acupressure. She consults at Dr. Neelam Homoeopathic Clinic on Subhash Marg, Mandawa Mod, Opposite CKRDM Hospital, Jhunjhunu, Rajasthan. Consultations are available from 9 AM to 6 PM, with a consultation fee of ₹300. She speaks Hindi. For appointments, call 8875722419 or request a visit through DOCVY.",
   "profileDetails": {
-    "qualifications": "NDDY; DNHE; Diploma in Acupressure",
-    "appointmentNote": "Request an appointment at Dr. Neelam Homoeopathic Clinic through DOCVY.",
-    "experienceYears": 13
+    "qualifications": "BHMS, NDDY, DNHE; Diploma in Acupressure",
+    "appointmentNote": "For appointments, call 8875722419 or request a visit through DOCVY.",
+    "experienceYears": 13,
+    "consultationFee": 300,
+    "currency": "INR",
+    "languages": [
+      "Hindi"
+    ],
+    "practicePhone": "+918875722419"
   },
   "locations": [
     {
@@ -22,9 +28,13 @@
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Dr.%20Neelam%20Homoeopathic%20Clinic%2C%20Subhash%20Marg%2C%20Mandawa%20Mod%2C%20opposite%20CKRDM%20Hospital%2C%20Jhunjhunu%2C%20Rajasthan%2C%20India",
       "primary": true,
       "facility": "Dr. Neelam Homoeopathic Clinic",
-      "locality": "Mandawa Mod"
+      "locality": "Mandawa Mod",
+      "consultingHours": "9 AM–6 PM",
+      "consultationFee": 300,
+      "currency": "INR",
+      "practicePhone": "+918875722419"
     }
   ],
-  "photoUrl": null,
+  "photoUrl": "/uploads/dr-ambika-rao-jhunjhunu-68798490/docvy-watermarked.png",
   "profileStatus": "verified"
 }

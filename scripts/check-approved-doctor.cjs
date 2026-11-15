@@ -64,7 +64,7 @@ Module._load=function(id,parent,...rest){
  publishedDoctors=[ambika];
  const ambikaHtml=require("react-dom/server").renderToStaticMarkup(await page.default({params:{slug:ambika.id}}));
  for(const text of ["Dr. Ambika Rao","Homoeopathy","NDDY","DNHE","Diploma in Acupressure","13 years","Rajasthan","5797","DOCVY Verified"])assert(ambikaHtml.includes(text),text);
- assert(!ambikaHtml.includes("Consultation fee:"));assert(!ambikaHtml.includes('href="tel:'));assert(!ambikaHtml.includes("BHMS"));assert(!ambikaHtml.includes("As supplied"));
+ for(const detail of ["BHMS","300","9 AM–6 PM","Hindi","8875722419"])assert(ambikaHtml.includes(detail),detail);assert(ambikaHtml.includes('href="tel:+918875722419"'));assert(!ambikaHtml.includes("As supplied"));
  assert.equal(doctorStructuredData(ambika).location[0].address.addressRegion,"Rajasthan");assert.equal(doctorStructuredData(ambika)["@type"],"MedicalBusiness");
  assert.equal(filterDirectory([ambika],parseDirectoryFilters({q:"Rajasthan NDDY",specialty:"homoeopathy"})).length,1);
  const ambikaCard=require("react-dom/server").renderToStaticMarkup(DoctorCards({doctors:[ambika]}));assert(ambikaCard.includes("Rajasthan"));assert(ambikaCard.includes("NDDY"));
