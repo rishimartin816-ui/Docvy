@@ -17,6 +17,7 @@ type Enquiry = {
   preferred_time: string | null;
   status: "new" | "contacted" | "closed";
   booking_id?: string | null;
+  requested_slot_id?: string | null;
 };
 type AppointmentHistory = {
   reference?: string;
@@ -562,9 +563,9 @@ export default function StagingCalendar({ clinic = false, admin = false, clinicN
                   {item.booking_id && <button type="button" className={button + " mt-2"} disabled={busy} onClick={() => { if (item.booking_id) void loadHistory(item.booking_id); }}>View confirmed booking</button>}
                   {item.status !== "closed" && destinations.length > 0 &&
                     <form method="post" action="/api/crm" className="mt-2 flex flex-wrap items-center gap-2" onSubmit={(event) => void bookEnquiry(event, item)}>
-                      <select aria-label="Appointment time" name="slot" className={button} defaultValue="" required disabled={busy}>
+                      <select aria-label="Appointment time" name="slot" className={button} defaultValue={item.requested_slot_id ?? ""} required disabled={busy}>
                         <option value="">Choose an appointment time</option>
-                        {destinations.map((slot) => <option key={slot.id} value={slot.id}>{dateLabel.format(new Date(slot.starts_at))}</option>)}
+                        {destinations.filter(slot => !item.requested_slot_id || slot.id === item.requested_slot_id).map((slot) => <option key={slot.id} value={slot.id}>{dateLabel.format(new Date(slot.starts_at))}</option>)}
                       </select>
                       <button className={button} disabled={busy}>Confirm appointment</button>
                     </form>}

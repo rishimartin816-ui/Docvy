@@ -7,32 +7,7 @@ export const dynamic = "force-dynamic";
 const reply = (data: unknown, status = 200) =>
   NextResponse.json(data, { status, headers: { "Cache-Control": "no-store" } });
 
-async function database(path: string, body?: object, token?: string) {
-  const target = clinicCrmConfig()!;
-  return fetch(new URL(path, target.url), {
-    method: body ? "POST" : "GET",
-    headers: { apikey: target.key, Authorization: "Bearer " + (token ?? target.key), "Content-Type": "application/json" },
-    body: body ? JSON.stringify(body) : undefined,
-    cache: "no-store",
-    signal: AbortSignal.timeout(8000),
-  });
-}
-
-function requestToken(request: NextRequest) {
-  return request.headers.get("authorization")?.match(/^Bearer (\S+)$/i)?.[1];
-}
-
-async function staff(clinicId: string, token?: string) {
-  if (!token) return null;
-  const user = await database("/auth/v1/user", undefined, token);
-  if (!user.ok) return null;
-  const { id } = await user.json();
-  if (typeof id !== "string" || !uuid.test(id)) return null;
-  const membership = await database("/rest/v1/crm_staff?select=role&clinic_id=eq." + clinicId + "&user_id=eq." + id);
-  if (!membership.ok) return null;
-  const [access] = await membership.json();
-  return access ? { id, role: access.role } : null;
-}
+import { database, staff, requestToken } from "@/lib/crm-server";
 
 export async function GET(request: NextRequest) {
   const target = clinicCrmConfig();
