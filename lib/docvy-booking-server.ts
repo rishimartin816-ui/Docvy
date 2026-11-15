@@ -72,9 +72,9 @@ export async function bookingPermissions(token: string) {
 
 export function clientFingerprint(request: Request) {
   const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-  const secret = process.env.DOCVY_BOOKING_RATE_SECRET;
+  const secret = process.env.DOCVY_BOOKING_RATE_SECRET ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!secret || secret.length < 32) throw new Error("Rate-limit secret is not configured");
-  return createHmac("sha256", secret).update(forwarded).digest("hex");
+  return createHmac("sha256", secret).update("docvy-booking-rate-v1:" + forwarded).digest("hex");
 }
 
 export function jsonNoStore(body: Json, status = 200) {
