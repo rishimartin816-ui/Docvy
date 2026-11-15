@@ -5,7 +5,7 @@
     "General medicine"
   ],
   "hospital": "Shree Bhumika Clinic",
-  "summary": "Dr. Ummed Kumar Meena is a general physician with an MBBS from Goa Medical College and 4 years of experience, as supplied in November 2026. He consults at Shree Bhumika Clinic in Keri, a practice in Sankhalim, and Shree Bhumika Clinic in Poriem, Goa. He speaks Hindi, English, Marathi and Konkani. The consultation fee is ₹300. Please book an appointment in advance.",
+  "summary": "Dr. Ummed Kumar Meena is a general physician with an MBBS from Goa Medical College and 4 years of experience. He consults at Shree Bhumika Clinic in Keri, a practice in Sankhalim, and Shree Bhumika Clinic in Poriem, Goa. He speaks Hindi, English, Marathi and Konkani. The consultation fee is ₹300. Please book an appointment in advance.",
   "profileDetails": {
     "qualifications": "MBBS, Goa Medical College",
     "experienceYears": 4,
@@ -33,7 +33,8 @@
       "consultingHours": "9 AM–2 PM",
       "consultationFee": 300,
       "currency": "INR",
-      "mapsUrl": "https://share.google/FHX61ImYEx8b46pZm"
+      "mapsUrl": "https://share.google/FHX61ImYEx8b46pZm",
+      "state": "Goa"
     },
     {
       "city": "Sankhalim",
@@ -45,7 +46,8 @@
       "consultingHours": "2 PM–5 PM",
       "consultationFee": 300,
       "currency": "INR",
-      "mapsUrl": "https://www.google.com/maps/dir/?api=1&destination=Shree%20Siddhi%20Vinayak%20Krupa%20Apartment%2C%20near%20Lions%20Club%20Hall%2C%20Desai%20Nagar%2C%20Sankhalim%2C%20Goa"
+      "mapsUrl": "https://www.google.com/maps/dir/?api=1&destination=Shree%20Siddhi%20Vinayak%20Krupa%20Apartment%2C%20near%20Lions%20Club%20Hall%2C%20Desai%20Nagar%2C%20Sankhalim%2C%20Goa",
+      "state": "Goa"
     },
     {
       "city": "Poriem",
@@ -56,7 +58,8 @@
       "consultingHours": "5 PM–9 PM",
       "consultationFee": 300,
       "currency": "INR",
-      "mapsUrl": "https://share.google/ucjb9ymNGUxndUkqX"
+      "mapsUrl": "https://share.google/ucjb9ymNGUxndUkqX",
+      "state": "Goa"
     }
   ]
 }

@@ -59,6 +59,19 @@ Module._load=function(id,parent,...rest){
  const uttarparaHtml=require("react-dom/server").renderToStaticMarkup(await DirectoryPage({city:require("../lib/directory.ts").cities.find(c=>c.slug==="uttarpara")}));
  assert(uttarparaHtml.includes(basab.id));assert(uttarparaHtml.includes("city=Uttarpara"));
 
+
+ const ambika={...require("../docs/doctors/dr-ambika-rao-jhunjhunu-68798490.json"),profileStatus:"verified",consentGiven:true,consentMethod:"owner_approval",verifiedAt:"2026-11-15T00:00:00Z",live:true,sourceUrl:"https://www.docvy.in/doctor/dr-ambika-rao-jhunjhunu-68798490",sourceChecked:"2026-11-15",otherNcrLocations:[]};
+ publishedDoctors=[ambika];
+ const ambikaHtml=require("react-dom/server").renderToStaticMarkup(await page.default({params:{slug:ambika.id}}));
+ for(const text of ["Dr. Ambika Rao","Homoeopathy","NDDY","DNHE","Diploma in Acupressure","13 years","Rajasthan","5797","DOCVY Verified"])assert(ambikaHtml.includes(text),text);
+ assert(!ambikaHtml.includes("Consultation fee:"));assert(!ambikaHtml.includes('href="tel:'));assert(!ambikaHtml.includes("BHMS"));assert(!ambikaHtml.includes("As supplied"));
+ assert.equal(doctorStructuredData(ambika).location[0].address.addressRegion,"Rajasthan");assert.equal(doctorStructuredData(ambika)["@type"],"MedicalBusiness");
+ assert.equal(filterDirectory([ambika],parseDirectoryFilters({q:"Rajasthan NDDY",specialty:"homoeopathy"})).length,1);
+ const ambikaCard=require("react-dom/server").renderToStaticMarkup(DoctorCards({doctors:[ambika]}));assert(ambikaCard.includes("Rajasthan"));assert(ambikaCard.includes("NDDY"));
+ const ambikaCity=require("react-dom/server").renderToStaticMarkup(await DirectoryPage({city:require("../lib/directory.ts").cities.find(c=>c.slug==="jhunjhunu")}));
+ assert(ambikaCity.includes(ambika.id));assert(ambikaCity.includes("city=Jhunjhunu"));
+ for(const entry of [doctor,hassan,basab,ambika]){assert(entry.locations.every(l=>l.state));assert(doctorDescription(entry).includes(entry.locations[0].state));}
+
  const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(require("node:path").join(dir,e.name)):[require("node:path").join(dir,e.name)]);
  for(const file of ["app","components","lib"].flatMap(walk).filter(f=>/\.tsx?$/.test(f))){
   assert(!/does not reserve (?:a slot|or confirm)|no slot is reserved|not a guarantee/i.test(fs.readFileSync(file,"utf8")),"Obsolete reservation copy: "+file);

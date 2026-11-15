@@ -4,6 +4,7 @@ export type ProviderCity = string;
 
 export type ProviderLocation = {
   city: ProviderCity;
+  state?: string;
   locality?: string;
   facility: string;
   primary?: boolean;

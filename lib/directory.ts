@@ -68,7 +68,8 @@ export function searchDoctors(query: string, city?: string, doctors: ProviderCan
     const terms = [
       doctor.name, ...(doctor.centres ?? []), ...doctor.specialties, ...doctor.specialties.flatMap(s=>canonicalSpecialty(s)?.aliases ?? []), ...doctor.specialties.map(s=>specialtySlug(s).replace(/-/g," ")), ...(doctor.procedures ?? []), ...symptomTerms,
       ...doctor.specialties.flatMap((name) => specialties.filter((specialty) => specialty.slug === specialtySlug(name)).map(({ plain }) => plain)),
-      ...doctor.locations.flatMap(({ city, facility, locality }) => [citySlug(city), facility, locality ?? ""]),
+      doctor.profileDetails?.qualifications ?? doctor.qualifications ?? "",
+      ...doctor.locations.flatMap(({ city, state, facility, locality }) => [citySlug(city), state ?? "", facility, locality ?? ""]),
     ].join(" ").toLowerCase();
     return words.every((word) => terms.includes(word));
   });

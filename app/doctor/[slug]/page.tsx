@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props) {
   const doctor = await lookup(params.slug);
   const description = doctorDescription(doctor);
   const path = doctorPath(doctor);
-  return { title: doctor.name + " | " + doctor.specialties[0] + " in " + doctor.locations[0].city, description, alternates: { canonical: path }, ...buildPageSocialMetadata(doctor.name + " | DOCVY", description, path) };
+  return { title: doctor.name + " | " + doctor.specialties[0] + " in " + [doctor.locations[0].city, doctor.locations[0].state].filter(Boolean).join(", "), description, alternates: { canonical: path }, ...buildPageSocialMetadata(doctor.name + " | DOCVY", description, path) };
 }
 export default async function DoctorPage({ params }: Props) {
   const doctor = await lookup(params.slug);
@@ -29,19 +29,19 @@ export default async function DoctorPage({ params }: Props) {
   const path = doctorPath(doctor);
   return <div className="mx-auto max-w-5xl px-5 py-12 sm:px-9">
     <Breadcrumbs items={[{ name: "Doctors", href: "/doctors" }, { name: doctor.name, href: path }]} />
-    {verified && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(doctorStructuredData(doctor)).replace(/</g, "\\u003c") }} />}
+    {partnered && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(doctorStructuredData(doctor)).replace(/</g, "\\u003c") }} />}
     <div className="flex flex-col items-start gap-6 sm:flex-row"><DoctorPortrait name={doctor.name} src={partnered ? doctor.photoUrl : null} large /><div>
       <h1 className="text-4xl font-medium sm:text-5xl">{doctor.name}</h1>
       <p className="mt-4">{doctor.specialties.join(", ") || "Specialty details under review"}{details && doctor.specialties.includes("General medicine") ? " · General physician" : ""}</p>
       {doctor.serviceTitle && <p className="mt-2 text-sm text-grey">Service title: {doctor.serviceTitle}</p>}
       {doctor.centres?.length ? <p className="mt-2 text-sm text-grey">Centres &amp; services: {doctor.centres.join(" · ")}</p> : null}
-      <p className="mt-3 text-grey">{[doctor.hospital, ...new Set(doctor.locations.map(location => location.city))].filter(Boolean).join(" · ")}</p>
+      <p className="mt-3 text-grey">{[doctor.hospital, ...new Set(doctor.locations.map(location => [location.city, location.state].filter(Boolean).join(", ")))].filter(Boolean).join(" · ")}</p>
       {verified && <div className="mt-4"><strong className="text-primary">DOCVY Verified</strong><p className="mt-2 text-sm">Registration: {doctor.registrationNumber} · {doctor.registrationCouncil}</p></div>}
       {!partnered && <p className="mt-5 font-medium">Not yet partnered with DOCVY</p>}
     </div></div>
     {details && <dl className="docvy-glass mt-8 grid gap-5 p-6 sm:grid-cols-2">
       {details.qualifications && <div><dt className="text-sm text-grey">Qualifications</dt><dd className="mt-1 font-medium">{details.qualifications}</dd></div>}
-      {details.experienceYears != null && <div><dt className="text-sm text-grey">Experience</dt><dd className="mt-1 font-medium">{details.experienceYears} years{details.experienceAsOf && <span className="block text-xs font-normal text-grey">As supplied in {details.experienceAsOf.slice(0,4)}</span>}</dd></div>}
+      {details.experienceYears != null && <div><dt className="text-sm text-grey">Experience</dt><dd className="mt-1 font-medium">{details.experienceYears} years</dd></div>}
       {details.languages?.length ? <div><dt className="text-sm text-grey">Languages</dt><dd className="mt-1 font-medium">{details.languages.join(", ")}</dd></div> : null}
       {details.consultationFee != null && <div><dt className="text-sm text-grey">Consultation fee</dt><dd className="mt-1 font-medium">₹{details.consultationFee}</dd></div>}
       {details.practicePhone && <div><dt className="text-sm text-grey">Doctor / clinic contact</dt><dd className="mt-1"><a className="underline underline-offset-4" href={"tel:" + details.practicePhone}>{details.practicePhone.replace(/^\+91/, "")}</a></dd></div>}
@@ -51,7 +51,7 @@ export default async function DoctorPage({ params }: Props) {
       {details?.appointmentNote && <p className="mt-3 font-medium">{details.appointmentNote}</p>}
       {doctor.locations.map(location => <div className="mt-6 border-t border-line pt-6" key={location.city + location.facility}>
         <h3 className="text-lg font-medium">{location.facility || "Independent practice"}</h3>
-        <p className="mt-2 text-grey">{[location.locality,location.city].filter(Boolean).join(", ")}</p>
+        <p className="mt-2 text-grey">{[location.locality,location.city,location.state].filter(Boolean).join(", ")}</p>
         {location.address && <p className="mt-2 leading-7 text-grey">{location.address}</p>}
         {partnered && location.consultingHours && <p className="mt-3 font-medium">Consulting hours: {location.consultingHours} IST</p>}
         {partnered && location.consultationFee != null && <p className="mt-2">Consultation fee: ₹{location.consultationFee}</p>}

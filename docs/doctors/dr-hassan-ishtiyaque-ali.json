@@ -35,7 +35,8 @@
       "consultingHours": "5 PM–10 PM",
       "consultationFee": 300,
       "currency": "INR",
-      "mapsUrl": "https://www.google.com/maps/dir/?api=1&destination=Dr.%20Hassan%20Ali%20Pulmo%20Clinic%2C%20Noor%20Buag%20Square%2C%20Byculla%2C%20Mumbai%20400009"
+      "mapsUrl": "https://www.google.com/maps/dir/?api=1&destination=Dr.%20Hassan%20Ali%20Pulmo%20Clinic%2C%20Noor%20Buag%20Square%2C%20Byculla%2C%20Mumbai%20400009",
+      "state": "Maharashtra"
     }
   ],
   "photoUrl": "/uploads/dr-hassan-ishtiyaque-ali/portrait.jpg"
