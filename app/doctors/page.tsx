@@ -6,6 +6,8 @@ import DoctorDirectory from "@/components/DoctorDirectory";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 import { providerCandidates, providerCities, providerCityListLabel } from "@/lib/provider-candidates";
 import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
+import { getDirectoryDoctors } from "@/lib/public-directory";
+import { doctorSlug, isVerified } from "@/lib/public-doctor-policy";
 
 const directoryDescription = `Find doctor profiles by specialty, city and hospital on DOCVY. Current source-linked listings cover ${providerCityListLabel}; appointment availability must be confirmed with the provider.`;
 
@@ -16,7 +18,10 @@ export const metadata: Metadata = {
   ...buildPageSocialMetadata("Find doctors in India by specialty and city | DOCVY", directoryDescription, "/doctors"),
 };
 
-export default function DoctorsPage() {
+export default async function DoctorsPage() {
+  // Keep the existing source catalogue usable during a directory outage.
+  const published = await getDirectoryDoctors().catch(() => null);
+  const verified = published?.filter(isVerified) ?? [];
   const facilityLocations = providerCandidates.reduce((total, doctor) => total + doctor.locations.length, 0);
   const intakeEnabled = isAppointmentIntakeConfigured();
   return <div className="bg-[#F6FAF8] text-[#173A37]">
@@ -40,6 +45,14 @@ export default function DoctorsPage() {
       </div>
     </section>
 
+    {verified.length > 0 && <section className="mx-auto max-w-6xl px-6 pt-10" aria-labelledby="verified-profiles-heading">
+      <h2 id="verified-profiles-heading" className="text-2xl font-bold">Published verified profiles</h2>
+      <p className="mt-3 text-sm leading-6 text-[#526D66]">These profiles have completed DOCVY review and may cover cities beyond the source-linked catalogue below. Contact the practice to confirm current availability.</p>
+      <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{verified.map(doctor => <li key={doctor.id} className="rounded-2xl border border-[#DCEAE5] bg-white p-5">
+        <Link href={"/doctor/" + doctorSlug(doctor.id)} className="inline-flex min-h-11 items-center font-bold text-[#087F83] underline">{doctor.name}</Link>
+        <p className="mt-2 text-sm">{doctor.specialties.join(", ")}</p><p className="mt-2 text-sm text-[#526D66]">{doctor.locations[0].city}</p>
+      </li>)}</ul>
+    </section>}
     <section className="mx-auto max-w-6xl px-6 py-10 md:py-14" aria-label="Doctor directory">
       <div className="mb-8 rounded-[24px] border border-[#DCEAE5] bg-white p-5 md:p-7">
         <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end"><div><p className="text-xs font-extrabold tracking-[0.14em] text-[#087F83]">HOW TO USE THESE RESULTS</p><h2 className="mt-2 text-2xl font-bold tracking-tight text-[#173A37]">Know what you are viewing and what to check next.</h2></div><p className="max-w-xl text-sm leading-6 text-[#526D66]">DOCVY is built for discovery across India. These are the cities with source-linked profiles today. Other city listings are planned when enough useful coverage is ready; no expansion date has been announced.</p></div>

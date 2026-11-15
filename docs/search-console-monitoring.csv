@@ -1,0 +1,6 @@
+snapshot_date,property,segment,sitemap_url,generated_urls,submitted_urls,indexed_urls,indexation_percent,crawled_not_indexed,discovered_not_indexed,duplicate_canonical_exclusions,sitemap_errors,organic_clicks,organic_impressions,organic_confirmed_bookings,source_report,period,notes
+,,static,https://www.docvy.in/sitemaps/static.xml,12,,,,,,,,,,,,,Template only; fill actual dated report values
+,,doctors,https://www.docvy.in/sitemaps/doctors.xml,1,,,,,,,,,,,,,Directory index only
+,,doctor-profiles,https://www.docvy.in/sitemaps/doctor-profiles.xml,6,,,,,,,,,,,,,Observed generated inventory; refresh after publication changes
+,,cities,https://www.docvy.in/sitemaps/cities.xml,3,,,,,,,,,,,,,
+,,content,https://www.docvy.in/sitemaps/content.xml,7,,,,,,,,,,,,,
