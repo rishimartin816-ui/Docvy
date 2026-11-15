@@ -22,9 +22,19 @@ Applied via connected Supabase to `pmyzedtpogmhvcrurcau` (`docvy-crm-staging`):
 
 CLI-generated migration files are under `supabase/migrations/`. These extend the existing crm_* schema rather than introducing another booking store. Production project `cxyscxjauxoizvvllmfu` was used read-only to inspect public professional schedule fields. Unrelated pre-existing QA schemas were left untouched.
 
+## Owner-approved recurring schedule — 2026-11-16
+
+Approved for all six verified providers: Monday–Saturday, 10:00–20:00 Asia/Kolkata, 30-minute appointments with a 30-minute gap. Starts are 10:00, 11:00, 12:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00 and 19:00; the final appointment ends at 19:30. Sunday has no slots. This is 10/day and 60/week per provider, 360/week across six providers. The remaining 19:30–20:00 period is the gap, not an extra appointment.
+
+`lib/booking-schedule.ts` records the approval and generates deterministic UTC slot candidates from explicit IST date ranges (start inclusive/end exclusive, at most 90 days). It emits one schedule per doctor, never one duplicate schedule per practice location. Candidates have no inferred clinic, fee or activation status. They must be bound to the correct practice and reviewed for closures before activation. No production schedules or profile hours were changed.
+
+Run `node scripts/test-booking-schedule.mjs` for validation. To inspect unassigned candidates for an explicit date range: `node scripts/test-booking-schedule.mjs --generate 2026-11-16 2026-11-23`. This prints candidates only and performs no database writes. Tests cover the 30-minute gap example, IST conversion, final slot, six-provider weekly count, Sunday exclusion, deterministic ordering, duplicate prevention and invalid dates/ranges. TypeScript and lint passed (one existing hook warning).
+
+For Dr. Ummed Kumar Meena, select Keri, Sankhalim or Poriem; for Mr. Sahil Kochale, select Indore or Online (or provide an explicit non-overlapping allocation). The same doctor cannot receive simultaneous full-day calendars at different locations.
+
 ## Six verified provider onboarding dependencies
 
-These are published profile facts, **not confirmed operational calendars**. No real provider was assigned invented availability. All concurrency fixtures used synthetic provider IDs, names and contacts.
+The following are previously published profile facts; their hours are superseded by the owner-approved recurring rule above. They are **not activated operational calendars**. No real provider was assigned invented availability. All concurrency fixtures used synthetic provider IDs, names and contacts.
 
 | Provider ID | Published practice information available | Still needed before real activation |
 | --- | --- | --- |
@@ -35,7 +45,7 @@ These are published profile facts, **not confirmed operational calendars**. No r
 | `mr-sahil-kochale` | Indore and Online; Monday–Sunday; INR 1,200 | Actual time windows, duration, per-location ownership and exceptions |
 | `dr-basab-raj-ghosh` | Uttarpara; Sunday opens at 9 AM | Closing time, fee, duration, other days/availability exceptions and staff ownership |
 
-All six additionally need notification channel, approved recipients/templates, delivery credentials and clinic approval of their operational schedules. The current application configuration selects one clinic; multi-practice production rollout needs a reviewed clinic-context/session selector, rather than treating six providers as one synthetic clinic. The staging workflow is intentionally not a switch to activate production.
+The new owner approval resolves working days, appointment duration and gaps. Remaining table references to those items are historical onboarding gaps; remaining actionable items are practice/location allocation, staff/account ownership, fees where missing, closure/leave handling and notification channel, approved recipients/templates and delivery credentials. The current application configuration selects one clinic; multi-practice production rollout needs a reviewed clinic-context/session selector, rather than treating six providers as one synthetic clinic. The staging workflow is intentionally not a switch to activate production.
 
 ## Test evidence
 
@@ -69,7 +79,7 @@ Before production: add network-level abuse limits/bot controls and retention pol
 
 ## Concrete blockers awaiting input
 
-1. Approved working calendars, appointment duration, clinic/staff ownership and the missing fees/time windows listed above. Published opening hours alone cannot define bookable slots.
+1. Hours/duration/gaps are now approved and implemented as the rule above. Still needed: practice selection for multi-location providers, clinic/staff ownership, Dr. Basab Raj Ghosh’s missing fee, operational date horizon and closure/leave exceptions. Slot candidates remain unassigned until practice/staff context is confirmed.
 2. Synthetic staging sign-in credentials for owner/scheduler/viewer/founder to run the full browser workflow. Existing server-key values are not returned by the connected Vercel tool, so the managed staging SQL tests cannot be represented as hosted API/browser E2E.
 3. Notification channel/account, approved recipients/templates and consent. Mock delivery is not a real notification.
 
