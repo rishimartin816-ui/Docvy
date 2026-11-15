@@ -6,24 +6,25 @@
   ],
   "hospital": "Dr. Neelam Homoeopathic Clinic",
   "registrationNumber": "5797",
-  "registrationCouncil": "RAJASTHAN UNIVERSITY",
+  "registrationCouncil": "Rajasthan University",
   "summary": "Dr. Ambika Rao is a homoeopathic physician with 13 years of experience. Dr. Rao consults at Dr. Neelam Homoeopathic Clinic on Subhash Marg, Mandawa Mod, opposite CKRDM Hospital, Jhunjhunu, Rajasthan. Additional qualifications include NDDY, DNHE and a diploma in acupressure. Appointment requests can be made through DOCVY.",
   "profileDetails": {
     "qualifications": "NDDY; DNHE; Diploma in Acupressure",
-    "experienceYears": 13,
-    "appointmentNote": "Request an appointment at Dr. Neelam Homoeopathic Clinic through DOCVY."
+    "appointmentNote": "Request an appointment at Dr. Neelam Homoeopathic Clinic through DOCVY.",
+    "experienceYears": 13
   },
   "locations": [
     {
       "city": "Jhunjhunu",
-      "state": "Rajasthan",
-      "primary": true,
       "kind": "clinic",
+      "state": "Rajasthan",
+      "address": "Subhash Marg, Mandawa Mod, Opposite CKRDM Hospital, Jhunjhunu, Rajasthan, India",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Dr.%20Neelam%20Homoeopathic%20Clinic%2C%20Subhash%20Marg%2C%20Mandawa%20Mod%2C%20opposite%20CKRDM%20Hospital%2C%20Jhunjhunu%2C%20Rajasthan%2C%20India",
+      "primary": true,
       "facility": "Dr. Neelam Homoeopathic Clinic",
-      "locality": "Mandawa Mod",
-      "address": "Subhash Marg, Mandawa Mod, opposite CKRDM Hospital, Jhunjhunu, Rajasthan, India",
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Dr.%20Neelam%20Homoeopathic%20Clinic%2C%20Subhash%20Marg%2C%20Mandawa%20Mod%2C%20opposite%20CKRDM%20Hospital%2C%20Jhunjhunu%2C%20Rajasthan%2C%20India"
+      "locality": "Mandawa Mod"
     }
   ],
-  "photoUrl": null
+  "photoUrl": null,
+  "profileStatus": "verified"
 }

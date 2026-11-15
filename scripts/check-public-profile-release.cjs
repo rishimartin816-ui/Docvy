@@ -25,7 +25,7 @@ function publicPages(dir){for(const file of fs.readdirSync(dir,{withFileTypes:tr
  await Promise.all(Array.from({length:5},async()=>{while(pending.length){const url=pending.shift();try{const r=await get(url);if(r.status!==200)issues.push({url,status:r.status});if(forbidden.test(r.body))issues.push({url,error:"Obsolete warning text"});pages.set(url,r.body);completed++;if(completed%25===0)console.log("Checked",completed,"public pages");}catch(e){issues.push({url,error:e.message});}}}));
  assert.deepEqual(issues,[]);
  for(const doctor of doctors){
-  const h=pages.get(origin+"/doctor/"+doctor.id);assert(h.includes("DOCVY Verified"),doctor.name+" badge");assert(h.includes('rel="canonical" href="'+origin+"/doctor/"+doctor.id+'"'),doctor.name+" canonical");
+  const h=pages.get(origin+"/doctor/"+doctor.id);assert.equal(h.includes("DOCVY Verified"),doctor.profileStatus!=="claimed",doctor.name+" badge");assert(h.includes('rel="canonical" href="'+origin+"/doctor/"+doctor.id+'"'),doctor.name+" canonical");
   const schema=[...h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1])).find(s=>s["@type"]===(doctor.specialties.some(specialty=>/physiotherapy|homoeopathy/i.test(specialty))?"MedicalBusiness":doctor.specialties.includes("Dentistry")?"Dentist":"Physician"));
   assert(schema);assert.equal(schema.location.length,doctor.locations.length);
   for(const l of doctor.locations){
