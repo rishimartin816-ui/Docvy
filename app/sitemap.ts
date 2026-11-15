@@ -39,7 +39,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...liveDoctors.map(({ id }) => [`/doctor/${slugify(id)}`, 0.7] as const),
     ...directoryProcedures.map(({ slug }) => [`/surgeries/${slug}`, 0.7] as const), ...specialties.map(({ slug }) => [`/specialties/${slug}`, 0.7] as const), ...patientTopicGuides.map(({ slug }) => [`/patient-guides/${slug}`, 0.7] as const)].map(([path, priority]) => ({
     url: `${site}${path}`,
-    lastModified: "2026-11-09",
     changeFrequency: path === "" ? "weekly" : "monthly",
     priority,
   }));

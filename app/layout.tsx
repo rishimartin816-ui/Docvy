@@ -7,7 +7,7 @@ import localFont from "next/font/local";
 import Nav from "@/components/Nav";
 import RouteBreadcrumbs from "@/components/RouteBreadcrumbs";
 import Footer from "@/components/Footer";
-import { docvyOpenGraphImage } from "@/lib/metadata";
+import { businessDescription, docvyOpenGraphImage } from "@/lib/metadata";
 
 const docvyFont = localFont({
   src: "./fonts/google-sans-flex-latin-wght-normal.woff2",
@@ -29,21 +29,21 @@ export const metadata: Metadata = {
     default: "DOCVY — Healthcare discovery across India",
     template: "%s | DOCVY",
   },
-  description: "DOCVY helps people in India understand medical specialties and prepare for a visit with plain-language patient guides.",
+  description: businessDescription,
   applicationName: "DOCVY",
   openGraph: {
     type: "website",
     locale: "en_IN",
     siteName: "DOCVY",
     title: "DOCVY — Healthcare discovery across India",
-    description: "DOCVY helps people in India understand medical specialties and prepare for a visit with plain-language patient guides.",
+    description: businessDescription,
     url: "/",
     images: [docvyOpenGraphImage],
   },
   twitter: {
     card: "summary_large_image",
     title: "DOCVY — Healthcare discovery across India",
-    description: "DOCVY helps people in India understand medical specialties and prepare for a visit with plain-language patient guides.",
+    description: businessDescription,
     images: [docvyOpenGraphImage.url],
   },
   robots: process.env.VERCEL_ENV !== "production" || process.env.DOCVY_INDEXING_ENABLED !== "true" ? { index: false, follow: false } : {
@@ -69,6 +69,7 @@ export default function RootLayout({
               "@type": "Organization",
               "@id": "https://www.docvy.in/#organization",
               name: "DOCVY",
+              description: businessDescription,
               url: "https://www.docvy.in",
               email: "contact@docvy.in",
               logo: "https://www.docvy.in/icon.svg",

@@ -1,0 +1,897 @@
+{
+  "date": "2026-11-16",
+  "scope": "All URLs returned by the live sitemap plus explicit booking/workspace/status routes; not every possible query permutation",
+  "results": [
+    {
+      "url": "https://www.docvy.in",
+      "status": 200,
+      "canonical": "https://www.docvy.in",
+      "robots": "index, follow",
+      "description": "Find doctors across India by specialty, city and clinic. Compare practice details, read health guides and request a visit with participating doctors on DOCVY.",
+      "outdated": [
+        "etes Children’s health Coverage expanding: Hyderabad — coming soon · Chennai — coming soon Find a doctor Browse by specialty, hospital or city. Understand a health co"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/about",
+      "status": 200,
+      "canonical": "https://www.docvy.in/about",
+      "robots": "index, follow",
+      "description": "DOCVY helps patients and families in India understand health concerns, find the right type of doctor, and prepare for care in plain language.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/book",
+      "status": 200,
+      "canonical": "https://www.docvy.in/book",
+      "robots": "noindex, nofollow",
+      "description": "Try the fictional DOCVY appointment flow using test slots.",
+      "outdated": [
+        " Demo appointment booking | DOCVY Skip to content Find doctors All doctors General medicine Urology Gastr",
+        "clinics &amp; doctors Log in Find a doctor Search Home Demo booking Book with DOCVY Test Doctor Fictional staging clinic. Times shown in India Standard Time. R"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/care-guide",
+      "status": 200,
+      "canonical": "https://www.docvy.in/care-guide",
+      "robots": "index, follow",
+      "description": "Find plain-language guides for common health concerns in India, learn what different specialists do, and prepare questions for your visit.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/clinic",
+      "status": 200,
+      "canonical": "https://www.docvy.in/clinic",
+      "robots": "noindex, nofollow",
+      "description": "Explore the fictional DOCVY clinic calendar and staff sign-in.",
+      "outdated": [
+        " Demo clinic calendar | DOCVY Skip to content Find doctors All doctors General medicine Urology Gastroent",
+        "clinics &amp; doctors Log in Find a doctor Search Home Demo clinic DOCVY CRM DOCVY Test Hospital DOCVY Test Hospital · Demo Clinic workspace Manage appointment"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/contact",
+      "status": 200,
+      "canonical": "https://www.docvy.in/contact",
+      "robots": "index, follow",
+      "description": "Contact DOCVY for public doctor profile corrections, planned clinic and hospital workflows, privacy support or business details. Appointment booking is not live.",
+      "outdated": [
+        "flows; provider dashboards and appointment booking are not live. Explore the patient guide Browse current doctors WHAT IS AVAILABLE TODAY Know what happens next Ap",
+        "pointment booking Not live Doctor profile corrections Owner review Clinic and hospital tools Planned Patient appointment reque",
+        "ture scope; dashboards, subscriptions and checkout are not live. See planned options Email DOCVY PATIENT APPOINTMENT ENQUIRIES · OPEN Choose your doctor and practi"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/doctor/bheemreddy-vivek-reddy-karimnagar-24773aea",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctor/bheemreddy-vivek-reddy-karimnagar-24773aea",
+      "robots": "index, follow",
+      "description": "Dr. Bheemreddy Vivek Reddy: Dentistry in Karimnagar, Telangana. View practice locations, contact details and appointment-request options on DOCVY.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/doctor/dr-ambika-rao-jhunjhunu-68798490",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctor/dr-ambika-rao-jhunjhunu-68798490",
+      "robots": "index, follow",
+      "description": "Dr. Ambika Rao: Homoeopathy in Jhunjhunu, Rajasthan. View practice locations, consultation fee ₹300, contact details and appointment-request options on DOCVY.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/doctor/dr-anil-kumar-physiotherapist-delhi",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctor/dr-anil-kumar-physiotherapist-delhi",
+      "robots": "index, follow",
+      "description": "Dr. Anil Kumar: Neuro physiotherapy, Physiotherapy in Delhi. View practice locations, consultation fee ₹200, contact details and appointment-request options on DOCVY.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/doctor/dr-basab-raj-ghosh",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctor/dr-basab-raj-ghosh",
+      "robots": "index, follow",
+      "description": "Dr. Basab Raj Ghosh: Radiation oncology in Uttarpara, West Bengal. View practice locations, contact details and appointment-request options on DOCVY.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/doctor/dr-hassan-ishtiyaque-ali",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctor/dr-hassan-ishtiyaque-ali",
+      "robots": "index, follow",
+      "description": "Dr. Hassan Ishtiyaque Ali: Pulmonology, General medicine in Mumbai, Maharashtra. View practice locations, consultation fee ₹300, contact details and appointment-request options on DOCVY.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/doctor/dr-ummed-kumar-meena",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctor/dr-ummed-kumar-meena",
+      "robots": "index, follow",
+      "description": "Dr. Ummed Kumar Meena: General medicine in Keri, Goa, Sankhalim, Goa, Poriem, Goa. View practice locations, consultation fee ₹300, contact details and appointment-request options on DOCVY.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/doctor/mr-sahil-kochale",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctor/mr-sahil-kochale",
+      "robots": "index, follow",
+      "description": "Mr. Sahil Kochale: Clinical Psychology, Rehabilitation Psychology in Indore, Madhya Pradesh, Online Consultations. View practice locations, consultation fee ₹1200, contact details and appointment-request options on DOCVY.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/doctors",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctors",
+      "robots": "index, follow",
+      "description": "Filter doctors by specialty, hospital, city and neighbourhood across India. Compare practice details and request a visit where the doctor has opted in.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/faqs",
+      "status": 200,
+      "canonical": "https://www.docvy.in/faqs",
+      "robots": "index, follow",
+      "description": "Learn how DOCVY sourced profiles, written consent, appointment requests, registration verification and profile removal work.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/for-clinics",
+      "status": 200,
+      "canonical": "https://www.docvy.in/for-clinics",
+      "robots": "noindex, follow",
+      "description": "Explore the DOCVY clinic workspace and find staff and owner sign-in.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/for-doctors",
+      "status": 200,
+      "canonical": "https://www.docvy.in/for-doctors",
+      "robots": "index, follow",
+      "description": "Doctors and clinics can request a DOCVY profile claim, correction or removal. Written consent and registration checks are reviewed separately.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/grievance",
+      "status": 200,
+      "canonical": "https://www.docvy.in/grievance",
+      "robots": "index, follow",
+      "description": "Find DOCVY&#x27;s grievance contact and postal address. Grievances can be sent by email or post; please omit medical records and identity documents.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/hi",
+      "status": 200,
+      "canonical": "https://www.docvy.in/hi",
+      "robots": "index, follow",
+      "description": "विशेषज्ञता, अस्पताल या शहर के अनुसार डॉक्टर खोजें और अपनी अगली मुलाकात की तैयारी करें।",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/hospitals",
+      "status": 200,
+      "canonical": "https://www.docvy.in/hospitals",
+      "robots": "index, follow",
+      "description": "Explore hospital practice locations and associated doctor profiles on DOCVY. Review specialties and request a visit, subject to provider confirmation.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/how-it-works",
+      "status": 200,
+      "canonical": "https://www.docvy.in/how-it-works",
+      "robots": "index, follow",
+      "description": "See how DOCVY&#x27;s India-wide care discovery works. The patient guide is available across India; current source-linked doctor listings are in Delhi NCR.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/legal/disclaimer",
+      "status": 200,
+      "canonical": "https://www.docvy.in/legal/disclaimer",
+      "robots": "index, follow",
+      "description": "DOCVY is not a healthcare provider and does not diagnose or treat through this website.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/legal/privacy",
+      "status": 200,
+      "canonical": "https://www.docvy.in/legal/privacy",
+      "robots": "index, follow",
+      "description": "DOCVY provides an informational specialty guide and a limited doctor directory. Check the appointment request page to see whether its enquiry form is currently ",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/legal/refund",
+      "status": 200,
+      "canonical": "https://www.docvy.in/legal/refund",
+      "robots": "index, follow",
+      "description": "The current DOCVY website has no patient fees, subscription checkout or payment facility. No purchase can be made through this site.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/legal/terms",
+      "status": 200,
+      "canonical": "https://www.docvy.in/legal/terms",
+      "robots": "index, follow",
+      "description": "These terms explain what DOCVY provides, how directory profiles and appointment requests work, and your choices when using docvy.in. Effective 10 November 2026.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/partner-with-us",
+      "status": 200,
+      "canonical": "https://www.docvy.in/partner-with-us",
+      "robots": "index, follow",
+      "description": "Register your doctor or clinic profile with DOCVY. Submit qualifications, practice details and listing consent, or get help from our team on WhatsApp.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/asthma",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/asthma",
+      "robots": "index, follow",
+      "description": "Real appointments are currently unavailable through DOCVY. Contact the clinic directly to check availability.",
+      "outdated": [
+        "ry for published city profiles; some cities are marked coming soon. How to use this information Use the specialty names to understand the directory and prepare questi"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/cataract",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/cataract",
+      "robots": "index, follow",
+      "description": "Real appointments are currently unavailable through DOCVY. Contact the clinic directly to check availability.",
+      "outdated": [
+        "ry for published city profiles; some cities are marked coming soon. How to use this information Use the specialty names to understand the directory and prepare questi",
+        "intments across India? Real appointments are currently unavailable through DOCVY. Contact the clinic directly to check availability. SOURCES AND LIMITS Read the sourc"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/diabetes",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/diabetes",
+      "robots": "index, follow",
+      "description": "Learn which doctors help with diabetes and what to bring to your first visit.",
+      "outdated": [
+        "ry for published city profiles; some cities are marked coming soon. How to use this information Use the specialty names to understand the directory and prepare questi",
+        "cialists across India? Real appointments are currently unavailable through DOCVY. Contact the clinic directly to check availability. SOURCES AND LIMITS Read the sourc"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/fatty-liver",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/fatty-liver",
+      "robots": "index, follow",
+      "description": "Understand fatty liver, MASLD and older NAFLD terminology. Prepare questions about assessment, liver scarring, related conditions and follow-up.",
+      "outdated": [
+        "ry for published city profiles; some cities are marked coming soon. How to use this information Use the specialty names to understand the directory and prepare questi"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/gallstones",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/gallstones",
+      "robots": "index, follow",
+      "description": "Learn what gallstones are, which symptoms need urgent care, and what to ask if surgery is discussed.",
+      "outdated": [
+        "ry for published city profiles; some cities are marked coming soon. How to use this information Use the specialty names to understand the directory and prepare questi"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/hernia",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/hernia",
+      "robots": "index, follow",
+      "description": "Read about hernia symptoms, urgent warning signs and questions for a surgeon about assessment, repair options, recovery and follow-up.",
+      "outdated": [
+        "ry for published city profiles; some cities are marked coming soon. How to use this information Use the specialty names to understand the directory and prepare questi"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/high-blood-pressure",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/high-blood-pressure",
+      "robots": "index, follow",
+      "description": "Learn which doctor types may be associated with high blood pressure, see current DOCVY listings, and confirm appointments directly with providers.",
+      "outdated": [
+        "ry for published city profiles; some cities are marked coming soon. How to use this information Use the specialty names to understand the directory and prepare questi"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/joint-pain-arthritis",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/joint-pain-arthritis",
+      "robots": "index, follow",
+      "description": "Compare the broad roles of orthopaedics and rheumatology for joint concerns and see where DOCVY currently lists source-linked profiles.",
+      "outdated": [
+        "ry for published city profiles; some cities are marked coming soon. How to use this information Use the specialty names to understand the directory and prepare questi"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/kidney-stones",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/kidney-stones",
+      "robots": "index, follow",
+      "description": "Learn what kidney stones are, when to get urgent help, and what to ask at a urology visit.",
+      "outdated": [
+        "ry for published city profiles; some cities are marked coming soon. How to use this information Use the specialty names to understand the directory and prepare questi"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/pcos-pcod",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/pcos-pcod",
+      "robots": "index, follow",
+      "description": "Prepare for a PCOS consultation, understand the newer PMOS name, and ask about symptoms, assessment, fertility goals and longer-term hormone care.",
+      "outdated": [
+        "ry for published city profiles; some cities are marked coming soon. How to use this information Use the specialty names to understand the directory and prepare questi"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/piles",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/piles",
+      "robots": "index, follow",
+      "description": "Understand piles, when bleeding needs medical attention, and questions to ask about assessment, treatment choices, recovery and follow-up.",
+      "outdated": [
+        "ry for published city profiles; some cities are marked coming soon. How to use this information Use the specialty names to understand the directory and prepare questi"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/thyroid",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/thyroid",
+      "robots": "index, follow",
+      "description": "Understand underactive and overactive thyroid concerns, what blood tests assess, and questions to take to a general physician or endocrinologist.",
+      "outdated": [
+        "ry for published city profiles; some cities are marked coming soon. How to use this information Use the specialty names to understand the directory and prepare questi"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/pricing",
+      "status": 200,
+      "canonical": "https://www.docvy.in/pricing",
+      "robots": "index, follow",
+      "description": "Explore DOCVY’s planned clinic and hospital workflows. Rates are not published and dashboards are not live; contact DOCVY to discuss future onboarding and pricing.",
+      "outdated": [
+        "boards, appointment management and online checkout are not live. For independent clinics For multi-location groups For hospitals NO PUBLISHED RATE CARD Pricing is ",
+        "se its public profile and patient enquiries. Planned · not live Potential future workflow Clinic and location information Doctor and specialty listings A clear pat",
+        "roviders and enquiries across several sites. Planned · not live Potential future workflow Shared doctor and facility information Enquiries organized by location Te",
+        " coordinated discovery and enquiry workflow. Planned · not live Potential future workflow Hospital and branch information Department and provider coordination A ce"
+      ]
+    },
+    {
+      "url": "https://www.docvy.in/request",
+      "status": 200,
+      "canonical": "https://www.docvy.in/request",
+      "robots": "noindex, nofollow",
+      "description": "Send an appointment request to DOCVY for your chosen doctor and hospital. DOCVY records your preferences. The provider must confirm availability and fees.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties",
+      "robots": "index, follow",
+      "description": "Learn what common medical specialties do, from skin and hair to bones and joints, and what to bring to a first appointment.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/bariatric-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/bariatric-surgery",
+      "robots": "index, follow",
+      "description": "Bariatric teams discuss weight-management options and whether surgery is appropriate after an individual assessment.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/cardiology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/cardiology",
+      "robots": "index, follow",
+      "description": "Cardiologists focus on the heart and circulation. The clinic can tell you whether to start with a general physician or a heart specialist.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/critical-care-medicine",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/critical-care-medicine",
+      "robots": "index, follow",
+      "description": "Critical care specialists care for people with serious illness in a hospital’s intensive care unit. This directory is not an emergency service.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/dentistry",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/dentistry",
+      "robots": "index, follow",
+      "description": "Dentists assess concerns involving the teeth, gums and mouth and discuss options for care.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/dermatology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/dermatology",
+      "robots": "index, follow",
+      "description": "Dermatologists see people with concerns involving the skin, scalp, hair and nails.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/endocrinology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/endocrinology",
+      "robots": "index, follow",
+      "description": "Endocrinologists assess hormone-related conditions, including thyroid disorders and diabetes.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/ent",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/ent",
+      "robots": "index, follow",
+      "description": "ENT specialists assess concerns involving hearing, the nose, and the throat.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/gastroenterology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/gastroenterology",
+      "robots": "index, follow",
+      "description": "Gastroenterologists assess concerns involving digestion, the stomach, bowel and liver.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/general-medicine",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/general-medicine",
+      "robots": "index, follow",
+      "description": "A general physician can review several concerns together and help you plan a next step.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/gynaecology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/gynaecology",
+      "robots": "index, follow",
+      "description": "Gynaecologists focus on reproductive health. Ask the clinic which services are available at your chosen location.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/hepatology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/hepatology",
+      "robots": "index, follow",
+      "description": "Hepatologists care for people with liver conditions, including hepatitis and fatty liver disease.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/mental-health",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/mental-health",
+      "robots": "index, follow",
+      "description": "Mental health services may include psychiatrists and clinical psychologists. Ask the clinic which service is right for your first conversation.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/minimal-access-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/minimal-access-surgery",
+      "robots": "index, follow",
+      "description": "Laparoscopic surgeons use small-incision techniques for selected procedures. Suitability depends on your condition and assessment.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/nephrology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/nephrology",
+      "robots": "index, follow",
+      "description": "Nephrologists assess kidney function, chronic kidney disease and concerns related to dialysis.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/neurology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/neurology",
+      "robots": "index, follow",
+      "description": "Neurologists assess concerns involving the brain, nerves and nervous system.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/oncology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/oncology",
+      "robots": "index, follow",
+      "description": "Oncology teams assess and treat cancer. The relevant specialty may be medical, surgical or radiation oncology, depending on your referral.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/ophthalmology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/ophthalmology",
+      "robots": "index, follow",
+      "description": "Ophthalmologists assess eye health and discuss options for eye conditions.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/orthopaedics",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/orthopaedics",
+      "robots": "index, follow",
+      "description": "Orthopaedic specialists look after problems involving bones, joints and movement, including injuries.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/paediatrics",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/paediatrics",
+      "robots": "index, follow",
+      "description": "Paediatricians care for infants, children and adolescents.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/plastic-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/plastic-surgery",
+      "robots": "index, follow",
+      "description": "Plastic surgeons discuss reconstructive and cosmetic care, including treatment goals, alternatives and recovery.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/proctology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/proctology",
+      "robots": "index, follow",
+      "description": "Proctology services assess concerns involving the anus and rectum, including piles, fissures and fistulas.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/pulmonology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/pulmonology",
+      "robots": "index, follow",
+      "description": "Pulmonologists assess breathing difficulties, persistent cough and conditions affecting the lungs.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/urology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/urology",
+      "robots": "index, follow",
+      "description": "Urologists assess urinary tract concerns and discuss treatment options for kidney stones and related conditions.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/specialties/vascular-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/vascular-surgery",
+      "robots": "index, follow",
+      "description": "Vascular surgeons assess blood-vessel conditions, including circulation problems and varicose veins.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/status",
+      "status": 200,
+      "canonical": "https://www.docvy.in/status",
+      "robots": "noindex, nofollow",
+      "description": "Follow up on your DOCVY appointment request using your reference and selected clinic.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/acl-reconstruction",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/acl-reconstruction",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about acl reconstruction, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/adenoid-removal",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/adenoid-removal",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about adenoid removal, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/anal-fistula-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/anal-fistula-surgery",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about anal fistula surgery, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/appendix-removal",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/appendix-removal",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about appendix removal, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/brain-tumour-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/brain-tumour-surgery",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about brain tumour surgery, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/carpal-tunnel-release",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/carpal-tunnel-release",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about carpal tunnel release, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/cataract-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/cataract-surgery",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about cataract surgery, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/corneal-transplant",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/corneal-transplant",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about corneal transplant, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/coronary-artery-bypass",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/coronary-artery-bypass",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about coronary artery bypass, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/dental-implant-placement",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/dental-implant-placement",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about dental implant placement, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/eardrum-repair",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/eardrum-repair",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about eardrum repair, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/endometriosis-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/endometriosis-surgery",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about endometriosis surgery, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/endoscopic-sinus-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/endoscopic-sinus-surgery",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about endoscopic sinus surgery, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/fibroid-removal",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/fibroid-removal",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about fibroid removal, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/fracture-fixation",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/fracture-fixation",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about fracture fixation, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/gallbladder-removal",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/gallbladder-removal",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about gallbladder removal, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/glaucoma-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/glaucoma-surgery",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about glaucoma surgery, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/heart-valve-repair-or-replacement",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/heart-valve-repair-or-replacement",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about heart valve repair or replacement, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/hernia-repair",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/hernia-repair",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about hernia repair, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/hip-replacement",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/hip-replacement",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about hip replacement, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/hydrocele-repair",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/hydrocele-repair",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about hydrocele repair, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/hysterectomy",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/hysterectomy",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about hysterectomy, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/jaw-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/jaw-surgery",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about jaw surgery, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/kidney-stone-removal",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/kidney-stone-removal",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about kidney stone removal, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/knee-replacement",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/knee-replacement",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about knee replacement, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/meniscus-repair",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/meniscus-repair",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about meniscus repair, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/ovarian-cyst-removal",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/ovarian-cyst-removal",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about ovarian cyst removal, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/pacemaker-implantation",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/pacemaker-implantation",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about pacemaker implantation, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/peripheral-artery-bypass",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/peripheral-artery-bypass",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about peripheral artery bypass, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/piles-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/piles-surgery",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about piles surgery, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/pilonidal-sinus-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/pilonidal-sinus-surgery",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about pilonidal sinus surgery, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/prostate-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/prostate-surgery",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about prostate surgery, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/retinal-detachment-repair",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/retinal-detachment-repair",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about retinal detachment repair, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/septoplasty",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/septoplasty",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about septoplasty, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/spinal-decompression",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/spinal-decompression",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about spinal decompression, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/tonsil-removal",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/tonsil-removal",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about tonsil removal, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/varicocele-repair",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/varicocele-repair",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about varicocele repair, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/varicose-vein-procedures",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/varicose-vein-procedures",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about varicose vein procedures, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/wisdom-tooth-removal",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/wisdom-tooth-removal",
+      "robots": "index, follow",
+      "description": "Prepare for a conversation about wisdom tooth removal, explore the relevant specialty, and see any doctors listed for this procedure.",
+      "outdated": []
+    },
+    {
+      "url": "https://www.docvy.in/surgery-guide",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgery-guide",
+      "robots": "index, follow",
+      "description": "Prepare for a surgical consultation in India with questions about your options, hospital costs, insurance paperwork, and recovery.",
+      "outdated": []
+    }
+  ]
+}

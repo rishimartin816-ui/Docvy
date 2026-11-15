@@ -4,7 +4,7 @@ import IllustrationBackground from "@/components/IllustrationBackground";
 import Link from "next/link";
 import { clinicCrmConfig } from "@/lib/clinic-crm-config";
 import CityWaitlist from "./CityWaitlist";
-import { cities, citySlug, directorySpecialties, doctorsIn, popularProcedures, directoryProcedures, slugify } from "@/lib/directory";
+import { cities, directorySpecialties, doctorsIn, popularProcedures, directoryProcedures, slugify } from "@/lib/directory";
 import type { ProviderCandidate } from "@/lib/provider-candidates";
 import { productionOrigin } from "@/lib/metadata";
 
