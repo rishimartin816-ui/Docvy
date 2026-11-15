@@ -245,7 +245,7 @@ grant execute on function public.docvy_booking_transition(uuid,uuid,text,text,te
 create or replace function public.docvy_booking_claim_notifications(p_limit integer default 15)
 returns setof public.docvy_booking_notification_outbox
 language sql security definer set search_path = ''
-as $
+as $$
   update public.docvy_booking_notification_outbox o
   set attempts=o.attempts+1,
       next_attempt_at=clock_timestamp() + make_interval(mins => least(60, power(2,least(5,o.attempts))::integer)),
@@ -259,7 +259,7 @@ as $
   ) jobs
   where o.id=jobs.id
   returning o.*;
-$;
+$$;
 revoke all on function public.docvy_booking_claim_notifications(integer) from public,anon,authenticated;
 grant execute on function public.docvy_booking_claim_notifications(integer) to service_role;
 
