@@ -52,17 +52,23 @@ export async function GET(request: Request) {
       return json({ bookable: false, reason: "provider_not_eligible" });
     }
 
-    const roster = await supabaseRows("crm_doctor_roster", new URLSearchParams({
-      select: "id,clinic_id,present",
-      provider_id: `eq.${providerId}`,
+    // The CRM roster has no provider_id column. Resolve an explicitly approved
+    // mapping instead of guessing from doctor names or specialties.
+    const mappings = await supabaseRows("hybrid_provider_roster_links", new URLSearchParams({
+      select: "doctor_roster_id,clinic_id,scope_approved,operator_ready",
+      directory_provider_id: `eq.${providerId}`,
+      scope_approved: "eq.true",
+      operator_ready: "eq.true",
       limit: "25",
     }));
-    if (!roster.length) return json({ bookable: false, reason: "clinic_mapping_missing" });
-    const ids = roster.filter(r => r.present === true).map(r => r.clinic_id).filter((v): v is string => typeof v === "string");
-    if (!ids.length) return json({ bookable: false, reason: "clinic_not_available" });
+    if (!mappings.length) return json({ bookable: false, reason: "clinic_mapping_missing" });
+
+    const ids = [...new Set(mappings.map(r => r.clinic_id)
+      .filter((v): v is string => typeof v === "string" && /^[0-9a-f-]{36}$/i.test(v)))];
+    if (!ids.length) return json({ bookable: false, reason: "clinic_mapping_missing" });
 
     const clinics = await supabaseRows("crm_clinics", new URLSearchParams({
-      select: "id,booking_enabled,city,name",
+      select: "id,booking_enabled,name",
       id: `in.(${ids.join(",")})`,
       booking_enabled: "eq.true",
       limit: "25",
