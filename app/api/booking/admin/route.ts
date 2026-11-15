@@ -67,9 +67,18 @@ export async function POST(request: Request) {
           query:new URLSearchParams({select:"id,clinic_id",provider_id:`eq.${providerId}`,present:"eq.true",limit:"25"}),
         }) as Array<{id:string;clinic_id:string}>;
         if (!roster.length) return jsonNoStore({error:"No connected clinic roster"},409);
+        const eligibleClinics = await bookingDb("crm_clinics", {
+          query:new URLSearchParams({
+            select:"id",id:`in.(${roster.map(r=>r.clinic_id).join(",")})`,
+            booking_enabled:"eq.true",limit:"25"
+          }),
+        }) as Array<{id:string}>;
+        const permittedClinicIds = new Set(eligibleClinics.map(c=>c.id));
+        const eligibleDoctorIds = roster.filter(r=>permittedClinicIds.has(r.clinic_id)).map(r=>r.id);
+        if (!eligibleDoctorIds.length) return jsonNoStore({error:"No activated clinic for this doctor"},409);
         const slots = await bookingDb("crm_slots", {
           query:new URLSearchParams({
-            select:"id",doctor_id:`in.(${roster.map(r=>r.id).join(",")})`,
+            select:"id",doctor_id:`in.(${eligibleDoctorIds.join(",")})`,
             blocked:"eq.false",starts_at:`gt.${new Date().toISOString()}`,limit:"1",
           }),
         }) as unknown[];
