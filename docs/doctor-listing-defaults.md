@@ -11,3 +11,5 @@ Owner instruction, 14 November 2026: complete routine approved doctor listings w
 Public profile wording: use consistent capitalization for names, clinic headings and specialty displays; preserve degree and council acronyms. Fill missing biographies and address-based Maps buttons using approved details. Never infer a medical qualification, fee, working day, phone number or availability.
 
 Experience is required for doctor listings. Highlight the supplied years prominently beside the doctor name on profile pages and directory cards. Ask the owner for missing experience figures while completing other available work; never estimate experience from graduation or registration dates and never invent years.
+
+Only list supplied, approved practice specialties. Do not infer General Medicine or another secondary specialty from MBBS, certificate courses or a specialist degree. Display the state only when it differs from the city.

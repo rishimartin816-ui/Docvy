@@ -75,8 +75,9 @@ export function searchDoctors(query: string, city?: string, doctors: ProviderCan
   });
 }
 
-export function availableCities(doctors: ProviderCandidate[], minimum = 1): { slug: string; name: string }[] {
-  const curated = cities.filter(({ slug }) => doctorsIn(slug, undefined, doctors).length >= minimum);
+export function availableCities(doctors: ProviderCandidate[], minimum = 1): { slug: string; name: string; count: number }[] {
+  minimum=Math.max(1,minimum);
+  const curated = cities.filter(({ slug }) => doctorsIn(slug, undefined, doctors).length >= minimum).map(({slug,name})=>({slug,name,count:doctorsIn(slug,undefined,doctors).length}));
   // Additional practice cities are searchable; editorial city pages need their own reviewed content.
   if (minimum > 1) return curated;
   const extra = new Map<string, string>();
@@ -84,6 +85,6 @@ export function availableCities(doctors: ProviderCandidate[], minimum = 1): { sl
     const slug = citySlug(location.city);
     if (slug && !cities.some(c => c.slug === slug)) extra.set(slug, location.city);
   }
-  return [...curated, ...Array.from(extra, ([slug, name]) => ({ slug, name })).sort((a,b) => a.name.localeCompare(b.name))];
+  return [...curated, ...Array.from(extra, ([slug, name]) => ({ slug, name, count:doctorsIn(slug,undefined,doctors).length })).sort((a,b) => a.name.localeCompare(b.name))];
 }
 export const popularProcedures = ["cataract-surgery", "knee-replacement", "hernia-repair", "kidney-stone-removal", "gallbladder-removal", "tonsil-removal"];

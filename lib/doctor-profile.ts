@@ -1,9 +1,10 @@
+import { practiceLocationLabel } from "./practice-labels";
 import type { ProviderCandidate } from "./provider-candidates";
 import { doctorPath } from "./directory-normalization";
 import { productionOrigin } from "./metadata";
 
 export function doctorDescription(doctor: ProviderCandidate) {
-  const places = [...new Set(doctor.locations.map(location => location.kind === "online" ? "Online Consultations" : [location.city, location.state].filter(Boolean).join(", ")))].join(", ");
+  const places = [...new Set(doctor.locations.map(location => location.kind === "online" ? "Online Consultations" : practiceLocationLabel(location)))].join(", ");
   const details = doctor.profileDetails;
   return `${doctor.name}: ${doctor.specialties.join(", ")} in ${places}. View practice locations${details?.consultationFee != null ? ", consultation fee ₹" + details.consultationFee : ""}, contact details and appointment-request options on DOCVY.`;
 }

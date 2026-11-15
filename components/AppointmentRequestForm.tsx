@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
+import { canonicalClinicName } from "@/lib/practice-labels";
 import { ArrowRight, CheckCircle2, LoaderCircle } from "lucide-react";
 import type { ProviderCandidate } from "@/lib/provider-candidates";
 
@@ -24,7 +25,7 @@ export default function AppointmentRequestForm({ doctors, initialProvider, initi
     days: location.workingDays,
     fee: location.consultationFee ?? doctor.profileDetails?.consultationFee,
   }))), [doctors]);
-  const initialOption = locations.find((item) => item.providerId === initialProvider && (!initialCity || item.city.toLowerCase() === initialCity.toLowerCase()) && (!initialFacility || item.facility === initialFacility))?.key ?? "";
+  const initialOption = locations.find((item) => item.providerId === initialProvider && (!initialCity || item.city.toLowerCase() === initialCity.toLowerCase()) && (!initialFacility || item.facility === canonicalClinicName(initialFacility)))?.key ?? "";
   const [selection, setSelection] = useState(initialOption);
   const [ready, setReady] = useState(false);
   useEffect(() => setReady(true), []);

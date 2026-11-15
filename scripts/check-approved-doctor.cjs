@@ -9,6 +9,7 @@ const doctor={...require("../docs/doctors/dr-ummed-kumar-meena.json"),profileSta
 let publishedDoctors=[doctor];
 const originalLoad=Module._load;
 Module._load=function(id,parent,...rest){
+ if(id==="server-only")return {};
  if(id.startsWith("@/"))id=require("node:path").join(process.cwd(),id.slice(2));
  if(/public-directory(?:[.]ts)?$/.test(id))return {getDirectoryDoctors:async()=>publishedDoctors};
  return originalLoad.call(this,id,parent,...rest);
@@ -92,6 +93,31 @@ Module._load=function(id,parent,...rest){
  assert.equal(require("../lib/facilities.ts").facilitiesFrom([sahil]).length,1);
  const Booking=require("../components/AppointmentRequestForm.tsx").default;
  for(const location of sahil.locations){const booking=require("react-dom/server").renderToStaticMarkup(require("react").createElement(Booking,{doctors:[sahil],initialProvider:sahil.id,initialCity:location.city,initialFacility:location.facility,enabled:true}));assert(booking.includes(sahil.id+"::"+location.city+"::"+location.facility));assert(booking.includes("Working days:"));assert(!booking.includes("Consulting hours:"));}
+
+
+ const {practiceLocationLabel,canonicalClinicName}=require("../lib/practice-labels.ts");
+ assert.equal(practiceLocationLabel({city:"Delhi",state:"Delhi"}),"Delhi");
+ assert.equal(practiceLocationLabel({city:"Delhi",state:"DELHI",locality:"Uttam Nagar"},true),"Uttam Nagar, Delhi");
+ assert.equal(practiceLocationLabel({city:"Uttarpara",state:"West Bengal"}),"Uttarpara, West Bengal");
+ const allCities=require("../lib/directory.ts").availableCities([doctor]);assert(allCities.every(c=>c.count>0));
+ for(const slug of ["sankhalim","poriem"])assert.equal(allCities.find(c=>c.slug===slug).count,1);
+ assert(!require("../lib/directory.ts").availableCities([basab]).some(c=>["sankhalim","poriem"].includes(c.slug)));
+ assert.deepEqual(basab.specialties,["Radiation oncology"]);
+ assert.deepEqual(require("../lib/directory-normalization.ts").normalizeDoctor(basab).specialties,["Radiation oncology"]);
+ assert.equal(basab.hospital,"Dr. Basab Raj Ghosh's Clinic");
+ const Filters=require("../components/DirectoryFilters.tsx").default;
+ const filterHtml=require("react-dom/server").renderToStaticMarkup(require("react").createElement(Filters,{query:"",city:"",facility:"",area:"",specialty:"",cities:allCities,specialties:[],places:doctor.locations.map(l=>({city:l.city,citySlug:l.city.toLowerCase(),facility:l.facility,area:l.locality||""}))}));
+ assert(filterHtml.includes("Specialty (optional)"));assert(filterHtml.includes("Hospital or clinic (optional)"));assert(!/<(?:input|select)[^>]*\brequired/.test(filterHtml));assert(filterHtml.includes("Sankhalim (1)"));assert(filterHtml.includes("Poriem (1)"));
+ const card=require("react-dom/server").renderToStaticMarkup(DoctorCards({doctors:[doctor]}));assert.equal((card.match(/Book an appointment/g)||[]).length,2);assert(!card.includes("Request appointment"));
+ const anil={...require("../docs/doctors/dr-anil-kumar-physiotherapist-delhi.json"),consentGiven:true,consentMethod:"owner_approval",verifiedAt:"2026-11-15",live:true,otherNcrLocations:[]};publishedDoctors=[anil];
+ const anilHtml=require("react-dom/server").renderToStaticMarkup(await page.default({params:{slug:anil.id}}));assert(!anilHtml.includes("Delhi, Delhi"));assert(!(await page.generateMetadata({params:{slug:anil.id}})).title.includes("Delhi, Delhi"));assert(!doctorDescription(anil).includes("Delhi, Delhi"));
+ const legacyName="Dr Basab Raj Ghosh's clinic";assert.equal(canonicalClinicName(legacyName),basab.hospital);
+ const legacyBooking=require("react-dom/server").renderToStaticMarkup(require("react").createElement(require("../components/AppointmentRequestForm.tsx").default,{doctors:[basab],initialProvider:basab.id,initialCity:"Uttarpara",initialFacility:legacyName,enabled:true}));
+ assert(/<option[^>]*selected=""[^>]*>Dr\. Basab Raj Ghosh/.test(legacyBooking)||legacyBooking.includes('selected=""'));
+ publishedDoctors=[basab];Object.assign(process.env,{DOCVY_DIRECTORY_INTAKE_ENABLED:"true",DOCVY_DIRECTORY_INTAKE_URL:"https://cxyscxjauxoizvvllmfu.supabase.co",DOCVY_DIRECTORY_INTAKE_KEY:"test-only",DOCVY_DIRECTORY_WRITE_SECRET:"test-only"});
+ const oldFetch=global.fetch;let savedPayload;
+ global.fetch=async(input,options)=>{assert(String(input).endsWith("/rest/v1/rpc/docvy_directory_intake"));savedPayload=JSON.parse(JSON.parse(options.body).p_body).payload;return Response.json("DV-1234567890ABCDEF");};
+ try{const result=await require("../app/api/appointment-request/route.ts").POST(new Request("https://www.docvy.in/api/appointment-request",{method:"POST",headers:{"Content-Type":"application/json",Origin:"https://www.docvy.in"},body:JSON.stringify({providerId:basab.id,city:"Uttarpara",facility:legacyName,name:"Local Booking Fixture",mobile:"9876543210",consent:true,requestId:"10000000-0000-4000-8000-000000000001"})}));assert.equal(result.status,201);assert.equal(savedPayload.facility,basab.hospital);}finally{global.fetch=oldFetch;}
 
  const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(require("node:path").join(dir,e.name)):[require("node:path").join(dir,e.name)]);
  for(const file of ["app","components","lib"].flatMap(walk).filter(f=>/\.tsx?$/.test(f))){

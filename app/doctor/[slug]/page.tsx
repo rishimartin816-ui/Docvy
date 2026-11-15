@@ -1,3 +1,4 @@
+import { practiceLocationLabel } from "@/lib/practice-labels";
 import DoctorPortrait from "@/components/DoctorPortrait";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -19,7 +20,7 @@ export async function generateMetadata({ params }: Props) {
   const doctor = await lookup(params.slug);
   const description = doctorDescription(doctor);
   const path = doctorPath(doctor);
-  return { title: doctor.name + " | " + doctor.specialties[0] + " in " + [doctor.locations[0].city, doctor.locations[0].state].filter(Boolean).join(", "), description, alternates: { canonical: path }, ...buildPageSocialMetadata(doctor.name + " | DOCVY", description, path) };
+  return { title: doctor.name + " | " + doctor.specialties[0] + " in " + practiceLocationLabel(doctor.locations[0]), description, alternates: { canonical: path }, ...buildPageSocialMetadata(doctor.name + " | DOCVY", description, path) };
 }
 export default async function DoctorPage({ params }: Props) {
   const doctor = await lookup(params.slug);
@@ -36,7 +37,7 @@ export default async function DoctorPage({ params }: Props) {
       <p className="mt-4 capitalize">{doctor.specialties.join(", ") || "Specialty details under review"}{details && doctor.specialties.includes("General medicine") ? " · General physician" : ""}</p>
       {doctor.serviceTitle && <p className="mt-2 text-sm text-grey">Service title: {doctor.serviceTitle}</p>}
       {doctor.centres?.length ? <p className="mt-2 text-sm text-grey">Centres &amp; services: {doctor.centres.join(" · ")}</p> : null}
-      <p className="mt-3 capitalize text-grey">{[doctor.hospital, ...new Set(doctor.locations.map(location => [location.city, location.state].filter(Boolean).join(", ")))].filter(Boolean).join(" · ")}</p>
+      <p className="mt-3 capitalize text-grey">{[doctor.hospital, ...new Set(doctor.locations.map(location => practiceLocationLabel(location)))].filter(Boolean).join(" · ")}</p>
       {verified && <div className="mt-4"><strong className="text-primary">DOCVY Verified</strong><p className="mt-2 text-sm">Registration: {doctor.registrationNumber} · {doctor.registrationCouncil}</p></div>}
       {!partnered && <p className="mt-5 font-medium">Not yet partnered with DOCVY</p>}
     </div></div>
@@ -52,7 +53,7 @@ export default async function DoctorPage({ params }: Props) {
       {details?.appointmentNote && <p className="mt-3 font-medium">{details.appointmentNote}</p>}
       {doctor.locations.map(location => <div className="mt-6 border-t border-line pt-6" key={location.city + location.facility}>
         <h3 className="text-lg font-medium capitalize">{location.facility || "Independent practice"}</h3>
-        <p className="mt-2 text-grey">{[location.locality,location.city,location.state].filter(Boolean).join(", ")}</p>
+        <p className="mt-2 text-grey">{practiceLocationLabel(location, true)}</p>
         {location.kind !== "online" && location.address && <p className="mt-2 leading-7 text-grey">{location.address}</p>}
         {partnered && location.workingDays && <p className="mt-3 font-medium">Working Days: {location.workingDays}</p>}
         {partnered && location.consultingHours && <p className="mt-3 font-medium">Consulting Hours: {location.consultingHours} IST</p>}

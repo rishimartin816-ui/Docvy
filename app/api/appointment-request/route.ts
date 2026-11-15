@@ -1,3 +1,4 @@
+import { canonicalClinicName } from "@/lib/practice-labels";
 import { signedDirectoryWrite } from "@/lib/directory-rpc";
 import { createHmac, randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
@@ -51,7 +52,7 @@ export async function POST(request: Request) {
   const requestedTime = maxText(body.requestedTime, 5);
   const providerId = maxText(body.providerId, 80);
   const city = maxText(body.city, 40);
-  const facility = maxText(body.facility, 120);
+  const facility = canonicalClinicName(maxText(body.facility, 120));
   const provider = (await getDirectoryDoctors()).find((candidate) => candidate.id === providerId);
   if (!provider || !canRequestAppointment(provider)) return response(403, { ok: false, error: "This doctor has not enabled appointment requests." });
   const location = provider?.locations.find((item) => item.city === city && item.facility === facility);
