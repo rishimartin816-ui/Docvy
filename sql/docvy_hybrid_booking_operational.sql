@@ -82,6 +82,26 @@ grant select,insert,update on public.docvy_booking_cases to service_role;
 grant select,insert on public.docvy_booking_case_events to service_role;
 grant usage,select on sequence public.docvy_booking_case_events_id_seq to service_role;
 
+create table if not exists public.docvy_booking_notification_outbox (
+  id bigint generated always as identity primary key,
+  case_id uuid not null references public.docvy_booking_cases(id) on delete restrict,
+  status text not null,
+  recipient_type text not null check (recipient_type in ('patient','admin')),
+  delivery_state text not null default 'queued' check (delivery_state in ('queued','sent','skipped')),
+  attempts integer not null default 0,
+  next_attempt_at timestamptz not null default now(),
+  last_error text,
+  sent_at timestamptz,
+  created_at timestamptz not null default now(),
+  unique (case_id,status,recipient_type)
+);
+create index if not exists docvy_booking_notification_due on public.docvy_booking_notification_outbox(delivery_state,next_attempt_at);
+alter table public.docvy_booking_notification_outbox enable row level security;
+revoke all on public.docvy_booking_notification_outbox from anon,authenticated;
+revoke all on public.docvy_booking_notification_outbox_id_seq from anon,authenticated;
+grant select,insert,update on public.docvy_booking_notification_outbox to service_role;
+grant usage,select on sequence public.docvy_booking_notification_outbox_id_seq to service_role;
+
 -- Private-by-default RPC. Service role must be held only on the trusted backend.
 create or replace function public.docvy_booking_submit(p_data jsonb)
 returns jsonb language plpgsql security definer set search_path = ''
@@ -170,6 +190,9 @@ begin
 
   insert into public.docvy_booking_case_events(case_id,new_status,actor_type,note)
     values (v_case.id,v_case.status,'patient','Booking submitted via DOCVY');
+  insert into public.docvy_booking_notification_outbox(case_id,status,recipient_type)
+    values (v_case.id,v_case.status,'patient'),(v_case.id,v_case.status,'admin')
+    on conflict do nothing;
   return jsonb_build_object('reference',v_case.reference,'status',v_case.status,'mode',v_case.mode);
 end $$;
 
@@ -207,6 +230,9 @@ begin
     where id=p_case_id;
   insert into public.docvy_booking_case_events(case_id,old_status,new_status,actor_type,actor_id,note)
     values (p_case_id,v_old,p_status,p_role,p_actor,left(p_note,500));
+  insert into public.docvy_booking_notification_outbox(case_id,status,recipient_type)
+    values (p_case_id,p_status,'patient'),(p_case_id,p_status,'admin')
+    on conflict do nothing;
   return jsonb_build_object('reference',v_case.reference,'status',p_status);
 end $$;
 
