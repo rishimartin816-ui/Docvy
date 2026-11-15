@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { buildPageSocialMetadata } from "@/lib/metadata";
+import { businessDescription, buildPageSocialMetadata } from "@/lib/metadata";
 
 const title = "DOCVY Help: Patient Guides and Appointments";
 const description = "Learn how DOCVY sourced profiles, written consent, appointment requests, registration verification and profile removal work.";
@@ -17,7 +17,7 @@ const questions = [
   { question: "How can a doctor claim or remove a profile?", answer: "Use the claim form to provide your registration details, work contact and written consent. DOCVY reviews your authority before approving a claim. If you prefer removal, use the removal form; requests are actioned within 48 hours.", href: "/claim-profile", label: "Claim or request removal" },
   {
     question: "What is DOCVY?",
-    answer: "DOCVY is a patient guide for people in India. It explains what different specialists do and helps you prepare questions for your visit.",
+    answer: businessDescription,
     href: "/care-guide", label: "Explore patient guides",
   },
   {

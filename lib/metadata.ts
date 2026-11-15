@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+export const businessDescription = "DOCVY helps people in India discover doctors by specialty, hospital or city, explore patient guides and send appointment enquiries to participating practices. Providers confirm availability, timing and fees.";
+
 export const productionOrigin = "https://www.docvy.in";
 export const docvyOpenGraphImage = {
   url: productionOrigin + "/opengraph-image",

@@ -1,3 +1,4 @@
+import { businessDescription } from "@/lib/metadata";
 import Image from "next/image";
 import Link from "next/link";
 import { availableCities } from "@/lib/directory";
@@ -46,7 +47,7 @@ export default async function Footer() {
       <nav aria-label="Footer" className={"mx-auto max-w-site gap-6 px-5 py-10 sm:px-8 md:grid " + (indexableCities.length ? "md:grid-cols-5" : "md:grid-cols-4")}>
         <div className="mb-6 md:mb-0">
           <Link href="/" className="site-logo inline-flex min-h-11 items-center gap-2 font-head text-xl font-bold"><Image src="/icon.svg" alt="" width={29} height={29} unoptimized /> DOCVY</Link>
-          <p className="footer-description mt-2 leading-6">Browse doctor profiles and read health guides to prepare for a conversation with your clinician.</p>
+          <p className="footer-description mt-2 leading-6">{businessDescription}</p>
           <a href="mailto:contact@docvy.in" className="inline-flex min-h-11 items-center text-ink hover:underline">contact@docvy.in</a>
         </div>
         {sections.map(({ heading, links }) => <div key={heading}>
