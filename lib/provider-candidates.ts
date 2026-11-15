@@ -13,7 +13,8 @@ export type ProviderLocation = {
   mapsUrl?: string;
   mapsPlaceId?: string;
   mapsSourceUrl?: string;
-  kind?: "clinic" | "hospital";
+  kind?: "clinic" | "hospital" | "online";
+  workingDays?: string;
   consultingHours?: string;
   consultationFee?: number;
   currency?: string;

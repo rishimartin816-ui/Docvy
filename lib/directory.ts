@@ -66,7 +66,7 @@ export function searchDoctors(query: string, city?: string, doctors: ProviderCan
     const symptomTerms = careGuide.filter((entry) => [entry.specialty, entry.directoryQuery ?? "", ...entry.directorySpecialties ?? []]
       .some((label) => doctorSpecialties.includes(specialtySlug(label)))).flatMap((entry) => entry.keywords);
     const terms = [
-      doctor.name, ...(doctor.centres ?? []), ...doctor.specialties, ...doctor.specialties.flatMap(s=>canonicalSpecialty(s)?.aliases ?? []), ...doctor.specialties.map(s=>specialtySlug(s).replace(/-/g," ")), ...(doctor.procedures ?? []), ...symptomTerms,
+      doctor.name, doctor.summary ?? "", ...(doctor.centres ?? []), ...doctor.specialties, ...doctor.specialties.flatMap(s=>canonicalSpecialty(s)?.aliases ?? []), ...doctor.specialties.map(s=>specialtySlug(s).replace(/-/g," ")), ...(doctor.procedures ?? []), ...symptomTerms,
       ...doctor.specialties.flatMap((name) => specialties.filter((specialty) => specialty.slug === specialtySlug(name)).map(({ plain }) => plain)),
       doctor.profileDetails?.qualifications ?? doctor.qualifications ?? "",
       ...doctor.locations.flatMap(({ city, state, facility, locality }) => [citySlug(city), state ?? "", facility, locality ?? ""]),

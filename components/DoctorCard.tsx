@@ -19,7 +19,7 @@ export default function DoctorCard({ doctor, location = doctor.locations[0] }: {
         {partnered && doctor.profileDetails?.qualifications && <p className="mt-2 text-sm leading-6 text-grey">{doctor.profileDetails.qualifications}</p>}
         <div className="doctor-card-location">
           {(location.facility || doctor.hospital) && <p><Building2 size={16} strokeWidth={1.5} aria-hidden="true" /><span className="capitalize">{location.facility || doctor.hospital}</span></p>}
-          <p><MapPin size={16} strokeWidth={1.5} aria-hidden="true" /><span>{[location.locality,location.city,location.state].filter(Boolean).join(", ")}</span></p>
+          <p><MapPin size={16} strokeWidth={1.5} aria-hidden="true" /><span>{location.kind === "online" ? "Online Consultation" : [location.locality,location.city,location.state].filter(Boolean).join(", ")}</span></p>
         </div>
         {isVerified(doctor) && <p className="doctor-verified"><BadgeCheck size={16} strokeWidth={1.5} aria-hidden="true" /> DOCVY Verified</p>}
       </div>

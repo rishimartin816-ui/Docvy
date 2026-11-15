@@ -42,7 +42,7 @@ export default async function DoctorPage({ params }: Props) {
     </div></div>
     {details && <dl className="docvy-glass mt-8 grid gap-5 p-6 sm:grid-cols-2">
       {details.qualifications && <div><dt className="text-sm text-grey">Qualifications</dt><dd className="mt-1 font-medium">{details.qualifications}</dd></div>}
-      {details.experienceYears != null && <div><dt className="text-sm text-grey">Experience</dt><dd className="mt-1 font-medium">{details.experienceYears} years</dd></div>}
+      {details.experienceYears != null && <div><dt className="text-sm text-grey">Experience</dt><dd className="mt-1 font-medium">{details.experienceYears} {details.experienceYears === 1 ? "year" : "years"}</dd></div>}
       {details.languages?.length ? <div><dt className="text-sm text-grey">Languages</dt><dd className="mt-1 font-medium">{details.languages.join(", ")}</dd></div> : null}
       {details.consultationFee != null && <div><dt className="text-sm text-grey">Consultation Fee</dt><dd className="mt-1 font-medium">₹{details.consultationFee}</dd></div>}
       {details.practicePhone && <div><dt className="text-sm text-grey">Doctor / Clinic Contact</dt><dd className="mt-1"><a className="underline underline-offset-4" href={"tel:" + details.practicePhone}>{details.practicePhone.replace(/^\+91/, "")}</a></dd></div>}
@@ -53,13 +53,14 @@ export default async function DoctorPage({ params }: Props) {
       {doctor.locations.map(location => <div className="mt-6 border-t border-line pt-6" key={location.city + location.facility}>
         <h3 className="text-lg font-medium capitalize">{location.facility || "Independent practice"}</h3>
         <p className="mt-2 text-grey">{[location.locality,location.city,location.state].filter(Boolean).join(", ")}</p>
-        {location.address && <p className="mt-2 leading-7 text-grey">{location.address}</p>}
+        {location.kind !== "online" && location.address && <p className="mt-2 leading-7 text-grey">{location.address}</p>}
+        {partnered && location.workingDays && <p className="mt-3 font-medium">Working Days: {location.workingDays}</p>}
         {partnered && location.consultingHours && <p className="mt-3 font-medium">Consulting Hours: {location.consultingHours} IST</p>}
         {partnered && location.consultationFee != null && <p className="mt-2">Consultation Fee: ₹{location.consultationFee}</p>}
-        {partnered && location.practicePhone && <a className="mt-3 inline-flex min-h-11 items-center underline underline-offset-4" href={"tel:" + location.practicePhone}>Call the clinic</a>}
+        {partnered && location.practicePhone && <a className="mt-3 inline-flex min-h-11 items-center underline underline-offset-4" href={"tel:" + location.practicePhone}>{location.kind === "online" ? "Call for Online Consultation" : "Call the clinic"}</a>}
         <div className="mt-3 flex flex-wrap gap-3">
-          {location.mapsUrl && /^https:\/\/(www\.google\.com|maps\.google\.com|share\.google|maps\.app\.goo\.gl)\//.test(location.mapsUrl) && <a className="docvy-pill" href={location.mapsUrl} target="_blank" rel="noopener noreferrer">Google Maps directions</a>}
-          {partnered && <Link className="docvy-pill docvy-pill-primary" href={{ pathname: "/request", query: { provider: doctor.id, city: location.city, facility: location.facility } }}>Request appointment at this clinic</Link>}
+          {location.kind !== "online" && location.mapsUrl && /^https:\/\/(www\.google\.com|maps\.google\.com|share\.google|maps\.app\.goo\.gl)\//.test(location.mapsUrl) && <a className="docvy-pill" href={location.mapsUrl} target="_blank" rel="noopener noreferrer">Google Maps directions</a>}
+          {partnered && <Link className="docvy-pill docvy-pill-primary" href={{ pathname: "/request", query: { provider: doctor.id, city: location.city, facility: location.facility } }}>{location.kind === "online" ? "Request Online Consultation" : "Request appointment at this clinic"}</Link>}
         </div>
       </div>)}
       {!partnered && <div className="mt-4"><div className="doctor-profile-claim"><div><h3 className="font-medium">Is this your profile?</h3><p className="mt-2 text-sm text-grey">Make it yours. Share your practice details and choose how patients reach you.</p></div><Link className="doctor-claim-button" href={{ pathname: "/claim-profile", query: { provider: doctor.id } }}>Claim profile</Link></div><Link className="mt-4 inline-flex min-h-11 items-center text-sm underline underline-offset-4" href={{ pathname: "/remove-profile", query: { provider: doctor.id } }}>Request profile removal</Link></div>}

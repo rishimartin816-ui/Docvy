@@ -26,7 +26,7 @@ function publicPages(dir){for(const file of fs.readdirSync(dir,{withFileTypes:tr
  assert.deepEqual(issues,[]);
  for(const doctor of doctors){
   const h=pages.get(origin+"/doctor/"+doctor.id);assert.equal(h.includes("DOCVY Verified"),doctor.profileStatus!=="claimed",doctor.name+" badge");assert(h.includes('rel="canonical" href="'+origin+"/doctor/"+doctor.id+'"'),doctor.name+" canonical");
-  const schema=[...h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1])).find(s=>s["@type"]===(doctor.specialties.some(specialty=>/physiotherapy|homoeopathy/i.test(specialty))?"MedicalBusiness":doctor.specialties.includes("Dentistry")?"Dentist":"Physician"));
+  const schema=[...h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1])).find(s=>s["@type"]===(doctor.specialties.some(specialty=>/physiotherapy|homoeopathy|psychology/i.test(specialty))?"MedicalBusiness":doctor.specialties.includes("Dentistry")?"Dentist":"Physician"));
   assert(schema);assert.equal(schema.location.length,doctor.locations.length);
   for(const l of doctor.locations){
    const url=origin+"/request?"+new URLSearchParams({provider:doctor.id,city:l.city,facility:l.facility});

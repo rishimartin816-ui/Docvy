@@ -81,6 +81,18 @@ Module._load=function(id,parent,...rest){
   for(const rendered of [profileHtml,cardHtml]){if(years!=null){assert(rendered.includes("doctor-experience"));assert(rendered.includes(years+" Years of Experience"),id+" experience highlight");}else assert(!rendered.includes("doctor-experience"),id+" must not invent experience");}
  }
 
+
+ const sahil=require("../lib/directory-normalization.ts").normalizeDoctor({...require("../docs/doctors/mr-sahil-kochale.json"),consentGiven:true,consentMethod:"owner_approval",verifiedAt:"2026-11-15",live:true,otherNcrLocations:[]});
+ publishedDoctors=[sahil];assert.equal(sahil.name,"Mr. Sahil Kochale");assert(isVerified(sahil));assert.equal(sahil.locations.length,2);
+ const sahilHtml=require("react-dom/server").renderToStaticMarkup(await page.default({params:{slug:sahil.id}}));
+ for(const text of ["Mr. Sahil Kochale","1 Year of Experience","A120710","Rehabilitation Council of India","1200","Malvi","Nimadi","7648968141","Request Online Consultation","Monday–Sunday"])assert(sahilHtml.includes(text),text);
+ assert(!sahilHtml.includes("Dr. Sahil"));assert(!sahil.locations.some(l=>l.consultingHours));
+ const data=doctorStructuredData(sahil);assert.equal(data["@type"],"MedicalBusiness");assert.equal(data.location[1]["@type"],"VirtualLocation");assert(!("address" in data.location[1]));
+ for(const specialty of ["clinical-psychology","rehabilitation-psychology"])assert.equal(filterDirectory([sahil],parseDirectoryFilters({location:"Indore",specialty,q:"CBT anxiety"})).length,1);
+ assert.equal(require("../lib/facilities.ts").facilitiesFrom([sahil]).length,1);
+ const Booking=require("../components/AppointmentRequestForm.tsx").default;
+ for(const location of sahil.locations){const booking=require("react-dom/server").renderToStaticMarkup(require("react").createElement(Booking,{doctors:[sahil],initialProvider:sahil.id,initialCity:location.city,initialFacility:location.facility,enabled:true}));assert(booking.includes(sahil.id+"::"+location.city+"::"+location.facility));assert(booking.includes("Working days:"));assert(!booking.includes("Consulting hours:"));}
+
  const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(require("node:path").join(dir,e.name)):[require("node:path").join(dir,e.name)]);
  for(const file of ["app","components","lib"].flatMap(walk).filter(f=>/\.tsx?$/.test(f))){
   assert(!/does not reserve (?:a slot|or confirm)|no slot is reserved|not a guarantee/i.test(fs.readFileSync(file,"utf8")),"Obsolete reservation copy: "+file);
