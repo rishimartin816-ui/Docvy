@@ -1,21 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { portraitData } from "@/lib/portrait-upload";
 import DoctorProfileSearch, { type ClaimDoctor } from "./DoctorProfileSearch";
-async function portraitData(file: File) {
-  if (!file.size) return undefined;
-  if (file.size > 8 * 1024 * 1024 || !["image/jpeg", "image/png", "image/webp"].includes(file.type)) throw new Error("Choose a JPG, PNG or WebP portrait under 8 MB.");
-  const bitmap = await createImageBitmap(file);
-  try {
-    const ratio = Math.min(1, 1200 / Math.max(bitmap.width, bitmap.height));
-    const canvas = document.createElement("canvas");
-    canvas.width = Math.max(1, Math.round(bitmap.width * ratio)); canvas.height = Math.max(1, Math.round(bitmap.height * ratio));
-    const context = canvas.getContext("2d");
-    if (!context) throw new Error("Your browser could not prepare the portrait.");
-    context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-    return canvas.toDataURL("image/webp", 0.85);
-  } finally { bitmap.close(); }
-}
 export default function ProfileRequestForm({ kind, doctors, initialProvider }: { kind: "claim" | "removal"; doctors: ClaimDoctor[]; initialProvider: string }) {
   const initial=doctors.find(d=>d.id===initialProvider);
   const [providerId,setProviderId]=useState(initial?.id??"");
@@ -35,7 +22,7 @@ export default function ProfileRequestForm({ kind, doctors, initialProvider }: {
     if (!id.current) id.current = crypto.randomUUID();
     try {
       const file = form.get("portrait");
-      const photo = file instanceof File ? await portraitData(file) : undefined;
+      const photo = file instanceof File && file.size ? await portraitData(file) : undefined;
       form.delete("portrait");
       const response = await fetch("/api/profile-request", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...Object.fromEntries(form), photo, requestId: id.current, kind, consent: form.get("consent") === "on" }) });
       const data = await response.json() as { reference?: string; error?: string; photoStatus?: string };

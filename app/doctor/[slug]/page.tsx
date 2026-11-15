@@ -58,7 +58,7 @@ export default async function DoctorPage({ params }: Props) {
         {partnered && location.consultationFee != null && <p className="mt-2">Consultation Fee: ₹{location.consultationFee}</p>}
         {partnered && location.practicePhone && <a className="mt-3 inline-flex min-h-11 items-center underline underline-offset-4" href={"tel:" + location.practicePhone}>Call the clinic</a>}
         <div className="mt-3 flex flex-wrap gap-3">
-          {location.mapsUrl && /^https:\/\/(www\.google\.com|maps\.google\.com|share\.google)\//.test(location.mapsUrl) && <a className="docvy-pill" href={location.mapsUrl} target="_blank" rel="noopener noreferrer">Google Maps directions</a>}
+          {location.mapsUrl && /^https:\/\/(www\.google\.com|maps\.google\.com|share\.google|maps\.app\.goo\.gl)\//.test(location.mapsUrl) && <a className="docvy-pill" href={location.mapsUrl} target="_blank" rel="noopener noreferrer">Google Maps directions</a>}
           {partnered && <Link className="docvy-pill docvy-pill-primary" href={{ pathname: "/request", query: { provider: doctor.id, city: location.city, facility: location.facility } }}>Request appointment at this clinic</Link>}
         </div>
       </div>)}
