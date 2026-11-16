@@ -1,6 +1,7 @@
 export const specialtyKey = (value: string) => value.trim().toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 const definitions: [string, string, string[]][] = [
+ ["ayurveda","Ayurveda",[]],
  ["clinical-psychology","Clinical Psychology",["Clinical psychology"]], ["rehabilitation-psychology","Rehabilitation Psychology",["Rehabilitation psychology"]],
  ["homoeopathy","Homoeopathy",["Homeopathy","Homoeopathic physician","Homoeopathic physiscian","Homeopathic physician"]],
  ["physiotherapy","Physiotherapy",["Physical therapy"]], ["neuro-physiotherapy","Neuro physiotherapy",["Neurophysiotherapy"]],
