@@ -1,5 +1,7 @@
 # Resend booking notifications
 
+**Latest evidence:** [hosted verification](BOOKING_HOSTED_VERIFICATION_20261116.md) supersedes the earlier unverified-runtime notes below. Real staging appointment and OTP emails reached the approved founder inbox. Receipt-bound Supabase codes now use the existing Resend API directly; this patient route does not require separate Auth SMTP configuration. Six migrations and a Vault-backed scheduler are installed in production, but the candidate is blocked by its rejected Supabase server credential. The previous public deployment is restored.
+
 The existing contact@docvy.in owner login is verified and allowlisted in Supabase (read-only check); no new account is needed.
 
 The owner confirms Resend is already activated for Partner with us. Repository evidence: `origin/feat/clinic-crm-slot-blocking:lib/partner-notification.ts` accepts `RESEND_API_KEY` and legacy `resend_api_key`; it sends from `notifications@docvy.in` to `contact@docvy.in`. That partner code/branch is unchanged. The booking implementation reuses those credential names and the existing Resend API, with the owner-requested **DOCVY <contact@docvy.in>** sender/reply-to. Founder alerts remain addressed to the previously approved `rishimartin@docvy.in` (or the server-only approved override).

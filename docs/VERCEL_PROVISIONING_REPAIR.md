@@ -1,5 +1,7 @@
 # DOCVY Vercel provisioning repair
 
+**Latest release check:** the server variable is now present on the correct project, but Supabase rejects its saved value with HTTP 401. A secret-authenticated candidate health probe reports `credentialType: unknown`, not a recognised service-role JWT or `sb_secret_` server key. The configured database hostname is correct (`cxyscxjauxoizvvllmfu.supabase.co`). Replace only the invalid server credential; the provisioning dependency itself is repaired. See [current evidence](BOOKING_HOSTED_VERIFICATION_20261116.md).
+
 ## Verified repair and current release target
 
 Rechecked 16 November 2026 after the owner's repair: the obsolete store connection has no deployment actions and `required: false`. Booking preview `dpl_FYy3Tt1YF6TneGFDUZzRmv3448yT` reached READY at commit `4dc299f91783e2fa17e0b93f0e444e39a5d461a8`. The provisioning failure below is historical and is no longer the release blocker.

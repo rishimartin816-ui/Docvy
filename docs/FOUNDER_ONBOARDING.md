@@ -1,5 +1,7 @@
 # Reuse existing DOCVY owner access
 
+See [current hosted verification](BOOKING_HOSTED_VERIFICATION_20261116.md): synthetic staging founder/patient Auth tests and actual Resend inbox delivery now pass. Temporary test accounts were removed; the existing production owner account/password/allowlist was not changed. Patient verification codes use Supabase-generated codes delivered through Resend directly, so separate SMTP setup is not needed for this route. The production release is awaiting correction of its rejected server database credential.
+
 On 16 November 2026, read-only production checks confirmed **contact@docvy.in has a verified Supabase Auth account and a private directory-admin allowlist entry**. The booking dashboard already uses that existing authorization function and can reuse this owner login. No new founder account, clinic login or doctor login is required for founder-managed booking.
 
 `rishimartin@docvy.in` was supplied as the founder alert recipient. It has no Auth user/allowlist entry, but that is **not a release blocker**: notification recipients and administrator identities are separate. No account, password or privilege was created or changed by this task.
