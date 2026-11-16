@@ -1,72 +1,40 @@
-import {activeProviderBookingMode} from "@/lib/docvy-booking-server";
-import { practiceLocationLabel } from "@/lib/practice-labels";
-import DoctorPortrait from "@/components/DoctorPortrait";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { Breadcrumbs } from "@/components/DirectoryPage";
-import { doctorPath } from "@/lib/directory-normalization";
-import { getDirectoryDoctors } from "@/lib/public-directory";
-import { canRequestAppointment, isVerified } from "@/lib/profile-policy";
-import { buildPageSocialMetadata } from "@/lib/metadata";
-import { doctorDescription, doctorStructuredData } from "@/lib/doctor-profile";
-
-export const dynamic = "force-dynamic";
-type Props = { params: { slug: string } };
-async function lookup(slug: string) {
-  const doctor = (await getDirectoryDoctors()).find(item => item.id === slug || item.profileSlug === slug);
-  if (!doctor) notFound();
-  return doctor;
-}
-export async function generateMetadata({ params }: Props) {
-  const doctor = await lookup(params.slug);
-  const description = doctorDescription(doctor);
-  const path = doctorPath(doctor);
-  return { title: doctor.name + " | " + doctor.specialties[0] + " in " + practiceLocationLabel(doctor.locations[0]), description, alternates: { canonical: path }, ...buildPageSocialMetadata(doctor.name + " | DOCVY", description, path) };
-}
-export default async function DoctorPage({ params }: Props) {
-  const doctor = await lookup(params.slug);
-  const bookingMode=await activeProviderBookingMode(doctor.id);
-  const partnered = canRequestAppointment(doctor);
-  const verified = isVerified(doctor);
-  const details = partnered ? doctor.profileDetails : undefined;
-  const path = doctorPath(doctor);
-  return <div className="mx-auto max-w-5xl px-5 py-12 sm:px-9">
-    <Breadcrumbs items={[{ name: "Doctors", href: "/doctors" }, { name: doctor.name, href: path }]} />
-    {partnered && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(doctorStructuredData(doctor)).replace(/</g, "\\u003c") }} />}
-    <div className="flex flex-col items-start gap-6 sm:flex-row"><DoctorPortrait name={doctor.name} src={partnered ? doctor.photoUrl : null} large /><div>
-      <h1 className="text-4xl font-medium sm:text-5xl">{doctor.name}</h1>
-      {details?.experienceYears != null && <p className="doctor-experience mt-4 inline-flex rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-lg font-semibold text-primary">{details.experienceYears} {details.experienceYears === 1 ? "Year" : "Years"} of Experience</p>}
-      <p className="mt-4 capitalize">{doctor.specialties.join(", ") || "Specialty details under review"}{details && doctor.specialties.includes("General medicine") ? " · General physician" : ""}</p>
-      {doctor.serviceTitle && <p className="mt-2 text-sm text-grey">Service title: {doctor.serviceTitle}</p>}
-      {doctor.centres?.length ? <p className="mt-2 text-sm text-grey">Centres &amp; services: {doctor.centres.join(" · ")}</p> : null}
-      <p className="mt-3 capitalize text-grey">{[doctor.hospital, ...new Set(doctor.locations.map(location => practiceLocationLabel(location)))].filter(Boolean).join(" · ")}</p>
-      {verified && <div className="mt-4"><strong className="text-primary">DOCVY Verified</strong><p className="mt-2 text-sm">Registration: {doctor.registrationNumber} · {doctor.registrationCouncil}</p></div>}
-      {!partnered && <p className="mt-5 font-medium">Not yet partnered with DOCVY</p>}
-    </div></div>
-    {details && <dl className="docvy-glass mt-8 grid gap-5 p-6 sm:grid-cols-2">
-      {details.qualifications && <div><dt className="text-sm text-grey">Qualifications</dt><dd className="mt-1 font-medium">{details.qualifications}</dd></div>}
-      {details.experienceYears != null && <div><dt className="text-sm text-grey">Experience</dt><dd className="mt-1 font-medium">{details.experienceYears} {details.experienceYears === 1 ? "year" : "years"}</dd></div>}
-      {details.languages?.length ? <div><dt className="text-sm text-grey">Languages</dt><dd className="mt-1 font-medium">{details.languages.join(", ")}</dd></div> : null}
-      {details.consultationFee != null && <div><dt className="text-sm text-grey">Consultation Fee</dt><dd className="mt-1 font-medium">₹{details.consultationFee}</dd></div>}
-      {details.practicePhone && <div><dt className="text-sm text-grey">Doctor / Clinic Contact</dt><dd className="mt-1"><a className="underline underline-offset-4" href={"tel:" + details.practicePhone}>{details.practicePhone.replace(/^\+91/, "")}</a></dd></div>}
-    </dl>}
-    {partnered && doctor.summary && <section className="mt-8"><h2 className="text-2xl font-medium">About the Doctor</h2><p className="mt-4 max-w-3xl leading-8">{doctor.summary}</p></section>}
-    <section className="docvy-glass mt-8 p-6"><h2 className="text-2xl font-medium">Practice Locations</h2>
-      {details?.appointmentNote && <p className="mt-3 font-medium">{details.appointmentNote}</p>}
-      {doctor.locations.map(location => <div className="mt-6 border-t border-line pt-6" key={location.city + location.facility}>
-        <h3 className="text-lg font-medium capitalize">{location.facility || "Independent practice"}</h3>
-        <p className="mt-2 text-grey">{practiceLocationLabel(location, true)}</p>
-        {location.kind !== "online" && location.address && <p className="mt-2 leading-7 text-grey">{location.address}</p>}
-        {partnered && location.workingDays && <p className="mt-3 font-medium">Working Days: {location.workingDays}</p>}
-        {partnered && location.consultingHours && <p className="mt-3 font-medium">Consulting Hours: {location.consultingHours} IST</p>}
-        {partnered && location.consultationFee != null && <p className="mt-2">Consultation Fee: ₹{location.consultationFee}</p>}
-        {partnered && location.practicePhone && <a className="mt-3 inline-flex min-h-11 items-center underline underline-offset-4" href={"tel:" + location.practicePhone}>{location.kind === "online" ? "Call for Online Consultation" : "Call the clinic"}</a>}
-        <div className="mt-3 flex flex-wrap gap-3">
-          {location.kind !== "online" && location.mapsUrl && /^https:\/\/(www\.google\.com|maps\.google\.com|share\.google|maps\.app\.goo\.gl)\//.test(location.mapsUrl) && <a className="docvy-pill" href={location.mapsUrl} target="_blank" rel="noopener noreferrer">Google Maps directions</a>}
-          {partnered && <Link className="docvy-pill docvy-pill-primary" href={{ pathname: verified&&bookingMode!=="disabled"?"/book":"/request", query: { provider: doctor.id, city: location.city, facility: location.facility } }}>{location.kind === "online" ? "Book online consultation" : "Book appointment now"}</Link>}
-        </div>
-      </div>)}
-      {!partnered && <div className="mt-4"><div className="doctor-profile-claim"><div><h3 className="font-medium">Is this your profile?</h3><p className="mt-2 text-sm text-grey">Make it yours. Share your practice details and choose how patients reach you.</p></div><Link className="doctor-claim-button" href={{ pathname: "/claim-profile", query: { provider: doctor.id } }}>Claim profile</Link></div><Link className="mt-4 inline-flex min-h-11 items-center text-sm underline underline-offset-4" href={{ pathname: "/remove-profile", query: { provider: doctor.id } }}>Request profile removal</Link></div>}
-    </section>
-  </div>;
+import {activeProviderBookingMode} from '@/lib/docvy-booking-server';
+import {practiceLocationLabel} from '@/lib/practice-labels';
+import DoctorPortrait from '@/components/DoctorPortrait';
+import BookingForm from '@/components/BookingForm';
+import Link from 'next/link';
+import {notFound} from 'next/navigation';
+import {ArrowRight,ArrowUpRight,CalendarDays,Check,ClipboardCheck,GraduationCap,Languages,MapPin,Phone,ShieldCheck,Stethoscope,Video} from 'lucide-react';
+import {Breadcrumbs} from '@/components/DirectoryPage';
+import {doctorPath} from '@/lib/directory-normalization';
+import {getDirectoryDoctors} from '@/lib/public-directory';
+import {canRequestAppointment,isVerified} from '@/lib/profile-policy';
+import {buildPageSocialMetadata} from '@/lib/metadata';
+import {doctorDescription,doctorStructuredData} from '@/lib/doctor-profile';
+import s from '@/components/patient/experience.module.css';
+export const dynamic='force-dynamic';
+type Props={params:{slug:string}};
+async function lookup(slug:string){const doctor=(await getDirectoryDoctors()).find(item=>item.id===slug||item.profileSlug===slug);if(!doctor)notFound();return doctor;}
+export async function generateMetadata({params}:Props){const doctor=await lookup(params.slug);const description=doctorDescription(doctor);const path=doctorPath(doctor);return{title:doctor.name+' | '+doctor.specialties[0]+' in '+practiceLocationLabel(doctor.locations[0]),description,alternates:{canonical:path},...buildPageSocialMetadata(doctor.name+' | DOCVY',description,path)};}
+export default async function DoctorPage({params}:Props){
+ const doctor=await lookup(params.slug);const bookingMode=await activeProviderBookingMode(doctor.id);const partnered=canRequestAppointment(doctor),verified=isVerified(doctor),bookable=verified&&bookingMode!=='disabled';
+ const details=partnered?doctor.profileDetails:undefined;const path=doctorPath(doctor);const online=doctor.locations.some(l=>l.kind==='online');
+ const questions=[
+  ['How do I book an appointment?',bookable?'Use the booking panel on this page. Choose a practice and preferred time, then share your contact details. DOCVY confirms availability with the doctor before confirming the appointment.':'Booking participation varies by doctor. Check the current DOCVY booking page or contact DOCVY for help with this practice.'],
+  ['Where does '+doctor.name+' consult?',doctor.locations.map(l=>l.facility+', '+l.city).join('. ')+'. Check the exact practice address before your visit.'],
+  ['What is the consultation fee?',doctor.locations.some(l=>l.consultationFee!=null)?'Published consultation fees are shown for each practice below. Fees can vary by practice and consultation type; confirm the applicable fee with DOCVY before your visit.':details?.consultationFee!=null?'The published consultation fee is ₹'+details.consultationFee.toLocaleString('en-IN')+'. Confirm the applicable fee for your selected practice and visit.':'A consultation fee has not been published for this profile. DOCVY can help confirm it with the practice.'],
+  ['Is my preferred time a confirmed appointment?','A preferred time starts as a request. DOCVY checks the doctor’s availability and confirms your appointment. Wait for that confirmation before travelling.'],
+  ['What should I bring to my visit?','Ask the practice which previous reports or prescriptions it needs. Keep your DOCVY reference and confirmation handy, and write down the questions you want to discuss. Do not upload medical records to the booking form.'],
+ ];
+ return <div className={s.root}>
+  <header className={s.profileHeader}><div className={s.wrap}><Breadcrumbs items={[{name:'Doctors',href:'/doctors'},{name:doctor.name,href:path}]}/>{partnered&&<script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(doctorStructuredData(doctor)).replace(/</g,'\\u003c')}}/>}<div className={s.profileHero}><DoctorPortrait name={doctor.name} src={partnered?doctor.photoUrl:null} large/><div>{verified&&<span className={s.verified}><ShieldCheck size={15} aria-hidden="true"/>DOCVY Verified</span>}<h1>{doctor.name}</h1><p>{doctor.specialties.join(' · ')||'Professional profile'}</p>{doctor.serviceTitle&&<p>{doctor.serviceTitle}</p>}<p className="flex items-center gap-2 mt-2"><MapPin size={14} className="shrink-0" aria-hidden="true"/>{[...new Set(doctor.locations.map(l=>practiceLocationLabel(l)))].join(' · ')}</p><div className={s.profileFacts}>{details?.experienceYears!=null&&<span><Stethoscope size={13} aria-hidden="true"/>{details.experienceYears} years of experience</span>}{details?.languages?.length?<span><Languages size={13} aria-hidden="true"/>{details.languages.join(', ')}</span>:null}{online&&<span><Video size={13} aria-hidden="true"/>Online consultation option</span>}{bookable&&<span><CalendarDays size={13} aria-hidden="true"/>Accepting appointment requests</span>}</div></div></div></div></header>
+  <div className={s.wrap}><nav className={s.anchorNav} aria-label="Doctor profile sections"><a href="#about-doctor">About</a><a href="#doctor-credentials">Qualifications</a><a href="#practice-locations">Practice locations</a><a href="#doctor-faq">FAQs</a>{bookable&&<a href="#doctor-booking">Book appointment</a>}</nav><div className={s.profileLayout}><div>
+   <section id="about-doctor" className={s.profileSection}><span className={s.eyebrow}>Get to know your doctor</span><h2 className="mt-3">About {doctor.name}</h2>{partnered&&doctor.summary?<p className="whitespace-pre-line">{doctor.summary}</p>:<p>Review the published specialties and practice locations for this profile. Contact DOCVY if you need help checking a practice detail.</p>}{doctor.specialties.length>0&&<div className={s.cardChips}>{doctor.specialties.map(specialty=><span key={specialty} className={s.chip}>{specialty}</span>)}</div>}{doctor.centres?.length?<p className="mt-4">Centres and services: {doctor.centres.join(' · ')}</p>:null}</section>
+   <section id="doctor-credentials" className={s.profileSection}><h2>Qualifications & professional details</h2><dl className={s.factsGrid}>{details?.qualifications&&<div><dt>Qualifications</dt><dd>{details.qualifications}</dd></div>}{details?.experienceYears!=null&&<div><dt>Experience</dt><dd>{details.experienceYears} years{details.experienceAsOf?' · as recorded '+details.experienceAsOf:''}</dd></div>}{details?.languages?.length?<div><dt>Languages</dt><dd>{details.languages.join(', ')}</dd></div>:null}{verified&&<div><dt>Registration details</dt><dd>{doctor.registrationNumber}<br/>{doctor.registrationCouncil}</dd></div>}{details?.practicePhone&&<div><dt>Published practice contact</dt><dd><a href={'tel:'+details.practicePhone} className="underline">{details.practicePhone}</a></dd></div>}</dl>{verified&&<div className={s.notice}><ShieldCheck size={16} aria-hidden="true"/><span>DOCVY Verified reflects recorded consent and checked registration details. It does not guarantee a clinical outcome or a particular appointment time.</span></div>}{!partnered&&<p>This profile has not completed DOCVY partnership approval. <Link className="underline" href={{pathname:'/claim-profile',query:{provider:doctor.id}}}>Claim this professional profile</Link>.</p>}</section>
+   <section id="practice-locations" className={s.profileSection}><h2>Choose the right practice.</h2>{doctor.locations.map(location=><article key={location.city+'|'+location.facility} className={s.practice}><span className={s.eyebrow}>{location.kind==='online'?<Video size={13} aria-hidden="true"/>:<MapPin size={13} aria-hidden="true"/>}{location.kind==='online'?'Online consultation':location.city}</span><h3 className="mt-2">{location.facility||'Independent practice'}</h3><p>{practiceLocationLabel(location,true)}</p>{location.kind!=='online'&&location.address&&<p>{location.address}</p>}<div className={s.practiceMeta}>{partnered&&location.workingDays&&<span><CalendarDays size={13} aria-hidden="true"/>{location.workingDays}</span>}{partnered&&location.consultingHours&&<span><CalendarDays size={13} aria-hidden="true"/>{location.consultingHours} IST</span>}{partnered&&location.consultationFee!=null&&<span>₹{location.consultationFee.toLocaleString('en-IN')} consultation</span>}</div><div className={s.actions}>{bookable&&<Link className={s.primary} href={{pathname:'/book',query:{provider:doctor.id,city:location.city,facility:location.facility}}}>Book at this practice<ArrowRight size={14} aria-hidden="true"/></Link>}{location.kind!=='online'&&location.mapsUrl&&/^https:\/\/(www\.google\.com|maps\.google\.com|share\.google|maps\.app\.goo\.gl)\//.test(location.mapsUrl)&&<a className={s.secondary} href={location.mapsUrl} target="_blank" rel="noopener noreferrer">Directions<ArrowUpRight size={14} aria-hidden="true"/></a>}{partnered&&location.practicePhone&&<a className={s.textLink} href={'tel:'+location.practicePhone}><Phone size={13} aria-hidden="true"/>Call practice</a>}</div></article>)}</section>
+   <section className={s.profileSection}><span className={s.eyebrow}><ClipboardCheck size={13} aria-hidden="true"/>Prepare for your visit</span><h2 className="mt-3">A little preparation goes a long way.</h2><ul className={s.checkList}>{['Save your DOCVY reference and wait for your confirmed visit time.','Check the exact practice location and the applicable consultation fee.','Ask which previous reports or prescriptions the practice wants you to bring.','Keep a short list of questions to discuss directly with the clinician.'].map(text=><li key={text}><Check size={14} aria-hidden="true"/>{text}</li>)}</ul></section>
+   <section id="doctor-faq" className={s.profileSection}><h2>Before you book</h2><div className={s.faqList}>{questions.map(([question,answer])=><details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div></section>
+   <p className={s.smallNote}>Clinical decisions belong with a qualified professional. {doctor.sourceUrl&&/^https:\/\//.test(doctor.sourceUrl)&&<a href={doctor.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline">Profile source</a>}{doctor.sourceChecked?' · Source checked '+doctor.sourceChecked:''}. <Link href={{pathname:'/remove-profile',query:{provider:doctor.id}}} className="underline">Request a profile correction or removal</Link>.</p>
+  </div><aside id="doctor-booking" className={s.sticky} aria-label="Book with this doctor">{bookable?<><div className="mb-4"><span className={s.eyebrow}><CalendarDays size={13} aria-hidden="true"/>Your appointment, coordinated</span><h2 className="mt-2 text-2xl font-medium">Book with {doctor.name.replace(/^Dr\.\s*/,'')}</h2></div><BookingForm initialProviderId={doctor.id} compact/></>:<div className={s.summary}><GraduationCap size={27} aria-hidden="true"/><h2 className="mt-4 text-xl font-medium">Explore your next step.</h2><p className={`${s.smallNote} mt-3`}>View participating doctors and current booking options on DOCVY.</p><Link className={`${s.primary} mt-5`} href="/book">Explore appointments<ArrowRight size={14} aria-hidden="true"/></Link>{!partnered&&<Link href={{pathname:'/claim-profile',query:{provider:doctor.id}}} className={s.textLink}>Claim this profile<ArrowUpRight size={13} aria-hidden="true"/></Link>}</div>}</aside></div></div>
+ </div>;
 }

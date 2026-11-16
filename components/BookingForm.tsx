@@ -1,104 +1,79 @@
 "use client";
+import {useEffect,useMemo,useRef,useState,type FormEvent} from 'react';
+import Link from 'next/link';
+import {ArrowLeft,ArrowRight,CalendarDays,Check,CheckCircle2,ChevronLeft,ChevronRight,ClipboardCheck,Copy,LockKeyhole,MapPin,ShieldCheck,Video} from 'lucide-react';
+import DoctorPortrait from './DoctorPortrait';
+import {calendarDates,shiftDate,istDate,preferredTimes,prettyDate,prettyTime,type BookingProvider} from '@/lib/booking-presentation';
+import {approvedProviderIds} from '@/lib/booking-schedule';
+import s from './patient/experience.module.css';
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
-
-type Provider={key:string;id:string;name:string;city:string;facility:string;mode:"approval"|"instant"};
 type Slot={id:string;startsAt:string;endsAt:string};
 type Result={ok?:boolean;reference?:string;status?:string;mode?:string;receiptKey?:string;error?:string};
-const fmt=(v:string)=>new Intl.DateTimeFormat("en-IN",{dateStyle:"medium",timeStyle:"short",timeZone:"Asia/Kolkata"}).format(new Date(v));
-export default function BookingForm(){
-  const [providers,setProviders]=useState<Provider[]>([]);
-  const [selected,setSelected]=useState("");
-  const [slots,setSlots]=useState<Slot[]>([]);
-  const [slotId,setSlotId]=useState("");
-  const [loading,setLoading]=useState(true);
-  const [busy,setBusy]=useState(false);
-  const [message,setMessage]=useState("");
-  const [result,setResult]=useState<Result|null>(null);
-  const requestKey=useRef<string|null>(null);
-  const active=providers.find(p=>p.key===selected);
-  useEffect(()=>{
-    let mounted=true;
-    fetch("/api/booking/providers",{cache:"no-store"}).then(r=>r.json()).then((data:{providers?:Provider[]})=>{
-      if(mounted){setProviders(data.providers??[]);const query=new URLSearchParams(window.location.search);const requested=query.get("provider");const match=data.providers?.find(p=>p.id===requested&&(!query.get("city")||p.city===query.get("city"))&&(!query.get("facility")||p.facility===query.get("facility")))??data.providers?.find(p=>p.id===requested);if(match)setSelected(match.key);}
-    }).catch(()=>{if(mounted)setMessage("Could not check participating doctors.")})
-      .finally(()=>{if(mounted)setLoading(false)});
-    return ()=>{mounted=false};
-  },[]);
-  useEffect(()=>{
-    let mounted=true;
-    setSlots([]);setSlotId("");
-    if(!active||active.mode!=="instant")return;
-    fetch(`/api/booking/slots?provider=${encodeURIComponent(active.id)}&city=${encodeURIComponent(active.city)}&facility=${encodeURIComponent(active.facility)}`,{cache:"no-store"})
-      .then(r=>r.json()).then((data:{slots?:Slot[]})=>{if(mounted)setSlots(data.slots??[])})
-      .catch(()=>{if(mounted)setMessage("Could not load appointment slots.")});
-    return ()=>{mounted=false};
-  },[active]);
-  async function submit(e:FormEvent<HTMLFormElement>){
-    e.preventDefault();
-    if(!active||busy)return;
-    setBusy(true);setMessage("");
-    if(!requestKey.current)requestKey.current=crypto.randomUUID();
-    const data=new FormData(e.currentTarget);
-    const payload={
-      idempotencyKey:requestKey.current,providerId:active.id,city:active.city,facility:active.facility,
-      name:data.get("name"),mobile:data.get("mobile"),email:data.get("email"),
-      requestedDate:data.get("requestedDate"),requestedTime:data.get("requestedTime"),
-      slotId:active.mode==="instant"?slotId:"",consent:data.get("consent")==="on",
-      website:data.get("website"),
-    };
-    try{
-      const response=await fetch("/api/booking",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
-      const body=await response.json() as Result;
-      if(!response.ok||!body.ok)throw new Error(body.error||"Request was not accepted.");
-      setResult(body);requestKey.current=null;
-    }catch(error){setMessage(error instanceof Error?error.message:"Could not submit request.")}
-    finally{setBusy(false)}
-  }
-  if(result)return <section className="mt-8 rounded-3xl border border-[#B8DCD0] bg-white p-7" role="status">
-    <p className="text-xs font-bold uppercase tracking-[.16em] text-[#087F83]">DOCVY reference</p>
-    <h2 className="mt-2 text-2xl font-bold">{result.reference}</h2>
-    <p className="mt-3 text-sm leading-6 text-[#526D66]">{result.status==="confirmed"?
-      "Appointment confirmed. Please retain this reference and verify the location details before travelling.":
-      "Your request is pending confirmation. No appointment has been reserved yet; DOCVY must confirm your date and time before you travel."}</p>
-    {result.receiptKey&&<a className="mt-5 inline-flex rounded-xl border px-4 py-3" href={"/appointments/track#reference="+encodeURIComponent(result.reference??"")+"&receipt="+encodeURIComponent(result.receiptKey)}>Track and verify your DOCVY visit</a>}
-    <p className="mt-3 text-sm">Save this private tracking link. Do not share it with your provider.</p>
-    <button className="mt-5 rounded-xl border px-4 py-2" onClick={()=>setResult(null)}>Request another appointment</button>
-  </section>;
-  return <form onSubmit={submit} onChange={()=>{requestKey.current=null}} className="mt-8 space-y-5 rounded-3xl border border-[#DCEAE5] bg-white p-6 shadow-sm md:p-8">
-    {loading?<p role="status">Checking participating doctors…</p>:providers.length===0?
-      <p role="status" className="rounded-xl bg-[#FFF4E4] p-4 text-sm">Online appointment bookings are not accepting requests at present. No doctor has been activated for this booking service.</p>:null}
-    <label className="block text-sm font-semibold">Doctor and location
-      <select required className="mt-2 w-full rounded-xl border p-3" value={selected} onChange={e=>{setSelected(e.target.value);requestKey.current=null}} disabled={busy||!providers.length}>
-        <option value="">Select a participating provider</option>
-        {providers.map(p=><option key={p.key} value={p.key}>{p.name} — {p.city} · {p.facility}</option>)}
-      </select>
-    </label>
-    {active&&<div className="rounded-xl bg-[#F1F8F5] p-4 text-sm leading-6">
-      <strong>{active.mode==="instant"?"Available-slot booking":"DOCVY-approved booking"}</strong>
-      <p>{active.mode==="instant"?"Select a listed clinic-managed slot. Confirmation is issued only when that slot is successfully reserved.":active.city==="Online"?"Online consultations require the doctor’s availability and confirmation through DOCVY. No automatic online slots are published.":"Your preferred date and time will remain pending until DOCVY checks the doctor’s availability and confirms it."}</p>
-    </div>}
-    {active?.mode==="instant"?<label className="block text-sm font-semibold">Available slot
-      <select required className="mt-2 w-full rounded-xl border p-3" value={slotId} onChange={e=>setSlotId(e.target.value)}>
-        <option value="">Select available date and time</option>
-        {slots.map(s=><option key={s.id} value={s.id}>{fmt(s.startsAt)}</option>)}
-      </select>
-      {!slots.length&&<span className="mt-1 block text-xs text-[#946029]">No confirmed slots available. Try another provider or contact DOCVY.</span>}
-    </label>:active?<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <label className="text-sm font-semibold">Preferred date <input type="date" name="requestedDate" required className="mt-2 w-full rounded-xl border p-3"/></label>
-      <label className="text-sm font-semibold">Preferred time <input type="time" name="requestedTime" required className="mt-2 w-full rounded-xl border p-3"/></label>
-    </div>:null}
-    <div className="grid gap-4 sm:grid-cols-2">
-      <label className="text-sm font-semibold">Patient name <input required minLength={2} maxLength={100} name="name" autoComplete="name" className="mt-2 w-full rounded-xl border p-3"/></label>
-      <label className="text-sm font-semibold">Mobile number <input required name="mobile" inputMode="tel" pattern="[6-9][0-9]{9}" maxLength={10} className="mt-2 w-full rounded-xl border p-3"/></label>
-      <label className="text-sm font-semibold sm:col-span-2">Email for private visit verification <input required type="email" name="email" className="mt-2 w-full rounded-xl border p-3"/></label>
-    </div>
-    <label className="flex gap-3 text-sm leading-6"><input required name="consent" type="checkbox" className="mt-1"/>
-      <span>I consent to DOCVY using my contact details to coordinate this appointment with the selected provider. I understand requests are not confirmed until explicitly marked confirmed. See <a href="/legal/privacy" className="underline">Privacy Policy</a>.</span>
-    </label>
-    <div className="hidden" aria-hidden="true"><label>Leave blank<input tabIndex={-1} name="website" autoComplete="off"/></label></div>
-    {message&&<p role="alert" className="rounded-xl bg-[#FFF1ED] p-3 text-sm text-[#8E2D20]">{message}</p>}
-    <button disabled={!active||busy||(active.mode==="instant"&&!slotId)} className="w-full rounded-xl bg-[#087F83] px-5 py-3 font-bold text-white disabled:opacity-50">{busy?"Submitting…":active?.mode==="instant"?"Confirm this available slot":"Book appointment now"}</button>
-    <p className="text-center text-xs text-[#526D66]">Consultation fees are paid directly to the healthcare provider, not DOCVY.</p>
-  </form>;
+type Props={initialProviderId?:string;initialCity?:string;initialFacility?:string;compact?:boolean};
+const initialDetails={name:'',mobile:'',email:'',consent:false};
+const formatSlot=(at:string)=>new Intl.DateTimeFormat('en-IN',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Kolkata'}).format(new Date(at));
+export default function BookingForm({initialProviderId,initialCity,initialFacility,compact=false}:Props){
+ const [providers,setProviders]=useState<BookingProvider[]>([]),[selected,setSelected]=useState(''),[loading,setLoading]=useState(true),[loadFailed,setLoadFailed]=useState(false),[retry,setRetry]=useState(0);
+ const [query,setQuery]=useState(''),[cityFilter,setCityFilter]=useState(''),[step,setStep]=useState(1),[busy,setBusy]=useState(false),[message,setMessage]=useState('');
+ const [date,setDate]=useState(''),[time,setTime]=useState(''),[today,setToday]=useState(''),[calendarStart,setCalendarStart]=useState('');
+ const [slots,setSlots]=useState<Slot[]>([]),[slotId,setSlotId]=useState(''),[slotsLoading,setSlotsLoading]=useState(false),[details,setDetails]=useState(initialDetails),[result,setResult]=useState<Result|null>(null),[copied,setCopied]=useState(false);
+ const requestKey=useRef<string|null>(null),heading=useRef<HTMLLegendElement>(null),interacted=useRef(false);
+ const active=providers.find(p=>p.key===selected);
+ const maxDate=today?calendarDates(today,91)[90]:'';
+ const dates=calendarStart?calendarDates(calendarStart):[];
+ const times=useMemo(()=>active&&date?preferredTimes(active,date):[],[active,date]);
+ const scheduled=active&&active.city!=='Online'&&approvedProviderIds.some(id=>id===active.id);
+ const cities=Array.from(new Set(providers.map(p=>p.city))).sort((a,b)=>a.localeCompare(b));
+ const visible=providers.filter(p=>(!cityFilter||p.city===cityFilter)&&[p.name,p.city,p.facility,...(p.specialties??[])].join(' ').toLowerCase().includes(query.toLowerCase()));
+ useEffect(()=>{const current=istDate();setToday(current);setDate(current);setCalendarStart(current);},[]);
+ useEffect(()=>{
+  const controller=new AbortController();setLoading(true);setLoadFailed(false);
+  fetch('/api/booking/providers',{cache:'no-store',signal:controller.signal}).then(async r=>{if(!r.ok)throw Error('providers');return r.json();}).then((data:{providers?:BookingProvider[]})=>{
+   const list=(data.providers??[]).filter(p=>!compact||!initialProviderId||p.id===initialProviderId);setProviders(list);
+   const q=new URLSearchParams(window.location.search),id=initialProviderId??q.get('provider'),city=initialCity??q.get('city'),facility=initialFacility??q.get('facility');
+   const match=list.find(p=>p.id===id&&(!city||p.city===city)&&(!facility||p.facility===facility))??list.find(p=>p.id===id);
+   setTime('');setSlotId('');requestKey.current=null;setStep(match&&list.length===1?2:1);if(match)setSelected(match.key);
+  }).catch(()=>{if(!controller.signal.aborted)setLoadFailed(true);}).finally(()=>{if(!controller.signal.aborted)setLoading(false);});
+  return()=>controller.abort();
+ },[initialProviderId,initialCity,initialFacility,compact,retry]);
+ useEffect(()=>{if(interacted.current)heading.current?.focus();},[step]);
+ useEffect(()=>{
+  const controller=new AbortController();setSlots([]);setSlotId('');
+  if(!active||active.mode!=='instant')return;
+  setSlotsLoading(true);fetch('/api/booking/slots?'+new URLSearchParams({provider:active.id,city:active.city,facility:active.facility}),{cache:'no-store',signal:controller.signal}).then(async r=>{if(!r.ok)throw Error('slots');return r.json();}).then(data=>setSlots(data.slots??[])).catch(()=>{if(!controller.signal.aborted)setMessage('We could not check available appointments. Try again or contact DOCVY.');}).finally(()=>{if(!controller.signal.aborted)setSlotsLoading(false);});
+  return()=>controller.abort();
+ },[active]);
+ function jumpCalendar(days:number){const value=shiftDate(calendarStart,days);setCalendarStart(value<today?today:value>maxDate?maxDate:value);}
+ function choose(provider:BookingProvider){setSelected(provider.key);setTime('');setSlotId('');setMessage('');requestKey.current=null;}
+ function chooseDate(value:string){setDate(value);setTime('');setMessage('');requestKey.current=null;if(value&&(!dates.includes(value)))setCalendarStart(value);}
+ function move(next:number){interacted.current=true;setMessage('');setStep(next);}
+ function next(){
+  if(step===1){if(!active){setMessage('Choose your doctor and practice to continue.');return;}move(2);return;}
+  if(active?.mode==='instant'){if(!slotId){setMessage('Choose an available appointment.');return;}}
+  else {const at=Date.parse(date+'T'+time+':00+05:30');if(!date||!time||!Number.isFinite(at)||at<Date.now()+15*60000||at>Date.now()+90*86400000){setMessage('Choose a preferred time at least 15 minutes ahead and within 90 days (IST).');return;}}
+  move(3);
+ }
+ async function submit(event:FormEvent<HTMLFormElement>){
+  event.preventDefault();if(step<3){next();return;}if(!active||busy)return;
+  const website=new FormData(event.currentTarget).get('website')??'';setBusy(true);setMessage('');if(!requestKey.current)requestKey.current=crypto.randomUUID();
+  try{const r=await fetch('/api/booking',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idempotencyKey:requestKey.current,providerId:active.id,city:active.city,facility:active.facility,...details,requestedDate:date,requestedTime:time,slotId:active.mode==='instant'?slotId:'',website})});const body=await r.json() as Result;if(!r.ok||!body.ok)throw Error(body.error||'Your appointment request could not be saved. Please try again.');setResult(body);requestKey.current=null;}catch(error){setMessage(error instanceof Error?error.message:'We could not save your request. Please try again.');}finally{setBusy(false);}
+ }
+ const tracking=result?.receiptKey?'/appointments/track#'+new URLSearchParams({reference:result.reference??'',receipt:result.receiptKey}):'';
+ async function copyTracking(){try{await navigator.clipboard.writeText(new URL(tracking,window.location.origin).href);setCopied(true);}catch{setMessage('Use the private tracking link below and save it somewhere safe.');}}
+ if(result)return <section className={`${s.root} ${s.success}`} aria-labelledby="booking-success-title"><div className={s.successIcon}><CheckCircle2 size={29} aria-hidden="true"/></div><span className={s.eyebrow}>{result.status==='confirmed'?'Appointment confirmed':'Your next step is in motion'}</span><h2 id="booking-success-title" className="mt-3">{result.status==='confirmed'?'Your appointment is confirmed.':'Your appointment request is saved.'}</h2><p>{result.status==='confirmed'?'Check your appointment details before travelling.':'DOCVY will check your preferred time with the doctor and send your confirmation. Please wait for confirmation before travelling.'}</p><div className={s.successRef}>YOUR DOCVY REFERENCE<br/><strong>{result.reference}</strong></div><p><strong>{active?.name}</strong><br/>{active?.facility}, {active?.city}{date&&time&&<><br/>{prettyDate(date)} · {prettyTime(time)} IST · Preferred time</>}</p><ol className={s.successSteps}><li><span><Check size={12} aria-hidden="true"/></span><div><strong>Request received</strong><br/>Your preferences are saved with DOCVY.</div></li><li><span>2</span><div><strong>Availability checked with the doctor</strong><br/>DOCVY coordinates your appointment.</div></li><li><span>3</span><div><strong>Confirmation and visit updates</strong><br/>Follow every update using your private tracking link.</div></li></ol>{tracking&&<div className={s.actions}><Link href={tracking} className={s.primary}>Track my appointment<ArrowRight size={15} aria-hidden="true"/></Link><button type="button" onClick={()=>void copyTracking()} className={s.secondary}><Copy size={14} aria-hidden="true"/>{copied?'Link copied':'Copy private link'}</button></div>}<p className="mt-4">Keep this link private. It is for you, not your provider.</p><button type="button" className={s.textLink} onClick={()=>{setResult(null);setDetails(initialDetails);setCopied(false);setStep(1);}}>Book another appointment<ArrowRight size={14} aria-hidden="true"/></button>{message&&<p role="status">{message}</p>}</section>;
+ const selectedTime=active?.mode==='instant'?slots.find(slot=>slot.id===slotId)?.startsAt:null;
+ return <div className={`${s.root} ${compact?s.compact:''}`}><div className={s.bookingLayout}>
+ <form onSubmit={submit} className={s.bookingPanel}><div hidden aria-hidden="true"><label>Leave blank<input name="website" tabIndex={-1} autoComplete="off"/></label></div>
+  <ol className={s.progress} aria-label="Booking progress">{['Doctor & practice','Date & time','Your details'].map((label,index)=><li key={label}><button type="button" aria-current={step===index+1?'step':undefined} disabled={index+1>step||busy} onClick={()=>move(index+1)}><span>{step>index+1?<Check size={12} aria-hidden="true"/>:index+1}</span>{label}</button></li>)}</ol>
+  {compact&&active&&<div className={s.notice}><MapPin size={15} aria-hidden="true"/><div><strong>{active.name}</strong><br/>{active.facility} · {active.city}<br/>{active.fee!=null?'₹'+active.fee.toLocaleString('en-IN')+' consultation fee':'Fee confirmed with DOCVY'}</div></div>}
+  {loading?<div role="status" className={s.empty}>Finding participating doctors and practices…</div>:loadFailed?<div role="alert" className={s.error}>We couldn’t load the booking options. <button type="button" className="underline" onClick={()=>setRetry(n=>n+1)}>Try again</button> or <Link href="/contact" className="underline">contact DOCVY</Link>.</div>:!providers.length?<div className={s.empty}>We couldn’t find an activated booking option for this selection. <Link className="underline" href="/doctors">Explore participating doctors</Link> or <Link className="underline" href="/contact">ask DOCVY for help</Link>.</div>:<>
+  {step===1&&<fieldset className={s.fieldset}><legend ref={heading} tabIndex={-1}>{compact?'Choose your practice':'Find your doctor'}</legend><p className={s.subtext}>Choose the doctor and location that work for you. Fees shown are published consultation fees.</p>{!compact&&<div className={s.fieldGrid}><label className={s.field}>Search<input className={s.input} type="search" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Doctor, specialty or practice"/></label><label className={s.field}>Location<select className={s.input} value={cityFilter} onChange={e=>setCityFilter(e.target.value)}><option value="">All locations</option>{cities.map(city=><option key={city}>{city}</option>)}</select></label></div>}<div className={s.providerChoices}>{visible.map(provider=><label key={provider.key} className={s.providerChoice}><input type="radio" name="provider" checked={selected===provider.key} onChange={()=>choose(provider)} value={provider.key}/>{!compact&&<DoctorPortrait name={provider.name} src={provider.photoUrl} compact/>}<div className="min-w-0 flex-1"><strong>{compact?provider.facility:provider.name}</strong><p>{compact?provider.city:provider.specialties?.join(' · ')}</p><p>{compact?provider.address:provider.city+' · '+provider.facility}</p></div>{provider.fee!=null&&<span className={s.fee}>₹{provider.fee.toLocaleString('en-IN')}</span>}</label>)}{!visible.length&&<p className={s.empty}>No matching practice. Try a doctor’s name or another city.</p>}</div></fieldset>}
+  {step===2&&<fieldset className={s.fieldset}><legend ref={heading} tabIndex={-1}>Make time for your care.</legend><p className={s.subtext}>{active?.mode==='instant'?'Choose from the practice’s managed appointments.':'Choose a preferred date and time. DOCVY will confirm availability with the doctor.'}</p>{active?.mode==='instant'?<label className={s.field}>Available appointment<select required className={s.input} value={slotId} onChange={e=>{setSlotId(e.target.value);requestKey.current=null;}}><option value="">{slotsLoading?'Checking appointments…':'Choose an appointment'}</option>{slots.map(slot=><option key={slot.id} value={slot.id}>{formatSlot(slot.startsAt)}</option>)}</select>{!slotsLoading&&!slots.length&&<span className={s.smallNote}>No managed slots are listed. Contact DOCVY to arrange a time.</span>}</label>:<><div className="flex items-end justify-between gap-3"><label className={s.field}>Preferred date<input type="date" className={s.input} required value={date} min={today} max={maxDate} onChange={e=>chooseDate(e.target.value)}/></label><div className="flex gap-1"><button type="button" className="grid h-10 w-10 place-items-center rounded-lg border border-line disabled:opacity-30" aria-label="Previous seven days" disabled={!today||calendarStart<=today} onClick={()=>jumpCalendar(-7)}><ChevronLeft size={16}/></button><button type="button" className="grid h-10 w-10 place-items-center rounded-lg border border-line disabled:opacity-30" aria-label="Next seven days" disabled={!maxDate||calendarStart>=maxDate} onClick={()=>jumpCalendar(7)}><ChevronRight size={16}/></button></div></div><div className={s.dateStrip} aria-label="Choose a preferred day">{dates.map(day=><button type="button" className={s.dateButton} key={day} disabled={day>maxDate} aria-pressed={date===day} onClick={()=>chooseDate(day)}>{prettyDate(day,{weekday:'short'})}<strong>{Number(day.slice(-2))}</strong>{prettyDate(day,{month:'short'})}</button>)}</div>{times.length?<><p className={s.field}>Preferred times · IST</p><div className={s.timeGrid}>{times.map(value=><label key={value} className={s.timeOption}><input type="radio" name="preferredTime" value={value} checked={time===value} onChange={()=>{setTime(value);requestKey.current=null;}}/>{prettyTime(value)}</label>)}</div></>:scheduled?<div className={s.empty}>No suggested times for this day. Choose another date or contact DOCVY for help.</div>:<label className={s.field}>Preferred time · IST<input type="time" className={s.input} required value={time} onChange={e=>{setTime(e.target.value);requestKey.current=null;}}/></label>}<div className={s.notice}><CalendarDays size={15} aria-hidden="true"/><span>These are preferred times, not guaranteed available slots. DOCVY confirms your appointment after checking with the doctor.</span></div></>}</fieldset>}
+  {step===3&&<fieldset className={s.fieldset}><legend ref={heading} tabIndex={-1}>Who is the appointment for?</legend><p className={s.subtext}>We’ll use these details to coordinate your visit and send your private tracking link.</p><div className={s.fieldGrid}><label className={s.field}>Patient’s full name<input className={s.input} required minLength={2} maxLength={100} name="name" autoComplete="name" value={details.name} onChange={e=>{setDetails({...details,name:e.target.value});requestKey.current=null;}}/></label><label className={s.field}>Indian mobile number<input className={s.input} required name="mobile" inputMode="tel" autoComplete="tel-national" pattern="[6-9][0-9]{9}" maxLength={10} placeholder="10-digit mobile number" value={details.mobile} onChange={e=>{setDetails({...details,mobile:e.target.value});requestKey.current=null;}}/></label><label className={`${s.field} sm:col-span-2`}>Email address<input className={s.input} required name="email" type="email" autoComplete="email" maxLength={254} placeholder="For confirmation and private visit verification" value={details.email} onChange={e=>{setDetails({...details,email:e.target.value});requestKey.current=null;}}/></label></div><div className={s.notice}><LockKeyhole size={15} aria-hidden="true"/>Share contact and appointment preferences only. Please don’t include symptoms, medical records or identity documents.</div><label className={s.consent}><input type="checkbox" required checked={details.consent} onChange={e=>{setDetails({...details,consent:e.target.checked});requestKey.current=null;}}/><span>I consent to DOCVY using these contact details to coordinate this appointment. I understand my preferred time awaits confirmation. <Link href="/legal/privacy">Privacy policy</Link></span></label></fieldset>}
+  {message&&<p role="alert" className={s.error}>{message}</p>}
+  <div className={s.formActions}>{step>1&&<button className={s.secondary} disabled={busy} type="button" onClick={()=>move(step-1)}><ArrowLeft size={14} aria-hidden="true"/>Back</button>}{step<3?<button className={s.primary} type="button" disabled={!active||(step===2&&active.mode!=='instant'&&!time)} onClick={next}>{step===1?'Choose date & time':'Continue to your details'}<ArrowRight size={15} aria-hidden="true"/></button>:<button className={s.primary} type="submit" disabled={busy}>{busy?'Saving your request…':'Book appointment now'}<ArrowRight size={15} aria-hidden="true"/></button>}</div><p className={`${s.smallNote} mt-4 flex items-center justify-center gap-2`}><LockKeyhole size={12} aria-hidden="true"/>Your contact details stay private.</p>
+  </>}
+ </form>
+ {!compact&&active&&<aside className={s.summary} aria-label="Your appointment summary"><span className={s.eyebrow}>Your appointment</span><div className={`${s.summaryDoctor} mt-4`}><DoctorPortrait name={active.name} src={active.photoUrl} compact/><div><span className={s.verified}><ShieldCheck size={12} aria-hidden="true"/>DOCVY Verified</span><strong>{active.name}</strong><p>{active.specialties?.join(' · ')}</p>{active.experienceYears!=null&&<p>{active.experienceYears} years of experience</p>}</div></div><p className={s.locationLine}>{active.kind==='online'?<Video size={14} aria-hidden="true"/>:<MapPin size={14} aria-hidden="true"/>}<span>{active.facility}<br/>{active.city}</span></p><dl><div><dt>Consultation</dt><dd>{active.kind==='online'?'Online':'In person'}</dd></div><div><dt>{active.mode==='instant'?'Appointment':'Preferred date'}</dt><dd>{selectedTime?formatSlot(selectedTime):date?prettyDate(date):'Choose a date'}</dd></div>{active.mode!=='instant'&&<div><dt>Preferred time</dt><dd>{time?prettyTime(time)+' IST':'Choose a time'}</dd></div>}<div><dt>Consultation fee</dt><dd>{active.fee!=null?'₹'+active.fee.toLocaleString('en-IN'):'Confirm with DOCVY'}</dd></div></dl><div className={s.notice}><ClipboardCheck size={15} aria-hidden="true"/><span>Awaiting doctor confirmation. A preferred time is not reserved until DOCVY confirms it.</span></div><p className={s.smallNote}>Consultation fees are paid directly to the healthcare provider. DOCVY does not collect them here.</p><div className={s.summaryFoot}><p className={s.smallNote}>Need help with your booking?</p><Link href="/contact">Contact DOCVY<ArrowRight size={13} className="ml-2" aria-hidden="true"/></Link></div></aside>}
+ </div></div>;
 }
