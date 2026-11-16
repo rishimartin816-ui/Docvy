@@ -44,7 +44,9 @@ async function processJob(job:Job){
    if(createHash("sha256").update(receipt).digest("hex")!==s.patientHash)throw Error("patient_receipt_secret_changed");
    text+=receipt;
   }
-  const result=await sendResendEmail({...frozen,text},"docvy-booking/"+job.id);
+  // Staging and production share a Resend account, but have independent job sequences.
+  const environment=process.env.VERCEL_ENV==="production"?"production":"staging";
+  const result=await sendResendEmail({...frozen,text},"docvy-booking/"+environment+"/"+job.id);
   await finish(job,result.result,"providerId" in result?result.providerId:undefined,"error" in result?result.error:undefined);
   return result.result;
  }catch(error){
