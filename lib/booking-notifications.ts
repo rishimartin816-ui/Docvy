@@ -24,7 +24,7 @@ function envelopeFor(job:Job):EmailEnvelope|null{
  if(job.status==="requested")lines.push("Preferred time: "+(s.preferredDate??"Not supplied")+" "+(s.preferredTime??"")+" IST","This is a request only. No slot is reserved. Wait for DOCVY confirmation before travelling.");
  else if(s.startsAt)lines.push("Appointment time: "+new Date(s.startsAt).toLocaleString("en-IN",{timeZone:"Asia/Kolkata"})+" IST");
  if(["completed_reported","no_show_reported","visit_feedback"].includes(job.status))lines.push("Please provide your own visit response. Provider reports alone do not verify attendance.");
- if(!isPatient)lines.push("Review privately: https://www.docvy.in/founder");
+ if(!isPatient)lines.push("Review privately: "+trackingOrigin()+"/founder");
  lines.push("Check the DOCVY tracking page for the latest status. Contact contact@docvy.in for help.","Consultation fees are paid to the healthcare provider; DOCVY does not collect them here.");
  if(isPatient)lines.push("Private tracking link — keep it safe: "+trackingOrigin()+"/appointments/track#reference="+encodeURIComponent(s.reference)+"&receipt=");
  return {from:"DOCVY <contact@docvy.in>",to,reply_to:"contact@docvy.in",subject:(process.env.VERCEL_ENV!=="production"?"[STAGING] ":"")+"DOCVY appointment update — "+s.reference,text:lines.join("\n")};
