@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { ArrowRight, Mail, MapPin, ShieldCheck } from "lucide-react";
-import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 
 const grievanceDescription = "Find DOCVY's grievance contact and postal address. Grievances can be sent by email or post; please omit medical records and identity documents.";
@@ -14,14 +13,13 @@ export const metadata: Metadata = {
 
 export default function GrievancePage() {
   const responseDays = Number(process.env.DOCVY_GRIEVANCE_RESPONSE_DAYS);
-  const intakeEnabled = isAppointmentIntakeConfigured();
 
   return <div className="bg-surface text-ink">
     <section className="bg-white px-6 py-16 md:py-20">
       <div className="mx-auto max-w-site">
         <p className="inline-flex items-center gap-2 rounded-full border border-line bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-ink"><ShieldCheck strokeWidth={1.5} size={15} aria-hidden="true" /> HELP &amp; ACCOUNTABILITY · INDIA</p>
         <h1 className="mt-6 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[56px]">How to contact DOCVY about a grievance</h1>
-        <p className="mt-5 max-w-3xl text-base leading-8 text-grey md:text-lg">Send a written grievance by email or post using the contact details below. DOCVY is currently an informational website; {intakeEnabled ? "appointment enquiries are recorded by DOCVY but no appointment is confirmed here." : "appointment enquiries are paused."}</p>
+        <p className="mt-5 max-w-3xl text-base leading-8 text-grey md:text-lg">DOCVY provides doctor discovery, appointment booking and visit follow-up. For help with your booking or another concern, send a written grievance by email or post using the contact details below. Include your DOCVY booking reference where relevant, without medical records or identity documents.</p>
         <div className="mt-8 flex flex-wrap gap-3">
           <a href="mailto:contact@docvy.in?subject=DOCVY%20grievance" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-primary px-5 text-sm font-bold text-white transition hover:bg-primary-hover">Email DOCVY <ArrowRight strokeWidth={1.5} size={16} aria-hidden="true" /></a>
           <a href="#postal-address" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-line bg-white/80 px-5 text-sm font-bold text-ink transition hover:bg-white">View postal address <MapPin strokeWidth={1.5} size={16} aria-hidden="true" /></a>

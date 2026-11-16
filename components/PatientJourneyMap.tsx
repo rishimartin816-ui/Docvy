@@ -48,11 +48,11 @@ export default function PatientJourneyMap({ intakeEnabled, headingLevel = 3 }: {
     step.number === "04"
       ? {
           ...step,
-          title: "Confirm details with the care provider",
+          title: "Book through DOCVY",
           text: intakeEnabled
-            ? "You can send an appointment enquiry to DOCVY. It is saved in DOCVY’s private intake; use your reference to follow up with the selected clinic."
-            : "DOCVY’s appointment enquiry form is currently closed. Contact the hospital or clinic directly to confirm the doctor, location, time and fee.",
-          label: intakeEnabled ? "ENQUIRY TO DOCVY" : "ENQUIRY FORM CLOSED",
+            ? "Bookings are live. Choose a participating doctor and your preferred time. DOCVY confirms the appointment with the doctor and provides a private tracking link."
+            : "Explore participating doctors and appointment options through DOCVY. Availability depends on the doctor and practice location.",
+          label: intakeEnabled ? "BOOK APPOINTMENT NOW" : "EXPLORE DOCTORS",
         }
       : step,
   );

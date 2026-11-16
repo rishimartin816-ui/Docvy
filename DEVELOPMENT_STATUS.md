@@ -1,3 +1,5 @@
+> Historical engineering log, not a current service-status statement. For current patient capabilities see the public About and FAQ pages. Past pause/deployment notes below describe their recorded dates.
+
 # DOCVY website and product status
 
 **Updated:** 3 November 2026 (Asia/Kolkata)  

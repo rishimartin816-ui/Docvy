@@ -1,3 +1,4 @@
+import BookingAdmin from "@/components/BookingAdmin";
 import { notFound } from "next/navigation";
 import StagingCalendar from "@/components/StagingCalendar";
 
@@ -12,5 +13,6 @@ export default function ClinicPage() {
   if (workspaceEnabled()) return <ProductionCrm />;
   const config = clinicCrmConfig();
   if (!config) notFound();
+  if(!config.staging&&process.env.DOCVY_HYBRID_BOOKING_ENABLED==="true")return <BookingAdmin/>;
   return <StagingCalendar clinic clinicName={config.clinicName} staging={config.staging} />;
 }

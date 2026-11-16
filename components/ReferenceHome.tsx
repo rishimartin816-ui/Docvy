@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { getDirectoryDoctors } from "@/lib/public-directory";
 import { isVerified } from "@/lib/profile-policy";
-import { cities, doctorsIn } from "@/lib/directory";
 import { ArrowRight, ArrowUpRight, BookOpen, ClipboardList, MapPin, Search, Stethoscope } from "lucide-react";
 import DiscoverySearch from "./DiscoverySearch";
 import SpecialtyIcon from "./SpecialtyIcon";
@@ -22,7 +21,7 @@ const commonSearches = [
 const steps = [
   { title: "Start with your concern", text: "Search a specialty, doctor or hospital. Add a city to see the profiles listed there. If you’re unsure where to start, explore the health guides.", icon: Search },
   { title: "Check the practice details", text: "Read the specialty, hospital or clinic, and city on the profile. Confirm the branch with the practice before you travel.", icon: MapPin },
-  { title: "Arrange the next step", text: "Where an appointment-request button is available, share your preferences. The clinic confirms the time and fee; share your preferred visit time.", icon: ClipboardList },
+  { title: "Book an appointment", text: "Choose a participating doctor and your preferred visit time. DOCVY checks availability with the doctor, confirms your appointment and keeps you updated.", icon: ClipboardList },
 ];
 const procedures = [
   { slug: "hernia-repair", name: "Hernia repair", text: "Ask about treatment choices and recovery." },
@@ -45,8 +44,8 @@ const guides = [
 
 const questions = [
   ["What can I use DOCVY for?", "Find doctors by specialty, hospital or city, compare practice details, and prepare for your visit with clear health guides."],
-  ["Can I request an appointment with every doctor listed?", "Look for Request appointment on opted-in profiles. Choose your preferences and receive a request reference; the clinic confirms your visit."],
-  ["Does an appointment request confirm my visit?", "You receive a reference when your request is saved. The clinic confirms the time and fee before your visit."],
+  ["How do I book an appointment?", "Select Book appointment now, choose a participating doctor and your preferred time, and save your DOCVY reference. DOCVY confirms the appointment after checking with the doctor."],
+  ["When is my appointment confirmed?", "Your booking starts as awaiting confirmation. DOCVY checks the doctor's availability and confirms your visit time before you travel."],
   ["What does DOCVY Verified mean?", "The doctor or clinic has given written consent to their profile, and DOCVY has separately checked the registration number with the relevant medical council or NMC. A listed hospital name or a claimed profile alone does not mean the doctor is verified."],
   ["Where should I start if I’m not sure which specialty to search?", "Read the specialty descriptions and health guides to get familiar with the terms. They provide background for a conversation with a qualified clinician and cannot decide which doctor or treatment is right for your situation."],
 ];
@@ -55,16 +54,15 @@ export default async function ReferenceHome() {
   const doctors = await getDirectoryDoctors();
   const verified = doctors.filter(isVerified).length;
   const featuredSpecialties = specialties;
-  const comingCities = cities.filter(c=>["mumbai","hyderabad","chennai"].includes(c.slug) && doctorsIn(c.slug,undefined,doctors).length===0);
   return <div className="reference-home care-home">
     <section className="reference-hero care-hero" aria-labelledby="home-heading">
       <div className="reference-wrap">
         <div className="care-hero-topline"><p className="reference-eyebrow">YOUR NEXT STEP TO BETTER CARE</p><Link href="/hi" lang="hi" className="inline-flex min-h-11 items-center text-sm underline">हिन्दी</Link></div>
         <h1 id="home-heading">The right doctor.<br className="hidden sm:block" /> A clearer next step.</h1>
-        <p className="hero-description">Find doctors by specialty, hospital or city across India. Explore their practice details and request a visit with participating doctors.</p>
+        <p className="hero-description">Find doctors by specialty, hospital or city across India. Book an appointment with participating doctors and follow your visit updates through DOCVY.</p>
         <div className="reference-search"><DiscoverySearch homepage /></div>
         <nav className="care-common-searches" aria-label="Health topics to explore"><span>Explore a concern</span>{commonSearches.map(({ label, href }) => <Link key={href} href={href}>{label}<ArrowUpRight size={13} strokeWidth={1.5} aria-hidden="true" /></Link>)}</nav>
-        <p className="mt-4 text-sm text-[#DDECE1]">{comingCities.length ? <>Coverage expanding: {comingCities.map((c,i)=><span key={c.slug}>{i ? " · " : ""}<Link href={"/doctors/"+c.slug} className="underline">{c.name} — coming soon</Link></span>)}</> : <Link href="/doctors" className="underline">Explore current city coverage</Link>}</p>
+        <p className="mt-4 text-sm text-[#DDECE1]">Bookings are live · <Link href="/book" className="underline">Book appointment now</Link></p>
         <nav className="care-starting-points" aria-label="Choose where to start">{startingPoints.map(({ title, text, href, icon: Icon }) => <Link key={href} href={href} className="care-starting-point"><Icon size={24} strokeWidth={1.5} aria-hidden="true" /><div><h2>{title}</h2><p>{text}</p></div><ArrowUpRight size={18} strokeWidth={1.5} aria-hidden="true" /></Link>)}</nav>
       </div>
     </section>
@@ -90,7 +88,7 @@ export default async function ReferenceHome() {
     </div></section>
 
     <section className="reference-wrap care-section care-faq-section" aria-labelledby="faq-heading">
-      <div><p className="care-kicker">Appointments &amp; profiles</p><h2 id="faq-heading">Before you request an appointment.</h2><p className="care-section-intro">How to find care and arrange your next visit.</p><p className="mt-4 text-sm"><span className="inline-flex rounded-full border border-line px-3 py-2 font-medium">DOCVY Verified — badge example</span><br />Awarded only after consent and manual registration checks.</p><Link className="care-text-link" href="/faqs">More about using DOCVY <ArrowRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link></div>
+      <div><p className="care-kicker">Appointments &amp; profiles</p><h2 id="faq-heading">Book your next appointment.</h2><p className="care-section-intro">How to find care and arrange your next visit.</p><p className="mt-4 text-sm"><span className="inline-flex rounded-full border border-line px-3 py-2 font-medium">DOCVY Verified — badge example</span><br />Awarded only after consent and manual registration checks.</p><Link className="care-text-link" href="/faqs">More about using DOCVY <ArrowRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link></div>
       <div className="care-faq-list">{questions.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}{question === "What does DOCVY Verified mean?" && <> Currently, {verified} published {verified===1?"profile has":"profiles have"} completed DOCVY verification. This count changes only after manual checks are recorded.</>}</p></details>)}</div>
     </section>
 

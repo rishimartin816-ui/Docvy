@@ -8,6 +8,7 @@ const compat = new FlatCompat({
 
 const config = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  { files: ["scripts/**/*.cjs"], languageOptions: { sourceType: "commonjs" }, rules: { "@typescript-eslint/no-require-imports": "off" } },
   { ignores: [".next/**", "out/**", "build/**", "next-env.d.ts"] },
 ];
 

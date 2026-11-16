@@ -1,3 +1,5 @@
+import {redirect} from "next/navigation";
+import {activeProviderBookingMode,bookingConfigured} from "@/lib/docvy-booking-server";
 import { doctorPath } from "@/lib/directory-normalization";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -18,6 +20,10 @@ export function generateMetadata(): Metadata {
 type Params = { provider?: string; city?: string; facility?: string };
 export default async function RequestPage({ searchParams }: { searchParams: Promise<Params> }) {
   const params = await searchParams;
+  if(process.env.DOCVY_HYBRID_BOOKING_ENABLED==='true'&&bookingConfigured()){
+    const query=new URLSearchParams();if(params.provider)query.set('provider',params.provider);if(params.city)query.set('city',params.city);if(params.facility)query.set('facility',params.facility);redirect('/book'+(query.size?'?'+query:''));
+  }
+  if(params.provider&&(await activeProviderBookingMode(params.provider))!=="disabled"){const query=new URLSearchParams({provider:params.provider});if(params.city)query.set("city",params.city);if(params.facility)query.set("facility",params.facility);redirect("/book?"+query); }
   const doctors = await getDirectoryDoctors();
   const available = await providersWithAppointmentIntake(doctors);
   const enabled = isAppointmentIntakeConfigured() && available.length > 0 && (!params.provider || available.some((doctor) => doctor.id === params.provider));

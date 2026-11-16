@@ -1,6 +1,6 @@
 # DOCVY — Next.js 14 + TypeScript + Tailwind
 
-DOCVY currently provides a pan-India patient guide and a limited Delhi NCR doctor directory. Appointment enquiry intake is being connected to the DOCVY APPOINTMENT LEADS Google Sheet. Enquiries are not appointments until the selected provider confirms availability, timing and fees.
+DOCVY provides doctor discovery, plain-language patient guides and appointment enquiries for participating practices in India. An enquiry records a request; the provider confirms availability, timing and fees. Real-time scheduling and clinic workspace access are separate capabilities.
 
 ## Local setup
 
@@ -10,7 +10,7 @@ DOCVY currently provides a pan-India patient guide and a limited Delhi NCR docto
 4. Follow [GOOGLE_SHEETS_SETUP.md](./GOOGLE_SHEETS_SETUP.md) to deploy the token-protected Apps Script endpoint and connect the private sheet.
 5. Run `pnpm dev` to start the site.
 
-The appointment form stays disabled when either sheet connection variable is missing. Do not collect real visitor details until the live form, policy, provider handling and consent have been reviewed.
+The public directory and consent policy determine eligible doctors. Intake supports the directory RPC, configured clinic routing, or the legacy Sheet integration; configuration alone does not prove successful delivery. Do not collect real visitor details until the live form, policy, provider handling and consent have been reviewed.
 
 ## Build and publish
 
@@ -20,8 +20,8 @@ The appointment form stays disabled when either sheet connection variable is mis
 
 ## Current operational boundaries
 
-- The guide is available across India; current doctor listings are limited to Delhi, Gurugram and Noida.
-- The directory does not claim credential verification or live appointment availability.
+- The guide is available across India; doctor coverage depends on current published practice locations.
+- Profile status distinguishes sourced, claimed and verified records. No profile asserts live appointment availability.
 - The enquiry form collects no symptoms, diagnoses, medical records or payment data.
 - DOCVY does not take patient payment. A provider confirms any consultation fee and receives payment directly from the patient.
 - Provider paid plans or lead/referral charges require a separate written agreement; no charge or provider email notification is configured by this workflow.

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, BookOpen, ClipboardList, Stethoscope } from "lucide-react";
-import { buildPageSocialMetadata } from "@/lib/metadata";
+import { businessDescription, buildPageSocialMetadata } from "@/lib/metadata";
 
 const title = "About DOCVY | A clearer next step in healthcare";
-const description = "DOCVY helps patients and families in India understand health concerns, find the right type of doctor, and prepare for care in plain language.";
+const description = businessDescription;
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -25,7 +25,7 @@ export default function AboutPage() {
       <div>
         <p className="docvy-eyebrow">ABOUT DOCVY</p>
         <h1 className="mt-4 text-4xl font-bold leading-[1.05] tracking-[-.05em] text-ink sm:text-6xl">When health feels uncertain, the next step should feel clearer.</h1>
-        <p className="mt-5 max-w-xl text-lg leading-8 text-grey">Maybe a report has a word you’ve never heard. Maybe you’re helping a parent find a specialist. We built DOCVY for those moments, when you have questions and want somewhere to start.</p>
+        <p className="mt-5 max-w-xl text-lg leading-8 text-grey">{businessDescription}</p>
         <Link href="/care-guide" className="docvy-pill docvy-pill-primary mt-6">Find a guide for your concern <ArrowUpRight strokeWidth={1.5} size={17} aria-hidden="true" /></Link>
       </div>
     </section>

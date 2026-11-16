@@ -11,6 +11,8 @@ export function middleware(request: NextRequest) {
   if (designPreview && !["GET", "HEAD", "OPTIONS"].includes(request.method)) {
     return NextResponse.json({ error: "This is a design preview. Submissions are disabled and no changes have been saved." }, { status: 409, headers: { "Cache-Control": "no-store" } });
   }
+  // Secret-authenticated API probe must test a production candidate before domain assignment.
+  if (url.pathname === "/api/booking/health") return NextResponse.next();
   const destination = canonicalSiteRedirect(new URL(request.url), process.env.VERCEL_ENV === "production");
   if (destination) {
     if (request.method === "GET" || request.method === "HEAD") return NextResponse.redirect(destination, 301);
