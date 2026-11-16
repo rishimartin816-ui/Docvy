@@ -1,5 +1,5 @@
 import "server-only";
-import { createHmac } from "node:crypto";
+import { createHmac, timingSafeEqual } from "node:crypto";
 
 type Json = Record<string, unknown>;
 
@@ -24,6 +24,21 @@ function config() {
 
 export function bookingConfigured() {
   try { const { base, key } = credentials(); return Boolean(base && key); } catch { return false; }
+}
+
+export function bookingSchedulerAuthorized(request:Request){
+ const secret=process.env.CRON_SECRET;const actual=Buffer.from(request.headers.get('authorization')??'');const expected=Buffer.from('Bearer '+secret);
+ return Boolean(secret&&secret.length>=32&&actual.length===expected.length&&timingSafeEqual(actual,expected));
+}
+
+/** Private operational probe. Never returns key values, rows or database error bodies. */
+export async function bookingBackendHealth(){
+ const {url,key}=config();let credentialType='unknown',credentialProject:string|null=null;
+ if(key.startsWith('sb_secret_'))credentialType='secret';
+ else if(key.startsWith('sb_publishable_'))credentialType='publishable';
+ else {try{const payload=JSON.parse(Buffer.from(key.split('.')[1],'base64url').toString());credentialType=payload.role==='service_role'?'service_role':payload.role==='anon'?'anon':'unknown';if(typeof payload.ref==='string'&&/^[a-z0-9]{20}$/.test(payload.ref))credentialProject=payload.ref;}catch{}}
+ try{await bookingDb('docvy_booking_provider_options',{query:new URLSearchParams({select:'provider_id',limit:'1'})});return {healthy:true,host:url.hostname,credentialType,credentialProject};}
+ catch(error){const message=error instanceof Error?error.message:'';return {healthy:false,host:url.hostname,credentialType,credentialProject,reason:/^booking_database_error_\d{3}$/.test(message)?message:'backend_unreachable'};}
 }
 
 export async function bookingDb(path: string, options: { method?: "GET" | "POST" | "PATCH"; query?: URLSearchParams; body?: unknown; bearer?: string } = {}) {
