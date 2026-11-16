@@ -1,3 +1,5 @@
+export const maxDuration=60;
+import {kickBookingNotifications} from "@/lib/booking-notifications";
 import {createHash} from "node:crypto";
 import {bookingDb,jsonNoStore} from "@/lib/docvy-booking-server";
 export const runtime="nodejs";
@@ -9,6 +11,6 @@ export async function POST(request:Request){
  const hash=key(request);if(!hash)return jsonNoStore({error:"Invalid appointment link"},401);
  try{const raw=await request.text();if(raw.length>200)return jsonNoStore({error:"Request too large"},413);const input=JSON.parse(raw);
  if(!["completed_reported","no_show_reported","cancelled"].includes(input.status))return jsonNoStore({error:"Unsupported report"},400);
- return jsonNoStore({appointment:await bookingDb("rpc/docvy_booking_doctor_report",{method:"POST",body:{p_hash:hash,p_status:input.status}})});
+ const appointment=await bookingDb("rpc/docvy_booking_doctor_report",{method:"POST",body:{p_hash:hash,p_status:input.status}});kickBookingNotifications();return jsonNoStore({appointment});
  }catch{return jsonNoStore({error:"Report not accepted: check the visit time, link validity and whether an outcome was already submitted"},409);}
 }

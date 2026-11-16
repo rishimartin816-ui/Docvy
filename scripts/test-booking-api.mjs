@@ -7,7 +7,7 @@ const require=createRequire(import.meta.url);
 let founderManaged=false,configured=true,actor=null,caseRow={clinic_id:'00000000-0000-4000-8000-000000000001',doctor_roster_id:'00000000-0000-4000-8000-000000000002',status:'confirmed'},calls=[];
 const permission={id:'00000000-0000-4000-8000-000000000009',isAdmin:false,clinicIds:[],manageClinicIds:[],doctorIds:[],roles:[]};
 const helper={founderManagedBooking:()=>founderManaged,bookingConfigured:()=>configured,patientReceiptKey:()=> 'dvpt_'+ 'a'.repeat(64),clientFingerprint:()=> 'f'.repeat(64),jsonNoStore:(body,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store'}}),verifiedBookingUser:async()=>actor,bookingPermissions:async()=>permission,bookingDb:async(path,options)=>{calls.push({path,options});if(path==='rpc/docvy_booking_submit'){assert(options.body.p_data);assert.equal(options.body.p_data.networkHash,'f'.repeat(64));assert.equal(options.body.p_data.patientKeyHash.length,64);return {reference:'DV-1234567890ABCDEF',status:options.body.p_data.approvalOnly?'requested':'confirmed',mode:options.body.p_data.approvalOnly?'approval':'instant'};}if(path==='docvy_booking_cases')return options.query?.get('select')==='patient_email,patient_mobile'?[{patient_email:'patient@example.invalid',patient_mobile:'9000000001'}]:[caseRow];if(path==='rpc/docvy_booking_patient_action')return{status:'completed_verified'};return[];}};
-function load(file){const loaded={exports:{}};const source=ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText;const dep=id=>id==='server-only'?{}:id==='@/lib/docvy-booking-server'?helper:id==='@/lib/booking-schedule'?load('lib/booking-schedule.ts'):require(id);vm.runInThisContext('(function(require,module,exports){'+source+'\n})')(dep,loaded,loaded.exports);return loaded.exports;}
+function load(file){const loaded={exports:{}};const source=ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText;const dep=id=>id==='@/lib/booking-notifications'?{kickBookingNotifications:()=>{},bookingNotificationHealth:async()=>({ready:false}),bookingEmailReady:()=>false,processBookingNotifications:async()=>{throw Error("Disabled dispatcher must not run");}}:id==='server-only'?{}:id==='@/lib/docvy-booking-server'?helper:id==='@/lib/booking-schedule'?load('lib/booking-schedule.ts'):require(id);vm.runInThisContext('(function(require,module,exports){'+source+'\n})')(dep,loaded,loaded.exports);return loaded.exports;}
 const booking=load('app/api/booking/route.ts'),patient=load('app/api/booking/patient/route.ts'),admin=load('app/api/booking/admin/route.ts');
 const request=(path,body,headers={})=>new Request('https://www.docvy.in'+path,{method:body?'POST':'GET',headers:{Origin:'https://www.docvy.in','Content-Type':'application/json',...headers},...(body?{body:JSON.stringify(body)}:{})});
 const old=process.env.DOCVY_HYBRID_BOOKING_ENABLED;process.env.DOCVY_HYBRID_BOOKING_ENABLED='true';
@@ -54,6 +54,16 @@ try{
  permission.isAdmin=false;assert.equal((await links.POST(request('/api/booking/admin/doctor-link',{caseId:transition.caseId,action:'issue'}))).status,403);
  permission.isAdmin=true;const issued=await links.POST(request('/api/booking/admin/doctor-link',{caseId:transition.caseId,action:'issue'}));assert.equal(issued.status,200);assert.match((await issued.json()).url,/#link=dvdr_[a-f0-9]{64}$/);assert.equal(calls.at(-1).options.body.p_hash.length,64);
 
+
+ const notifications=load('app/api/booking/notifications/route.ts');const oldCron=process.env.CRON_SECRET;
+ try{process.env.CRON_SECRET='synthetic-cron-secret-'.repeat(3);
+ assert.equal((await notifications.GET(request('/api/booking/notifications'))).status,401);
+ assert.equal((await notifications.GET(request('/api/booking/notifications',null,{Authorization:'Bearer '+process.env.CRON_SECRET}))).status,503,'Valid scheduler auth still respects disabled email gate');
+ assert.equal((await notifications.GET(request('/api/booking/notifications',null,{Authorization:'Bearer '+('é'.repeat(process.env.CRON_SECRET.length))}))).status,401);
+ assert.equal((await notifications.POST(request('/api/booking/notifications',{}, {Origin:'https://evil.invalid'}))).status,403);
+ permission.isAdmin=false;assert.equal((await notifications.POST(request('/api/booking/notifications',{}))).status,403);permission.isAdmin=true;
+ assert.equal((await notifications.POST(request('/api/booking/notifications',{}))).status,503);
+ }finally{if(oldCron===undefined)delete process.env.CRON_SECRET;else process.env.CRON_SECRET=oldCron;}
  const savedFetch=globalThis.fetch;const names=['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','DOCVY_BOOKING_CLINIC_ACCESS_ENABLED'];const env=Object.fromEntries(names.map(name=>[name,process.env[name]]));let realAdmin=false,staffReads=0;
  try{
  process.env.SUPABASE_URL='https://cxyscxjauxoizvvllmfu.supabase.co';process.env.SUPABASE_SERVICE_ROLE_KEY='synthetic-local-transport-test';process.env.DOCVY_BOOKING_CLINIC_ACCESS_ENABLED='false';

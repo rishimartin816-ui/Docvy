@@ -1,3 +1,6 @@
+export const maxDuration=60;
+import {kickBookingNotifications} from "@/lib/booking-notifications";
+import {bookingNotificationHealth} from "@/lib/booking-notifications";
 import {isApprovedFounderTime} from "@/lib/booking-schedule";
 import { founderManagedBooking, bookingConfigured, bookingDb, bookingPermissions, jsonNoStore } from "@/lib/docvy-booking-server";
 
@@ -50,7 +53,8 @@ export async function GET(request: Request) {
     }) : [];
     const events=selected&&cases.length?await bookingDb("docvy_booking_case_events",{query:new URLSearchParams({select:"old_status,new_status,actor_type,actor_id,created_at",case_id:"eq."+selected,order:"created_at.asc,id.asc",limit:"200"})}):[];
     const summary=permission.isAdmin?await bookingDb("rpc/docvy_booking_summary",{method:"POST",body:{}}):null;
-    return jsonNoStore({ok:true,isAdmin:permission.isAdmin,cases,profiles,candidates,events,summary,queueLimit:150,nextCursor,founderManaged:founderManagedBooking()});
+    const notifications=permission.isAdmin?await bookingNotificationHealth():null;
+    return jsonNoStore({notifications,ok:true,isAdmin:permission.isAdmin,cases,profiles,candidates,events,summary,queueLimit:150,nextCursor,founderManaged:founderManagedBooking()});
   } catch {
     return jsonNoStore({error:"Unable to load appointment queue"},503);
   }
@@ -138,7 +142,7 @@ export async function POST(request: Request) {
       if(status==="confirmed"&&founderManagedBooking()){
         if(input.doctorConfirmed!==true||note.length<10||!confirmedStart||!isApprovedFounderTime(appointment.provider_id,appointment.city,appointment.facility,confirmedStart))return jsonNoStore({error:"Record doctor confirmation and choose an approved future time (IST)"},400);
         const result=await bookingDb("rpc/docvy_booking_founder_confirm",{method:"POST",body:{p_case_id:caseId,p_actor:permission.id,p_starts_at:confirmedStart,p_note:note}});
-        return jsonNoStore({ok:true,result});
+        kickBookingNotifications();return jsonNoStore({ok:true,result});
       }
       const result = await bookingDb("rpc/docvy_booking_transition",{
         method:"POST",
@@ -147,7 +151,7 @@ export async function POST(request: Request) {
           p_status:status,p_note:note,p_confirmed_start:confirmedStart,
         },
       });
-      return jsonNoStore({ok:true,result});
+      kickBookingNotifications();return jsonNoStore({ok:true,result});
     }
     return jsonNoStore({error:"Unknown action"},400);
   } catch {

@@ -18,6 +18,7 @@ try{
  sql(fs.readFileSync('supabase/migrations/20261115214014_docvy_live_booking_control.sql','utf8'));
  sql(fs.readFileSync('supabase/migrations/20261115214015_docvy_patient_visit_evidence.sql','utf8'));
  sql(fs.readFileSync('supabase/migrations/20261116050857_docvy_founder_managed_booking.sql','utf8'));
+ sql(fs.readFileSync('supabase/migrations/20261116053917_docvy_resend_booking_delivery.sql','utf8'));
  sql("insert into docvy_booking_provider_options(provider_id,mode,enabled_at) values('docvy-qa-doctor','instant',now())");
  const keys=[randomUUID(),randomUUID()];
  const results=await Promise.all(keys.map((k,i)=>race(submit(payload(k,slot,'900000000'+(i+1))))));
@@ -98,5 +99,26 @@ try{
  const remaining=requests.find(id=>id!==confirmedId),later=new Date(Date.parse(future)+2*3600000).toISOString();
  sql("update docvy_directory_providers set published=false where provider_id='mr-sahil-kochale'");assert.throws(()=>sql(confirmation(remaining,later)),/provider_no_longer_eligible/);sql("update docvy_directory_providers set published=true where provider_id='mr-sahil-kochale'");
  sql(confirmation(remaining,later));sql("set role service_role;select docvy_booking_issue_doctor_link('"+remaining+"','"+actor+"',repeat('b',64));select docvy_booking_doctor_report(repeat('b',64),'cancelled');");assert.equal(sql("select status from docvy_booking_cases where id='"+remaining+"'"),'cancelled');
- console.log('PASS: production-shaped Postgres fixture; instant booking race one winner; idempotency/payload binding; approval reserves actual slot; premature/doctor-only verification blocked; matching-token patient evidence; contradictory reports disputed; immutable audit; public access denial; active-session revocation; founder attribution summary; founder-only confirmation without clinic mapping; concurrent founder approvals one winner; private provider links, replacement/revocation, one-report-only and premature/forged verification denied.');
+
+ const emailCase=confirmedId;
+ sql("update docvy_booking_notification_outbox set delivery_state='skipped';insert into docvy_booking_notification_outbox(case_id,status,recipient_type) values('"+emailCase+"','visit_feedback','patient')");
+ const emailJob=sql("select id from docvy_booking_notification_outbox where case_id='"+emailCase+"' and status='visit_feedback'");
+ const originalCity=sql("select delivery_payload->>'city' from docvy_booking_notification_outbox where id="+emailJob);
+ sql("update docvy_booking_cases set city='Changed synthetic city' where id='"+emailCase+"'");assert.equal(sql("select delivery_payload->>'city' from docvy_booking_notification_outbox where id="+emailJob),originalCity);
+ assert.throws(()=>sql("update docvy_booking_notification_outbox set delivery_payload='{}' where id="+emailJob),/immutable/);
+ assert.equal(sql("select delivery_payload::text not like '%dvpt_%' from docvy_booking_notification_outbox where id="+emailJob),'t');
+ const claim=()=>JSON.parse(sql('set role service_role;select row_to_json(j) from docvy_booking_claim_notifications(1) j').split('\n').find(l=>l.startsWith('{')));
+ const lease=claim();assert.equal(String(lease.id),emailJob);
+ const envelope={from:'DOCVY <contact@docvy.in>',to:'synthetic@example.invalid',text:'Synthetic frozen text',subject:'Synthetic DOCVY event',reply_to:'contact@docvy.in'};
+ const prepare=(token,text)=>"set role service_role;select docvy_booking_prepare_email("+emailJob+",'"+token+"','"+JSON.stringify({...envelope,text})+"'::jsonb)";
+ sql(prepare(lease.claim_token,envelope.text));sql(prepare(lease.claim_token,'Changed body'));assert.equal(sql("select email_envelope->>'text' from docvy_booking_notification_outbox where id="+emailJob),envelope.text);
+ sql("update docvy_booking_notification_outbox set next_attempt_at=now()-interval '1 second' where id="+emailJob);const renewed=claim();assert.notEqual(lease.claim_token,renewed.claim_token);
+ const finish=(token,result)=>"set role service_role;select docvy_booking_finish_email("+emailJob+",'"+token+"','"+result+"','00000000-0000-4000-8000-000000000099',null)";
+ assert.equal(sql(finish(lease.claim_token,'accepted')).split('\n').at(-1),'f');assert.equal(sql(finish(renewed.claim_token,'accepted')).split('\n').at(-1),'t');assert.equal(sql(finish(renewed.claim_token,'accepted')).split('\n').at(-1),'f');
+ assert.equal(sql('select delivery_state from docvy_booking_notification_outbox where id='+emailJob),'sent');assert.equal(sql('select accepted_at is not null and provider_message_id is not null from docvy_booking_notification_outbox where id='+emailJob),'t');
+ sql("insert into docvy_booking_notification_outbox(case_id,status,recipient_type,first_attempt_at,next_attempt_at) values('"+emailCase+"','test-expired','admin',now()-interval '21 hours',now()-interval '1 second');insert into docvy_booking_notification_outbox(case_id,status,recipient_type,attempts) values('"+emailCase+"','test-exhausted','admin',6);");sql('select count(*) from docvy_booking_claim_notifications(2)');assert.equal(sql("select count(*) from docvy_booking_notification_outbox where status in ('test-expired','test-exhausted') and delivery_state='failed'"),'2');
+ sql("update docvy_booking_cases set confirmed_starts_at=now()+interval '3 hours',confirmed_at=now()-interval '20 minutes' where reference='"+approval.reference+"';select docvy_booking_queue_followups();select docvy_booking_queue_followups();");assert.equal(sql("select count(*) from docvy_booking_notification_outbox where case_id=(select id from docvy_booking_cases where reference='"+approval.reference+"') and status='appointment_reminder'"),'1');
+ sql("update docvy_booking_cases set confirmed_starts_at=now()-interval '4 hours' where reference='"+approval.reference+"';select docvy_booking_queue_followups();select docvy_booking_queue_followups();");assert.equal(sql("select count(*) from docvy_booking_notification_outbox where case_id=(select id from docvy_booking_cases where reference='"+approval.reference+"') and status in ('visit_feedback','provider_outcome_due')"),'2');
+ assert.throws(()=>sql('set role anon;select docvy_booking_notification_health()'));assert.throws(()=>sql('set role authenticated;select * from docvy_booking_notification_outbox'));
+ console.log('PASS: production-shaped Postgres fixture; instant booking race one winner; idempotency/payload binding; approval reserves actual slot; premature/doctor-only verification blocked; matching-token patient evidence; contradictory reports disputed; immutable audit; public access denial; active-session revocation; founder attribution summary; founder-only confirmation without clinic mapping; concurrent founder approvals one winner; private provider links, replacement/revocation, one-report-only and premature/forged verification denied; immutable email snapshots/envelopes; stale lease rejected; API acceptance evidence; bounded retries; idempotent reminders/follow-ups; private delivery tables.');
 }finally{try{docker('stop',container);}catch{/* Preserve failure. */}}

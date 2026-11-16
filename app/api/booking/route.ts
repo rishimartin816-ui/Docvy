@@ -1,3 +1,5 @@
+export const maxDuration=60;
+import {kickBookingNotifications} from "@/lib/booking-notifications";
 import { createHash, randomUUID } from "node:crypto";
 import { founderManagedBooking, bookingConfigured, patientReceiptKey, bookingDb, clientFingerprint, jsonNoStore } from "@/lib/docvy-booking-server";
 
@@ -50,6 +52,7 @@ export async function POST(request: Request) {
         requestedDate, requestedTime, slotId, consent:true, networkHash:clientFingerprint(request),patientKeyHash:createHash("sha256").update(receiptKey).digest("hex"),
       }},
     }) as {reference:string;status:string;mode:string};
+    kickBookingNotifications();
     return jsonNoStore({ok:true,reference:result.reference,status:result.status,mode:result.mode,receiptKey},201);
   } catch {
     return jsonNoStore({ error: "DOCVY could not accept the request. Please check availability and retry." }, 422);

@@ -1,3 +1,5 @@
+export const maxDuration=60;
+import {kickBookingNotifications} from "@/lib/booking-notifications";
 import {createHash} from "node:crypto";
 import {bookingDb,jsonNoStore,verifiedBookingUser} from "@/lib/docvy-booking-server";
 export const dynamic="force-dynamic";
@@ -12,4 +14,4 @@ export async function POST(request:Request){if(request.headers.get("origin")!==n
  const phone=patient.phone&&c&&patient.phone.replace(/\D/g,"").replace(/^91/,"")===c.patient_mobile;
  if(!email&&!phone)return jsonNoStore({error:"Verified contact does not match this appointment"},403);
  }
- return jsonNoStore({appointment:await bookingDb("rpc/docvy_booking_patient_action",{method:"POST",body:{p_reference:body.reference,p_key_hash:key,p_action:body.action,p_patient_actor:patient?.id??null}})});}catch{return jsonNoStore({error:"This action is unavailable for the appointment"},409);}}
+ const appointment=await bookingDb("rpc/docvy_booking_patient_action",{method:"POST",body:{p_reference:body.reference,p_key_hash:key,p_action:body.action,p_patient_actor:patient?.id??null}});kickBookingNotifications();return jsonNoStore({appointment});}catch{return jsonNoStore({error:"This action is unavailable for the appointment"},409);}}

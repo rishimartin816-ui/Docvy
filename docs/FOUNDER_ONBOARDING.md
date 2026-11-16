@@ -1,29 +1,13 @@
-# Founder access setup — review before applying
+# Reuse existing DOCVY owner access
 
-This launch needs one DOCVY founder/admin account, not clinic accounts. On 16 November 2026, read-only production checks found **no Auth user and no directory-admin allowlist entry for `rishimartin@docvy.in`**. No account, password or privilege was created or changed.
+On 16 November 2026, read-only production checks confirmed **contact@docvy.in has a verified Supabase Auth account and a private directory-admin allowlist entry**. The booking dashboard already uses that existing authorization function and can reuse this owner login. No new founder account, clinic login or doctor login is required for founder-managed booking.
 
-1. Configure a trusted DOCVY sender/SMTP flow first, then create/invite the founder through Supabase Auth's supported administrative flow. The owner must verify control of `rishimartin@docvy.in` and set their own password securely. Do not share passwords/API keys in chat or commit them.
-2. After verification and explicit production-change approval, an authorized operator can run this narrow allowlist change in the intended project. It refuses an unverified/missing Auth account. Test with a synthetic identity in isolated staging first.
+`rishimartin@docvy.in` was supplied as the founder alert recipient. It has no Auth user/allowlist entry, but that is **not a release blocker**: notification recipients and administrator identities are separate. No account, password or privilege was created or changed by this task.
 
-```sql
-begin;
-do $$
-begin
-  if not exists (
-    select 1 from auth.users
-    where lower(email) = 'rishimartin@docvy.in'
-      and email_confirmed_at is not null
-  ) then
-    raise exception 'Founder must verify the approved email before admin access is granted';
-  end if;
-  insert into docvy_private.directory_admins(email)
-    values ('rishimartin@docvy.in') on conflict do nothing;
-end;
-$$;
-commit;
-```
+1. Use the existing owner-created contact@docvy.in credentials for `/founder` after the new application/migrations are available in the intended environment. Do not share passwords or API keys in chat. A copied email string in a request never grants access.
+2. Keep `DOCVY_BOOKING_CLINIC_ACCESS_ENABLED=false`. Clinic staff accounts/mappings are not needed for this launch model. Doctor outcome links grant one-appointment reporting, not CRM access.
+3. Provision/reconcile the isolated production-shaped staging baseline and server-only runtime, apply all reviewed migrations in `DOCVY_BOOKING_RELEASE.md`, then test a synthetic founder identity and the actual hosted journey. Production owner verification alone does not establish successful login to a different staging Auth project.
+4. Reuse the already activated Resend service. Confirm booking runtime credentials and sender acceptance, then verify Supabase Auth SMTP/OTP delivery/templates separately. A working partner email is not proof that patient verification emails work.
+5. Finish full hosted request → founder confirmation → private provider report → independent patient verification testing, scheduled retries/reminders and actual inbox delivery before production migration/deployment approval.
 
-3. Configure the server-only runtime and all reviewed migrations from `DOCVY_BOOKING_RELEASE.md` in a production-shaped isolated staging deployment. Keep `DOCVY_BOOKING_CLINIC_ACCESS_ENABLED=false`; do not create clinic logins. Verify founder Auth, active-session validation and queue access using the owner-created login. Supplying the email in a request never grants access.
-4. Complete the full hosted patient/founder/provider-link/patient-verification journey and real notification delivery before approving production migration/deployment. Only then turn on `DOCVY_HYBRID_BOOKING_ENABLED` and eligible providers in approval mode.
-
-The existing `docvy_is_directory_admin()` requires a verified Auth user, matching private allowlist email and an active session. The appointment dashboard also checks session revocation. Founder access is an administrative privilege; an alert-recipient environment variable is not an authorization rule.
+The existing `docvy_is_directory_admin()` requires a verified Auth user, matching private allowlist email and an active session. The booking dashboard also checks session revocation. An alert-recipient environment variable is never an authorization rule. If a separate rishimartin@docvy.in login is later requested, handle that as an explicit, verified administrative grant; do not create it merely to send alerts.
