@@ -1,9 +1,10 @@
-import { bookingConfigured, bookingDb, jsonNoStore } from "@/lib/docvy-booking-server";
+import { founderManagedBooking, bookingConfigured, bookingDb, jsonNoStore } from "@/lib/docvy-booking-server";
 
 export const runtime="nodejs";
 export const dynamic="force-dynamic";
 
 export async function GET(request:Request) {
+  if(founderManagedBooking())return jsonNoStore({slots:[],mode:"approval"});
   const params=new URL(request.url).searchParams;
   const providerId=params.get("provider")??"",city=params.get("city")??"",facility=params.get("facility")??"";
   if(!city||!facility||city.length>70||facility.length>200)return jsonNoStore({slots:[]},400);

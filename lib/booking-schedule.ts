@@ -57,3 +57,13 @@ export function generateApprovedSlotCandidates(startDate: string, endDate: strin
   }
   return slots;
 }
+
+/** Founder checks provider agreement outside the app; this verifies the approved time window only. */
+export function isApprovedFounderTime(providerId:string,city:string,facility:string,startsAt:string){
+ const at=Date.parse(startsAt);
+ if(!Number.isFinite(at)||at<Date.now()+15*60000||at>Date.now()+90*86400000)return false;
+ if(providerId==="mr-sahil-kochale"&&city==="Online")return at%60000===0;
+ const date=new Date(at+330*60000).toISOString().slice(0,10);
+ const end=new Date(Date.parse(date+"T00:00:00Z")+86400000).toISOString().slice(0,10);
+ return generateApprovedSlotCandidates(date,end).some(slot=>slot.provider_id===providerId&&Date.parse(slot.starts_at)===at&&(!slot.location||(slot.location.city===city&&slot.location.facility===facility)));
+}

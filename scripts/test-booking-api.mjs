@@ -4,10 +4,10 @@ import vm from 'node:vm';
 import ts from 'typescript';
 import {createRequire} from 'node:module';
 const require=createRequire(import.meta.url);
-let configured=true,actor=null,caseRow={clinic_id:'00000000-0000-4000-8000-000000000001',doctor_roster_id:'00000000-0000-4000-8000-000000000002',status:'confirmed'},calls=[];
+let founderManaged=false,configured=true,actor=null,caseRow={clinic_id:'00000000-0000-4000-8000-000000000001',doctor_roster_id:'00000000-0000-4000-8000-000000000002',status:'confirmed'},calls=[];
 const permission={id:'00000000-0000-4000-8000-000000000009',isAdmin:false,clinicIds:[],manageClinicIds:[],doctorIds:[],roles:[]};
-const helper={bookingConfigured:()=>configured,patientReceiptKey:()=> 'dvpt_'+ 'a'.repeat(64),clientFingerprint:()=> 'f'.repeat(64),jsonNoStore:(body,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store'}}),verifiedBookingUser:async()=>actor,bookingPermissions:async()=>permission,bookingDb:async(path,options)=>{calls.push({path,options});if(path==='rpc/docvy_booking_submit'){assert(options.body.p_data);assert.equal(options.body.p_data.networkHash,'f'.repeat(64));assert.equal(options.body.p_data.patientKeyHash.length,64);return {reference:'DV-1234567890ABCDEF',status:'confirmed',mode:'instant'};}if(path==='docvy_booking_cases')return options.query?.get('select')==='patient_email,patient_mobile'?[{patient_email:'patient@example.invalid',patient_mobile:'9000000001'}]:[caseRow];if(path==='rpc/docvy_booking_patient_action')return{status:'completed_verified'};return[];}};
-function load(file){const loaded={exports:{}};const source=ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText;const dep=id=>id==='@/lib/docvy-booking-server'?helper:require(id);vm.runInThisContext('(function(require,module,exports){'+source+'\n})')(dep,loaded,loaded.exports);return loaded.exports;}
+const helper={founderManagedBooking:()=>founderManaged,bookingConfigured:()=>configured,patientReceiptKey:()=> 'dvpt_'+ 'a'.repeat(64),clientFingerprint:()=> 'f'.repeat(64),jsonNoStore:(body,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store'}}),verifiedBookingUser:async()=>actor,bookingPermissions:async()=>permission,bookingDb:async(path,options)=>{calls.push({path,options});if(path==='rpc/docvy_booking_submit'){assert(options.body.p_data);assert.equal(options.body.p_data.networkHash,'f'.repeat(64));assert.equal(options.body.p_data.patientKeyHash.length,64);return {reference:'DV-1234567890ABCDEF',status:options.body.p_data.approvalOnly?'requested':'confirmed',mode:options.body.p_data.approvalOnly?'approval':'instant'};}if(path==='docvy_booking_cases')return options.query?.get('select')==='patient_email,patient_mobile'?[{patient_email:'patient@example.invalid',patient_mobile:'9000000001'}]:[caseRow];if(path==='rpc/docvy_booking_patient_action')return{status:'completed_verified'};return[];}};
+function load(file){const loaded={exports:{}};const source=ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText;const dep=id=>id==='server-only'?{}:id==='@/lib/docvy-booking-server'?helper:id==='@/lib/booking-schedule'?load('lib/booking-schedule.ts'):require(id);vm.runInThisContext('(function(require,module,exports){'+source+'\n})')(dep,loaded,loaded.exports);return loaded.exports;}
 const booking=load('app/api/booking/route.ts'),patient=load('app/api/booking/patient/route.ts'),admin=load('app/api/booking/admin/route.ts');
 const request=(path,body,headers={})=>new Request('https://www.docvy.in'+path,{method:body?'POST':'GET',headers:{Origin:'https://www.docvy.in','Content-Type':'application/json',...headers},...(body?{body:JSON.stringify(body)}:{})});
 const old=process.env.DOCVY_HYBRID_BOOKING_ENABLED;process.env.DOCVY_HYBRID_BOOKING_ENABLED='true';
@@ -31,5 +31,34 @@ try{
  const transition={action:'transition',caseId:'00000000-0000-4000-8000-000000000003',status:'completed_reported',note:'Synthetic outcome'};
  assert.equal((await admin.POST(request('/api/booking/admin',transition))).status,200);assert.equal(calls.at(-1).options.body.p_actor,permission.id);
  caseRow={...caseRow,doctor_roster_id:'00000000-0000-4000-8000-000000000099'};assert.equal((await admin.POST(request('/api/booking/admin',transition))).status,403);
- console.log('PASS: real route handlers with mocked transport: RPC payload contract, CSRF/consent, readiness gate, private receipt, independently verified matching contact, founder/viewer/doctor scope and server-derived actor.');
+
+ founderManaged=true;
+ assert.equal((await booking.POST(request('/api/booking',input))).status,400,'Cannot reserve instant slots in founder mode');
+ const pendingInput={...input,slotId:'',requestedDate:new Date(Date.now()+2*86400000).toISOString().slice(0,10),requestedTime:'10:00'};
+ const pendingResult=await booking.POST(request('/api/booking',pendingInput));assert.equal((await pendingResult.json()).status,'requested');assert.equal(calls.at(-1).options.body.p_data.approvalOnly,true);
+ assert.equal((await admin.GET(request('/api/booking/admin'))).status,401,'Clinic members cannot access founder-managed appointments');
+ assert.equal((await admin.POST(request('/api/booking/admin',transition))).status,401);
+ permission.isAdmin=true;
+ assert.equal((await admin.POST(request('/api/booking/admin',{action:'mode',providerId:'test-provider',mode:'instant'}))).status,409);
+ const day=new Date(Date.now()+2*86400000);if(day.getUTCDay()===0)day.setUTCDate(day.getUTCDate()+1);const starts=day.toISOString().slice(0,10)+'T10:00:00+05:30';
+ caseRow={...caseRow,status:'requested',provider_id:'dr-ambika-rao-jhunjhunu-68798490',city:'Jhunjhunu',facility:'Synthetic practice'};
+ const approve={...transition,status:'confirmed',confirmedStart:starts,note:'Doctor confirmed availability directly with DOCVY'};
+ assert.equal((await admin.POST(request('/api/booking/admin',approve))).status,400);
+ assert.equal((await admin.POST(request('/api/booking/admin',{...approve,doctorConfirmed:true}))).status,200);assert.equal(calls.at(-1).path,'rpc/docvy_booking_founder_confirm');
+ const doctor=load('app/api/booking/doctor/route.ts'),links=load('app/api/booking/admin/doctor-link/route.ts');
+ assert.equal((await doctor.GET(request('/api/booking/doctor'))).status,401);
+ const capability={'X-Docvy-Doctor-Link':'dvdr_'+'d'.repeat(64)};
+ assert.equal((await doctor.POST(request('/api/booking/doctor',{status:'completed_verified'},capability))).status,400);
+ assert.equal((await doctor.POST(request('/api/booking/doctor',{status:'completed_reported'},capability))).status,200);assert.equal(calls.at(-1).options.body.p_hash.length,64);
+ assert.equal((await doctor.POST(request('/api/booking/doctor',{status:'completed_reported'},{...capability,Origin:'https://evil.invalid'}))).status,403);
+ permission.isAdmin=false;assert.equal((await links.POST(request('/api/booking/admin/doctor-link',{caseId:transition.caseId,action:'issue'}))).status,403);
+ permission.isAdmin=true;const issued=await links.POST(request('/api/booking/admin/doctor-link',{caseId:transition.caseId,action:'issue'}));assert.equal(issued.status,200);assert.match((await issued.json()).url,/#link=dvdr_[a-f0-9]{64}$/);assert.equal(calls.at(-1).options.body.p_hash.length,64);
+
+ const savedFetch=globalThis.fetch;const names=['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','DOCVY_BOOKING_CLINIC_ACCESS_ENABLED'];const env=Object.fromEntries(names.map(name=>[name,process.env[name]]));let realAdmin=false,staffReads=0;
+ try{
+ process.env.SUPABASE_URL='https://cxyscxjauxoizvvllmfu.supabase.co';process.env.SUPABASE_SERVICE_ROLE_KEY='synthetic-local-transport-test';process.env.DOCVY_BOOKING_CLINIC_ACCESS_ENABLED='false';
+ globalThis.fetch=async(url)=>{const path=new URL(url).pathname;if(path==='/auth/v1/user')return Response.json({id:permission.id,email:'founder@example.invalid',email_confirmed_at:new Date().toISOString()});if(path.endsWith('/docvy_booking_session_active'))return Response.json(true);if(path.endsWith('/docvy_is_directory_admin'))return Response.json(realAdmin);staffReads++;throw Error('Founder mode must not query clinic staff');};
+ const server=load('lib/docvy-booking-server.ts');assert.equal(await server.bookingPermissions('synthetic-session'),null);realAdmin=true;const founder=await server.bookingPermissions('synthetic-session');assert.equal(founder.isAdmin,true);assert.equal(founder.roles.length,0);assert.equal(staffReads,0);
+ }finally{globalThis.fetch=savedFetch;for(const name of names){if(env[name]===undefined)delete process.env[name];else process.env[name]=env[name];}}
+ console.log('PASS: real route handlers with mocked transport: RPC payload contract, CSRF/consent, readiness gate, private receipt, independently verified matching contact, founder/viewer/doctor scope and server-derived actor; founder-only permission helper; pending-only requests; manual confirmation evidence; scoped doctor link creation/report protections.');
 }finally{if(old===undefined)delete process.env.DOCVY_HYBRID_BOOKING_ENABLED;else process.env.DOCVY_HYBRID_BOOKING_ENABLED=old;}

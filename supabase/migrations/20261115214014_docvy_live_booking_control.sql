@@ -182,12 +182,17 @@ begin
   end if;
 
   v_mode := v_option.mode;
+  if p_data->>'approvalOnly'='true' then
+    if nullif(p_data->>'slotId','') is not null then raise exception 'docvy_confirmation_required';end if;
+    v_mode:='approval';
+  end if;
   if v_provider.provider_id='mr-sahil-kochale' and v_requested_city='Online' then
     if nullif(p_data->>'slotId','') is not null then raise exception 'online_requires_doctor_confirmation';end if;
     v_mode:='approval';
   end if;
   if v_mode = 'approval' then
     if v_date is null or v_time is null then raise exception 'preferred_date_and_time_required';end if;
+    if ((v_date+v_time) at time zone 'Asia/Kolkata')<clock_timestamp()+interval '15 minutes' then raise exception 'preferred_time_must_be_future';end if;
     -- Link to a real clinic only when an existing verified roster/location matches.
     -- Otherwise the request stays in the DOCVY founder queue, not an unrelated clinic.
     select r.* into v_roster

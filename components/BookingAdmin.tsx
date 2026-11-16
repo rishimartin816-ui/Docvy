@@ -7,8 +7,8 @@ type Option={provider_id:string;mode:string};
 type Roster={id:string;provider_id:string|null;clinic_id:string;name:string;present:boolean|null};
 type Clinic={id:string;name:string;city:string;booking_enabled:boolean};
 type ScheduleQueue={ok?:boolean;rosters?:Roster[];clinics?:Clinic[]};
-type Booking={id:string;reference:string;doctor_name:string;city:string;facility:string;patient_name:string;patient_mobile:string;patient_email:string|null;preferred_date:string|null;preferred_time:string|null;confirmed_starts_at:string|null;status:string;mode:string;created_at:string;patient_attended:boolean|null;patient_response_at:string|null;patient_check_in_at:string|null};
-type Queue={ok?:boolean;isAdmin?:boolean;cases?:Booking[];candidates?:Candidate[];profiles?:Option[];nextCursor?:string|null;summary?:{total:number;byDoctorAndCity:{provider_id:string;doctor_name:string;city:string;total:number;confirmed:number;doctor_reported:number;patient_confirmed:number;disputed:number;awaiting_patient_confirmation:number}[]};error?:string};
+type Booking={provider_id:string;id:string;reference:string;doctor_name:string;city:string;facility:string;patient_name:string;patient_mobile:string;patient_email:string|null;preferred_date:string|null;preferred_time:string|null;confirmed_starts_at:string|null;status:string;mode:string;created_at:string;patient_attended:boolean|null;patient_response_at:string|null;patient_check_in_at:string|null};
+type Queue={founderManaged?:boolean;ok?:boolean;isAdmin?:boolean;cases?:Booking[];candidates?:Candidate[];profiles?:Option[];nextCursor?:string|null;summary?:{total:number;byDoctorAndCity:{provider_id:string;doctor_name:string;city:string;total:number;confirmed:number;doctor_reported:number;patient_confirmed:number;disputed:number;awaiting_patient_confirmation:number}[]};error?:string};
 type AuthConfig={enabled:boolean;url?:string;anonKey?:string};
 const transitions:Record<string,string[]>={
   requested:["confirmed","declined","cancelled"],
@@ -24,8 +24,9 @@ export default function BookingAdmin(){
   const [slotInputs,setSlotInputs]=useState<Record<string,{start:string;end:string}>>({});
   const [message,setMessage]=useState("");
   const [timeline,setTimeline]=useState<Record<string,{new_status:string;actor_type:string;created_at:string}[]>>({});
+  const [doctorLinks,setDoctorLinks]=useState<Record<string,string>>({});
   const [filter,setFilter]=useState("all");
-  const [pending,setPending]=useState<Record<string,{status:string;note:string;time:string}>>({});
+  const [pending,setPending]=useState<Record<string,{status:string;note:string;time:string;doctorConfirmed?:boolean}>>({});
 
   async function refresh(accessToken=token){
     const response=await fetch("/api/booking/admin",{headers:{Authorization:`Bearer ${accessToken}`},cache:"no-store"});
@@ -63,7 +64,7 @@ export default function BookingAdmin(){
       const response=await fetch("/api/booking/admin",{method:"POST",
         headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`},
         body:JSON.stringify({
-          action:"transition",caseId:b.id,status:change.status,note:change.note,
+          action:"transition",caseId:b.id,status:change.status,note:change.note,doctorConfirmed:change.doctorConfirmed===true,
           confirmedStart:change.status==="confirmed"&&change.time?new Date(change.time+"+05:30").toISOString():null,
         }),
       });
@@ -104,8 +105,8 @@ export default function BookingAdmin(){
     finally{setBusy(false)}
   }
   if(!token)return <form onSubmit={login} className="mt-8 max-w-lg space-y-4 rounded-2xl border bg-white p-6">
-    <h2 className="text-xl font-bold">Operator sign-in</h2>
-    <p className="text-sm text-[#526D66]">Use your existing verified DOCVY admin or authorized clinic account. Passwords are authenticated by Supabase and are not stored by DOCVY’s booking dashboard.</p>
+    <h2 className="text-xl font-bold">DOCVY founder sign-in</h2>
+    <p className="text-sm text-[#526D66]">Use your verified DOCVY founder/admin account. No clinic CRM login is needed for DOCVY-managed appointments. Passwords are authenticated by Supabase and are not stored by DOCVY’s booking dashboard.</p>
     <label className="block text-sm font-semibold">Email<input type="email" name="email" required autoComplete="username" className="mt-2 w-full rounded-lg border p-3"/></label>
     <label className="block text-sm font-semibold">Password<input type="password" name="password" required autoComplete="current-password" className="mt-2 w-full rounded-lg border p-3"/></label>
     {message&&<p role="alert" className="text-sm text-red-700">{message}</p>}
@@ -114,8 +115,9 @@ export default function BookingAdmin(){
 
   async function publishRange(rosterId:string){setBusy(true);try{const r=await fetch("/api/booking/admin/schedules",{method:"POST",headers:{Authorization:"Bearer "+token,"Content-Type":"application/json"},body:JSON.stringify({action:"approved_range",rosterId,confirmedByClinic:true,startDate:range.start,endDate:range.end})});const d=await r.json();if(!r.ok)throw Error(d.error);setMessage("Created "+d.created+" approved slots; "+d.existing+" already existed. Clinic activation is separate.");}catch(e){setMessage(e instanceof Error?e.message:"Schedule publication failed");}finally{setBusy(false);}}
   async function more(){if(!queue?.nextCursor)return;setBusy(true);try{const r=await fetch("/api/booking/admin?cursor="+encodeURIComponent(queue.nextCursor),{headers:{Authorization:"Bearer "+token},cache:"no-store"});const d=await r.json() as Queue;if(!r.ok)throw Error(d.error);setQueue(q=>({...d,cases:[...(q?.cases??[]),...(d.cases??[])]}));}catch(e){setMessage(e instanceof Error?e.message:"Could not load older appointments");}finally{setBusy(false);}}
+  async function doctorLink(caseId:string,action:"issue"|"revoke"){setBusy(true);try{const r=await fetch("/api/booking/admin/doctor-link",{method:"POST",headers:{Authorization:"Bearer "+token,"Content-Type":"application/json"},body:JSON.stringify({caseId,action})});const d=await r.json();if(!r.ok)throw Error(d.error);setDoctorLinks(v=>({...v,[caseId]:d.url??""}));setMessage(action==="issue"?"Private one-appointment link created. Share directly with the doctor; no message was sent.":"Doctor links revoked.");}catch(e){setMessage(e instanceof Error?e.message:"Could not update link");}finally{setBusy(false);}}
   async function history(id:string){try{const r=await fetch("/api/booking/admin?case="+id,{headers:{Authorization:"Bearer "+token},cache:"no-store"});const d=await r.json();if(!r.ok)throw Error(d.error);setTimeline(t=>({...t,[id]:d.events}));}catch(e){setMessage(e instanceof Error?e.message:"History unavailable");}}
-  async function logout(){try{const r=await fetch("/api/booking/logout",{method:"POST",headers:{Authorization:"Bearer "+token}});if(!r.ok)throw Error("Server session could not be closed");setMessage("Signed out");}catch(e){setMessage(e instanceof Error?e.message:"Sign-out failed");}finally{setToken("");setQueue(null);}}
+  async function logout(){try{const r=await fetch("/api/booking/logout",{method:"POST",headers:{Authorization:"Bearer "+token}});if(!r.ok)throw Error("Server session could not be closed");setMessage("Signed out");}catch(e){setMessage(e instanceof Error?e.message:"Sign-out failed");}finally{setToken("");setQueue(null);setDoctorLinks({});setTimeline({});setSchedules(null);setPending({});}}
   const cases=(queue?.cases??[]).filter(c=>filter==="all"||c.status===filter);
   const metrics={total:queue?.cases?.length??0,requested:queue?.cases?.filter(c=>c.status==="requested").length??0,
     confirmed:queue?.cases?.filter(c=>c.status==="confirmed").length??0,
@@ -127,24 +129,25 @@ export default function BookingAdmin(){
       <span className="text-xs text-[#526D66]">{queue?.isAdmin?"DOCVY admin access":"Clinic-scoped access"}</span>
     </div>
     {message&&<p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{message}</p>}
+    <p className="text-sm text-[#526D66]">Counts below cover the loaded queue. The doctor/city table covers the full appointment ledger.</p>
     <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
       {Object.entries(metrics).map(([key,value])=><div key={key} className="rounded-xl border bg-white p-4"><p className="text-xs font-bold uppercase text-[#526D66]">{key}</p><p className="mt-2 text-3xl font-bold">{value}</p></div>)}
     </div>
     {queue?.isAdmin&&<section className="rounded-2xl border bg-white p-5">
       <h2 className="text-xl font-bold">Provider booking activation</h2>
-      <p className="mt-2 text-sm text-[#526D66]">Do not enable a provider until DOCVY can respond to every request. Instant booking requires a clinic-managed doctor-specific calendar.</p>
+      <p className="mt-2 text-sm text-[#526D66]">DOCVY manages approval and coordination. Patients request a preferred time; confirm only after checking directly with the doctor. Clinics need no CRM login.</p>
       <div className="mt-4 grid gap-3 md:grid-cols-2">
         {(queue.candidates??[]).map(p=><div key={p.provider_id} className="flex items-center justify-between gap-4 rounded-lg border p-3">
           <div><p className="text-sm font-bold">{p.doctor_name}</p><p className="text-xs text-[#526D66]">{p.city} · {p.facility}</p></div>
           <select aria-label={`Booking mode for ${p.doctor_name}`} disabled={busy} className="rounded-md border p-2 text-sm"
-            value={queue.profiles?.find(o=>o.provider_id===p.provider_id)?.mode??"disabled"}
+            value={queue.founderManaged?(queue.profiles?.find(o=>o.provider_id===p.provider_id)?.mode&&queue.profiles.find(o=>o.provider_id===p.provider_id)?.mode!=="disabled"?"approval":"disabled"):(queue.profiles?.find(o=>o.provider_id===p.provider_id)?.mode??"disabled")}
             onChange={e=>setMode(p.provider_id,e.target.value)}>
-            <option value="disabled">Disabled</option><option value="approval">DOCVY approval</option><option value="instant">Instant slots</option>
+            <option value="disabled">Disabled</option><option value="approval">DOCVY approval</option>{!queue.founderManaged&&<option value="instant">Instant slots</option>}
           </select>
         </div>)}
       </div>
     </section>}
-    <section className="rounded-2xl border bg-white p-5">
+    {!queue?.founderManaged&&<section className="rounded-2xl border bg-white p-5">
       <h2 className="text-xl font-bold">Clinic schedules and doctor availability</h2>
       <p className="mt-2 text-sm text-[#526D66]">Use only clinic-confirmed timings. A published doctor’s general hours are not reservable slots. All times below are in India Standard Time.</p>
       {queue?.isAdmin&&<div className="mt-4 flex flex-wrap gap-4"><label>Approved range starts (IST)<input type="date" className="block rounded border p-2" value={range.start} onChange={e=>setRange(r=>({...r,start:e.target.value}))}/></label><label>Range ends, exclusive (IST)<input type="date" className="block rounded border p-2" value={range.end} onChange={e=>setRange(r=>({...r,end:e.target.value}))}/></label><p className="text-sm">Publish only after confirming closures and staff coverage. Repeated publication does not overwrite existing slots.</p></div>}
@@ -172,7 +175,7 @@ export default function BookingAdmin(){
         })}
         {!(schedules?.rosters??[]).length&&<p className="text-sm text-[#526D66]">No mapped doctor rosters are available for this account.</p>}
       </div>
-    </section>
+    </section>}
     {queue?.summary&&<section className="rounded-2xl border bg-white p-5"><h2 className="text-xl font-bold">DOCVY — all appointment records</h2><p>Total: {queue.summary.total}. These are live ledger counts, not revenue or clinical-quality measures.</p><div className="mt-4 overflow-x-auto"><table className="w-full text-left text-sm"><thead><tr>{["Doctor","City","All","Confirmed","Doctor-reported","Patient-confirmed","Disputed","Awaiting patient"].map(h=><th key={h} className="p-2">{h}</th>)}</tr></thead><tbody>{queue.summary.byDoctorAndCity.map(r=><tr key={r.provider_id+r.city}>{[r.doctor_name,r.city,r.total,r.confirmed,r.doctor_reported,r.patient_confirmed,r.disputed,r.awaiting_patient_confirmation].map((v,i)=><td key={i} className="p-2">{v}</td>)}</tr>)}</tbody></table></div></section>}
     <section className="rounded-2xl border bg-white p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -194,18 +197,20 @@ export default function BookingAdmin(){
               <p className="text-xs">Preferred: {b.preferred_date??"—"} {b.preferred_time??""}</p>
             </div>
           </div>
+          {pending[b.id]?.status==="confirmed"&&queue?.founderManaged&&<label className="mt-4 flex gap-3 text-sm"><input type="checkbox" checked={pending[b.id]?.doctorConfirmed??false} onChange={e=>setPending(s=>({...s,[b.id]:{...s[b.id],doctorConfirmed:e.target.checked}}))}/><span>I checked the doctor’s availability and recorded their agreement below. The time is IST; physical visits must use the approved schedule.</span></label>}
           <p className="mt-3 text-sm">Patient contact-confirmed visit response: {b.patient_response_at?(b.patient_attended?"Attended":"Did not attend"):"Not yet received"}. Check-in: {b.patient_check_in_at?"Patient reported arrival":"Not recorded"}.</p>
           <button type="button" className="mt-3 rounded border p-2" onClick={()=>void history(b.id)}>View DOCVY audit timeline</button>
           {timeline[b.id]&&<ol className="mt-3 text-sm">{timeline[b.id].map((e,i)=><li key={i}>{e.new_status.replaceAll("_"," ")} · {e.actor_type} · {new Date(e.created_at).toLocaleString("en-IN",{timeZone:"Asia/Kolkata"})} IST</li>)}</ol>}
+          {queue?.isAdmin&&b.status==="confirmed"&&<div className="mt-4 space-y-3"><button disabled={busy} className="rounded border p-2" onClick={()=>void doctorLink(b.id,"issue")}>Create / replace private doctor update link</button><button disabled={busy} className="ml-3 rounded border p-2" onClick={()=>void doctorLink(b.id,"revoke")}>Revoke doctor links</button>{doctorLinks[b.id]&&<label className="block text-sm">Private link — share only with the treating doctor<input readOnly value={doctorLinks[b.id]} onFocus={e=>e.target.select()} className="mt-2 w-full rounded border p-3"/></label>}</div>}
           {transitions[b.status]?.length>0&&<div className="mt-4 grid gap-3 border-t pt-4 md:grid-cols-[180px_1fr_220px_auto]">
             <select className="rounded-lg border p-2 text-sm" value={pending[b.id]?.status??""}
-              onChange={e=>setPending(s=>({...s,[b.id]:{status:e.target.value,note:s[b.id]?.note??"",time:s[b.id]?.time??""}}))}>
+              onChange={e=>setPending(s=>({...s,[b.id]:{status:e.target.value,note:s[b.id]?.note??"",time:s[b.id]?.time||(e.target.value==="confirmed"&&b.preferred_date?b.preferred_date+"T"+(b.preferred_time??"10:00").slice(0,5):"")}}))}>
               <option value="">Choose action</option>{transitions[b.status].map(s=><option key={s} value={s}>{s.replaceAll("_"," ")}</option>)}
             </select>
             <input aria-label="Clinic confirmation evidence or action reason" placeholder="Confirmation details / reason" className="rounded-lg border p-2 text-sm" maxLength={500}
-              value={pending[b.id]?.note??""} onChange={e=>setPending(s=>({...s,[b.id]:{status:s[b.id]?.status??"",note:e.target.value,time:s[b.id]?.time??""}}))}/>
+              value={pending[b.id]?.note??""} onChange={e=>setPending(s=>({...s,[b.id]:{...s[b.id],status:s[b.id]?.status??"",note:e.target.value,time:s[b.id]?.time??""}}))}/>
             {pending[b.id]?.status==="confirmed"&&<input aria-label="Confirmed appointment date and time" type="datetime-local" className="rounded-lg border p-2 text-sm"
-              value={pending[b.id]?.time??""} onChange={e=>setPending(s=>({...s,[b.id]:{status:s[b.id]?.status??"",note:s[b.id]?.note??"",time:e.target.value}}))}/>}
+              value={pending[b.id]?.time??""} onChange={e=>setPending(s=>({...s,[b.id]:{...s[b.id],status:s[b.id]?.status??"",note:s[b.id]?.note??"",time:e.target.value}}))}/>}
             <button disabled={busy||!pending[b.id]?.status} onClick={()=>updateStatus(b)} className="rounded-lg bg-[#087F83] px-4 py-2 text-sm font-bold text-white disabled:opacity-50">Save update</button>
           </div>}
         </article>)}

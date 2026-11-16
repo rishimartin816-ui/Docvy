@@ -1,4 +1,4 @@
-import { bookingConfigured, bookingDb, jsonNoStore } from "@/lib/docvy-booking-server";
+import { founderManagedBooking, bookingConfigured, bookingDb, jsonNoStore } from "@/lib/docvy-booking-server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -23,7 +23,7 @@ export async function GET() {
     }) as Array<{provider_id:string;doctor_name:string;city:string;facility:string;practice_locations:{city:string;facility:string}[]}>;
     return jsonNoStore({enabled:true,providers:profiles.flatMap(p=>{
       const locations=p.practice_locations?.length?p.practice_locations:[{city:p.city,facility:p.facility}];
-      return locations.filter(l=>p.provider_id!=="mr-sahil-kochale"||["Indore","Online"].includes(l.city)).map(l=>({key:p.provider_id+"|"+l.city+"|"+l.facility,id:p.provider_id,name:p.doctor_name,city:l.city,facility:l.facility,mode:p.provider_id==="mr-sahil-kochale"&&l.city==="Online"?"approval":opts.find(o=>o.provider_id===p.provider_id)?.mode}));
+      return locations.filter(l=>p.provider_id!=="mr-sahil-kochale"||["Indore","Online"].includes(l.city)).map(l=>({key:p.provider_id+"|"+l.city+"|"+l.facility,id:p.provider_id,name:p.doctor_name,city:l.city,facility:l.facility,mode:founderManagedBooking()?"approval":p.provider_id==="mr-sahil-kochale"&&l.city==="Online"?"approval":opts.find(o=>o.provider_id===p.provider_id)?.mode}));
     })});
   } catch {
     return jsonNoStore({providers:[],enabled:false},503);

@@ -63,7 +63,8 @@ export async function bookingPermissions(token: string) {
     method: "POST", bearer: token, body: {},
   });
   const isAdmin = admin === true;
-  const rows = await bookingDb("crm_staff", {
+  if (founderManagedBooking() && !isAdmin) return null;
+  const rows = isAdmin && founderManagedBooking() ? [] : await bookingDb("crm_staff", {
     query: new URLSearchParams({
       select: "clinic_id,role,doctor_id",
       user_id: `eq.${user.id}`,
@@ -83,7 +84,7 @@ export function clientFingerprint(request: Request) {
 }
 
 export function jsonNoStore(body: Json, status = 200) {
-  return Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
+  return Response.json(body, { status, headers: { "Cache-Control": "private, no-store", "X-Robots-Tag":"noindex, nofollow", "Referrer-Policy":"no-referrer", "X-Content-Type-Options":"nosniff" } });
 }
 
 export function patientReceiptKey(idempotencyKey:string){
@@ -106,4 +107,7 @@ export async function endBookingSession(token:string){
  return r.ok||r.status===401||r.status===403;
 }
 
-export async function activeProviderBookingMode(provider:string){if(process.env.DOCVY_HYBRID_BOOKING_ENABLED!=="true"||!bookingConfigured())return "disabled";try{const rows=await bookingDb("docvy_booking_provider_options",{query:new URLSearchParams({select:"mode",provider_id:"eq."+provider,limit:"1"})}) as {mode:string}[];return rows[0]?.mode??"disabled";}catch{return "disabled";}}
+export async function activeProviderBookingMode(provider:string){if(process.env.DOCVY_HYBRID_BOOKING_ENABLED!=="true"||!bookingConfigured())return "disabled";try{const rows=await bookingDb("docvy_booking_provider_options",{query:new URLSearchParams({select:"mode",provider_id:"eq."+provider,limit:"1"})}) as {mode:string}[];return rows[0]?.mode && rows[0].mode!=="disabled" && founderManagedBooking()?"approval":rows[0]?.mode??"disabled";}catch{return "disabled";}}
+
+/** Clinic booking access is opt-in; the approved launch is managed only by DOCVY. */
+export function founderManagedBooking(){return process.env.DOCVY_BOOKING_CLINIC_ACCESS_ENABLED!=="true";}

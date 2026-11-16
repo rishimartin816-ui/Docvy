@@ -1,5 +1,5 @@
 import {generateApprovedSlotCandidates} from "@/lib/booking-schedule";
-import { bookingConfigured, bookingDb, bookingPermissions, jsonNoStore } from "@/lib/docvy-booking-server";
+import { founderManagedBooking, bookingConfigured, bookingDb, bookingPermissions, jsonNoStore } from "@/lib/docvy-booking-server";
 
 export const runtime="nodejs";
 export const dynamic="force-dynamic";
@@ -13,6 +13,7 @@ type Roster={id:string;provider_id:string|null;clinic_id:string;name:string;pres
 type Clinic={id:string;name:string;city:string;booking_enabled:boolean};
 
 export async function GET(request:Request){
+  if(founderManagedBooking())return jsonNoStore({ok:true,rosters:[],clinics:[],founderManaged:true});
   if(!bookingConfigured())return jsonNoStore({error:"Not configured"},503);
   const permission=await bookingPermissions(auth(request)).catch(()=>null);
   if(!permission||(!permission.isAdmin&&!permission.clinicIds.length))return jsonNoStore({error:"Unauthorized"},401);
@@ -33,6 +34,7 @@ export async function GET(request:Request){
 }
 
 export async function POST(request:Request){
+  if(founderManagedBooking())return jsonNoStore({error:"Use DOCVY appointment approval; clinic schedules are not activated"},403);
   if(request.headers.get("origin")!==new URL(request.url).origin)return jsonNoStore({error:"Invalid origin"},403);
   if(!bookingConfigured())return jsonNoStore({error:"Not configured"},503);
   const permission=await bookingPermissions(auth(request)).catch(()=>null);

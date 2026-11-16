@@ -1,4 +1,5 @@
-import { bookingConfigured, bookingDb, bookingPermissions, jsonNoStore } from "@/lib/docvy-booking-server";
+import {isApprovedFounderTime} from "@/lib/booking-schedule";
+import { founderManagedBooking, bookingConfigured, bookingDb, bookingPermissions, jsonNoStore } from "@/lib/docvy-booking-server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -13,7 +14,7 @@ export async function GET(request: Request) {
   if (!bookingConfigured()) return jsonNoStore({error:"Booking backend not configured"},503);
   try {
     const permission = await bookingPermissions(tokenFrom(request));
-    if (!permission || (!permission.isAdmin && permission.manageClinicIds.length===0 && permission.doctorIds.length===0)) {
+    if (!permission || (founderManagedBooking()&&!permission.isAdmin) || (!permission.isAdmin && permission.manageClinicIds.length===0 && permission.doctorIds.length===0)) {
       return jsonNoStore({error:"Unauthorized"},401);
     }
     const query = new URLSearchParams({
@@ -49,7 +50,7 @@ export async function GET(request: Request) {
     }) : [];
     const events=selected&&cases.length?await bookingDb("docvy_booking_case_events",{query:new URLSearchParams({select:"old_status,new_status,actor_type,actor_id,created_at",case_id:"eq."+selected,order:"created_at.asc,id.asc",limit:"200"})}):[];
     const summary=permission.isAdmin?await bookingDb("rpc/docvy_booking_summary",{method:"POST",body:{}}):null;
-    return jsonNoStore({ok:true,isAdmin:permission.isAdmin,cases,profiles,candidates,events,summary,queueLimit:150,nextCursor});
+    return jsonNoStore({ok:true,isAdmin:permission.isAdmin,cases,profiles,candidates,events,summary,queueLimit:150,nextCursor,founderManaged:founderManagedBooking()});
   } catch {
     return jsonNoStore({error:"Unable to load appointment queue"},503);
   }
@@ -64,7 +65,7 @@ export async function POST(request: Request) {
     if (Buffer.byteLength(raw)>4000) return jsonNoStore({error:"Request too large"},413);
     const input = JSON.parse(raw) as Record<string,unknown>;
     const permission = await bookingPermissions(tokenFrom(request));
-    if (!permission) return jsonNoStore({error:"Unauthorized"},401);
+    if (!permission || (founderManagedBooking()&&!permission.isAdmin)) return jsonNoStore({error:"Unauthorized"},401);
 
     if (input.action === "mode") {
       if (!permission.isAdmin) return jsonNoStore({error:"Admin permission required"},403);
@@ -79,6 +80,7 @@ export async function POST(request: Request) {
         }),
       }) as unknown[];
       if (!eligible.length) return jsonNoStore({error:"Provider verification incomplete"},409);
+      if(founderManagedBooking()&&mode==="instant")return jsonNoStore({error:"DOCVY-managed launch accepts approval requests only"},409);
       if (mode==="instant") {
         const roster = await bookingDb("crm_doctor_roster", {
           query:new URLSearchParams({select:"id,clinic_id",provider_id:`eq.${providerId}`,present:"eq.true",limit:"25"}),
@@ -123,16 +125,21 @@ export async function POST(request: Request) {
         return jsonNoStore({error:"Unsupported status change"},400);
       }
       if (status==="confirmed" && (!confirmedStart || !note)) {
-        return jsonNoStore({error:"Confirmation requires date/time and clinic confirmation note"},400);
+        return jsonNoStore({error:"Confirmation requires date/time and doctor confirmation note"},400);
       }
       const rows = await bookingDb("docvy_booking_cases", {
-        query:new URLSearchParams({select:"id,clinic_id,status,doctor_roster_id",id:`eq.${caseId}`,limit:"1"}),
-      }) as Array<{id:string;clinic_id:string|null;status:string;doctor_roster_id:string|null}>;
+        query:new URLSearchParams({select:"id,clinic_id,status,doctor_roster_id,provider_id,city,facility",id:`eq.${caseId}`,limit:"1"}),
+      }) as Array<{id:string;clinic_id:string|null;status:string;doctor_roster_id:string|null;provider_id:string;city:string;facility:string}>;
       const appointment = rows[0];
       if (!appointment) return jsonNoStore({error:"Appointment not found"},404);
       const isClinic=appointment.clinic_id&&permission.manageClinicIds.includes(appointment.clinic_id);
       const isDoctor=appointment.doctor_roster_id&&permission.doctorIds.includes(appointment.doctor_roster_id)&&["completed_reported","no_show_reported","disputed"].includes(status);
       if (!permission.isAdmin && !isClinic && !isDoctor) return jsonNoStore({error:"Not authorized for this clinic"},403);
+      if(status==="confirmed"&&founderManagedBooking()){
+        if(input.doctorConfirmed!==true||note.length<10||!confirmedStart||!isApprovedFounderTime(appointment.provider_id,appointment.city,appointment.facility,confirmedStart))return jsonNoStore({error:"Record doctor confirmation and choose an approved future time (IST)"},400);
+        const result=await bookingDb("rpc/docvy_booking_founder_confirm",{method:"POST",body:{p_case_id:caseId,p_actor:permission.id,p_starts_at:confirmedStart,p_note:note}});
+        return jsonNoStore({ok:true,result});
+      }
       const result = await bookingDb("rpc/docvy_booking_transition",{
         method:"POST",
         body:{

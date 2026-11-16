@@ -60,7 +60,7 @@ export default function BookingForm(){
     <h2 className="mt-2 text-2xl font-bold">{result.reference}</h2>
     <p className="mt-3 text-sm leading-6 text-[#526D66]">{result.status==="confirmed"?
       "Appointment confirmed. Please retain this reference and verify the location details before travelling.":
-      "Your request is pending confirmation. No appointment has been reserved yet; DOCVY or the clinic must confirm your date and time before you travel."}</p>
+      "Your request is pending confirmation. No appointment has been reserved yet; DOCVY must confirm your date and time before you travel."}</p>
     {result.receiptKey&&<a className="mt-5 inline-flex rounded-xl border px-4 py-3" href={"/appointments/track#reference="+encodeURIComponent(result.reference??"")+"&receipt="+encodeURIComponent(result.receiptKey)}>Track and verify your DOCVY visit</a>}
     <p className="mt-3 text-sm">Save this private tracking link. Do not share it with your provider.</p>
     <button className="mt-5 rounded-xl border px-4 py-2" onClick={()=>setResult(null)}>Request another appointment</button>
@@ -75,8 +75,8 @@ export default function BookingForm(){
       </select>
     </label>
     {active&&<div className="rounded-xl bg-[#F1F8F5] p-4 text-sm leading-6">
-      <strong>{active.mode==="instant"?"Available-slot booking":"Clinic-approval booking"}</strong>
-      <p>{active.mode==="instant"?"Select a listed clinic-managed slot. Confirmation is issued only when that slot is successfully reserved.":active.city==="Online"?"Online consultations require the doctor’s availability and confirmation through DOCVY. No automatic online slots are published.":"Your preferred date and time will remain pending until DOCVY or the clinic confirms it."}</p>
+      <strong>{active.mode==="instant"?"Available-slot booking":"DOCVY-approved booking"}</strong>
+      <p>{active.mode==="instant"?"Select a listed clinic-managed slot. Confirmation is issued only when that slot is successfully reserved.":active.city==="Online"?"Online consultations require the doctor’s availability and confirmation through DOCVY. No automatic online slots are published.":"Your preferred date and time will remain pending until DOCVY checks the doctor’s availability and confirms it."}</p>
     </div>}
     {active?.mode==="instant"?<label className="block text-sm font-semibold">Available slot
       <select required className="mt-2 w-full rounded-xl border p-3" value={slotId} onChange={e=>setSlotId(e.target.value)}>

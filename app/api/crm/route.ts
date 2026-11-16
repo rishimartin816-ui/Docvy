@@ -1,3 +1,4 @@
+import {founderManagedBooking} from "@/lib/docvy-booking-server";
 import { NextRequest, NextResponse } from "next/server";
 
 import { clinicCrmConfig, crmUuid as uuid } from "@/lib/clinic-crm-config";
@@ -12,6 +13,7 @@ import { database, staff, requestToken } from "@/lib/crm-server";
 export async function GET(request: NextRequest) {
   const target = clinicCrmConfig();
   if (!target) return reply({ error: "CRM unavailable" }, 404);
+  if(!target.staging&&process.env.DOCVY_HYBRID_BOOKING_ENABLED==="true"&&founderManagedBooking())return reply({error:"Clinic CRM access is not enabled for DOCVY-managed booking"},403);
   const { clinicId } = target;
   try {
     const team = request.nextUrl.searchParams.has("team");
@@ -78,6 +80,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const target = clinicCrmConfig();
   if (!target) return reply({ error: "CRM unavailable" }, 404);
+  if(!target.staging&&process.env.DOCVY_HYBRID_BOOKING_ENABLED==="true"&&founderManagedBooking())return reply({error:"Clinic CRM access is not enabled for DOCVY-managed booking"},403);
   const { clinicId } = target;
   let input;
   try {

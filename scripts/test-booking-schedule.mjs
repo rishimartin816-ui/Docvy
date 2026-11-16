@@ -28,5 +28,14 @@ if(process.argv[2]==='--generate') {
  assert.equal(new Set(week.map(s=>s.provider_id+':'+s.starts_at)).size,372);
  for(const dates of [['2026-02-30','2026-03-01'],['2026-11-16','2026-11-16'],['2026-11-17','2026-11-16'],['2026-01-01','2026-12-01']])assert.throws(()=>generate(...dates));
  assert.equal(JSON.stringify(generate('2026-11-16','2026-11-23')),JSON.stringify(week));
+
+ const valid=loadedModule.exports.isApprovedFounderTime;
+ const monday=new Date(Date.now()+2*86400000);while(monday.getUTCDay()!==1)monday.setUTCDate(monday.getUTCDate()+1);const date=monday.toISOString().slice(0,10);
+ assert(valid('dr-ummed-kumar-meena','Keri','Shree Bhumika Clinic, Keri',date+'T09:00:00+05:30'));
+ assert(!valid('dr-ummed-kumar-meena','Keri','Shree Bhumika Clinic, Keri',date+'T14:00:00+05:30'));
+ assert(!valid('dr-ambika-rao-jhunjhunu-68798490','Jhunjhunu','Practice',date+'T10:30:00+05:30'));
+ assert(!valid('mr-sahil-kochale','Pune','Practice',date+'T10:00:00+05:30'));
+ assert(valid('mr-sahil-kochale','Online','Published online practice',date+'T21:15:00+05:30'));
+ assert(!valid('unknown-provider','Any','Any',date+'T10:00:00+05:30'));
  console.log('PASS: six doctors, Mon–Sat IST, 30-minute appointment + 30-minute gap, Meena 12/day across Keri/Sankhalim/Poriem without overlaps; others 10/day; 372/week total; Sunday excluded; date/range and duplicate checks.');
 }

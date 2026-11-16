@@ -1,5 +1,5 @@
 import { createHash, randomUUID } from "node:crypto";
-import { bookingConfigured, patientReceiptKey, bookingDb, clientFingerprint, jsonNoStore } from "@/lib/docvy-booking-server";
+import { founderManagedBooking, bookingConfigured, patientReceiptKey, bookingDb, clientFingerprint, jsonNoStore } from "@/lib/docvy-booking-server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -40,11 +40,13 @@ export async function POST(request: Request) {
         (requestedTime && !/^([01]\d|2[0-3]):[0-5]\d$/.test(requestedTime))) {
       return jsonNoStore({ error: "Check the provider, date, contact details and consent." },400);
     }
+    if(founderManagedBooking()&&(slotId||!requestedDate||!requestedTime))return jsonNoStore({error:"Choose a preferred date/time. DOCVY must confirm doctor availability."},400);
+    if(founderManagedBooking()){const preferred=Date.parse(requestedDate+"T"+requestedTime+":00+05:30");if(!Number.isFinite(preferred)||preferred<Date.now()+15*60000||preferred>Date.now()+90*86400000)return jsonNoStore({error:"Choose a future preferred time within 90 days (IST)."},400);}
     const receiptKey=patientReceiptKey(idempotencyKey);
     const result = await bookingDb("rpc/docvy_booking_submit", {
       method:"POST",
       body:{p_data:{
-        idempotencyKey, providerId, name, mobile, email, city, facility,
+        approvalOnly:founderManagedBooking(),idempotencyKey, providerId, name, mobile, email, city, facility,
         requestedDate, requestedTime, slotId, consent:true, networkHash:clientFingerprint(request),patientKeyHash:createHash("sha256").update(receiptKey).digest("hex"),
       }},
     }) as {reference:string;status:string;mode:string};
