@@ -1,0 +1,73 @@
+import IllustrationBackground from "@/components/IllustrationBackground";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Breadcrumbs } from "@/components/DirectoryPage";
+import { ArrowUpRight, ClipboardList, HandHeart, Hospital } from "lucide-react";
+import { slugify } from "@/lib/directory";
+import { procedures, surgeryGroups } from "@/lib/care-directory";
+import { buildPageSocialMetadata } from "@/lib/metadata";
+
+const title = "Surgery guide and procedure directory";
+const description = "Prepare for a surgical consultation in India with questions about your options, hospital costs, insurance paperwork, and recovery.";
+
+export const metadata: Metadata = {
+  title,
+  description,
+  alternates: { canonical: "/surgery-guide" },
+  ...buildPageSocialMetadata(title + " | DOCVY", description, "/surgery-guide", "article"),
+};
+
+const stages = [
+  { title: "At the consultation", icon: ClipboardList, questions: [
+    "Why are you recommending this operation, and what are the alternatives?",
+    "What are the main benefits and risks in my case?",
+    "Which reports should I bring, and who should I contact if I have more questions?",
+  ] },
+  { title: "Before the hospital visit", icon: Hospital, questions: [
+    "Can I have a written estimate showing what is included and what could cost extra?",
+    "If I have insurance, who checks pre-authorisation and which documents should I bring?",
+    "When should I arrive, and what instructions should I follow about food and medicines?",
+  ] },
+  { title: "Planning to come home", icon: HandHeart, questions: [
+    "Will I need someone to take me home or help me afterwards?",
+    "Who should I call if I am worried after discharge?",
+    "When is the follow-up, and what should I ask about getting back to my routine?",
+  ] },
+];
+
+export default function SurgeryGuidePage() {
+  return <div className="relative isolate overflow-hidden docvy-garden px-5 py-12 sm:px-9 sm:py-16"><IllustrationBackground slug="surgery-guide-preparing" alt="Ramesh and Meera prepare questions for a consultation."  />
+    <div className="mx-auto max-w-site">
+      <Breadcrumbs items={[{ name: "Surgery guide", href: "/surgery-guide" }]} />
+      <p className="docvy-eyebrow">PATIENT GUIDE · INDIA</p>
+      <h1 className="mt-3 max-w-3xl text-4xl font-bold tracking-tight sm:text-6xl">Questions to ask before surgery</h1>
+      <p className="mt-4 max-w-2xl text-lg text-grey">If a doctor has mentioned surgery, take these questions to your next visit. Ask your care team to explain your choices, the likely costs, and what recovery could look like for you.</p>
+            <a href="#procedures" className="docvy-pill docvy-pill-primary mt-5">Browse {procedures.length} procedures <ArrowUpRight strokeWidth={1.5} size={17} aria-hidden="true" /></a>
+      <section id="procedures" className="my-12 scroll-mt-28" aria-labelledby="procedure-heading">
+        <h2 id="procedure-heading" className="text-3xl font-bold tracking-tight sm:text-4xl">Find a procedure by specialty</h2>
+        <p className="mt-3 max-w-2xl leading-7 text-grey">Choose the operation your doctor mentioned. Open a procedure guide to prepare questions and see any matching doctor listings.</p>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {surgeryGroups.map(({ name, procedures }) => <details key={name} className="docvy-glass p-5">
+            <summary className="cursor-pointer text-xl font-bold">{name}</summary>
+            <ul className="mt-2 divide-y divide-[#DEDEDA]">{procedures.map((procedure) => <li key={procedure}>
+              <Link href={"/surgeries/" + slugify(procedure)} className="flex min-h-11 items-center justify-between gap-3 rounded px-1 py-2 font-semibold text-ink hover:underline" aria-label={`Find doctors for ${procedure}`}>
+                {procedure}<ArrowUpRight strokeWidth={1.5} size={16} className="shrink-0" aria-hidden="true" />
+              </Link>
+            </li>)}</ul>
+          </details>)}
+        </div>
+      </section>
+      <h2 className="text-3xl font-bold tracking-tight">Questions to take to your appointment</h2>
+      <div className="my-8 grid gap-4 lg:grid-cols-3">
+        {stages.map(({ title, icon: Icon, questions }) => <section className="docvy-glass p-6" key={title}>
+          <span className="grid h-12 w-12 place-items-center rounded-xl bg-surface text-ink"><Icon strokeWidth={1.5} size={23} aria-hidden="true" /></span>
+          <h3 className="mt-4 text-2xl font-bold">{title}</h3>
+          <ul className="mt-3 list-disc space-y-3 pl-5 text-grey">{questions.map(question => <li key={question}>{question}</li>)}</ul>
+        </section>)}
+      </div>
+      <p className="max-w-2xl text-sm text-grey">This checklist is for preparing questions. Your surgeon and hospital will give you instructions for your situation. DOCVY does not arrange operations.</p>
+      <p className="mt-3 text-sm text-grey">Further reading <a className="underline underline-offset-4" href="https://www.nhs.uk/tests-and-treatments/having-surgery/preparation/">NHS guide to preparing for surgery</a></p>
+      <Link href="/care-guide" className="docvy-pill mt-6">Explore other patient guides <ArrowUpRight strokeWidth={1.5} size={17} aria-hidden="true" /></Link>
+    </div>
+  </div>;
+}

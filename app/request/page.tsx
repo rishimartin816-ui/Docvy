@@ -1,61 +1,53 @@
+import { doctorPath } from "@/lib/directory-normalization";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Building2, CalendarClock, ExternalLink, MapPin, ShieldCheck } from "lucide-react";
+import { Building2, CalendarCheck } from "lucide-react";
 import AppointmentRequestForm from "@/components/AppointmentRequestForm";
-import { providerCandidates } from "@/lib/provider-candidates";
-import { isAppointmentIntakeConfigured } from "@/lib/appointment-intake";
-import { docvyOpenGraphImage } from "@/lib/metadata";
+import { getDirectoryDoctors } from "@/lib/public-directory";
+import { canRequestAppointment } from "@/lib/profile-policy";
+import { isAppointmentIntakeConfigured, providersWithAppointmentIntake } from "@/lib/appointment-intake";
+import { buildPageSocialMetadata } from "@/lib/metadata";
 
+export const dynamic = "force-dynamic";
 export function generateMetadata(): Metadata {
-  const intakeEnabled = isAppointmentIntakeConfigured();
-  const title = intakeEnabled ? "Appointment enquiry information" : "Appointment enquiries currently paused";
-  const description = intakeEnabled
-    ? "Learn what happens when you send DOCVY an appointment enquiry for a listed Delhi NCR doctor. The selected clinic or hospital must confirm availability."
-    : "DOCVY appointment enquiries are paused while its private intake connection is unavailable. Contact the clinic or hospital directly to confirm availability.";
-  return {
-    title,
-    description,
-    robots: { index: false, follow: false },
-    openGraph: {
-      type: "website", locale: "en_IN", siteName: "DOCVY", title, description,
-      url: "/request", images: [docvyOpenGraphImage],
-    },
-    twitter: { card: "summary_large_image", title, description, images: ["/opengraph-image"] },
-  };
+  const title = "Request an appointment through DOCVY";
+  const description = "Send an appointment request to DOCVY for your chosen doctor and hospital. DOCVY records your preferences. The provider must confirm availability and fees.";
+  return { title, description, alternates: { canonical: "/request" }, robots: { index: false, follow: false }, ...buildPageSocialMetadata(title, description, "/request") };
 }
 
-export default async function RequestPage({ searchParams }: { searchParams: Promise<{ provider?: string; city?: string }> }) {
+type Params = { provider?: string; city?: string; facility?: string };
+export default async function RequestPage({ searchParams }: { searchParams: Promise<Params> }) {
   const params = await searchParams;
-  const intakeEnabled = isAppointmentIntakeConfigured();
-  const selectedProvider = providerCandidates.find((doctor) => doctor.id === params.provider);
-  const selectedLocation = selectedProvider?.locations.find((location) =>
-    !params.city || location.city.toLowerCase() === params.city.toLowerCase(),
-  ) ?? selectedProvider?.locations[0];
-
-  return <div className="min-h-[70vh] bg-[#F6FAF8] px-6 py-12 md:py-16">
-    <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[.8fr_1.2fr] lg:items-start">
-      <section className="pt-2">
-        <p className="inline-flex items-center gap-2 rounded-full border border-[#B8DCD0] bg-white px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-[#087F83]">{intakeEnabled ? <CalendarClock size={14}/> : <MapPin size={14}/>} {intakeEnabled ? "APPOINTMENT ENQUIRY · DELHI NCR" : "CONTACT THE PROVIDER · DELHI NCR"}</p>
-        <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.045em] text-[#173A37] md:text-[48px]">{intakeEnabled ? "Tell DOCVY which doctor you want to see." : "Contact the hospital to ask about an appointment."}</h1>
-        <p className="mt-5 max-w-xl text-base leading-8 text-[#526D66]">{intakeEnabled ? "Send an enquiry to DOCVY for a listed Delhi NCR doctor. Your details are recorded in DOCVY’s private intake; the selected hospital or clinic is not automatically notified." : "Appointment enquiries are not open yet. DOCVY’s private intake connection is not configured, and this page is not collecting your details."}</p>
-        <div className="mt-6 rounded-2xl border border-[#DCEAE5] bg-white p-5">
-          <div className="flex gap-3"><ShieldCheck size={20} className="mt-0.5 shrink-0 text-[#087F83]"/><div><h2 className="font-bold text-[#173A37]">A request is not a confirmed appointment</h2><p className="mt-2 text-sm leading-6 text-[#526D66]">The clinic or hospital must confirm the doctor, time and any consultation fee. DOCVY does not take patient payment or guarantee a slot.</p></div></div>
+  const doctors = await getDirectoryDoctors();
+  const available = await providersWithAppointmentIntake(doctors);
+  const enabled = isAppointmentIntakeConfigured() && available.length > 0 && (!params.provider || available.some((doctor) => doctor.id === params.provider));
+  const selected = doctors.find((doctor) => doctor.id === params.provider);
+  return <div className="mx-auto max-w-site px-5 py-12 sm:px-9 md:py-16">
+    <div className="mb-8 max-w-3xl">
+      <p className="text-sm font-medium text-grey">APPOINTMENT REQUEST</p>
+      <h1 className="mt-4 text-4xl font-medium leading-tight md:text-5xl">Request your visit through DOCVY.</h1>
+      <p className="mt-5 text-lg leading-8 text-ink">Choose your doctor and practice location, then share how DOCVY can reach you. Availability, timing and fees need the provider’s confirmation.</p>
+    </div>
+    <div className="grid items-start gap-8 lg:grid-cols-[.8fr_1.2fr]">
+      <section className="space-y-5">
+        {selected && <div className="docvy-glass p-6">
+          <Building2 size={25} strokeWidth={1.5} className="text-ink" aria-hidden="true" />
+          <h2 className="mt-4 text-xl font-semibold">{selected.name}</h2>
+          <p className="mt-2 text-sm text-grey">{selected.specialties.join(" · ")}</p>
+          {selected.locations.map((location) => <p className="mt-3 text-sm leading-7" key={location.facility}>{location.facility}<br />{[location.locality, location.city].filter(Boolean).join(", ")}</p>)}
+          <Link href={doctorPath(selected)} className="mt-3 inline-flex min-h-11 items-center text-sm underline underline-offset-4">Review doctor profile</Link>
+        </div>}
+        <div className="docvy-glass p-6">
+          <CalendarCheck size={25} strokeWidth={1.5} className="text-ink" aria-hidden="true" />
+          <h2 className="mt-4 text-xl font-semibold">What happens next</h2>
+          <p className="mt-3 text-sm leading-7 text-grey">Once saved, your request has a DOCVY reference number and waits for coordination. The clinic confirms time and fee. DOCVY does not take payment here.</p>
+          <p className="mt-3 text-sm leading-7 text-grey">Hospital profile sources describe the doctor’s practice. A listing does not establish a DOCVY hospital partnership. Share contact details and appointment preferences only. Please keep symptoms, diagnoses, identity documents and medical records out of this form.</p>
         </div>
-        <p className="mt-4 text-xs leading-5 text-[#789089]">Please do not share symptoms, diagnoses, medical records or other health details with DOCVY. For urgent or emergency care, call 112 in India or go to the nearest emergency department.</p>
       </section>
-      {intakeEnabled ? <AppointmentRequestForm doctors={providerCandidates} initialProvider={params.provider ?? ""} initialCity={params.city ?? ""} enabled /> : <section className="rounded-[24px] border border-[#DCEAE5] bg-white p-6 shadow-[0_14px_40px_rgba(23,58,55,0.07)] md:p-8" aria-labelledby="paused-enquiry-title">
-        <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFF4E4] text-[#A36A12]"><Building2 size={24}/></span>
-        <p className="mt-5 text-xs font-extrabold tracking-[0.14em] text-[#A36A12]">NO FORM · NO DETAILS STORED</p>
-        <h2 id="paused-enquiry-title" className="mt-2 text-2xl font-bold text-[#173A37]">Appointment enquiries are paused.</h2>
-        <p className="mt-3 text-sm leading-6 text-[#526D66]">DOCVY is not collecting or forwarding appointment requests right now. Contact the hospital or clinic directly to ask about the doctor, available times and consultation fees.</p>
-        {selectedProvider && selectedLocation ? <div className="mt-6 rounded-2xl border border-[#DCEAE5] bg-[#F8FBF9] p-5">
-          <p className="text-[10px] font-extrabold tracking-[0.14em] text-[#789089]">THE PROFILE YOU SELECTED</p>
-          <p className="mt-2 text-lg font-bold text-[#173A37]">{selectedProvider.name}</p>
-          <p className="mt-2 flex items-start gap-2 text-sm leading-6 text-[#526D66]"><Building2 size={16} className="mt-1 shrink-0 text-[#087F83]"/><span>{selectedProvider.hospital} · {selectedLocation.facility} · {selectedLocation.city}</span></p>
-          <a href={selectedProvider.sourceUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#087F83] px-5 text-sm font-bold text-white transition hover:bg-[#066D70] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#087F83] focus-visible:ring-offset-2">Open the official {selectedProvider.hospital} profile <ExternalLink size={16}/></a>
-        </div> : <p className="mt-6 rounded-2xl border border-[#DCEAE5] bg-[#F8FBF9] p-5 text-sm leading-6 text-[#526D66]">No doctor was selected on this link. Browse the current Delhi NCR listings and open the hospital source profile for the doctor you want to contact.</p>}
-        <Link href="/doctors" className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#C9DDD5] px-5 text-sm font-bold text-[#087F83] transition hover:bg-[#F8FBF9]">Browse current doctor listings <ArrowRight size={16}/></Link>
-        <p className="mt-4 text-center text-xs leading-5 text-[#789089]">The hospital confirms appointments and fees. DOCVY does not reserve a slot or collect payment.</p>
+      {enabled ? <AppointmentRequestForm doctors={available} initialProvider={params.provider ?? ""} initialCity={params.city ?? ""} initialFacility={params.facility} enabled /> : <section className="docvy-glass p-6">
+        <h2 className="text-xl font-semibold">{selected && !canRequestAppointment(selected) ? "Not yet partnered with DOCVY" : "No appointment requests available"}</h2>
+        <p className="mt-3 text-sm leading-7 text-grey">Your details have not been collected. Appointment requests are enabled only after the doctor or clinic gives written consent.</p>
+        <Link href={{ pathname: "/claim-profile", query: { provider: selected?.id } }} className="docvy-pill mt-5">Claim a profile</Link>
       </section>}
     </div>
   </div>;

@@ -1,0 +1,43 @@
+begin;
+do $test$
+declare v jsonb:=jsonb_build_object('profileVersion',2,'role','doctor','doctorName','Dr. Partner Fields Fixture','specialty','General medicine','registrationNumber','PARTNER-FIELDS-QA','registrationCouncil','Fixture Council','qualifications','MBBS','experienceYears',0,'consultationFee',0,'city','Delhi','state','Delhi','postalCode','110059','facility','Fixture Clinic','address','10 Fixture Road','workingDays','Monday–Saturday','consultingHours','9 AM–2 PM','practicePhone','+917042440793','languages','Hindi, English','mapsUrl','https://share.google/fixture','services','Clinic consultations','email','private-review@example.invalid','phone','+919876543210','bio','','details','I am this doctor and authorise this profile.','consent',true,'hasPhoto',true,'photoSha256',repeat('a',64));
+ app uuid:=gen_random_uuid(); actor uuid:=gen_random_uuid(); session uuid:=gen_random_uuid(); id text; d jsonb; key text;
+begin
+ if not docvy_private.valid_partner_payload(v) then raise exception 'Complete payload rejected';end if;
+ for key in select unnest(array['qualifications','experienceYears','state','postalCode','consultationFee','workingDays','consultingHours','practicePhone']) loop
+  if docvy_private.valid_partner_payload(v||jsonb_build_object(key,'')) is not distinct from true then raise exception 'Required field accepted: %',key;end if;
+ end loop;
+ if docvy_private.valid_partner_payload(v||'{"hasPhoto":false}') is not distinct from true then raise exception 'Missing photo accepted';end if;
+ if docvy_private.valid_partner_payload(v||'{"experienceYears":81}') is not distinct from true then raise exception 'Experience range not checked';end if;
+ perform docvy_private.submit_partner_application(app,v,repeat('4',64));
+ if not docvy_private.can_submit_partner_photo('partner/'||app::text||'.webp') or docvy_private.can_submit_partner_photo('partner/'||gen_random_uuid()::text||'.webp') then raise exception 'Upload capability scope wrong';end if;
+ perform set_config('request.jwt.claims','{}',true);
+ execute 'set local role anon';
+ insert into storage.objects(bucket_id,name) values('docvy-profile-submissions','partner/'||app::text||'.webp');
+ if exists(select 1 from storage.objects where name='partner/'||app::text||'.webp') then raise exception 'Anonymous private portrait read allowed';end if;
+ begin insert into storage.objects(bucket_id,name) values('docvy-provider-photos','partner/'||app::text||'.webp');raise exception 'Anonymous public photo write allowed';exception when insufficient_privilege then null;end;
+ begin perform public.docvy_review_partner_application(app,'approve','{"confirmedConsent":true,"evidence":"Unauthorised fixture review"}');raise exception 'Anonymous approval allowed';exception when insufficient_privilege then null;end;
+ execute 'reset role';
+ insert into auth.users(id,email,email_confirmed_at,aud,role) values(actor,'contact-review-fixture@example.invalid',now(),'authenticated','authenticated');
+ insert into auth.sessions(id,user_id) values(session,actor);
+ insert into docvy_private.directory_admins(email) values('contact-review-fixture@example.invalid');
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',actor,'role','authenticated','session_id',session)::text,true);
+ id:=public.docvy_review_partner_application(app,'approve','{"confirmedConsent":true,"evidence":"Owner approved fixture photo and professional details"}');
+ select x into d from jsonb_array_elements(public.docvy_public_directory()) x where x->>'id'=id;
+ if d is null or d->'profileDetails'->>'qualifications'<>'MBBS' or (d->'profileDetails'->>'experienceYears')::numeric<>0 or (d->'profileDetails'->>'consultationFee')::numeric<>0 then raise exception 'Required profile details lost';end if;
+ if d->'locations'->0->>'state'<>'Delhi' or d->'locations'->0->>'consultingHours'<>'Monday–Saturday: 9 AM–2 PM' or d->'locations'->0->>'mapsUrl'<>'https://share.google/fixture' then raise exception 'Clinic details lost';end if;
+ if d->'profileDetails'->>'practicePhone'<>'+917042440793' or d::text like '%private-review@example.invalid%' or d::text like '%9876543210%' then raise exception 'Private review contact leaked';end if;
+ if d->>'summary' not like '%Qualifications: MBBS%' or d->>'summary' not like '%Experience: 0 years%' or d->>'summary' not like '%Clinic consultations%' then raise exception 'Optional biography fallback incomplete';end if;
+ if d->>'profileStatus'<>'claimed' or d->>'verifiedAt' is not null then raise exception 'Approval overrode verification';end if;
+ if docvy_private.can_submit_partner_photo('partner/'||app::text||'.webp') then raise exception 'Approved upload still open';end if;
+ execute 'set local role authenticated';
+ insert into storage.objects(bucket_id,name) values('docvy-provider-photos','partner/'||app::text||'.webp');
+ execute 'reset role';
+ perform public.docvy_review_partner_application(app,'approve','{"publishPhoto":true,"evidence":"Attach owner approved fixture portrait"}');
+ if (select photo_url from public.docvy_directory_providers where provider_id=id) not like '%/partner/'||app::text||'.webp' then raise exception 'Approved photo not attached';end if;
+ if (select payload->>'photoPublished' from docvy_private.partner_applications where partner_applications.id=app)<>'true' then raise exception 'Photo retry state missing';end if;
+ perform docvy_private.submit_partner_application(app,v,repeat('4',64));
+end;
+$test$;
+select 'PASS: complete profile mapping, optional bio, zero values, private contacts, photo permissions, owner publication, idempotency and verification preservation' as result;
+rollback;

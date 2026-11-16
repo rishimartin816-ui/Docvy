@@ -1,0 +1,52 @@
+{
+  "id": "mr-sahil-kochale",
+  "name": "Mr. Sahil Kochale",
+  "specialties": [
+    "Clinical Psychology",
+    "Rehabilitation Psychology"
+  ],
+  "hospital": "Shuddhi De-addiction and Rehabilitation Centre",
+  "registrationNumber": "A120710",
+  "registrationCouncil": "Rehabilitation Council of India (RCI)",
+  "summary": "Mr. Sahil Kochale is a psychology professional with 1 year of experience. Qualifications include a BA in Psychology, an MA in Clinical Psychology and a Postgraduate Diploma in Rehabilitation Psychology. Consultations are offered online through Psyheal and at Shuddhi De-addiction and Rehabilitation Centre in Dhannad, Indore, Madhya Pradesh. Areas of support include anxiety, depression, phobias, relationship concerns and career counselling. Services include counselling, psychotherapy, CBT, REBT, SST, psychoeducation, psychological assessments, IQ testing, personality testing and personality development. Consultations are offered Monday–Sunday at a fee of ₹1,200. Languages spoken are Hindi, English, Malvi and Nimadi. For appointments, call 7648968141.",
+  "profileDetails": {
+    "qualifications": "BA (Psychology); MA (Clinical Psychology); Postgraduate Diploma in Rehabilitation Psychology",
+    "experienceYears": 1,
+    "languages": [
+      "Hindi",
+      "English",
+      "Malvi",
+      "Nimadi"
+    ],
+    "consultationFee": 1200,
+    "currency": "INR",
+    "practicePhone": "+917648968141",
+    "appointmentNote": "Choose an online consultation through Psyheal or a visit to Shuddhi De-addiction and Rehabilitation Centre. For appointments, call 7648968141."
+  },
+  "locations": [
+    {
+      "city": "Indore",
+      "state": "Madhya Pradesh",
+      "locality": "Dhannad",
+      "facility": "Shuddhi De-addiction and Rehabilitation Centre",
+      "address": "Dhannad, Indore, Madhya Pradesh, India",
+      "primary": true,
+      "kind": "clinic",
+      "workingDays": "Monday–Sunday",
+      "consultationFee": 1200,
+      "currency": "INR",
+      "practicePhone": "+917648968141"
+    },
+    {
+      "city": "Online",
+      "facility": "Psyheal Online",
+      "kind": "online",
+      "workingDays": "Monday–Sunday",
+      "consultationFee": 1200,
+      "currency": "INR",
+      "practicePhone": "+917648968141"
+    }
+  ],
+  "photoUrl": "/uploads/mr-sahil-kochale/docvy-watermarked.png",
+  "profileStatus": "verified"
+}

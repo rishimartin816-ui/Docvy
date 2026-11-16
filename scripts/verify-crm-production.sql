@@ -1,0 +1,114 @@
+-- Transaction-only synthetic records. The final ROLLBACK is mandatory.
+begin;
+do $$
+declare
+ owner_id uuid:=gen_random_uuid(); viewer_id uuid:=gen_random_uuid(); doctor_user uuid:=gen_random_uuid();
+ owner_session uuid:=gen_random_uuid(); viewer_session uuid:=gen_random_uuid(); doctor_session uuid:=gen_random_uuid();
+ clinic_a uuid:=gen_random_uuid(); clinic_b uuid:=gen_random_uuid(); doctor_a uuid; doctor_a2 uuid; doctor_b uuid;
+ patient_a uuid; patient_b uuid; slot_a uuid; slot_a2 uuid; slot_later uuid; booking uuid; request_key uuid:=gen_random_uuid(); payment_key uuid:=gen_random_uuid();
+ payload jsonb; result jsonb; start_at timestamptz:=now()+interval '2 days';
+ test_provider text:='docvy-transaction-only-'||gen_random_uuid()::text; web_request uuid:=gen_random_uuid(); web_slot uuid; web_booking uuid;
+begin
+ if has_function_privilege('anon','public.docvy_crm(text,uuid,jsonb)','execute') then raise exception 'Anonymous RPC execution must be denied'; end if;
+ if has_table_privilege('authenticated','docvy_private.crm_patients','select') then raise exception 'Direct patient table reads must be denied'; end if;
+ begin perform public.docvy_crm('state',null,'{}');raise exception 'Anonymous call accepted'; exception when sqlstate 'PT401' then null; end;
+ insert into auth.users(id,email,email_confirmed_at,is_anonymous) values(owner_id,'workspace-owner-test@example.invalid',now(),false),(viewer_id,'workspace-viewer-test@example.invalid',now(),false),(doctor_user,'workspace-doctor-test@example.invalid',now(),false);
+ insert into auth.sessions(id,user_id,created_at,updated_at) values(owner_session,owner_id,now(),now()),(viewer_session,viewer_id,now(),now()),(doctor_session,doctor_user,now(),now());
+ insert into docvy_private.directory_admins(email) values('workspace-owner-test@example.invalid');
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',owner_id,'role','authenticated','session_id',owner_session)::text,true);
+ payload:=jsonb_build_object('name','DOCVY rollback clinic A','city','Test City','address','Synthetic test address; never published','requestId',clinic_a);
+ begin perform public.docvy_crm('create-clinic',null,payload);raise exception 'Clinic authority missing was accepted'; exception when sqlstate 'PT400' then null;end;
+ perform public.docvy_crm('create-clinic',null,payload||'{"authority":true}');
+ perform public.docvy_crm('create-clinic',null,payload||'{"authority":true}');
+ perform public.docvy_crm('create-clinic',null,jsonb_build_object('name','DOCVY rollback clinic B','city','Test City','address','Other synthetic test address','requestId',clinic_b,'authority',true));
+ doctor_a:=(public.docvy_crm('add-doctor',clinic_a,'{"name":"Synthetic Doctor A","specialty":"General medicine"}')->>'id')::uuid;
+ doctor_a2:=(public.docvy_crm('add-doctor',clinic_a,'{"name":"Synthetic Doctor A2","specialty":"General medicine"}')->>'id')::uuid;
+ doctor_b:=(public.docvy_crm('add-doctor',clinic_b,'{"name":"Synthetic Doctor B","specialty":"General medicine"}')->>'id')::uuid;
+ begin perform public.docvy_crm('add-doctor',clinic_a,'{"name":"Dr. Naresh Trehan","specialty":"Cardiac surgery","providerId":"dr-naresh-trehan"}');raise exception 'Unclaimed directory route accepted';exception when sqlstate 'PT409' then null;end;
+ begin perform public.docvy_crm('patient',clinic_a,'{"name":"Synthetic patient A","phone":"9000000000"}');raise exception 'Missing patient consent accepted';exception when sqlstate 'PT400' then null;end;
+ patient_a:=(public.docvy_crm('patient',clinic_a,'{"name":"Synthetic patient A","phone":"9000000000","consent":true}')->>'id')::uuid;
+ patient_b:=(public.docvy_crm('patient',clinic_b,'{"name":"Synthetic patient B","phone":"9000000001","consent":true}')->>'id')::uuid;
+ perform public.docvy_crm('patient-update',clinic_a,jsonb_build_object('patientId',patient_a,'name','Synthetic patient A','phone','9000000000','email','patient-test@example.invalid','consent',true));
+ result:=public.docvy_crm('patient-search',clinic_a,'{"query":"patient-test"}');
+ if jsonb_array_length(result)<>1 or result->0->>'email'<>'patient-test@example.invalid' then raise exception 'Scoped patient search/update failed';end if;
+ payload:=jsonb_build_object('doctorId',doctor_a,'startsAt',start_at,'endsAt',start_at+interval '30 minutes');
+ slot_a:=(public.docvy_crm('slot',clinic_a,payload)->>'id')::uuid;
+ begin perform public.docvy_crm('slot',clinic_a,payload);raise exception 'Overlapping same-doctor slots accepted';exception when sqlstate 'PT409' then null;end;
+ slot_a2:=(public.docvy_crm('slot',clinic_a,payload||jsonb_build_object('doctorId',doctor_a2))->>'id')::uuid;
+ begin perform public.docvy_crm('slot',clinic_b,payload);raise exception 'Cross-clinic doctor used';exception when sqlstate 'PT404' then null;end;
+ perform public.docvy_crm('block',clinic_a,jsonb_build_object('slotId',slot_a,'blocked',true));
+ payload:=jsonb_build_object('slotId',slot_a,'patientId',patient_a,'requestId',request_key,'confirmed',true,'feePaise',50000);
+ begin perform public.docvy_crm('book',clinic_a,payload);raise exception 'Blocked slot booked';exception when sqlstate 'PT409' then null;end;
+ perform public.docvy_crm('block',clinic_a,jsonb_build_object('slotId',slot_a,'blocked',false));
+ begin perform public.docvy_crm('book',clinic_a,payload-'confirmed');raise exception 'Unconfirmed booking accepted';exception when sqlstate 'PT400' then null;end;
+ begin perform public.docvy_crm('book',clinic_a,payload||jsonb_build_object('patientId',patient_b));raise exception 'Cross-clinic patient booked';exception when sqlstate 'PT404' then null;end;
+ booking:=(public.docvy_crm('book',clinic_a,payload)->>'id')::uuid;
+ if (public.docvy_crm('book',clinic_a,payload)->>'id')::uuid<>booking then raise exception 'Booking replay was not idempotent';end if;
+ begin perform public.docvy_crm('book',clinic_a,payload||jsonb_build_object('requestId',gen_random_uuid()));raise exception 'Slot double booked';exception when sqlstate 'PT409' then null;end;
+ begin perform public.docvy_crm('block',clinic_a,jsonb_build_object('slotId',slot_a,'blocked',true));raise exception 'Booked slot blocked';exception when sqlstate 'PT409' then null;end;
+ begin perform public.docvy_crm('booking-status',clinic_a,jsonb_build_object('bookingId',booking,'status','completed'));raise exception 'Future appointment completed';exception when sqlstate 'PT409' then null;end;
+ begin perform public.docvy_crm('reschedule',clinic_a,jsonb_build_object('bookingId',booking,'sourceId',slot_a,'destinationId',slot_a2));raise exception 'Wrong-doctor reschedule accepted';exception when sqlstate 'PT409' then null;end;
+ slot_later:=(public.docvy_crm('slot',clinic_a,jsonb_build_object('doctorId',doctor_a,'startsAt',start_at+interval '1 day','endsAt',start_at+interval '1 day 30 minutes'))->>'id')::uuid;
+ perform public.docvy_crm('reschedule',clinic_a,jsonb_build_object('bookingId',booking,'sourceId',slot_a,'destinationId',slot_later));
+ payload:=jsonb_build_object('requestId',payment_key,'bookingId',booking,'amountPaise',10000,'kind','payment','method','cash');
+ perform public.docvy_crm('payment',clinic_a,payload);perform public.docvy_crm('payment',clinic_a,payload);
+ begin perform public.docvy_crm('payment',clinic_a,payload||jsonb_build_object('requestId',gen_random_uuid(),'amountPaise',45000));raise exception 'Overpayment accepted';exception when sqlstate 'PT409' then null;end;
+ begin perform public.docvy_crm('payment',clinic_a,payload||jsonb_build_object('requestId',gen_random_uuid(),'kind','refund','amountPaise',20000));raise exception 'Excess refund accepted';exception when sqlstate 'PT409' then null;end;
+ perform public.docvy_crm('payment',clinic_a,payload||jsonb_build_object('requestId',gen_random_uuid(),'kind','refund','amountPaise',5000));
+ result:=public.docvy_crm('state',clinic_a,'{}');
+ if (result->'summary'->>'appointmentCount')::integer<>1 or (result->'summary'->>'netReceiptsPaise')::integer<>5000 then raise exception 'Summary metrics incorrect';end if;
+ if jsonb_array_length(result->'payments')<>2 or jsonb_array_length(result->'patients')<>1 then raise exception 'Incorrect clinic patient/payment readback';end if;
+ if (result->'appointments'->0->>'paid_paise')::integer<>5000 then raise exception 'Net paid amount incorrect';end if;
+ -- A synthetic, opted-in provider and request, visible only inside this rolled-back transaction.
+ insert into public.docvy_directory_providers(provider_id,doctor_name,city,facility,source_url,source_checked,profile_status,consent_given,consent_date,consent_method,published,specialties)
+  values(test_provider,'Synthetic Doctor A','Test City','DOCVY rollback clinic A','https://example.invalid/transaction-only',current_date,'claimed',true,now(),'form',true,'["General medicine"]');
+ perform public.docvy_crm('link-provider',clinic_a,jsonb_build_object('doctorId',doctor_a,'providerId',test_provider));
+ insert into public.docvy_directory_requests(request_id,provider_id,contact_phone,request_data,network_hash)
+  values(web_request,test_provider,'+919000000000',jsonb_build_object('name','Synthetic patient A','city','Test City','facility','DOCVY rollback clinic A','consent',true),'transaction-only');
+ result:=public.docvy_crm('state',clinic_a,'{}');if jsonb_array_length(result->'leads')<>1 then raise exception 'Website request not routed to matching clinic';end if;
+ perform public.docvy_crm('lead-status',clinic_a,jsonb_build_object('leadId',web_request,'status','contacted'));
+ web_slot:=(public.docvy_crm('slot',clinic_a,jsonb_build_object('doctorId',doctor_a,'startsAt',start_at+interval '2 days','endsAt',start_at+interval '2 days 30 minutes'))->>'id')::uuid;
+ web_booking:=(public.docvy_crm('book',clinic_a,jsonb_build_object('slotId',web_slot,'patientId',patient_a,'requestId',gen_random_uuid(),'confirmed',true,'feePaise',50000,'leadId',web_request))->>'id')::uuid;
+ if not exists(select 1 from public.docvy_directory_requests r where r.request_id=web_request and r.status='provider-confirmed') then raise exception 'Website confirmation status not updated';end if;
+ update public.docvy_directory_providers set profile_status='unclaimed',consent_given=false,consent_date=null,consent_method=null where provider_id=test_provider;
+ perform public.docvy_crm('booking-status',clinic_a,jsonb_build_object('bookingId',web_booking,'status','cancelled'));
+ if not exists(select 1 from public.docvy_directory_requests r where r.request_id=web_request and r.status='cancelled') then raise exception 'Cancellation after provider opt-out failed';end if;
+ perform public.docvy_crm('invite',clinic_a,'{"email":"workspace-viewer-test@example.invalid","role":"viewer"}');
+ perform public.docvy_crm('invite',clinic_a,jsonb_build_object('email','workspace-doctor-test@example.invalid','role','doctor','doctorId',doctor_a));
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',viewer_id,'role','authenticated','session_id',viewer_session)::text,true);
+ perform public.docvy_crm('accept-invites',null,'{}');result:=public.docvy_crm('state',clinic_a,'{}');
+ if jsonb_array_length(result->'patients')<>0 or jsonb_array_length(result->'payments')<>0 or result->'appointments'->0->>'patient_name' is not null then raise exception 'Viewer received private patient or financial data';end if;
+ begin perform public.docvy_crm('state',clinic_b,'{}');raise exception 'Cross-clinic read accepted';exception when sqlstate 'PT403' then null;end;
+ begin perform public.docvy_crm('patient',clinic_a,'{"name":"Synthetic patient C","phone":"9000000002","consent":true}');raise exception 'Viewer write accepted';exception when sqlstate 'PT403' then null;end;
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',doctor_user,'role','authenticated','session_id',doctor_session)::text,true);
+ perform public.docvy_crm('accept-invites',null,'{}');result:=public.docvy_crm('state',clinic_a,'{}');
+ if jsonb_array_length(result->'slots')<>3 or jsonb_array_length(result->'patients')<>1 then raise exception 'Doctor assignment filter incorrect';end if;
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',owner_id,'role','authenticated','session_id',owner_session)::text,true);
+ perform public.docvy_crm('staff-access',clinic_a,jsonb_build_object('userId',viewer_id,'active',false));
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',viewer_id,'role','authenticated','session_id',viewer_session)::text,true);
+ begin perform public.docvy_crm('state',clinic_a,'{}');raise exception 'Disabled member retained access';exception when sqlstate 'PT403' then null;end;
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',owner_id,'role','authenticated','session_id',owner_session)::text,true);
+ perform public.docvy_crm('booking-status',clinic_a,jsonb_build_object('bookingId',booking,'status','cancelled'));
+ result:=public.docvy_crm('state',clinic_a,'{}');if not exists(select 1 from jsonb_array_elements(result->'appointments') a where a->>'id'=booking::text and a->>'status'='cancelled') then raise exception 'Cancelled appointment missing from register';end if;
+ perform public.docvy_crm('patient-delete',clinic_a,jsonb_build_object('patientId',patient_a,'confirmed',true));
+ if exists(select 1 from docvy_private.crm_patients p where p.id=patient_a and (p.phone is not null or p.email is not null or p.deleted_at is null)) then raise exception 'Contact removal failed';end if;
+ update auth.sessions set created_at=now()-interval '9 hours' where id=owner_session;
+ begin perform public.docvy_crm('state',clinic_a,'{}');raise exception 'Expired workspace session accepted';exception when sqlstate 'PT401' then null;end;
+ delete from auth.sessions where id=owner_session;
+ begin perform public.docvy_crm('state',clinic_a,'{}');raise exception 'Revoked session accepted';exception when sqlstate 'PT401' then null;end;
+ raise notice 'PASS: clinic scope, roles, consent, doctor scope, slot overlap, blocking, booking idempotency, lifecycle, rescheduling, payment/refund limits, privacy removal and revoked-session checks';
+end;
+$$;
+do $$
+begin
+ if has_function_privilege('anon','public.docvy_claim_owner_setup(text)','execute') or has_function_privilege('authenticated','public.docvy_claim_owner_setup(text)','execute') then raise exception 'Owner setup claim exposed to public clients';end if;
+ if exists(select 1 from auth.users where lower(email)='contact@docvy.in') then
+  begin perform public.docvy_claim_owner_setup(repeat('a',64));raise exception 'Existing owner setup was accepted';exception when sqlstate 'PT409' then null;end;
+  return;
+ end if;
+ insert into docvy_private.crm_owner_setup(email,code_hash,expires_at) values('contact@docvy.in',repeat('a',64),now()+interval '1 minute') on conflict(email) do update set code_hash=excluded.code_hash,expires_at=excluded.expires_at,used_at=null;
+ if public.docvy_claim_owner_setup(repeat('a',64))<>'contact@docvy.in' then raise exception 'Owner setup claim incorrect';end if;
+ begin perform public.docvy_claim_owner_setup(repeat('a',64));raise exception 'Setup capability replay accepted';exception when sqlstate 'PT403' then null;end;
+end;
+$$;
+rollback;

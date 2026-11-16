@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 300" fill="none">
+  <defs>
+    <linearGradient id="glass" x1="128" y1="42" x2="320" y2="255" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff"/><stop offset=".57" stop-color="#f8f7fc" stop-opacity=".83"/><stop offset="1" stop-color="#ddd9f4" stop-opacity=".82"/>
+    </linearGradient>
+    <linearGradient id="honey" x1="146" y1="70" x2="338" y2="216" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#c9c4ec"/><stop offset="1" stop-color="#77719e"/>
+    </linearGradient>
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="200%">
+      <feDropShadow dx="0" dy="16" stdDeviation="15" flood-color="#202124" flood-opacity=".22"/>
+    </filter>
+  </defs>
+  <ellipse cx="238" cy="244" rx="143" ry="22" fill="#77719e" opacity=".10"/>
+  <circle cx="238" cy="143" r="112" stroke="white" stroke-opacity=".84"/>
+  <circle cx="238" cy="143" r="132" stroke="white" stroke-opacity=".52"/>
+  <g transform="rotate(-10 230 144)" filter="url(#shadow)">
+    <rect x="133" y="66" width="195" height="161" rx="27" fill="url(#glass)" stroke="white" stroke-width="2"/>
+    <path d="M134 96c0-16 12-29 28-29h137c16 0 28 13 28 29v22H134z" fill="url(#honey)" opacity=".66"/>
+    <path d="M183 59v20m96-20v20" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+    <g fill="#77719e" opacity=".25">
+      <rect x="159" y="137" width="24" height="17" rx="5"/><rect x="191" y="137" width="24" height="17" rx="5"/><rect x="223" y="137" width="24" height="17" rx="5"/><rect x="255" y="137" width="24" height="17" rx="5"/><rect x="287" y="137" width="17" height="17" rx="5"/>
+      <rect x="159" y="165" width="24" height="17" rx="5"/><rect x="191" y="165" width="24" height="17" rx="5"/><rect x="255" y="165" width="24" height="17" rx="5"/><rect x="287" y="165" width="17" height="17" rx="5"/>
+      <rect x="159" y="193" width="24" height="12" rx="4"/><rect x="191" y="193" width="24" height="12" rx="4"/><rect x="223" y="193" width="24" height="12" rx="4"/>
+    </g>
+    <rect x="223" y="165" width="24" height="17" rx="5" fill="#202124"/>
+    <path d="m230 173 4 4 6-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g transform="rotate(11 333 194)" filter="url(#shadow)">
+    <rect x="289" y="153" width="88" height="83" rx="24" fill="url(#glass)" stroke="#fff" stroke-width="2"/>
+    <path d="M333 176v36m-18-18h36" stroke="url(#honey)" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="72" y="122" width="55" height="55" rx="17" fill="url(#glass)" stroke="#fff" stroke-width="2"/>
+    <path d="M84 150h8l5-10 6 19 5-9h7" stroke="#202124" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <path d="M353 61h16m-8-8v16M107 93h12m-6-6v12" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="385" cy="102" r="4" fill="white"/><circle cx="91" cy="202" r="4" fill="white"/>
+</svg>

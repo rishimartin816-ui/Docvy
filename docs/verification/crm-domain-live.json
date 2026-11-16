@@ -1,0 +1,130 @@
+{
+  "results": [
+    {
+      "path": "/for-clinics",
+      "status": 200,
+      "url": "https://www.docvy.in/for-clinics",
+      "h1": 1,
+      "robots": "noindex, follow",
+      "vercelLinks": 0,
+      "overflow": false
+    },
+    {
+      "path": "/crm/clinic",
+      "status": 200,
+      "url": "https://www.docvy.in/crm/clinic",
+      "h1": 1,
+      "robots": "noindex, nofollow",
+      "vercelLinks": 0,
+      "overflow": false
+    },
+    {
+      "path": "/crm/admin",
+      "status": 200,
+      "url": "https://www.docvy.in/crm/admin",
+      "h1": 1,
+      "robots": "noindex, nofollow",
+      "vercelLinks": 0,
+      "overflow": false
+    },
+    {
+      "path": "/book",
+      "status": 200,
+      "url": "https://www.docvy.in/book",
+      "h1": 1,
+      "robots": "noindex, nofollow",
+      "vercelLinks": 0,
+      "overflow": false
+    },
+    {
+      "path": "/clinic",
+      "status": 200,
+      "url": "https://www.docvy.in/clinic",
+      "h1": 1,
+      "robots": "noindex, nofollow",
+      "vercelLinks": 0,
+      "overflow": false
+    },
+    {
+      "path": "/request/test",
+      "status": 200,
+      "url": "https://www.docvy.in/request/test",
+      "h1": 1,
+      "robots": "noindex, nofollow",
+      "vercelLinks": 0,
+      "overflow": false
+    },
+    {
+      "path": "/faqs",
+      "status": 200,
+      "url": "https://www.docvy.in/faqs",
+      "h1": 1,
+      "robots": "index, follow",
+      "vercelLinks": 0,
+      "overflow": false
+    },
+    {
+      "path": "/doctors",
+      "status": 200,
+      "url": "https://www.docvy.in/doctors",
+      "h1": 1,
+      "robots": "index, follow",
+      "vercelLinks": 0,
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "crm": {
+    "status": 200,
+    "slots": 0
+  },
+  "protectedPaths": [
+    {
+      "path": "/api/crm?clinic",
+      "status": 403
+    },
+    {
+      "path": "/api/crm?admin",
+      "status": 403
+    },
+    {
+      "path": "/api/crm?enquiries",
+      "status": 403
+    },
+    {
+      "path": "/api/crm?team",
+      "status": 403
+    },
+    {
+      "path": "/api/crm?doctors",
+      "status": 403
+    }
+  ],
+  "unclaimedAppointmentStatus": 403,
+  "crmRoot": {
+    "status": 308,
+    "location": "/crm/clinic?days=7"
+  },
+  "legacy": [
+    {
+      "host": "docvy-clinic-demo.vercel.app",
+      "status": 307,
+      "location": "https://www.docvy.in/crm/clinic?days=7"
+    },
+    {
+      "host": "docvy-crm-staging.vercel.app",
+      "status": 307,
+      "location": "https://www.docvy.in/crm/clinic?days=7"
+    },
+    {
+      "host": "docvy-crm-staging-rishimartin816-ui.vercel.app",
+      "status": 307,
+      "location": "https://www.docvy.in/crm/clinic?days=7"
+    },
+    {
+      "host": "docvy.vercel.app",
+      "status": 307,
+      "location": "https://www.docvy.in/crm/clinic?days=7"
+    }
+  ]
+}
