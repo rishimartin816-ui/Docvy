@@ -105,7 +105,7 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
             <p className="mt-2 text-sm leading-7 text-grey">This page explains broad specialty roles, not a diagnosis or a personal referral. The same concern can have different causes and care routes.</p>
             <div className="mt-5 rounded-2xl bg-surface p-4">
               <div className="flex items-center gap-2 text-xs font-extrabold tracking-wide text-ink"><MapPin strokeWidth={1.5} size={15} aria-hidden="true" /> CURRENT LISTING AREA</div>
-              <p className="mt-2 text-sm leading-6 text-grey">Use this guide from anywhere in India. Check the current directory for published city profiles; some cities are marked coming soon.</p>
+              <p className="mt-2 text-sm leading-6 text-grey">Use this guide from anywhere in India. Explore published doctor profiles and book an appointment with participating doctors through DOCVY.</p>
             </div>
           </aside>
         </div>
@@ -138,7 +138,7 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
           <h2 className="mt-3 text-2xl font-bold tracking-tight">Check the details directly</h2>
           <ol className="mt-6 space-y-4">{[
             "Review the doctor’s profile, specialty and practice location on DOCVY. Official hospital sources are linked for reference.",
-            "Use Request appointment where the doctor has opted in, and share your preferred timing and contact details.",
+            "Choose Book appointment now for a participating doctor, and share your preferred timing and contact details.",
             "Keep your DOCVY reference number. The provider must confirm availability, time and fees.",
           ].map((text, index) => <li key={text} className="flex gap-3 rounded-2xl bg-surface p-4"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-extrabold text-white">{index + 1}</span><span className="pt-1 text-sm leading-6 text-grey">{text}</span></li>)}</ol>
           <Link href="/doctors" className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-primary px-4 text-sm font-bold text-white hover:bg-primary-hover">Browse by city and specialty <ArrowRight strokeWidth={1.5} size={16} aria-hidden="true" /></Link>

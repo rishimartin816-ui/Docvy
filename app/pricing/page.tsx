@@ -48,7 +48,7 @@ export default function PricingPage() {
         <div className="flex items-center justify-between"><span className="text-xs font-extrabold uppercase tracking-[0.12em] text-ink">{plan.name}</span><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface text-ink">{index === 2 ? <Building2 strokeWidth={1.5} size={19} /> : <Stethoscope strokeWidth={1.5} size={19} />}</span></div>
         <p className="mt-6 text-[10px] font-extrabold uppercase tracking-[0.12em] text-grey">Organisation type</p><h2 className="mt-1 text-2xl font-bold tracking-tight">{plan.scope}</h2>
         <p className="mt-2 min-h-[72px] text-sm leading-6 text-grey">{plan.audience}</p>
-        <span className="mt-3 inline-flex w-fit items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.1em] text-ink"><Clock3 strokeWidth={1.5} size={13} aria-hidden="true" /> Planned · not live</span>
+        <span className="mt-3 inline-flex w-fit items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.1em] text-ink"><Clock3 strokeWidth={1.5} size={13} aria-hidden="true" /> Provider enquiries</span>
         <p className="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-grey">Potential future workflow</p>
         <ul className="my-4 flex-1 space-y-3 border-t border-line pt-5">{plan.details.map((detail) => <li key={detail} className="flex gap-2.5 text-sm leading-6 text-grey"><CircleDot strokeWidth={1.5} size={17} aria-hidden="true" className="mt-0.5 shrink-0 text-primary-tint" />{detail}</li>)}</ul>
         <ContactLink href={buildPlanContactHref(plan.name)} ariaLabel={`Contact DOCVY about ${plan.name}`}>Contact now</ContactLink>

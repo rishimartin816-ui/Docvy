@@ -98,7 +98,7 @@ export default function BookingForm(){
     </label>
     <div className="hidden" aria-hidden="true"><label>Leave blank<input tabIndex={-1} name="website" autoComplete="off"/></label></div>
     {message&&<p role="alert" className="rounded-xl bg-[#FFF1ED] p-3 text-sm text-[#8E2D20]">{message}</p>}
-    <button disabled={!active||busy||(active.mode==="instant"&&!slotId)} className="w-full rounded-xl bg-[#087F83] px-5 py-3 font-bold text-white disabled:opacity-50">{busy?"Submitting…":active?.mode==="instant"?"Confirm this available slot":"Request an appointment"}</button>
+    <button disabled={!active||busy||(active.mode==="instant"&&!slotId)} className="w-full rounded-xl bg-[#087F83] px-5 py-3 font-bold text-white disabled:opacity-50">{busy?"Submitting…":active?.mode==="instant"?"Confirm this available slot":"Book appointment now"}</button>
     <p className="text-center text-xs text-[#526D66]">Consultation fees are paid directly to the healthcare provider, not DOCVY.</p>
   </form>;
 }

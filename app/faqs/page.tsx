@@ -47,7 +47,7 @@ export default function FaqsPage() {
     <div className="mx-auto max-w-3xl">
       <p className="docvy-eyebrow">DOCVY HELP</p>
       <h1 className="mt-3 text-4xl font-bold tracking-tight text-ink sm:text-5xl">Questions about using DOCVY</h1>
-      <p className="mt-4 text-lg text-grey">Find a doctor, understand profile status and know what happens after you request an appointment.</p>
+      <p className="mt-4 text-lg text-grey">Find a doctor, understand profile status and book an appointment and follow your updates through DOCVY.</p>
       <div className="mt-8 space-y-4">
         {questions.map(({ question, answer, href, label }) => <section key={question} className="docvy-glass p-5 sm:p-7">
           <h2 className="text-xl font-bold text-ink">{question}</h2>

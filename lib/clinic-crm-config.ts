@@ -19,8 +19,8 @@ function demoClinicConfig() {
 export function clinicCrmConfig() {
   const env = process.env;
   if (env.VERCEL_ENV !== "production") return demoClinicConfig();
-  // The public domain can host the existing synthetic workspace without making it a live clinic.
-  if (env.DOCVY_CRM_LIVE !== "true") return env.DOCVY_CRM_DEMO_ON_SITE === "true" ? demoClinicConfig() : null;
+  // Synthetic workspaces are restricted to non-production environments.
+  if (env.DOCVY_CRM_LIVE !== "true") return null;
 
   const { DOCVY_CRM_LIVE_URL: url, DOCVY_CRM_LIVE_KEY: key,
     DOCVY_CRM_LIVE_CLINIC_ID: clinicId, DOCVY_CRM_LIVE_CLINIC_NAME: clinicName } = env;
