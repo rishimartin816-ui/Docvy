@@ -1,0 +1,37 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {randomUUID} from 'node:crypto';
+const container='docvy-staging-bootstrap-'+randomUUID().slice(0,8);
+const docker=(...args)=>execFileSync('docker',args,{encoding:'utf8',stdio:['pipe','pipe','pipe']}).trim();
+const sql=input=>execFileSync('docker',['exec','-i',container,'psql','-U','postgres','-v','ON_ERROR_STOP=1','-At'],{input,encoding:'utf8',stdio:['pipe','pipe','pipe']}).trim();
+try {
+ docker('run','--rm','-d','--name',container,'-e','POSTGRES_PASSWORD='+randomUUID(),'postgres:17');
+ let ready=false;for(let i=0;i<60;i++){try{docker('exec',container,'pg_isready','-h','127.0.0.1','-U','postgres');ready=true;break;}catch{await new Promise(r=>setTimeout(r,250));}}assert(ready);
+ sql(`create role anon;create role authenticated;create role service_role bypassrls;
+ create schema auth;create table auth.sessions(id uuid primary key,user_id uuid);
+ create function auth.jwt() returns jsonb language sql as $$select coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')::jsonb$$;
+ create function auth.uid() returns uuid language sql as $$select (auth.jwt()->>'sub')::uuid$$;
+ create table crm_founders(user_id uuid primary key);
+ create table crm_clinics(id uuid primary key default gen_random_uuid(),slug text not null,name text not null,booking_enabled boolean not null default false);
+ create table crm_doctor_roster(id uuid primary key default gen_random_uuid(),clinic_id uuid not null references crm_clinics(id),name text not null,specialty text not null,present boolean,changed_at timestamptz,changed_by uuid);
+ create table crm_slots(id uuid primary key default gen_random_uuid(),starts_at timestamptz not null,ends_at timestamptz not null,blocked boolean not null default false,clinic_id uuid not null references crm_clinics(id),provider_id text,fee_paise integer);
+ create table crm_bookings(id uuid primary key default gen_random_uuid(),slot_id uuid not null references crm_slots(id),request_key uuid not null unique,created_at timestamptz not null default now(),status text not null default 'confirmed',original_slot_id uuid not null references crm_slots(id),fee_paise integer);
+ create unique index crm_bookings_occupied_slot on crm_bookings(slot_id) where status<>'cancelled';
+ create table crm_staff(user_id uuid not null,role text not null,clinic_id uuid not null references crm_clinics(id));
+ insert into crm_clinics(slug,name) values('existing-demo','Existing demo');
+ grant usage on schema public to service_role;grant all on all tables in schema public to service_role;`);
+ const bootstrap=readFileSync('supabase/staging-migrations/20261116094207_booking_hosted_staging_compatibility.sql','utf8');
+ sql(bootstrap);
+ for(const migration of ['20261115214014_docvy_live_booking_control','20261115214015_docvy_patient_visit_evidence','20261116050857_docvy_founder_managed_booking','20261116053917_docvy_resend_booking_delivery'])sql(readFileSync('supabase/migrations/'+migration+'.sql','utf8'));
+ assert.equal(sql("select name||':'||booking_enabled from crm_clinics where slug='existing-demo'"),'Existing demo:false');
+ assert.equal(sql('select count(*) from docvy_booking_cases'),'0');
+ assert.throws(()=>sql(bootstrap),'Cannot run staging bootstrap against a directory-bearing baseline');
+ assert.throws(()=>sql('set role anon;select * from docvy_directory_providers'));
+ assert.throws(()=>sql('set role authenticated;select * from docvy_booking_cases'));
+ const actor=randomUUID();
+ sql(`insert into crm_founders values('${actor}');`);
+ assert.equal(sql(`set role authenticated;set request.jwt.claims='{"sub":"${actor}"}';select docvy_is_directory_admin();`).split('\n').at(-1),'t');
+ assert.equal(sql(`set role authenticated;set request.jwt.claims='{"sub":"${randomUUID()}"}';select docvy_is_directory_admin();`).split('\n').at(-1),'f');
+ console.log('PASS: legacy staging bootstrap plus four release migrations; existing demo retained, production-shaped baseline rejected, private tables denied, founder membership scoped.');
+} finally {try{docker('rm','-f',container);}catch{}}

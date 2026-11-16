@@ -64,11 +64,16 @@ try{
  permission.isAdmin=false;assert.equal((await notifications.POST(request('/api/booking/notifications',{}))).status,403);permission.isAdmin=true;
  assert.equal((await notifications.POST(request('/api/booking/notifications',{}))).status,503);
  }finally{if(oldCron===undefined)delete process.env.CRON_SECRET;else process.env.CRON_SECRET=oldCron;}
- const savedFetch=globalThis.fetch;const names=['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','DOCVY_BOOKING_CLINIC_ACCESS_ENABLED'];const env=Object.fromEntries(names.map(name=>[name,process.env[name]]));let realAdmin=false,staffReads=0;
+ const savedFetch=globalThis.fetch;const names=['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','DOCVY_BOOKING_CLINIC_ACCESS_ENABLED','VERCEL_ENV','DOCVY_BOOKING_USE_CRM_STAGING','DOCVY_CRM_STAGING_URL','DOCVY_CRM_STAGING_KEY'];const env=Object.fromEntries(names.map(name=>[name,process.env[name]]));let realAdmin=false,staffReads=0;
  try{
  process.env.SUPABASE_URL='https://cxyscxjauxoizvvllmfu.supabase.co';process.env.SUPABASE_SERVICE_ROLE_KEY='synthetic-local-transport-test';process.env.DOCVY_BOOKING_CLINIC_ACCESS_ENABLED='false';
  globalThis.fetch=async(url)=>{const path=new URL(url).pathname;if(path==='/auth/v1/user')return Response.json({id:permission.id,email:'founder@example.invalid',email_confirmed_at:new Date().toISOString()});if(path.endsWith('/docvy_booking_session_active'))return Response.json(true);if(path.endsWith('/docvy_is_directory_admin'))return Response.json(realAdmin);staffReads++;throw Error('Founder mode must not query clinic staff');};
  const server=load('lib/docvy-booking-server.ts');assert.equal(await server.bookingPermissions('synthetic-session'),null);realAdmin=true;const founder=await server.bookingPermissions('synthetic-session');assert.equal(founder.isAdmin,true);assert.equal(founder.roles.length,0);assert.equal(staffReads,0);
+ process.env.DOCVY_BOOKING_USE_CRM_STAGING='true';process.env.DOCVY_CRM_STAGING_URL='https://pmyzedtpogmhvcrurcau.supabase.co';process.env.DOCVY_CRM_STAGING_KEY='isolated-staging-test';delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+ process.env.VERCEL_ENV='production';assert.equal(server.bookingConfigured(),false,'Production cannot fall back to CRM staging key');
+ process.env.VERCEL_ENV='preview';assert.equal(server.bookingConfigured(),true);
+ globalThis.fetch=async(url,options)=>{assert.equal(new URL(url).hostname,'pmyzedtpogmhvcrurcau.supabase.co');assert.equal(options.headers.apikey,'isolated-staging-test');return Response.json([]);};await server.bookingDb('docvy_booking_cases');
+ process.env.DOCVY_CRM_STAGING_URL='https://cxyscxjauxoizvvllmfu.supabase.co';assert.equal(server.bookingConfigured(),false,'Staging shortcut cannot point to production');await assert.rejects(()=>server.bookingDb('docvy_booking_cases'));
  }finally{globalThis.fetch=savedFetch;for(const name of names){if(env[name]===undefined)delete process.env[name];else process.env[name]=env[name];}}
  console.log('PASS: real route handlers with mocked transport: RPC payload contract, CSRF/consent, readiness gate, private receipt, independently verified matching contact, founder/viewer/doctor scope and server-derived actor; founder-only permission helper; pending-only requests; manual confirmation evidence; scoped doctor link creation/report protections.');
 }finally{if(old===undefined)delete process.env.DOCVY_HYBRID_BOOKING_ENABLED;else process.env.DOCVY_HYBRID_BOOKING_ENABLED=old;}

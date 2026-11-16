@@ -3,9 +3,17 @@ import { createHmac } from "node:crypto";
 
 type Json = Record<string, unknown>;
 
+function credentials() {
+  // Reuse the existing isolated CRM credential only in an explicitly opted-in preview.
+  if (process.env.VERCEL_ENV === "preview" && process.env.DOCVY_BOOKING_USE_CRM_STAGING === "true") {
+    if (process.env.DOCVY_CRM_STAGING_URL !== "https://pmyzedtpogmhvcrurcau.supabase.co") throw new Error("Invalid staging database");
+    return { base: process.env.DOCVY_CRM_STAGING_URL, key: process.env.DOCVY_CRM_STAGING_KEY };
+  }
+  return { base: process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL, key: process.env.SUPABASE_SERVICE_ROLE_KEY };
+}
+
 function config() {
-  const base = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const { base, key } = credentials();
   if (!base || !key) throw new Error("Booking database is not configured");
   const url = new URL(base);
   if (url.protocol !== "https:" || !["cxyscxjauxoizvvllmfu.supabase.co", "pmyzedtpogmhvcrurcau.supabase.co"].includes(url.hostname) || url.username || url.password || url.port || url.pathname !== "/" || url.search || url.hash) {
@@ -15,7 +23,7 @@ function config() {
 }
 
 export function bookingConfigured() {
-  return Boolean((process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL) && process.env.SUPABASE_SERVICE_ROLE_KEY);
+  try { const { base, key } = credentials(); return Boolean(base && key); } catch { return false; }
 }
 
 export async function bookingDb(path: string, options: { method?: "GET" | "POST" | "PATCH"; query?: URLSearchParams; body?: unknown; bearer?: string } = {}) {
@@ -78,7 +86,7 @@ export async function bookingPermissions(token: string) {
 
 export function clientFingerprint(request: Request) {
   const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-  const secret = process.env.DOCVY_BOOKING_RATE_SECRET ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const secret = process.env.DOCVY_BOOKING_RATE_SECRET ?? config().key;
   if (!secret || secret.length < 32) throw new Error("Rate-limit secret is not configured");
   return createHmac("sha256", secret).update("docvy-booking-rate-v1:" + forwarded).digest("hex");
 }
