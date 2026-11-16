@@ -1,6 +1,6 @@
 # Resend booking notifications
 
-**Latest evidence:** [hosted verification](BOOKING_HOSTED_VERIFICATION_20261116.md) supersedes the earlier unverified-runtime notes below. Real staging appointment and OTP emails reached the approved founder inbox. Receipt-bound Supabase codes now use the existing Resend API directly; this patient route does not require separate Auth SMTP configuration. Six migrations and a Vault-backed scheduler are installed in production, but the candidate is blocked by its rejected Supabase server credential. The previous public deployment is restored.
+**Latest evidence: live.** [Hosted verification](BOOKING_HOSTED_VERIFICATION_20261116.md) supersedes the earlier unverified-runtime notes below. Real staging appointment/OTP and production request emails reached the approved founder inbox. Receipt-bound Supabase codes use the existing Resend API directly; this route does not require separate Auth SMTP configuration. Production has six migrations and a Vault-backed minute scheduler. Corrected Resend idempotency keys include `production` or `staging` to prevent shared-account job-ID collisions. Final production outbox checks show zero pending/failed jobs. Two labelled production test requests are cancelled.
 
 The existing contact@docvy.in owner login is verified and allowlisted in Supabase (read-only check); no new account is needed.
 

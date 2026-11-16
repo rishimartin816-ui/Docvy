@@ -2,13 +2,29 @@
 
 This report supersedes the historical missing-credential/provisioning/staging blockers in earlier release notes. Release branch: `feat/operational-booking-workflow`, PR #13. Tested booking/scheduler commit: `e9d8907`; private production health probe added in `ec05250`.
 
-## Current public release state: blocked credential, previous site restored
+## Current public release state: live, production smoke checks passed
+
+The owner corrected the sensitive credential. The private candidate probe returned HTTP 200, `healthy: true`, `credentialType: service_role` and the expected production project `cxyscxjauxoizvvllmfu` before live hostname assignment.
+
+`www.docvy.in` now serves production deployment **`dpl_5WFnxbPAixJudRj4x5DUn1FJnF8Q`**, application commit **`3937d95`**. Six doctors across nine published locations accept **approval requests**, not automatically confirmed appointments. `/book` and `/founder` return HTTP 200 and are noindex. The existing `contact@docvy.in` owner account remains the dashboard login; alerts go to `rishimartin@docvy.in` from `DOCVY <contact@docvy.in>`. Clinic CRM access remains disabled.
+
+Production smoke checks passed: request HTTP 201 with status `requested`, private tracking HTTP 200, cancellation HTTP 200 and final status `cancelled`. Both request emails reached the connected founder inbox with recorded Resend message IDs. The cancellation notification was also accepted. The production scheduler runs every minute; final outbox checks show zero pending and zero failed jobs.
+
+The first production email test revealed a shared-account idempotency collision: staging and production had independent job sequences but reused `docvy-booking/<id>`. The live hostname was restored while this was fixed. Commit `3937d95` separates keys into `docvy-booking/production/<id>` and `docvy-booking/staging/<id>` and adds a regression test for identical job IDs across environments. The corrected production test passed. The obsolete, unsent request notification for the already-cancelled first synthetic test was explicitly skipped with an explanatory error note, not reported as delivered.
+
+Two clearly labelled synthetic release cases remain **cancelled**, marked `source=docvy_release_smoke`: `DV-D1BE991D5D3A478F` and `DV-51650848AC1A4D39`. They are operational test evidence, not real patient bookings. They remain visible as cancelled test records in the founder queue; exclude them when assessing business conversion metrics. No doctor appointment was confirmed or reserved for these tests, and no doctor was contacted.
+
+Homepage, doctor directory and partner page return HTTP 200 with the canonical www domain preserved. Partner invalid-body/wrong-origin guards return HTTP 400/403. Anonymous admin/health requests return HTTP 401. Apex `/book` redirects HTTP 301 to `https://www.docvy.in/book`. The current XML sitemap parses successfully: 103 unique URLs, no alternate host and no private booking URLs; robots.txt references the root sitemap. This preserves the existing sitemap; segmented sitemap PR #9 remains independent. No merge or main edit was performed.
+
+Rollback target remains `dpl_GXz7FbJdb9GFgcoD2zvu2Snu7AAb`. Documentation commits after `3937d95` do not change the deployed application. Actual owner desktop/mobile browser testing, doctor response coverage and ongoing backlog/bounce monitoring remain operational follow-up.
+
+## Historical credential failure and rollback
 
 The production build succeeded (`dpl_7hkjWTonm249AJBitcPv34qekZU7`). An immediate `www.docvy.in` booking-provider smoke check returned HTTP 503; the hostname was immediately restored to the prior deployment `dpl_GXz7FbJdb9GFgcoD2zvu2Snu7AAb`. Homepage restoration was checked (HTTP 200); the old deployment has no new booking API (HTTP 404). **Bookings are not live.**
 
 A subsequent production candidate `dpl_4KcShY8dWJ5pE833PkFE2hDz84aJ` at `ec05250` has a secret-authenticated, read-only `/api/booking/health` probe that works before hostname assignment. Its actual result: correct production database hostname, `credentialType: unknown`, `credentialProject: null`, `booking_database_error_401`. The saved sensitive value is rejected by Supabase and is not recognised as a server secret/service-role JWT. No key value was disclosed or logged. The owner must replace the sensitive variable with the active project's actual server key value; the agent cannot retrieve that sensitive value through the connected APIs.
 
-Six migrations, six approval-mode provider options and the idle Vault/Cron scheduler are installed in production. Final checks show **zero production booking cases and zero pending notification jobs**, with no anon/authenticated SELECT privilege on private booking cases. No production Auth user/password/privilege changes were made. No PR was merged and main was not modified. Once the credential is corrected, deploy a candidate, require the private health probe to pass, switch the hostname, then perform an authorised synthetic production request/tracking/cancellation/delivery check. Keep the prior deployment as the rollback target.
+At the blocked checkpoint, six migrations, six approval-mode provider options and the idle Vault/Cron scheduler were installed in production, with zero production booking cases and zero pending notification jobs. Public client roles had no SELECT privilege on private cases. The corrected release and subsequent synthetic test records are described above. No production Auth user/password/privilege changes were made.
 
 ## Actual environment and migration evidence
 

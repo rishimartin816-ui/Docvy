@@ -1,6 +1,6 @@
 # DOCVY founder-managed booking release
 
-**Current status:** see [hosted verification and release state](BOOKING_HOSTED_VERIFICATION_20261116.md). Hosted tests and inbox delivery now pass; six migrations and the idle production scheduler are installed. The production candidate failed its database smoke check (Supabase HTTP 401, unrecognised server credential), and `www.docvy.in` was restored to its previous deployment. Bookings are not live. The historical blockers and no-production-change statements below describe the earlier implementation checkpoint.
+**Current status: live.** See [hosted verification and release state](BOOKING_HOSTED_VERIFICATION_20261116.md). The corrected production credential passes the private health probe; `www.docvy.in` serves `3937d95`. Six doctors/nine locations accept DOCVY-managed approval requests. Production request/tracking/cancellation and inbox delivery passed; six migrations and the minute scheduler are installed. Two labelled synthetic cases are cancelled. The historical blockers and no-production-change statements below describe the earlier implementation checkpoint.
 
 Updated: 16 November 2026. Branch: `feat/operational-booking-workflow`; draft PR #13; the current clinic CRM application baseline (1a57029) is merged into the booking release to preserve live partner, branding, canonical profile and directory features. Sitemap PR #9 is independent and unchanged.
 
