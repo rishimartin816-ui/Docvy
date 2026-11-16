@@ -1,3 +1,5 @@
+> Historical staging implementation. Current production-shaped booking work, exact test boundaries and remaining activation requirements are documented in [DOCVY_BOOKING_RELEASE.md](DOCVY_BOOKING_RELEASE.md). The three demo-schema migrations are now archived under `supabase/staging-migrations/`; never apply them to production.
+
 # Operational booking staging implementation
 
 Date: 2026-11-16. Feature branch: `feat/operational-booking-workflow`, stacked on unmerged positioning PR #11. Production data, schedules, traffic and messaging were not changed.

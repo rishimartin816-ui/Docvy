@@ -13,10 +13,10 @@ try{
  sql("create schema auth;create schema extensions;create table auth.users(id uuid primary key);create role anon;create role authenticated;create role service_role bypassrls;grant usage on schema public to service_role,anon,authenticated;");
  const files=['crm_staging','crm_clinic_scope','crm_staff_roles','crm_booking_lifecycle','crm_reschedule','crm_booking_fee','crm_calendar_with_fees','crm_enquiry_intake','crm_enquiry_followup','crm_enquiry_booking','crm_doctor_roster','crm_clinic_slot_overlap'];
  for(const file of files)try{sql(fs.readFileSync('docs/sql/'+file+'.sql','utf8'));}catch(e){throw Error('Bootstrap '+file+': '+e.stderr);}
- const migration=fs.readdirSync('supabase/migrations').find(f=>f.endsWith('_operational_booking_workflow.sql'));
- sql(fs.readFileSync('supabase/migrations/'+migration,'utf8'));
- const guard=fs.readdirSync('supabase/migrations').find(f=>f.endsWith('_provider_booking_guards.sql'));sql(fs.readFileSync('supabase/migrations/'+guard,'utf8'));
- const availability=fs.readdirSync('supabase/migrations').find(f=>f.endsWith('_booking_public_availability.sql'));sql(fs.readFileSync('supabase/migrations/'+availability,'utf8'));
+ const migration=fs.readdirSync('supabase/staging-migrations').find(f=>f.endsWith('_operational_booking_workflow.sql'));
+ sql(fs.readFileSync('supabase/staging-migrations/'+migration,'utf8'));
+ const guard=fs.readdirSync('supabase/staging-migrations').find(f=>f.endsWith('_provider_booking_guards.sql'));sql(fs.readFileSync('supabase/staging-migrations/'+guard,'utf8'));
+ const availability=fs.readdirSync('supabase/staging-migrations').find(f=>f.endsWith('_booking_public_availability.sql'));sql(fs.readFileSync('supabase/staging-migrations/'+availability,'utf8'));
  sql(`insert into auth.users values('${owner}'),('${viewer}'),('${outsider}');insert into crm_staff values('${owner}','owner','${clinic}'),('${viewer}','viewer','${clinic}');insert into crm_clinics(id,slug,name,booking_enabled) values('${otherClinic}','other-test','Other synthetic clinic',true);`);
  const slots=Array.from({length:6},()=>randomUUID());
  // These are six synthetic providers, not verified public doctors or approved real hours.

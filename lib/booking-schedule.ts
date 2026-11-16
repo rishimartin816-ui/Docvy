@@ -44,7 +44,7 @@ export function generateApprovedSlotCandidates(startDate: string, endDate: strin
     const date = new Date(day).toISOString().slice(0, 10);
     const rule = approvedDoctorSchedule;
     for (const provider_id of approvedProviderIds) {
-      const windows = provider_id === "dr-ummed-kumar-meena" ? meenaPracticeWindows : [rule];
+      const windows = provider_id === "dr-ummed-kumar-meena" ? meenaPracticeWindows : provider_id === "mr-sahil-kochale" ? [{ ...rule, city: "Indore", facility: "Shuddhi De-addiction and Rehabilitation Centre", address: "" }] : [rule];
       for (const window of windows) {
         const firstStart = Date.parse(date + "T" + window.opensAt + ":00+05:30");
         const closing = Date.parse(date + "T" + window.closesAt + ":00+05:30");

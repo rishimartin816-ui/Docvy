@@ -1,66 +1,55 @@
-import { NextRequest, NextResponse } from "next/server";
-import { clinicCrmConfig, crmUuid } from "@/lib/clinic-crm-config";
-import { database, requestToken } from "@/lib/crm-server";
+import { createHash, randomUUID } from "node:crypto";
+import { bookingConfigured, patientReceiptKey, bookingDb, clientFingerprint, jsonNoStore } from "@/lib/docvy-booking-server";
+
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-const reply = (data: unknown, status = 200) => NextResponse.json(data, { status, headers: { "Cache-Control": "no-store" } });
-function enabled() { return process.env.DOCVY_BOOKING_WORKFLOW_ENABLED === "true" && clinicCrmConfig()?.staging === true; }
-async function founder(request: NextRequest) {
-    const token = requestToken(request);
-    if (!token)
-        return false;
-    const response = await database("/auth/v1/user", undefined, token);
-    if (!response.ok)
-        return false;
-    const user = await response.json();
-    if (!crmUuid.test(user.id ?? ""))
-        return false;
-    const found = await database("/rest/v1/crm_founders?select=user_id&user_id=eq." + user.id);
-    return found.ok && (await found.json()).length === 1;
-}
-export async function GET(request: NextRequest) {
-    if (!enabled())
-        return reply({ error: "Staging booking workflow disabled" }, 404);
-    try {
-        if (request.nextUrl.searchParams.has("dashboard")) {
-            if (!await founder(request))
-                return reply({ error: "Founder access required" }, 403);
-            const [enquiries, notifications] = await Promise.all([database("/rest/v1/crm_enquiries?select=clinic_id,status,booking_id&limit=1000"), database("/rest/v1/crm_notification_outbox?select=event,status,attempts&limit=1000")]);
-            if (!enquiries.ok || !notifications.ok)
-                return reply({ error: "Dashboard unavailable" }, 503);
-            return reply({ enquiries: await enquiries.json(), notifications: await notifications.json(), limit: 1000, staging: true });
-        }
-        const config = clinicCrmConfig()!;
-        const slots = await database("/rest/v1/crm_requestable_slots?select=id,provider_id,starts_at,ends_at,fee_paise&clinic_id=eq." + config.clinicId + "&order=starts_at,id&limit=100");
-        return slots.ok ? reply(await slots.json()) : reply({ error: "Availability unavailable" }, 503);
+
+const validUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const text = (v: unknown, size: number) => typeof v === "string" ? v.trim().slice(0,size) : "";
+
+export async function POST(request: Request) {
+  const origin = request.headers.get("origin");
+  if (!origin || origin !== new URL(request.url).origin) return jsonNoStore({ error: "Submit on DOCVY's website." }, 403);
+  if (!request.headers.get("content-type")?.includes("application/json")) return jsonNoStore({ error: "Invalid format." }, 415);
+  if (!bookingConfigured() || process.env.DOCVY_HYBRID_BOOKING_ENABLED !== "true") {
+    return jsonNoStore({ error: "Appointment booking is not available yet." }, 503);
+  }
+  let raw: string;
+  try {
+    raw = await request.text();
+    if (Buffer.byteLength(raw,"utf8") > 6000) return jsonNoStore({ error: "Request is too large." }, 413);
+    const parsed: unknown = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("invalid_json");
+    const body = parsed as Record<string,unknown>;
+    if (text(body.website,200)) return jsonNoStore({ ok: true, reference: `DV-${randomUUID().replace(/-/g,"").slice(0,16).toUpperCase()}`, status:"requested" }, 201);
+    const idempotencyKey = text(body.idempotencyKey,40);
+    const providerId = text(body.providerId,100);
+    const name = text(body.name,100);
+    const mobile = text(body.mobile,22).replace(/[\s()+-]/g,"");
+    const email = text(body.email,254);
+    const city = text(body.city,70);
+    const facility = text(body.facility,200);
+    const requestedDate = text(body.requestedDate,10);
+    const requestedTime = text(body.requestedTime,5);
+    const slotId = text(body.slotId,40);
+    if (!validUuid.test(idempotencyKey) || (slotId && !validUuid.test(slotId)) ||
+        !/^[a-z0-9][a-z0-9-]{1,99}$/.test(providerId) || name.length < 2 ||
+        !/^[6-9][0-9]{9}$/.test(mobile) || (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) ||
+        !city || !facility || (providerId === "mr-sahil-kochale" && (city !== "Indore" && city !== "Online" || city === "Online" && Boolean(slotId))) || body.consent !== true ||
+        (requestedDate && !/^\d{4}-\d{2}-\d{2}$/.test(requestedDate)) ||
+        (requestedTime && !/^([01]\d|2[0-3]):[0-5]\d$/.test(requestedTime))) {
+      return jsonNoStore({ error: "Check the provider, date, contact details and consent." },400);
     }
-    catch {
-        return reply({ error: "Booking service unavailable" }, 503);
-    }
-}
-export async function POST(request: NextRequest) {
-    if (!enabled())
-        return reply({ error: "Staging booking workflow disabled" }, 404);
-    if (request.headers.get("origin") !== request.nextUrl.origin)
-        return reply({ error: "Submit from DOCVY" }, 403);
-    try {
-        const raw = await request.text();
-        if (raw.length > 2000)
-            return reply({ error: "Request too large" }, 413);
-        const body = JSON.parse(raw);
-        if (body?.action === "mock-notifications") {
-            if (!await founder(request))
-                return reply({ error: "Founder access required" }, 403);
-            const result = await database("/rest/v1/rpc/crm_mock_notifications", {});
-            return result.ok ? reply({ processed: await result.json(), mode: "mock", externalMessagesSent: 0 }) : reply({ error: "Outbox unavailable" }, 503);
-        }
-        if (!body || Object.keys(body).some(k => !["requestId", "slot", "name", "phone", "email", "consent"].includes(k)) || !crmUuid.test(body.requestId ?? "") || !crmUuid.test(body.slot ?? "") || typeof body.name !== "string" || typeof body.phone !== "string" || typeof body.email !== "string" || body.consent !== true)
-            return reply({ error: "Check the form and consent" }, 400);
-        const result = await database("/rest/v1/rpc/crm_request_slot", { request_id: body.requestId, slot: body.slot, patient: body.name, phone: body.phone, contact_email: body.email, consent: body.consent });
-        if (!result.ok)
-            return reply({ error: result.status === 409 ? "This slot or request has changed" : result.status === 429 ? "Please wait before requesting again" : "Request could not be saved" }, [400, 409, 429].includes(result.status) ? result.status : 503);
-        return reply({ reference: await result.json(), status: "pending_clinic_approval", confirmed: false }, 201);
-    }
-    catch {
-        return reply({ error: "Request could not be processed" }, 503);
-    }
+    const receiptKey=patientReceiptKey(idempotencyKey);
+    const result = await bookingDb("rpc/docvy_booking_submit", {
+      method:"POST",
+      body:{p_data:{
+        idempotencyKey, providerId, name, mobile, email, city, facility,
+        requestedDate, requestedTime, slotId, consent:true, networkHash:clientFingerprint(request),patientKeyHash:createHash("sha256").update(receiptKey).digest("hex"),
+      }},
+    }) as {reference:string;status:string;mode:string};
+    return jsonNoStore({ok:true,reference:result.reference,status:result.status,mode:result.mode,receiptKey},201);
+  } catch {
+    return jsonNoStore({ error: "DOCVY could not accept the request. Please check availability and retry." }, 422);
+  }
 }

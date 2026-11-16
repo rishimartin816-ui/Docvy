@@ -1,3 +1,4 @@
+import BookingAdmin from "@/components/BookingAdmin";
 import { notFound } from "next/navigation";
 import StagingCalendar from "@/components/StagingCalendar";
 
@@ -9,5 +10,6 @@ export function generateMetadata() { return { title: "Clinic owner sign-in", des
 export default function AdminPage() {
   const config = clinicCrmConfig();
   if (!config) notFound();
+  if(!config.staging&&process.env.DOCVY_HYBRID_BOOKING_ENABLED==="true")return <BookingAdmin/>;
   return <StagingCalendar clinic admin clinicName={config.clinicName} staging={config.staging} />;
 }

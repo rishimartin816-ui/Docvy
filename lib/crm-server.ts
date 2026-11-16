@@ -23,7 +23,7 @@ export async function staff(clinicId: string, token?: string) {
     const { id } = await user.json();
     if (typeof id !== "string" || !uuid.test(id))
         return null;
-    const membership = await database("/rest/v1/crm_staff?select=role&clinic_id=eq." + clinicId + "&user_id=eq." + id);
+    const membership = await database("/rest/v1/crm_staff?select=role&clinic_id=eq." + clinicId + "&user_id=eq." + id + (clinicCrmConfig()?.staging ? "" : "&active=eq.true"));
     if (!membership.ok)
         return null;
     const [access] = await membership.json();

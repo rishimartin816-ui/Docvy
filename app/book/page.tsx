@@ -1,12 +1,3 @@
-import IllustrationBackground from "@/components/IllustrationBackground";
-import { notFound } from "next/navigation";
-import { clinicCrmConfig } from "@/lib/clinic-crm-config";
-import StagingCalendar from "@/components/StagingCalendar";
-
-export const dynamic = "force-dynamic";
-export function generateMetadata() { return { title: "Demo appointment booking", description: "Try the fictional DOCVY appointment flow using test slots.", alternates: { canonical: "/book" }, robots: { index: false, follow: false } }; }
-
-export default function TestBookingPage() {
-  if (clinicCrmConfig()?.staging !== true) notFound();
-  return <div className="relative isolate overflow-hidden"><IllustrationBackground slug="booking-confirmation" alt="Meera checks the details of a clinic visit." /><StagingCalendar /></div>;
-}
+import BookingForm from "@/components/BookingForm";
+export const metadata={title:"Book through DOCVY",robots:{index:false,follow:false},alternates:{canonical:"https://www.docvy.in/book"}};
+export default function Page(){return <section className="mx-auto max-w-3xl px-6 py-12"><h1 className="text-4xl font-bold">Book your appointment through DOCVY</h1><p className="mt-4">Choose a doctor and clinic-managed time. DOCVY keeps your booking, confirmation and visit updates together.</p><BookingForm/></section>;}

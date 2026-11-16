@@ -1,3 +1,4 @@
+import { activeProviderBookingMode } from "@/lib/docvy-booking-server";
 import DoctorPortrait from "@/components/DoctorPortrait";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -23,6 +24,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function DoctorPage({ params }: Props) {
   const doctor = await lookup(params.slug);
   const partnered = canRequestAppointment(doctor);
+  const bookingMode=await activeProviderBookingMode(doctor.id);
   const verified = isVerified(doctor);
   const path = "/doctor/" + params.slug;
   return <div className="mx-auto max-w-5xl px-5 py-12 sm:px-9">
@@ -41,6 +43,7 @@ export default async function DoctorPage({ params }: Props) {
       {!partnered && <p className="mt-5 font-medium">Not yet partnered with DOCVY</p>}
     </div></div>
     {partnered && doctor.summary && <section className="mt-8"><h2 className="text-2xl font-medium">About the doctor</h2><p className="mt-4 max-w-3xl leading-8">{doctor.summary}</p></section>}
+    {verified&&bookingMode!=="disabled"&&<Link className="docvy-pill docvy-pill-primary mt-6" href={{pathname:"/book",query:{provider:doctor.id}}}>Book and track through DOCVY</Link>}
     <section className="docvy-glass mt-8 p-6"><h2 className="text-2xl font-medium">Practice location</h2>
       {doctor.locations.map(location => <div className="mt-4" key={location.city + location.facility}><h3 className="font-medium">{location.facility}</h3><p className="mt-2 text-grey">{location.city}</p>
         {partnered && <Link className="docvy-pill docvy-pill-primary mt-5" href={{ pathname: "/request", query: { provider: doctor.id, city: location.city, facility: location.facility } }}>Request appointment</Link>}

@@ -1,3 +1,5 @@
+import {redirect} from "next/navigation";
+import {activeProviderBookingMode} from "@/lib/docvy-booking-server";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Building2, CalendarCheck } from "lucide-react";
@@ -17,6 +19,7 @@ export function generateMetadata(): Metadata {
 type Params = { provider?: string; city?: string; facility?: string };
 export default async function RequestPage({ searchParams }: { searchParams: Promise<Params> }) {
   const params = await searchParams;
+  if(params.provider&&(await activeProviderBookingMode(params.provider))!=="disabled")redirect("/book?provider="+encodeURIComponent(params.provider));
   const doctors = await getDirectoryDoctors();
   const available = await providersWithAppointmentIntake(doctors);
   const enabled = isAppointmentIntakeConfigured() && available.length > 0 && (!params.provider || available.some((doctor) => doctor.id === params.provider));

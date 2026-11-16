@@ -14,6 +14,7 @@ if(process.argv[2]==='--generate') {
  const week=generate('2026-11-16','2026-11-23');assert.equal(week.length,372);
  assert.equal(generate('2026-11-22','2026-11-23').length,0);
  assert.equal(approvedProviderIds.length,6);
+ assert(week.filter(s=>s.provider_id==='mr-sahil-kochale').every(s=>s.location?.city==='Indore'));
  for(const id of approvedProviderIds.filter(id=>id!=="dr-ummed-kumar-meena")){const day=generate('2026-11-16','2026-11-17').filter(s=>s.provider_id===id);assert.equal(day.length,10);assert.equal(day[0].starts_at,'2026-11-16T04:30:00.000Z');assert.equal(day[0].ends_at,'2026-11-16T05:00:00.000Z');assert.equal(day[1].starts_at,'2026-11-16T05:30:00.000Z');assert.equal(day.at(-1).ends_at,'2026-11-16T14:00:00.000Z');for(let i=1;i<day.length;i++)assert.equal(Date.parse(day[i].starts_at)-Date.parse(day[i-1].ends_at),30*60000);}
  const meena=generate('2026-11-16','2026-11-17').filter(s=>s.provider_id==='dr-ummed-kumar-meena');
  assert.equal(meena.length,12);

@@ -87,6 +87,7 @@ export async function POST(request: NextRequest) {
   } catch {
     return reply({ error: "Invalid request" }, 400);
   }
+  if(!target.staging&&process.env.DOCVY_HYBRID_BOOKING_ENABLED==="true"&&["book-enquiry","booking-status","reschedule"].includes(input?.action))return reply({error:"Manage this appointment in the DOCVY appointment control dashboard"},409);
   if (input?.action === "sign-out") {
     const token = requestToken(request);
     if (!token) return reply({ error: "Staff session required" }, 403);
