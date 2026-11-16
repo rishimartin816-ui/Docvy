@@ -109,6 +109,15 @@ export function publicBookingAuthConfig(){
  return {url:url.origin,anonKey:key};
 }
 
+/** Supabase creates/validates the OTP; only the existing mail provider receives the code. */
+export async function generatePatientEmailCode(email:string){
+ const {url,key}=config();
+ const response=await fetch(new URL('/auth/v1/admin/generate_link',url),{method:'POST',headers:{apikey:key,Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify({type:'magiclink',email}),cache:'no-store',signal:AbortSignal.timeout(10000)});
+ const data=await response.json().catch(()=>null) as {email_otp?:string}|null;
+ if(!response.ok||!/^\d{6,8}$/.test(data?.email_otp??''))throw Error('Contact code unavailable');
+ return data!.email_otp!;
+}
+
 export async function endBookingSession(token:string){
  const {url,key}=config();
  const r=await fetch(new URL("/auth/v1/logout?scope=local",url),{method:"POST",headers:{apikey:key,Authorization:"Bearer "+token},cache:"no-store",signal:AbortSignal.timeout(7000)});

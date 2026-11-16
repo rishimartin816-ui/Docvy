@@ -19,6 +19,13 @@ try{
  sql(fs.readFileSync('supabase/migrations/20261115214015_docvy_patient_visit_evidence.sql','utf8'));
  sql(fs.readFileSync('supabase/migrations/20261116050857_docvy_founder_managed_booking.sql','utf8'));
  sql(fs.readFileSync('supabase/migrations/20261116053917_docvy_resend_booking_delivery.sql','utf8'));
+ sql(fs.readFileSync('supabase/migrations/20261116095136_booking_patient_auth_rate_limit.sql','utf8'));
+ const authClaim="set role service_role;select docvy_booking_claim_auth(repeat('a',64),repeat('b',64),'send')";
+ const authRace=await Promise.all([race(authClaim),race(authClaim)]);assert.equal(authRace.filter(r=>r.code===0&&r.out.split('\n').at(-1)==='t').length,1);
+ for(let i=0;i<5;i++)assert.equal(sql("set role service_role;select docvy_booking_claim_auth(repeat('a',64),repeat('b',64),'verify')").split('\n').at(-1),'t');
+ assert.equal(sql("set role service_role;select docvy_booking_claim_auth(repeat('a',64),repeat('b',64),'verify')").split('\n').at(-1),'f');
+ assert.throws(()=>sql('set role authenticated;select * from docvy_booking_auth_attempts'));
+ assert.throws(()=>sql("set role anon;select docvy_booking_claim_auth(repeat('a',64),repeat('b',64),'send')"));
  sql("insert into docvy_booking_provider_options(provider_id,mode,enabled_at) values('docvy-qa-doctor','instant',now())");
  const keys=[randomUUID(),randomUUID()];
  const results=await Promise.all(keys.map((k,i)=>race(submit(payload(k,slot,'900000000'+(i+1))))));
