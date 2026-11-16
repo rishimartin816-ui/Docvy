@@ -1,3 +1,4 @@
+import { specialtyDoctorTitle } from "@/lib/specialty-taxonomy";
 import { getDirectoryDoctors } from "@/lib/public-directory";
 import { notFound } from "next/navigation";
 import DirectoryPage from "@/components/DirectoryPage";
@@ -13,8 +14,8 @@ export async function generateMetadata({ params }: Props) {
   const city = cities.find(({ slug }) => slug === params.city);
   const specialty = directorySpecialties.find(({ slug }) => slug === params.specialty);
   if (!city || !specialty) notFound();
-  const title = specialty.name + " doctors in " + city.name;
-  const description = "Explore " + specialty.name.toLowerCase() + " care in " + city.name + ", see available DOCVY listings, and find questions to take to your appointment.";
+  const title = specialtyDoctorTitle(specialty.slug,specialty.name) + " in " + city.name;
+  const description = "Find " + specialty.name.toLowerCase() + " doctors in " + city.name + ". Review practice locations and profile details, then request a visit where the doctor has opted in.";
   const path = "/doctors/" + city.slug + "/" + specialty.slug;
   return { title, description, alternates: { canonical: path }, ...(doctorsIn(city.slug, specialty.slug, await getDirectoryDoctors()).length < 3 ? { robots: { index: false, follow: true } } : {}), ...buildPageSocialMetadata(title + " | DOCVY", description, path) };
 }

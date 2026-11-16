@@ -1,0 +1,40 @@
+{
+  "id": "dr-vivek-prakash-rajput",
+  "name": "Dr. Vivek Prakash Rajput",
+  "specialties": [
+    "Ayurveda"
+  ],
+  "hospital": "Kushagra Ayurveda",
+  "summary": "Dr. Vivek Prakash Rajput is an Ayurveda practitioner with BAMS and MD qualifications and 9 years of experience. He consults at Kushagra Ayurveda in Shanti Niketan Nagar, Sagwan Area, Buldana, Maharashtra. The clinic is open daily from 9 AM to 9 PM. His consultation fee is ₹200, and he speaks English.",
+  "profileDetails": {
+    "qualifications": "BAMS, MD",
+    "experienceYears": 9,
+    "experienceAsOf": "2026-11-16",
+    "languages": [
+      "English"
+    ],
+    "consultationFee": 200,
+    "currency": "INR",
+    "practicePhone": "+919370810079"
+  },
+  "locations": [
+    {
+      "city": "Buldana",
+      "state": "Maharashtra",
+      "locality": "Shanti Niketan Nagar, Sagwan Area",
+      "kind": "clinic",
+      "primary": true,
+      "facility": "Kushagra Ayurveda",
+      "address": "Shanti Niketan Nagar, Sagwan Area, Buldana, Maharashtra 443001",
+      "workingDays": "Daily",
+      "consultingHours": "9 AM–9 PM",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kushagra%20Ayurveda%2C%20Shanti%20Niketan%20Nagar%2C%20Sagwan%20Area%2C%20Buldana%2C%20Maharashtra%20443001",
+      "consultationFee": 200,
+      "currency": "INR",
+      "practicePhone": "+919370810079"
+    }
+  ],
+  "registrationNumber": "I-83787-A",
+  "registrationCouncil": "MCIM",
+  "profileStatus": "verified"
+}

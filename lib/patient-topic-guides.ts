@@ -1,3 +1,4 @@
+import { additionalPatientGuides, pcosGuide } from "./additional-patient-guides";
 
 
 export type PatientTopicGuide = {
@@ -8,6 +9,8 @@ export type PatientTopicGuide = {
   answer: string;
   relatedSpecialties: string[];
   procedure?: string;
+  sourceChecked?: string;
+  sections?: { heading: string; paragraphs: string[]; points?: string[] }[];
   lastReviewed?: string;
   reviewedBy?: string;
   questions: { question: string; answer: string }[];
@@ -69,27 +72,13 @@ export const patientTopicGuides: PatientTopicGuide[] = [
     relatedSpecialties: ["Diabetology / endocrinology", "General physician / internal medicine"],
     questions: [
       { question: "Is an endocrinologist the only doctor who can help with diabetes?", answer: "No. Different clinicians may be involved depending on the person's needs and local services. A qualified clinician can explain which provider is appropriate." },
-      { question: "Does DOCVY currently list diabetes specialists across India?", answer: "Browse current doctor profiles and send an appointment enquiry where requests are enabled. Coverage varies by specialty and city; the provider confirms availability, timing and fees." },
+      { question: "Does DOCVY currently list diabetes specialists across India?", answer: "Real appointments are currently unavailable through DOCVY. Contact the clinic directly to check availability." },
     ],
     references: [
       { label: "VMMC & Safdarjung Hospital, Government of India: endocrinology and diabetes clinics", url: "https://www.vmmc-sjh.mohfw.gov.in/endocrinology" },
     ],
   },
-  {
-    slug: "pcos-pcod",
-    topic: "PCOS / PCOD",
-    title: "Which doctor should I see for PCOS or PCOD?",
-    metaDescription: "Learn which specialists help with PCOS or PCOD and how to prepare for a consultation. Explore current DOCVY doctor profiles.",
-    answer: "Endocrinology and gynaecology may both be relevant to PCOS, depending on the questions and care needed. VMMC & Safdarjung Hospital's endocrinology department lists PCOS among its services; reproductive-health concerns may also involve a gynaecologist. A clinician can help determine the right route for an individual.",
-    relatedSpecialties: ["Diabetology / endocrinology", "Obstetrics and gynaecology"],
-    questions: [
-      { question: "Should I choose an endocrinologist or a gynaecologist for PCOS?", answer: "There is no one answer for everyone. These specialties can address different aspects of care; discuss your concern with a qualified clinician who understands your situation." },
-      { question: "Can DOCVY book a PCOS appointment?", answer: "For a listed gynaecologist, send an appointment request through DOCVY. The request is saved for coordination and needs provider confirmation." },
-    ],
-    references: [
-      { label: "VMMC & Safdarjung Hospital, Government of India: PCOS in endocrinology services", url: "https://www.vmmc-sjh.mohfw.gov.in/endocrinology" },
-    ],
-  },
+  pcosGuide,
   {
     slug: "joint-pain-arthritis",
     topic: "Joint pain and arthritis",
@@ -110,13 +99,13 @@ export const patientTopicGuides: PatientTopicGuide[] = [
     slug: "cataract",
     topic: "Cataract and vision concerns",
     title: "Which doctor treats cataracts?",
-    metaDescription: "Understand cataract consultations, prepare questions for an ophthalmologist and explore current doctor profiles on DOCVY.",
+    metaDescription: "Real appointments are currently unavailable through DOCVY. Contact the clinic directly to check availability.",
     answer: "An ophthalmologist is a specialist eye doctor who assesses and treats eye conditions, including cataracts. AIIMS Delhi's ophthalmology services include cataract care. The right examination and treatment depend on a clinician's assessment, and access pathways vary by location.",
     relatedSpecialties: ["Ophthalmology"],
     procedure: "Cataract surgery",
     questions: [
       { question: "Is an ophthalmologist the same as an optometrist?", answer: "They have different roles. An ophthalmologist is a medical doctor specialising in eye diseases; an optometrist provides eye-care services within their own scope. Local referral arrangements vary." },
-      { question: "Does DOCVY list cataract appointments across India?", answer: "Browse current doctor profiles and send an appointment enquiry where requests are enabled. Coverage varies by specialty and city; the provider confirms availability, timing and fees." },
+      { question: "Does DOCVY list cataract appointments across India?", answer: "Real appointments are currently unavailable through DOCVY. Contact the clinic directly to check availability." },
     ],
     references: [
       { label: "AIIMS Delhi: ophthalmology services including cataract care", url: "https://www.aiims.edu/index.php/en/unit-i" },
@@ -126,7 +115,7 @@ export const patientTopicGuides: PatientTopicGuide[] = [
     slug: "asthma",
     topic: "Asthma and breathing concerns",
     title: "Which doctor should I see for asthma?",
-    metaDescription: "Learn which specialists help with asthma, prepare for a consultation and explore current DOCVY doctor profiles.",
+    metaDescription: "Real appointments are currently unavailable through DOCVY. Contact the clinic directly to check availability.",
     answer: "For directory searches, general medicine and pulmonary or respiratory medicine are broad specialties associated with asthma. India’s National Health Mission includes asthma in its clinician training materials, and AIIMS Delhi lists a Pulmonary, Critical Care & Sleep Medicine department. A clinician must assess which care is suitable; this guide is not for urgent breathing problems.",
     relatedSpecialties: ["Pulmonology / respiratory medicine", "General physician / internal medicine"],
     questions: [
@@ -138,4 +127,5 @@ export const patientTopicGuides: PatientTopicGuide[] = [
       { label: "AIIMS Delhi: Pulmonary, Critical Care & Sleep Medicine", url: "https://aiims.edu/index.php/en/pulmonary-intro" },
     ],
   },
+  ...additionalPatientGuides,
 ];

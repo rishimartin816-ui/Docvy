@@ -20,7 +20,7 @@ export default function BookingForm(){
   useEffect(()=>{
     let mounted=true;
     fetch("/api/booking/providers",{cache:"no-store"}).then(r=>r.json()).then((data:{providers?:Provider[]})=>{
-      if(mounted){setProviders(data.providers??[]);const requested=new URLSearchParams(window.location.search).get("provider");const match=data.providers?.find(p=>p.id===requested);if(match)setSelected(match.key);}
+      if(mounted){setProviders(data.providers??[]);const query=new URLSearchParams(window.location.search);const requested=query.get("provider");const match=data.providers?.find(p=>p.id===requested&&(!query.get("city")||p.city===query.get("city"))&&(!query.get("facility")||p.facility===query.get("facility")))??data.providers?.find(p=>p.id===requested);if(match)setSelected(match.key);}
     }).catch(()=>{if(mounted)setMessage("Could not check participating doctors.")})
       .finally(()=>{if(mounted)setLoading(false)});
     return ()=>{mounted=false};

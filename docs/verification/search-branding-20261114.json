@@ -1,0 +1,93 @@
+{
+  "base": "https://www.docvy.in",
+  "checkedAt": "2026-11-14T07:01:20.615Z",
+  "pages": [
+    {
+      "path": "/",
+      "title": "Find Doctors in India by Specialty, Hospital &amp; City | DOCVY",
+      "description": "Find doctors across India by specialty, city and clinic. Compare practice details, read health guides and request a visit with participating doctors on DOCVY.",
+      "robots": "index, follow",
+      "schema": [
+        "Organization",
+        "WebSite"
+      ]
+    },
+    {
+      "path": "/doctors/mumbai",
+      "title": "Doctors in Mumbai | DOCVY",
+      "description": "Find doctors in Mumbai by specialty and practice location. Review clinic addresses, consultation details and appointment-request options on DOCVY.",
+      "robots": "noindex, follow",
+      "schema": [
+        "Organization",
+        "BreadcrumbList",
+        "ItemList"
+      ]
+    },
+    {
+      "path": "/doctors/mumbai/pulmonology",
+      "title": "Pulmonology doctors in Mumbai | DOCVY",
+      "description": "Find pulmonology doctors in Mumbai. Review practice locations and profile details, then request a visit where the doctor has opted in.",
+      "robots": "noindex, follow",
+      "schema": [
+        "Organization",
+        "BreadcrumbList",
+        "ItemList"
+      ]
+    },
+    {
+      "path": "/specialties/pulmonology",
+      "title": "Pulmonology | DOCVY",
+      "description": "Pulmonologists assess breathing difficulties, persistent cough and conditions affecting the lungs.",
+      "robots": "index, follow",
+      "schema": [
+        "Organization",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "path": "/doctor/dr-hassan-ishtiyaque-ali",
+      "title": "Dr. Hassan Ishtiyaque Ali | Pulmonology in Mumbai | DOCVY",
+      "description": "Dr. Hassan Ishtiyaque Ali: Pulmonology, General medicine in Mumbai. View practice locations, consultation fee ₹300, contact details and appointment-request options on DOCVY.",
+      "robots": "index, follow",
+      "schema": [
+        "Organization",
+        "BreadcrumbList",
+        "Physician"
+      ]
+    },
+    {
+      "path": "/doctor/dr-ummed-kumar-meena",
+      "title": "Dr. Ummed Kumar Meena | General medicine in Keri | DOCVY",
+      "description": "Dr. Ummed Kumar Meena: General medicine in Keri, Sankhalim, Poriem. View practice locations, consultation fee ₹300, contact details and appointment-request options on DOCVY.",
+      "robots": "index, follow",
+      "schema": [
+        "Organization",
+        "BreadcrumbList",
+        "Physician"
+      ]
+    },
+    {
+      "path": "/clinics",
+      "title": "Find outpatient care and practice locations | DOCVY",
+      "description": "Find clinic and outpatient practice locations across India. Review associated doctors, addresses and appointment-request options before planning your visit.",
+      "robots": "noindex, follow",
+      "schema": [
+        "Organization",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "path": "/partner-with-us",
+      "title": "Doctor Registration | List Your Practice on DOCVY",
+      "description": "Register your doctor or clinic profile with DOCVY. Submit qualifications, practice details and listing consent, or get help from our team on WhatsApp.",
+      "robots": "index, follow",
+      "schema": [
+        "Organization",
+        "BreadcrumbList"
+      ]
+    }
+  ],
+  "assets": "PASS",
+  "robots": "User-Agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: https://www.docvy.in/sitemap.xml\n",
+  "sitemapUrls": 96
+}

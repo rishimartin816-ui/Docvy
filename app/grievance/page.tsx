@@ -36,7 +36,7 @@ export default function GrievancePage() {
           <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-surface text-ink"><Mail strokeWidth={1.5} size={22} aria-hidden="true" /></span>
           <h2 className="mt-5 text-xl font-bold text-ink">Email the grievance contact</h2>
           <p className="mt-3 text-sm leading-7 text-grey">Grievance officer: <strong className="text-ink">Rishi Raj Martin</strong>, who has personally accepted responsibility for handling grievances.</p>
-          {Number.isInteger(responseDays) && responseDays > 0 && <p className="mt-2 text-sm">We aim to respond within {responseDays} calendar days.</p>}
+          <p className="mt-2 text-sm">We aim to acknowledge ordinary grievances within 24 hours and address them within {Number.isInteger(responseDays) && responseDays > 0 ? responseDays : 15} calendar days, subject to applicable statutory deadlines. Profile removal requests have a separate 48-hour commitment.</p>
           <a href="mailto:contact@docvy.in?subject=DOCVY%20grievance" className="mt-4 inline-flex min-h-10 items-center gap-2 text-sm font-bold text-ink underline decoration-[#DEDEDA] underline-offset-4 hover:text-primary">contact@docvy.in <ArrowRight strokeWidth={1.5} size={15} aria-hidden="true" /></a>
         </article>
 
@@ -44,7 +44,7 @@ export default function GrievancePage() {
           <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-surface text-[#B45309]"><MapPin strokeWidth={1.5} size={22} aria-hidden="true" /></span>
           <h2 className="mt-5 text-xl font-bold text-ink">Send a written grievance</h2>
           <p className="mt-3 text-sm leading-7 text-grey">Operating entity: <strong className="text-ink">DSS Global Technologies Private Limited</strong>.</p>
-          <address className="mt-3 not-italic text-sm leading-7 text-grey">2nd Floor, Capital Cityscape<br />Sector 66, Gurugram<br />Haryana – 122101, India</address>
+          <address className="mt-3 not-italic text-sm leading-7 text-grey">Sector 48, Gurugram<br />Haryana 122101, India</address>
         </article>
 
         <aside className="rounded-3xl border border-line bg-surface p-6 md:col-span-2 md:flex md:items-start md:gap-4 md:p-7">

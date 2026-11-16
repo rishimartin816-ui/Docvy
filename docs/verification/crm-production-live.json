@@ -1,0 +1,40 @@
+{
+  "releaseDate": "2026-11-10",
+  "commit": "f726b7a422b56e16fed6b9d53f8fcdcf77380d49",
+  "deploymentId": "dpl_4RT4ft5A3gkpAMAvAwAASYGT6aqH",
+  "deploymentStatus": "READY",
+  "canonicalOrigin": "https://www.docvy.in",
+  "checks": {
+    "productionBuild": "passed",
+    "typescript": "passed",
+    "targetedEslint": "passed",
+    "databaseTransactionalVerification": "passed; fixtures rolled back",
+    "websiteRequestToClinicBookingAndCancellation": "passed in rollback transaction",
+    "liveSignedOutWorkspace": 401,
+    "liveSameOriginUnauthenticatedMutation": 401,
+    "liveCrossOriginMutation": 403,
+    "liveInvalidOwnerSetupCapability": 403,
+    "crmClinicPage": 200,
+    "crmAdminPage": 200,
+    "crmDemoPage": 200,
+    "publicHomepage": 200,
+    "publicDirectory": 200,
+    "crmRobots": "noindex, nofollow",
+    "crmInSitemap": false,
+    "workspaceApiCache": "private, no-store, max-age=0",
+    "workspaceCookieFlags": "Secure; HttpOnly; SameSite=Strict; Path=/api/workspace",
+    "mobileWidth": 390,
+    "desktopWidth": 1440,
+    "horizontalOverflow": false,
+    "browserErrors": [],
+    "authenticatedVisualChecks": "Local browser route fixture only; not a live-account sign-in test"
+  },
+  "activation": {
+    "ownerAccount": "pending user choosing password with private single-use setup capability",
+    "firstRealClinic": "pending authorised clinic details",
+    "staffEmailDelivery": "not configured or verified",
+    "appointmentEmailDelivery": "not connected",
+    "publicInstantBooking": "not activated",
+    "unclaimedDirectoryBooking": "still blocked"
+  }
+}

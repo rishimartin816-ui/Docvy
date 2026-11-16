@@ -1,6 +1,6 @@
 # DOCVY founder-managed booking release
 
-Updated: 16 November 2026. Branch: `feat/operational-booking-workflow`; draft PR #13, stacked on public-positioning PR #11. Sitemap PR #9 is independent and unchanged.
+Updated: 16 November 2026. Branch: `feat/operational-booking-workflow`; draft PR #13; the current clinic CRM application baseline (1a57029) is merged into the booking release to preserve live partner, branding, canonical profile and directory features. Sitemap PR #9 is independent and unchanged.
 
 **Latest owner-approved launch model: DOCVY manages all appointment approval and tracking. No clinic CRM accounts or doctor login accounts are required.** Implemented and locally validated; not deployed to production or activated. No production schema/data writes, merge or real messages were performed.
 
@@ -49,8 +49,8 @@ Production schema was inspected read-only: CRM slots use `doctor_id`, roster lin
 ## Actual verification
 
 - TypeScript: passed.
-- ESLint: zero errors; one preexisting `CareGuideSearch.tsx` hook dependency warning.
-- Optimized Next.js 14.2.35 production build: passed; existing edge-runtime notice.
+- ESLint after baseline integration: zero errors and zero warnings. Existing intentional CommonJS verification scripts use a scoped `.cjs` lint override.
+- Optimized Next.js 14.2.35 production build after baseline integration: passed (2,454 generated pages); existing edge-runtime notice. Booking/API/email/schedule and local Postgres suites passed again. Public/partner/booking HTTP checks and partner invalid-body/origin guards also passed.
 - `node scripts/test-booking-schedule.mjs`: six recurring windows, Meena transitions, Indore-only generated candidates, 372/week, gaps, Sunday/duplicate/date/range checks; founder physical-window rejection and doctor-controlled Online time validation.
 - `node scripts/test-booking-api.mjs`: real handlers/helper with mocked transport: correct RPC contract, consent/CSRF, pending-only founder mode, rejection of direct slot submissions, explicit doctor confirmation evidence, founder-only real permission helper with zero staff-table reads, clinic/doctor queue denial, scoped link creation/report allowlist, private receipt and patient identity checks.
 - `node scripts/test-live-booking.mjs`: temporary Docker PostgreSQL 17, actual four release migrations and synthetic fixture. Instant reservation race retained for future opt-in integration; founder approval race produces one winner with **no clinic/roster mapping or CRM booking required**; idempotency; cross-inventory capacity guards in both directions; premature/forged verification blocked; patient conflicts disputed; immutable audit; public-access denial; session revocation; summary; distinct outbox leases. Provider link replacement, expiry, revocation, minimal disclosure, one-report-only and repeat-report safety passed. Email snapshots/envelopes resist mutation, stale leases cannot finish a new lease, retry windows are bounded, follow-ups are deduplicated and delivery tables/RPCs deny public access.
@@ -69,3 +69,7 @@ These are local database tests and mocked-transport API tests, not authenticated
 5. Review/approve production migrations and deployment, enable only participating verified providers in approval mode, then run an authorized synthetic post-release booking/cancellation and delivery check. Do not present a build or PR merge as proof of operational live booking.
 
 The previous assumption that a new messaging provider must be connected is superseded by the owner’s Resend clarification and the existing partner implementation. No new account or service was provisioned.
+
+## Deployment dependency diagnosis
+
+The new preview failed before build logs because Vercel still requires a deployment action for the old suspended `supabase-crimson-lens` resource (`dlfcvnkrcwkyjbczpllp`). The healthy production DB is a different project, `cxyscxjauxoizvvllmfu`. A requested fresh staging branch returned declined; no production database migration or activation was performed. See `VERCEL_PROVISIONING_REPAIR.md` for the owner-side repair steps. Dashboard automation was stopped by browser-URL policy enforcement; it did not alter the connection.

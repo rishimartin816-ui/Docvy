@@ -1,13 +1,14 @@
 import "./globals.css";
 // Publication and removal changes must be reflected in every public view, including footer links.
 export const dynamic = "force-dynamic";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import Nav from "@/components/Nav";
 import RouteBreadcrumbs from "@/components/RouteBreadcrumbs";
 import Footer from "@/components/Footer";
-import { businessDescription, docvyOpenGraphImage } from "@/lib/metadata";
+import SiteFrame from "@/components/SiteFrame";
+import { docvyOpenGraphImage } from "@/lib/metadata";
 
 const docvyFont = localFont({
   src: "./fonts/google-sans-flex-latin-wght-normal.woff2",
@@ -23,27 +24,31 @@ const docvyBodyFont = Inter({
   display: "swap",
 });
 
+export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#143C2B" };
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.docvy.in"),
   title: {
     default: "DOCVY — Healthcare discovery across India",
     template: "%s | DOCVY",
   },
-  description: businessDescription,
+  description: "DOCVY helps people in India understand medical specialties and prepare for a visit with plain-language patient guides.",
   applicationName: "DOCVY",
+  manifest: "/manifest.webmanifest",
+  icons: { icon: [{ url: "/icons/favicon-48.png", sizes: "48x48", type: "image/png" }, { url: "/icons/favicon-96.png", sizes: "96x96", type: "image/png" }] },
   openGraph: {
     type: "website",
     locale: "en_IN",
     siteName: "DOCVY",
     title: "DOCVY — Healthcare discovery across India",
-    description: businessDescription,
+    description: "DOCVY helps people in India understand medical specialties and prepare for a visit with plain-language patient guides.",
     url: "/",
     images: [docvyOpenGraphImage],
   },
   twitter: {
     card: "summary_large_image",
     title: "DOCVY — Healthcare discovery across India",
-    description: businessDescription,
+    description: "DOCVY helps people in India understand medical specialties and prepare for a visit with plain-language patient guides.",
     images: [docvyOpenGraphImage.url],
   },
   robots: process.env.VERCEL_ENV !== "production" || process.env.DOCVY_INDEXING_ENABLED !== "true" ? { index: false, follow: false } : {
@@ -69,13 +74,12 @@ export default function RootLayout({
               "@type": "Organization",
               "@id": "https://www.docvy.in/#organization",
               name: "DOCVY",
-              description: businessDescription,
               url: "https://www.docvy.in",
               email: "contact@docvy.in",
-              logo: "https://www.docvy.in/icon.svg",
+              logo: "https://www.docvy.in/brand/01_DOCVY_Primary_Transparent.png",
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "2nd Floor, Capital Cityscape, Sector 66",
+                streetAddress: "Sector 48",
                 addressLocality: "Gurugram",
                 addressRegion: "Haryana",
                 postalCode: "122101",
@@ -90,9 +94,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <Nav />
-        <main id="main"><RouteBreadcrumbs />{children}</main>
-        <Footer />
+        <SiteFrame navigation={<Nav />} footer={<Footer />} breadcrumbs={<RouteBreadcrumbs />}>{children}</SiteFrame>
       </body>
     </html>
   );

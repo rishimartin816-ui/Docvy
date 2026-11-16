@@ -1,5 +1,6 @@
 import "server-only";
 import { cache } from "react";
+import { normalizeDoctor } from "./directory-normalization";
 import { directoryIntakeConfig } from "./directory-intake";
 import type { ProviderCandidate } from "./provider-candidates";
 
@@ -14,6 +15,6 @@ export const getDirectoryDoctors = cache(async (): Promise<ProviderCandidate[]> 
     });
     if (!response.ok) return [];
     const doctors: unknown = await response.json();
-    return Array.isArray(doctors) ? doctors as ProviderCandidate[] : [];
+    return Array.isArray(doctors) ? (doctors as ProviderCandidate[]).map(normalizeDoctor).sort((a,b)=>a.name.localeCompare(b.name,"en-IN")) : [];
   } catch { return []; }
 });

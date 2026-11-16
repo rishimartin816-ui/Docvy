@@ -1,0 +1,39 @@
+{
+  "commit": "a46d42bb9a9afa81b69d4aedb2039880e341bcc5",
+  "deployment": "dpl_EHiH8fo5ZF3ryxfAJDqfmKZR4Ruf",
+  "deploymentStatus": "READY",
+  "base": "https://www.docvy.in",
+  "result": "PASS",
+  "widths": [
+    390,
+    1440
+  ],
+  "checks": [
+    "title",
+    "12 specialties",
+    "single menu/footer lists",
+    "city/locality",
+    "company details",
+    "mobile menu/Escape",
+    "no overflow",
+    "no stray text/asterisk",
+    "role chooser",
+    "Hindi introduction",
+    "American search aliases"
+  ],
+  "errors": [],
+  "additionalChecks": {
+    "privacyDpdpMention": true,
+    "oldRangapaniPathRedirect": 301,
+    "rangapaniCityInProductionRegistry": 0,
+    "rangapaniPathInSitemap": false,
+    "hindiIntroductionInSitemap": true,
+    "canonicalWwwRedirect": 308
+  },
+  "scopeNotes": [
+    "Hindi introduction is translated; search results, profiles and guides remain English.",
+    "Patient access uses account-free directory and appointment request flow; a patient account dashboard has not been built.",
+    "The Vercel apex-domain redirect remains 308. The alias API did not change the pre-existing project-domain redirect status; exact 301 requires that platform setting to be updated.",
+    "Counts use live published directory data; verified count is not invented. The badge example is explicitly labelled."
+  ]
+}

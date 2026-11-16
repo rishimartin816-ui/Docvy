@@ -3,11 +3,12 @@ import type { Metadata } from "next";
 export const businessDescription = "DOCVY helps people in India discover doctors by specialty, hospital or city, explore patient guides and send appointment enquiries to participating practices. Providers confirm availability, timing and fees.";
 
 export const productionOrigin = "https://www.docvy.in";
+export const homeLanguageLinks = { "en-IN": productionOrigin + "/", "hi-IN": productionOrigin + "/hi", "x-default": productionOrigin + "/" };
 export const docvyOpenGraphImage = {
-  url: productionOrigin + "/opengraph-image",
+  url: productionOrigin + "/brand/14_DOCVY_OpenGraph_1200x630.png",
   width: 1200,
   height: 630,
-  alt: "DOCVY patient guides for people across India.",
+  alt: "DOCVY — Find your way to care.",
 };
 
 export function buildPageSocialMetadata(

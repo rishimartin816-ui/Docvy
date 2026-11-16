@@ -1,0 +1,22 @@
+{
+  "base": "http://localhost:3112",
+  "result": "PASS",
+  "widths": [
+    390,
+    1440
+  ],
+  "checks": [
+    "title",
+    "12 specialties",
+    "single menu/footer lists",
+    "city/locality",
+    "company details",
+    "mobile menu/Escape",
+    "no overflow",
+    "no stray text/asterisk",
+    "role chooser",
+    "Hindi introduction",
+    "American search aliases"
+  ],
+  "errors": []
+}

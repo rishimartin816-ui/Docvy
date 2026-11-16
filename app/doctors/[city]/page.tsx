@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: { params: { city: string } })
   const city = cities.find(({ slug }) => slug === params.city);
   if (!city) notFound();
   const title = "Doctors in " + city.name;
-  const description = city.intro.split(". ")[0] + ". Explore specialties and prepare for an appointment with DOCVY.";
+  const description = "Find doctors in " + city.name + " by specialty and practice location. Review clinic addresses, consultation details and appointment-request options on DOCVY.";
   const path = "/doctors/" + city.slug;
   return { title, description, alternates: { canonical: path }, ...(doctorsIn(city.slug, undefined, await getDirectoryDoctors()).length < 3 ? { robots: { index: false, follow: true } } : {}), ...buildPageSocialMetadata(title + " | DOCVY", description, path) };
 }

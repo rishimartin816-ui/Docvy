@@ -1,79 +1,88 @@
 "use client";
 
-import Image from "next/image";
+import BrandLogo from "./BrandLogo";
 import Link from "next/link";
 import { ChevronDown, Menu, Search, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useRef } from "react";
-
-const specialties = [
-  ["general-medicine", "General medicine"], ["cardiology", "Cardiology"], ["dermatology", "Dermatology"],
-  ["orthopaedics", "Orthopaedics"], ["paediatrics", "Paediatrics"], ["gynaecology", "Gynaecology"],
-  ["ophthalmology", "Ophthalmology"], ["ent", "ENT"],
-] as const;
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { specialties } from "@/lib/care-directory";
 
 const links = [
-  ["/hospitals", "Hospitals"], ["/surgery-guide", "Surgeries"], ["/care-guide", "Health guides"], ["/for-clinics", "For clinics & doctors"],
+  ["/surgery-guide", "Surgeries"],
+  ["/care-guide", "Health guides"], ["/for-doctors", "For clinics & doctors"],
 ] as const;
 
 export default function Nav() {
-  const pathname = usePathname();
-  const mobile = useRef<HTMLDialogElement>(null);
+  const path = usePathname();
+  const [open, setOpen] = useState(false);
+  const dialog = useRef<HTMLDialogElement>(null);
   const menu = useRef<HTMLButtonElement>(null);
-  const desktop = useRef<HTMLDetailsElement>(null);
-  const current = (href: string) => pathname === href ? "page" : undefined;
-  const close = () => mobile.current?.close();
+  const dropdown = useRef<HTMLDetailsElement>(null);
+  const current = (href: string) => path === href ? "page" : undefined;
+  const close = () => { dropdown.current?.removeAttribute("open"); setOpen(false); };
 
-  return <header className={"site-header sticky top-0 z-30 border-b border-line " + (pathname === "/" ? "site-header-home" : "")}>
-    {process.env.NEXT_PUBLIC_DEMO_MODE === "true" && <p className="bg-primary-tint px-4 py-2 text-center text-[13px] text-ink">Demo mode: doctors shown are fictional.</p>}
+  useEffect(() => {
+    if (!open || !dialog.current) return;
+    const modal = dialog.current;
+    const trigger = menu.current;
+    const previousOverflow = document.body.style.overflow;
+    modal.showModal();
+    document.body.style.overflow = "hidden";
+    const resize = () => { if (window.innerWidth >= 1024) setOpen(false); };
+    window.addEventListener("resize", resize);
+    return () => {
+      modal.close();
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("resize", resize);
+      if (trigger?.getClientRects().length) trigger.focus();
+    };
+  }, [open]);
+
+  useEffect(() => {
+    const dismiss = (event: PointerEvent) => {
+      if (dialog.current?.open) return;
+      if (event.target instanceof Node && !dropdown.current?.contains(event.target)) dropdown.current?.removeAttribute("open");
+    };
+    document.addEventListener("pointerdown", dismiss);
+    return () => document.removeEventListener("pointerdown", dismiss);
+  }, []);
+
+  const navigation = <nav id="docvy-navigation" aria-label="Main" className="flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-5">
+    <details ref={dropdown} className="relative" onKeyDown={event => {
+      if (event.key === "Escape" && !open) { dropdown.current?.removeAttribute("open"); dropdown.current?.querySelector("summary")?.focus(); }
+    }}>
+      <summary className="site-nav-link flex min-h-12 cursor-pointer list-none items-center gap-1 whitespace-nowrap text-sm font-medium">
+        Find doctors <ChevronDown size={16} strokeWidth={1.5} aria-hidden="true" />
+      </summary>
+      <ul className="grid grid-cols-2 gap-2 bg-white p-3 text-ink lg:absolute lg:left-0 lg:top-full lg:w-[380px] lg:rounded-card lg:border lg:border-line">
+        <li className="col-span-2 border-b border-line"><Link href="/doctors" aria-current={current("/doctors")} onClick={close} className="flex min-h-12 items-center font-semibold">All doctors</Link></li>
+        {specialties.slice(0, 8).map(({ slug, name }) => <li key={slug}><Link href={"/doctors/specialty/" + slug} aria-current={current("/doctors/specialty/" + slug)} onClick={close} className="flex min-h-11 items-center text-sm hover:underline">{name}</Link></li>)}
+        <li className="col-span-2"><Link href="/specialties" onClick={close} className="flex min-h-11 items-center font-medium underline">View all specialties</Link></li>
+      </ul>
+    </details>
+    {links.map(([href, label]) => <Link key={href} href={href} aria-current={current(href)} onClick={close} className="site-nav-link flex min-h-12 items-center whitespace-nowrap text-sm font-medium hover:underline">{label}</Link>)}
+    <Link href="/login" aria-current={current("/login")} onClick={close} className="flex min-h-12 items-center text-sm font-medium hover:underline">Log in</Link>
+  </nav>;
+  const action = <Link href="/doctors" onClick={close} className="site-header-cta docvy-pill docvy-pill-primary">Find a doctor</Link>;
+
+  return <header className="site-header sticky top-0 z-30 border-b border-line">
     <div className="mx-auto flex h-16 max-w-site items-center justify-between gap-4 px-5 sm:px-8 lg:h-[72px]">
-      <Link href="/" aria-label="DOCVY home" className="site-logo inline-flex min-h-12 items-center gap-2 font-head text-xl font-bold text-ink">
-        <Image src="/icon.svg" alt="" width={29} height={29} unoptimized /> DOCVY
-      </Link>
-      <nav aria-label="Main" className="hidden items-center gap-5 lg:flex">
-        <details ref={desktop} className="relative" onKeyDown={(event) => {
-          if (event.key === "Escape") { desktop.current?.removeAttribute("open"); desktop.current?.querySelector("summary")?.focus(); }
-        }}>
-          <summary className="site-nav-link flex min-h-12 cursor-pointer list-none items-center gap-1 whitespace-nowrap text-sm font-medium">
-            Find doctors <ChevronDown size={16} strokeWidth={1.5} aria-hidden="true" />
-          </summary>
-          <ul className="absolute left-0 top-full grid w-[360px] grid-cols-2 gap-x-2 rounded-card border border-line bg-white p-3 text-ink">
-            {specialties.map(([slug, label]) => {
-              const href = "/doctors/specialty/" + slug;
-              return <li key={slug}><Link href={href} aria-current={current(href)} onClick={() => desktop.current?.removeAttribute("open")} className="flex min-h-11 items-center px-2 text-sm hover:underline">{label}</Link></li>;
-            })}
-            <li className="col-span-2"><Link href="/specialties" aria-current={current("/specialties")} onClick={() => desktop.current?.removeAttribute("open")} className="flex min-h-11 items-center px-2 font-medium text-primary hover:underline">View all specialties</Link></li>
-          </ul>
-        </details>
-        {links.map(([href, label]) => <Link key={href} href={href} aria-current={current(href)} className="site-nav-link flex min-h-12 items-center whitespace-nowrap text-sm font-medium hover:underline">{label}</Link>)}
-      </nav>
-      <div className="hidden items-center gap-4 lg:flex">
-        <Link href="/for-clinics" aria-current={current("/for-clinics")} className="flex min-h-12 items-center whitespace-nowrap text-sm font-medium hover:underline">Log in</Link>
-        <Link href="/doctors" aria-current={current("/doctors")} className="site-header-cta docvy-pill docvy-pill-primary">Find a doctor</Link>
-      </div>
-      <div className="flex items-center gap-1 lg:hidden">
-        <Link href="/doctors" aria-label="Search for a doctor" aria-current={current("/doctors")} className="grid h-12 w-12 place-items-center"><Search size={22} strokeWidth={1.5} /></Link>
-        <button ref={menu} type="button" aria-label="Open menu" aria-haspopup="dialog" aria-controls="docvy-mobile-menu" onClick={() => mobile.current?.showModal()} className="grid h-12 w-12 place-items-center"><Menu size={24} strokeWidth={1.5} /></button>
-      </div>
-    </div>
-    <dialog id="docvy-mobile-menu" ref={mobile} aria-labelledby="mobile-menu-title" onClose={() => menu.current?.focus()} className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none border-0 bg-white p-0 text-ink">
-      <div className="flex h-full flex-col">
-        <div className="flex h-16 shrink-0 items-center justify-between border-b border-line px-5">
-          <h2 id="mobile-menu-title" className="font-head text-xl font-semibold">Menu</h2>
-          <button type="button" aria-label="Close menu" onClick={close} className="grid h-12 w-12 place-items-center"><X size={24} strokeWidth={1.5} /></button>
+      <Link href="/" aria-label="DOCVY home" className="site-logo inline-flex min-h-12 shrink-0 items-center"><BrandLogo priority className="w-36 min-[380px]:w-[180px]" /></Link>
+      {open ? createPortal(<dialog ref={dialog} aria-label="Main menu" onKeyDown={event => {
+        if (event.key !== "Tab") return;
+        const items = Array.from(event.currentTarget.querySelectorAll<HTMLElement>("a[href],button:not([disabled]),summary")).filter(item => item.getClientRects().length > 0);
+        const first = items[0]; const last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }} onCancel={event => { event.preventDefault(); close(); }} onClose={() => setOpen(false)} className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none border-0 bg-white p-0 text-ink">
+        <div className="flex h-full min-h-0 flex-col">
+          <div className="flex h-16 shrink-0 items-center justify-between border-b border-line px-5"><h2 className="text-xl font-semibold">Menu</h2><button type="button" onClick={close} aria-label="Close menu" className="grid h-12 w-12 place-items-center"><X strokeWidth={1.5} aria-hidden="true" /></button></div>
+          <div className="min-h-0 flex-1 overflow-y-auto px-5 py-3">{navigation}</div>
+          <div className="flex shrink-0 flex-col border-t border-line p-5">{action}</div>
         </div>
-        <nav aria-label="Main" className="min-h-0 flex-1 overflow-y-auto px-5 py-2">
-          <details><summary className="flex min-h-12 cursor-pointer items-center gap-2 font-medium">Find doctors <ChevronDown size={16} strokeWidth={1.5} aria-hidden="true" /></summary>
-            <ul className="pl-4">{specialties.map(([slug, label]) => {
-              const href = "/doctors/specialty/" + slug;
-              return <li key={slug}><Link href={href} aria-current={current(href)} onClick={close} className="flex min-h-12 items-center">{label}</Link></li>;
-            })}<li><Link href="/specialties" aria-current={current("/specialties")} onClick={close} className="flex min-h-12 items-center text-primary">View all specialties</Link></li></ul>
-          </details>
-          {links.map(([href, label]) => <Link key={href} href={href} aria-current={current(href)} onClick={close} className="flex min-h-12 items-center border-t border-line font-medium">{label}</Link>)}
-          <Link href="/for-clinics" aria-current={current("/for-clinics")} onClick={close} className="flex min-h-12 items-center border-t border-line font-medium">Log in</Link>
-        </nav>
-        <div className="shrink-0 border-t border-line p-5"><Link href="/doctors" aria-current={current("/doctors")} onClick={close} className="docvy-pill docvy-pill-primary w-full">Find a doctor</Link></div>
-      </div>
-    </dialog>
+      </dialog>, document.body) : <div className="hidden items-center gap-4 lg:flex">{navigation}{action}</div>}
+      <div className="flex items-center gap-1 lg:hidden"><Link href="/doctors" aria-label="Search for a doctor" className="inline-flex h-12 items-center gap-1.5 px-2"><Search size={20} strokeWidth={1.5} aria-hidden="true" /><span className="text-xs font-medium">Search</span></Link><button ref={menu} type="button" aria-label="Open menu" aria-expanded={open} aria-haspopup="dialog" aria-controls="docvy-navigation" onClick={() => setOpen(true)} className="grid h-12 w-12 place-items-center"><Menu size={24} strokeWidth={1.5} aria-hidden="true" /></button></div>
+    </div>
   </header>;
 }

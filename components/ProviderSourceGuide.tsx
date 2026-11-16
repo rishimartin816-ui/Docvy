@@ -18,7 +18,7 @@ const checks = [
     icon: CalendarClock,
     step: "03",
     title: "Ask about availability and fees",
-    text: "Contact the hospital or clinic directly. DOCVY has not checked live slots and does not reserve or charge for appointments.",
+    text: "Contact the hospital or clinic directly. Choose your practice and ask about consulting hours and fees.",
   },
 ];
 
