@@ -1,5 +1,17 @@
 # DOCVY Vercel provisioning repair
 
+## Verified repair and current release target
+
+Rechecked 16 November 2026 after the owner's repair: the obsolete store connection has no deployment actions and `required: false`. Booking preview `dpl_FYy3Tt1YF6TneGFDUZzRmv3448yT` reached READY at commit `4dc299f91783e2fa17e0b93f0e444e39a5d461a8`. The provisioning failure below is historical and is no longer the release blocker.
+
+The live hostname `www.docvy.in` resolves to deployment `dpl_GXz7FbJdb9GFgcoD2zvu2Snu7AAb` in **`docvy-crm-staging`** (`prj_NdSOimyjRS2dOLUTq0Kc7rtGUMxs`), despite that project's name. It is not currently served by the older `docvy` project (`prj_xkWKqXAFft6fasGa8eadLLcpbgsw`). Preserve existing hostname assignments until the release is tested.
+
+Environment metadata on the actual serving project still has no `SUPABASE_SERVICE_ROLE_KEY`. Its directory intake key was checked privately and is publishable, not privileged. The older project's service-role variable does not configure the serving project and must not be assumed to belong to the active database. The owner must securely set the active `docvy-production` project's server credential on `docvy-crm-staging`, Production target. Never paste it into chat or use a `NEXT_PUBLIC_` name.
+
+The actual serving project already has the existing lowercase `resend_api_key` in Production and isolated CRM staging credentials. No new email provider is needed. Hosted booking/Auth/delivery checks, the four release migrations and scheduler remain pending; READY means a successful deployment build, not operational bookings. No production booking migration, provider activation or release promotion has been performed.
+
+## Historical diagnosis
+
 Observed 16 November 2026. New preview deployment `dpl_Eh9idi4KGKz7ALG5ENhvaUWAww5T` failed before build logs with `BUILD_FAILED: Resource provisioning failed`.
 
 The connected Vercel store `supabase-crimson-lens` reports suspended status, external project `dlfcvnkrcwkyjbczpllp`, and a required `branch-project` deployment action for both preview and production on the DOCVY project. This is different from the healthy active `docvy-production` project `cxyscxjauxoizvvllmfu` and existing staging project `pmyzedtpogmhvcrurcau`.
