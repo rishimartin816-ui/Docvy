@@ -27,17 +27,17 @@ const questions = [
   },
   {
     question: "Can I book a real appointment on DOCVY?",
-    answer: "Only claimed or verified doctors who have given written consent can receive appointment requests. Unclaimed profiles are not yet partnered with DOCVY and have no request button. The clinic confirms time and fee.",
+    answer: "Yes. Choose from activated, verified doctors on the booking page. Pick your practice and preferred time, then submit your contact details. DOCVY checks availability with the doctor and sends confirmation. Wait for that confirmation before travelling.",
     href: "/doctors", label: "Browse sourced doctor profiles",
   },
   {
     question: "What happens after I send an appointment request?",
-    answer: "Keep the reference number shown after submission. The doctor’s team confirms the available time and fee. Use your reference when following up with the clinic.",
+    answer: "Save the private tracking link and reference shown after submission. DOCVY coordinates your appointment with the doctor. Your tracking link shows updates and cancellation options; contact verification protects independent visit reporting.",
     href: "/how-it-works", label: "How appointment requests work",
   },
   {
     question: "Can my clinic see how DOCVY works?",
-    answer: "Yes. Contact DOCVY to ask for a walkthrough of the clinic workspace, including availability, enquiries, and appointment history.",
+    answer: "Contact DOCVY to discuss practice onboarding and future software requirements. Clinic CRM accounts and staff-managed real-time scheduling are separate from the current DOCVY-coordinated patient booking release.",
     href: "/contact", label: "Contact DOCVY",
   },
 ];
@@ -47,13 +47,13 @@ export default function FaqsPage() {
     <div className="mx-auto max-w-3xl">
       <p className="docvy-eyebrow">DOCVY HELP</p>
       <h1 className="mt-3 text-4xl font-bold tracking-tight text-ink sm:text-5xl">Questions about using DOCVY</h1>
-      <p className="mt-4 text-lg text-grey">Find a doctor, understand profile status and book an appointment and follow your updates through DOCVY.</p>
+      <p className="mt-4 text-lg text-grey">Find your doctor, understand profile status, book an appointment and follow your updates through DOCVY.</p>
       <div className="mt-8 space-y-4">
-        {questions.map(({ question, answer, href, label }) => <section key={question} className="docvy-glass p-5 sm:p-7">
-          <h2 className="text-xl font-bold text-ink">{question}</h2>
+        {questions.map(({ question, answer, href, label }) => <details key={question} className="docvy-glass p-5 sm:p-7">
+          <summary className="text-lg font-semibold text-ink">{question}</summary>
           <p className="mt-2 text-grey">{answer}</p>
           <Link href={href} className="mt-3 inline-flex min-h-11 items-center font-semibold text-ink underline underline-offset-4">{label}</Link>
-        </section>)}
+        </details>)}
       </div>
     </div>
   </div>;

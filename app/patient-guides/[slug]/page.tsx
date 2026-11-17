@@ -1,3 +1,4 @@
+import GuideContents from "@/components/patient/GuideContents";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -112,6 +113,7 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
       </div>
     </section>
 
+    <div className="mx-auto max-w-site px-6"><GuideContents items={[{id:"guide-related",label:"Related specialties"},...(guide.sections??[]).map((section,index)=>({id:"guide-section-"+index,label:section.heading})),{id:"guide-questions",label:"Common questions"},{id:"guide-sources",label:"Sources"}]}/></div>
     <section className="mx-auto max-w-site px-6 py-12 md:py-16">
       <div className="flex items-start gap-4 rounded-2xl border border-line bg-surface p-5 md:p-6">
         <ShieldCheck strokeWidth={1.5} size={22} className="mt-0.5 shrink-0 text-[#B45309]" aria-hidden="true" />
@@ -121,7 +123,7 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
       <div className="mt-10 grid gap-6 lg:grid-cols-[1.1fr_.9fr]">
         <article className="rounded-3xl border border-line bg-white p-6 md:p-8">
           <p className="text-xs font-extrabold tracking-[0.13em] text-ink">SPECIALTIES THAT MAY BE RELATED</p>
-          <h2 className="mt-3 text-2xl font-bold tracking-tight">Which doctor types could be relevant?</h2>
+          <h2 id="guide-related" className="mt-3 text-2xl font-bold tracking-tight">Which doctor types could be relevant?</h2>
           <p className="mt-3 text-sm leading-7 text-grey">These specialty names can help you describe what you are looking for when you call a clinic.</p>
           <ul className="mt-5 flex flex-wrap gap-2">
             {guide.relatedSpecialties.map((specialty) => {
@@ -145,7 +147,7 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
         </aside>
       </div>
 
-      {guide.sections?.map(section=><section key={section.heading} className="mt-10 max-w-3xl"><h2 className="text-2xl font-medium">{section.heading}</h2>{section.paragraphs.map(paragraph=><p key={paragraph} className="mt-4 leading-8 text-grey">{paragraph}</p>)}{section.points&&<ul className="mt-4 list-disc space-y-2 pl-5 leading-7">{section.points.map(point=><li key={point}>{point}</li>)}</ul>}</section>)}
+      {guide.sections?.map((section,index)=><section id={"guide-section-"+index} key={section.heading} className="mt-10 max-w-3xl"><h2 className="text-2xl font-medium">{section.heading}</h2>{section.paragraphs.map(paragraph=><p key={paragraph} className="mt-4 leading-8 text-grey">{paragraph}</p>)}{section.points&&<ul className="mt-4 list-disc space-y-2 pl-5 leading-7">{section.points.map(point=><li key={point}>{point}</li>)}</ul>}</section>)}
 
       <section className="mt-12" aria-labelledby="guide-questions">
         <p className="text-xs font-extrabold tracking-[0.13em] text-ink">COMMON QUESTIONS</p>
@@ -161,7 +163,7 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
         <ul className="mt-5 flex flex-col gap-3">{guide.references.map((reference) => <li key={reference.url}><a href={reference.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-ink underline decoration-[#DEDEDA] underline-offset-4 hover:text-primary">{reference.label}<ExternalLink strokeWidth={1.5} size={14} aria-hidden="true" /></a></li>)}</ul>
       </section>
 
-      <div className="mt-10 flex flex-col gap-4 rounded-3xl bg-primary p-6 text-white md:flex-row md:items-center md:justify-between md:p-8"><div><p className="text-xs font-extrabold tracking-[0.13em] text-primary-tint">DOCVY COVERAGE TODAY</p><h2 className="mt-2 text-2xl font-bold text-white">India-wide guide. Limited city directory.</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-primary-tint">Use the guide from anywhere in India. For a listed doctor, request a visit through DOCVY and wait for provider confirmation.</p></div><Link href="/care-guide" className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl bg-white px-5 text-sm font-bold text-ink hover:bg-surface">Explore the patient guide <ArrowRight strokeWidth={1.5} size={16} aria-hidden="true" /></Link></div>
+      <div className="mt-10 flex flex-col gap-4 rounded-3xl bg-primary p-6 text-white md:flex-row md:items-center md:justify-between md:p-8"><div><p className="text-xs font-extrabold tracking-[0.13em] text-primary-tint">DOCVY COVERAGE TODAY</p><h2 className="mt-2 text-2xl font-bold text-white">Understand your options. Plan your next visit.</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-primary-tint">Use the guide from anywhere in India. For a listed doctor, request a visit through DOCVY and wait for provider confirmation.</p></div><Link href="/care-guide" className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl bg-white px-5 text-sm font-bold text-ink hover:bg-surface">Explore the patient guide <ArrowRight strokeWidth={1.5} size={16} aria-hidden="true" /></Link></div>
     </section>
   </div>;
 }

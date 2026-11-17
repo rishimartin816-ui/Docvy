@@ -6,4 +6,4 @@ export function generateMetadata() {
   const description = "Explore hospital practice locations and associated doctor profiles on DOCVY. Review specialties and request a visit, subject to provider confirmation.";
   return { title, description, alternates: { canonical: "/hospitals" }, ...buildPageSocialMetadata(title, description, "/hospitals") };
 }
-export default function HospitalsPage() { return <FacilitiesDirectory />; }
+export default function HospitalsPage({searchParams}:{searchParams:{q?:string;city?:string}}) { return <FacilitiesDirectory query={typeof searchParams.q==="string"?searchParams.q.slice(0,120):""} city={typeof searchParams.city==="string"?searchParams.city.slice(0,70):""}/>; }

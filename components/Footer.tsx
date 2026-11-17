@@ -5,7 +5,7 @@ import { getDirectoryDoctors } from "@/lib/public-directory";
 import FooterLinks from "./FooterLinks";
 
 const careLinks = [
-  ["/doctors", "Find doctors"], ["/specialties", "All specialties"], ["/surgery-guide", "Surgeries"],
+  ["/doctors", "Find doctors"], ["/book", "Book appointment"], ["/patient-access", "Track your appointment"], ["/specialties", "All specialties"], ["/surgery-guide", "Surgeries"],
   ["/care-guide", "Health guides"], ["/hospitals", "Hospitals"], ["/how-it-works", "How it works"],
 ] as const;
 const companyLinks = [
@@ -32,7 +32,7 @@ export default async function Footer() {
       <div className="mx-auto grid max-w-site gap-5 px-5 py-7 sm:px-8 md:grid-cols-3 md:gap-10 md:py-9 lg:grid-cols-4">
         <div className="min-w-0">
           <Link href="/" aria-label="DOCVY home" className="site-logo inline-flex min-h-11 items-center"><BrandLogo darkBackground /></Link>
-          <p className="mt-2 max-w-sm leading-6">Find doctors and prepare for your next visit.</p>
+          <p className="mt-2 max-w-sm leading-6">Find your doctor. Book your appointment. Follow your visit through DOCVY.</p>
           <a href="mailto:contact@docvy.in" className="inline-flex min-h-11 items-center hover:underline">contact@docvy.in</a>
           <p className="mt-2 text-xs leading-5">Operated by DSS Global Technologies Private Limited.</p>
           <address className="mt-1 max-w-sm text-xs not-italic leading-5">Sector 48, Gurugram, Haryana 122101, India.</address>

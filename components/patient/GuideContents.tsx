@@ -1,0 +1,1 @@
+export default function GuideContents({items}:{items:{id:string;label:string}[]}){return <nav className="docvy-guide-contents" aria-label="On this page"><p>ON THIS PAGE</p><ul>{items.map(item=><li key={item.id}><a href={'#'+item.id}>{item.label}</a></li>)}</ul></nav>}
