@@ -9,7 +9,6 @@ import { createPortal } from "react-dom";
 import { specialties } from "@/lib/care-directory";
 
 const links = [
-  ["/patient-access", "My appointment"],
   ["/surgery-guide", "Surgeries"],
   ["/care-guide", "Health guides"], ["/for-doctors", "For clinics & doctors"],
 ] as const;
