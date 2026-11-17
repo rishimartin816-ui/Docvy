@@ -31,7 +31,7 @@ export default async function Footer() {
     <footer className="site-footer border-t border-line text-sm">
       <div className="mx-auto grid max-w-site gap-5 px-5 py-7 sm:px-8 md:grid-cols-3 md:gap-10 md:py-9 lg:grid-cols-4">
         <div className="min-w-0">
-          <Link href="/" aria-label="DOCVY home" className="site-logo inline-flex min-h-11 items-center"><BrandLogo darkBackground /></Link>
+          <Link href="/" aria-label="DOCVY home" className="site-logo inline-flex min-h-11 items-center"><BrandLogo darkBackground className="w-[150px] sm:w-[180px]" sizes="(min-width: 640px) 180px, 150px" /></Link>
           <p className="mt-2 max-w-sm leading-6">Find your doctor. Book your appointment. Follow your visit through DOCVY.</p>
           <a href="mailto:contact@docvy.in" className="inline-flex min-h-11 items-center hover:underline">contact@docvy.in</a>
           <p className="mt-2 text-xs leading-5">Operated by DSS Global Technologies Private Limited.</p>

@@ -67,8 +67,8 @@ export default function Nav() {
   const action = <Link href="/book" onClick={close} className="site-header-cta docvy-pill docvy-pill-primary">Book appointment</Link>;
 
   return <header className="site-header sticky top-0 z-30 border-b border-line">
-    <div className="mx-auto flex h-16 max-w-site items-center justify-between gap-4 px-5 sm:px-8 lg:h-[72px]">
-      <Link href="/" aria-label="DOCVY home" className="site-logo inline-flex min-h-12 shrink-0 items-center"><BrandLogo priority className="w-36 min-[380px]:w-[180px]" /></Link>
+    <div className="mx-auto flex h-[60px] max-w-site items-center justify-between gap-3 px-4 sm:h-16 sm:px-8 lg:h-[72px]">
+      <Link href="/" aria-label="DOCVY home" className="site-logo inline-flex min-h-12 shrink-0 items-center"><BrandLogo priority className="w-[138px] sm:w-40 lg:w-[180px]" sizes="(min-width: 1024px) 180px, (min-width: 640px) 160px, 138px" /></Link>
       {open ? createPortal(<dialog ref={dialog} aria-label="Main menu" onKeyDown={event => {
         if (event.key !== "Tab") return;
         const items = Array.from(event.currentTarget.querySelectorAll<HTMLElement>("a[href],button:not([disabled]),summary")).filter(item => item.getClientRects().length > 0);
