@@ -69,3 +69,7 @@ Final production deployment: `dpl_9PEcuhgwsZZjaxMvjQ3EmNZF9QVA`, READY and assig
 ![Live care navigator](release-screenshots/seo-care-navigator.png)
 ![Live doctor comparison](release-screenshots/seo-doctor-comparison.png)
 ![Live mobile scene](release-screenshots/seo-care-navigator-mobile.png)
+
+### Motion-control follow-up
+
+At the user's request, the visible Pause/Play motion button and its state/styles were removed. The CSS 3D effects and operating-system reduced-motion support remain. Application commit: `9678aaa1ad11119e2c4141a7ef899538fb931ff3`. TypeScript and ESLint passed; deployment details are recorded in PR #19.
