@@ -1,0 +1,35 @@
+{
+  "id": "dr-channamsetty-sashidhar",
+  "name": "Dr. Channamsetty Sashidhar",
+  "specialties": [
+    "Nephrology"
+  ],
+  "hospital": "Satya Kidney Centre",
+  "summary": "Dr. Channamsetty Sashidhar is a nephrologist with MD and DNB (Nephrology) qualifications and 20 years of experience. He consults at Satya Kidney Centre in Himayatnagar, Hyderabad, Telangana. The consultation fee is ₹750.",
+  "profileDetails": {
+    "qualifications": "MD, DNB (Nephrology)",
+    "experienceYears": 20,
+    "experienceAsOf": "2026-11-16",
+    "consultationFee": 750,
+    "currency": "INR",
+    "practicePhone": "+919652013437"
+  },
+  "locations": [
+    {
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "locality": "Himayatnagar",
+      "kind": "clinic",
+      "primary": true,
+      "facility": "Satya Kidney Centre",
+      "address": "Satya Kidney Centre, Himayatnagar, Hyderabad, Telangana",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Satya%20Kidney%20Centre%2C%20Himayatnagar%2C%20Hyderabad%2C%20Telangana",
+      "consultationFee": 750,
+      "currency": "INR",
+      "practicePhone": "+919652013437"
+    }
+  ],
+  "registrationNumber": "50367",
+  "registrationCouncil": "Telangana Medical Council",
+  "profileStatus": "verified"
+}
