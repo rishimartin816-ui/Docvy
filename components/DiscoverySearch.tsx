@@ -11,7 +11,7 @@ export default async function DiscoverySearch({ query = "", city = "", area = ""
     <form action="/doctors" className="docvy-glass flex flex-wrap items-end gap-3 p-4">
       <label className="min-w-0 flex-1 basis-52 text-sm font-semibold">
         <span className="mb-1.5 block">{homepage ? "Doctor, specialty or hospital" : "Find a doctor"}</span>
-        <input type="search" name="q" defaultValue={query} maxLength={120} placeholder="Symptom, doctor, specialty or clinic" className="docvy-select min-h-12" />
+        <input type="search" name="q" defaultValue={query} maxLength={120} placeholder={homepage?"Name, specialty or clinic":"Symptom, doctor, specialty or clinic"} className="docvy-select min-h-12" />
       </label>
       {liveCities.length > 0 && <LocationSearch cities={liveCities} city={city} area={area} compact={homepage} showArea={!homepage} />}
       <button type="submit" className="docvy-pill docvy-pill-primary"><Search size={17} strokeWidth={1.5} aria-hidden="true" /> {homepage ? "Find doctors" : "Search"}</button>
