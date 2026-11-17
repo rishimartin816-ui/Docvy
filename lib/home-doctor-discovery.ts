@@ -1,6 +1,8 @@
 export type HomePractice={city:string;facility:string;locality:string;online:boolean;fee:number|null;primary:boolean};
 export type HomeDoctor={id:string;name:string;href:string;photoUrl:string|null;specialties:string[];languages:string[];experienceYears:number|null;bookable:boolean;locations:HomePractice[]};
 export type HomeDoctorFilters={query:string;city:string;mode:'all'|'in-person'|'online'};
+/** In-memory only: no patient information or browsing preferences are persisted. */
+export function nextShortlist(selected:string[],id:string){return selected.includes(id)?selected.filter(value=>value!==id):selected.length<3?[...selected,id]:selected;}
 /** All practice filters must match the same location, including the displayed fee. */
 export function matchingHomeDoctors(doctors:HomeDoctor[],filters:HomeDoctorFilters){
  const query=filters.query.trim().toLocaleLowerCase('en-IN');

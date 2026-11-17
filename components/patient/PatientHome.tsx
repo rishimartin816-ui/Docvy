@@ -8,6 +8,7 @@ import {citySlug} from '@/lib/directory';
 import {doctorPath} from '@/lib/directory-normalization';
 import {specialties} from '@/lib/care-directory';
 import HomeDoctorExplorer from './HomeDoctorExplorer';
+import CareNavigator from './CareNavigator';
 import type {HomeDoctor} from '@/lib/home-doctor-discovery';
 import DiscoverySearch from '@/components/DiscoverySearch';
 import SpecialtyIcon from '@/components/SpecialtyIcon';
@@ -36,6 +37,7 @@ export default async function PatientHome(){
    </div>
    <div className={s.searchDock}><div><DiscoverySearch homepage/><div className={s.searchHint}><strong>Popular searches</strong><Link href="/specialties/dermatology">Skin & hair</Link><Link href="/specialties/dentistry">Dental care</Link><Link href="/specialties/orthopaedics">Bones & joints</Link><Link href="/specialties/general-medicine">General medicine</Link></div></div></div>
   </div></section>
+  <CareNavigator doctors={homeDoctors}/>
   <section className={`${s.wrap} ${s.section}`} aria-labelledby="patient-specialties"><div className={s.sectionHead}><div><span className={s.eyebrow}>Find your starting point</span><h2 id="patient-specialties">Which care are you looking for?</h2></div><Link className={s.textLink} href="/specialties">All specialties<ArrowRight size={15} aria-hidden="true"/></Link></div><div className={s.specialties}>{specialties.slice(0,8).map(item=><Link className={s.specialty} href={'/specialties/'+item.slug} key={item.slug}><SpecialtyIcon slug={item.slug}/><h3>{item.name}</h3></Link>)}</div></section>
   <section id="doctors" className={s.tint} aria-labelledby="patient-doctors"><div className={`${s.wrap} ${s.section}`}><div className={s.sectionHead}><div><span className={s.eyebrow}>People behind the profiles</span><h2 id="patient-doctors">Find a doctor. Feel informed.</h2><p>Experience, consultation fees and practice details, together in one place. Meet participating professionals and choose your next step.</p></div><Link className={s.textLink} href="/doctors">Explore directory<ArrowRight size={15} aria-hidden="true"/></Link></div><HomeDoctorExplorer doctors={homeDoctors}/><p className={`${s.smallNote} mt-5`}>Fees reflect published practice information. Your preferred appointment time is confirmed by DOCVY after checking with the doctor.</p></div></section>
   <section className={`${s.wrap} ${s.section}`} aria-labelledby="patient-journey"><div className={s.sectionHead}><div><span className={s.eyebrow}>Less uncertainty. A clearer next step.</span><h2 id="patient-journey">From finding your doctor to your visit.</h2></div></div><div className={s.journey}>{[

@@ -9,7 +9,7 @@ import Nav from "@/components/Nav";
 import RouteBreadcrumbs from "@/components/RouteBreadcrumbs";
 import Footer from "@/components/Footer";
 import SiteFrame from "@/components/SiteFrame";
-import { docvyOpenGraphImage } from "@/lib/metadata";
+import { businessDescription, docvyOpenGraphImage } from "@/lib/metadata";
 
 const docvyFont = localFont({
   src: "./fonts/google-sans-flex-latin-wght-normal.woff2",
@@ -75,6 +75,8 @@ export default function RootLayout({
               "@type": "Organization",
               "@id": "https://www.docvy.in/#organization",
               name: "DOCVY",
+              description: businessDescription,
+              areaServed: { "@type": "Country", name: "India" },
               url: "https://www.docvy.in",
               email: "contact@docvy.in",
               logo: "https://www.docvy.in/brand/01_DOCVY_Primary_Transparent.png",
