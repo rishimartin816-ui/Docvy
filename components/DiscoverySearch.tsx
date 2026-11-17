@@ -16,6 +16,6 @@ export default async function DiscoverySearch({ query = "", city = "", area = ""
       {liveCities.length > 0 && <LocationSearch cities={liveCities} city={city} area={area} compact={homepage} showArea={!homepage} />}
       <button type="submit" className="docvy-pill docvy-pill-primary"><Search size={17} strokeWidth={1.5} aria-hidden="true" /> {homepage ? "Find doctors" : "Search"}</button>
     </form>
-    <p className="emergency-line mt-3 text-sm text-danger">In an emergency, call <a href="tel:112" className="inline-flex min-h-11 items-center font-bold underline">112</a> or go to the nearest hospital.</p>
+    {!homepage && <p className="emergency-line mt-3 text-sm text-danger">In an emergency, call <a href="tel:112" className="inline-flex min-h-11 items-center font-bold underline">112</a> or go to the nearest hospital.</p>}
   </div>;
 }
