@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import {ArrowRight,ArrowUpRight,CalendarDays,ChevronRight,ClipboardCheck,Heart,MapPin,MessageCircle,ShieldCheck,Stethoscope} from 'lucide-react';
 import {getDirectoryDoctors} from '@/lib/public-directory';
 import {getBookingDoctorIds} from '@/lib/patient-discovery';
@@ -30,7 +31,7 @@ export default async function PatientHome(){
  const homeDoctors:HomeDoctor[]=verified.map(doctor=>({id:doctor.id,name:doctor.name,href:doctorPath(doctor),photoUrl:doctor.photoUrl??null,specialties:doctor.specialties,languages:doctor.profileDetails?.languages??[],experienceYears:doctor.profileDetails?.experienceYears??null,bookable:bookableIds.has(doctor.id),locations:doctor.locations.filter(location=>doctor.id!=='mr-sahil-kochale'||['Indore','Online'].includes(location.city)).map(location=>({city:location.city,facility:location.facility,locality:location.locality??'',online:location.kind==='online',primary:location.primary===true,fee:location.consultationFee??doctor.profileDetails?.consultationFee??null}))}));
  const cityCounts=new Map<string,number>();for(const doctor of verified){for(const city of new Set(doctor.locations.filter(l=>l.kind!=='online').map(l=>l.city)))cityCounts.set(city,(cityCounts.get(city)??0)+1);}
  return <div className={s.root}>
-  <section className={s.hero} aria-labelledby="patient-home-title"><div className={s.wrap}>
+  <section className={`${s.hero} ${s.consultationHero}`} aria-labelledby="patient-home-title"><div className={s.heroBackdrop} aria-hidden="true"><Image src="/images/docvy-consultation-hero-v2.jpg" alt="" fill priority sizes="100vw" className={s.consultationPhoto}/></div><div className={s.heroWash} aria-hidden="true"/><div className={s.wrap}>
    <div className={s.heroGrid}><div><span className={s.eyebrow}><span className={s.dot}/>Your next appointment starts here</span><h1 id="patient-home-title">Good care starts<br/>with the <em>right doctor.</em></h1><p className={s.intro}>Find a doctor you can get to know. Explore their experience, choose your practice and book your next visit through DOCVY.</p><div className={s.actions}><Link className={s.primary} href="#doctors">Explore doctors<ArrowUpRight size={17} aria-hidden="true"/></Link><Link className={s.secondary} href="/book">Book appointment now<CalendarDays size={16} aria-hidden="true"/></Link></div><div className={s.trustLine}><span><ShieldCheck size={15} aria-hidden="true"/>Verified profiles</span><span><ClipboardCheck size={15} aria-hidden="true"/>One private booking reference</span></div></div>
    </div>
    <div className={s.searchDock}><div><DiscoverySearch homepage/><div className={s.searchHint}><strong>Popular searches</strong><Link href="/specialties/dermatology">Skin & hair</Link><Link href="/specialties/dentistry">Dental care</Link><Link href="/specialties/orthopaedics">Bones & joints</Link><Link href="/specialties/general-medicine">General medicine</Link></div></div></div>
