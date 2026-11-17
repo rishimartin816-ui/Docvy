@@ -25,3 +25,11 @@ Production deployment: `dpl_ENG7QmifuwCnqBT6zeLUjfHwmPJb`; Vercel production bui
 - No real appointment was submitted during UI testing. No production database data/schema, booking transaction, authorisation or clinic CRM access was changed. Main was not modified and no PR was merged.
 
 ![Live mobile homepage](release-screenshots/mobile-polish-home.png)
+
+## Photo overlap follow-up
+
+The user's iPhone screenshot revealed the mobile photo continuing behind the badge/headline. The gradient previously referenced the full hero height (including search), rather than the photo height. The mobile backdrop and wash are now both 220px tall, with a bounded fade that reaches the solid background before the copy. The copy begins below the image. Desktop rules are unchanged.
+
+Released application commit `951cf72c3fa196ac4b93d9791a6f8645609ab989`, production deployment `dpl_APGgYJ4QvqvEjepBTxmuzcCicnK7`, assigned to www.docvy.in. Vercel production build READY. TypeScript, lint and discovery/booking-presentation regressions passed. Browser checks at actual 320px and 375px show image bottom 281px and badge top 288px, with no document overflow; desktop remains unchanged. Live 375px screenshot:
+
+![Corrected mobile photo](release-screenshots/mobile-photo-fixed.png)
