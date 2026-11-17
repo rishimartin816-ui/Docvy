@@ -12,3 +12,11 @@ The user requested no featured doctor in the hero, one emergency notice near the
 The emergency number is 112, verified against the Ministry of Home Affairs ERSS description: https://www.mha.gov.in/emergency-response-support-system-erss . No number change to 113 is made.
 
 Validation includes TypeScript, ESLint, production builds, focused cross-practice filtering tests and browser checks for hero content, search, online selection, empty/reset state and mobile layout. Booking backend and production database are unchanged.
+
+## Verification and release
+
+TypeScript, ESLint, the optimized local build (2,455 generated pages), Vercel production build and matching/booking presentation tests passed. Browser checks verified instant Anil search, no-match/reset, show-more (6 to 9 verified profiles), Online showing Sahil’s online practice/fee, and Sankhalim plus in-person showing Meena’s corresponding practice. Contradictory practice filters correctly return no matches.
+
+Live homepage checks returned 200, no images or provider name within the hero, exactly one tel:112 link, and the interactive controls. Authenticated live booking health returned 200 and healthy=true. Final production application commit: 4c7d000a8e9b032a284a4ec443dfef7281f9a400. Deployment: dpl_Ha9HUopHz5o6KQCEGP9spqXetbdd. The last responsive refinement makes doctor cards full width below 600px. Production database records and schema are unchanged.
+
+Final live mobile check passed: the filtered result card filled its 437px results container, with document width 469px within the measured 488px viewport. The online card retained its matching practice, ₹1,200 published fee and direct booking link. Desktop hero screenshot is saved under docs/release-screenshots/homepage-no-portrait.jpg. Final live homepage and protected backend health both returned 200; the hero contained zero images and the page contained one emergency call link.
