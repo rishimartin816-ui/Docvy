@@ -49,3 +49,4 @@
 
 @media(max-width:600px){.consultationHero .actions{align-items:stretch}.desktopWord{display:none}}
 @media(max-width:350px){.consultationHero .actions{grid-template-columns:1fr}}
+@media(max-width:600px){.consultationHero .searchDock form>button svg{flex-shrink:0}} @media(max-width:350px){.consultationHero .searchDock form{grid-template-columns:1fr}.consultationHero .searchDock form>button{grid-column:1;grid-row:3}.consultationHero .searchDock :global([data-compact-location])>button{grid-row:4}.consultationHero .searchDock :global([data-compact-location])>p{grid-row:5}}
