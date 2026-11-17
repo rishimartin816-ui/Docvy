@@ -26,7 +26,7 @@ export default function AboutPage() {
         <p className="docvy-eyebrow">ABOUT DOCVY</p>
         <h1 className="mt-4 text-4xl font-bold leading-[1.05] tracking-[-.05em] text-ink sm:text-6xl">When health feels uncertain, the next step should feel clearer.</h1>
         <p className="mt-5 max-w-xl text-lg leading-8 text-grey">{businessDescription}</p>
-        <Link href="/care-guide" className="docvy-pill docvy-pill-primary mt-6">Find a guide for your concern <ArrowUpRight strokeWidth={1.5} size={17} aria-hidden="true" /></Link>
+        <Link href="/doctors" className="docvy-pill docvy-pill-primary mt-6">Find your next doctor <ArrowUpRight strokeWidth={1.5} size={17} aria-hidden="true" /></Link>
       </div>
     </section>
 
@@ -48,7 +48,7 @@ export default function AboutPage() {
           <Link href={href} className="docvy-pill">{label} <ArrowUpRight strokeWidth={1.5} size={16} aria-hidden="true" /></Link>
         </article>)}
       </div>
-      <p className="mt-6 max-w-3xl text-sm leading-6 text-grey">DOCVY guides help you prepare for conversations with your care team. Find a real doctor profile and send an appointment request through DOCVY. The provider confirms the time and fee.</p>
+      <p className="mt-6 max-w-3xl text-sm leading-6 text-grey">DOCVY guides help you prepare for conversations with your care team. Find a real doctor profile and send an appointment request through DOCVY. DOCVY coordinates availability and the applicable fee with the doctor before confirming your appointment.</p>
     </section>
   </div>;
 }

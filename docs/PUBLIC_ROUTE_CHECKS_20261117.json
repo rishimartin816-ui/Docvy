@@ -1,0 +1,381 @@
+{
+  "deployment": "dpl_3pZE8mkHnrK6RhZLc6bn79SLgs6e",
+  "commit": "9edac1a45408680e3114ead8ea603071bd35b259",
+  "checkedAt": "2026-11-17T05:35:40.370Z",
+  "results": [
+    {
+      "path": "/",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/about",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/about",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/contact",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/contact",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/faqs",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/faqs",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/how-it-works",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/how-it-works",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/pricing",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/pricing",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/for-doctors",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/for-doctors",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/for-clinics",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/for-clinics",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/partner-with-us",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/partner-with-us",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/claim-profile",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/claim-profile",
+      "headings": 1,
+      "noindex": true,
+      "demo": false
+    },
+    {
+      "path": "/remove-profile",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/remove-profile",
+      "headings": 1,
+      "noindex": true,
+      "demo": false
+    },
+    {
+      "path": "/grievance",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/grievance",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/login",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/login",
+      "headings": 1,
+      "noindex": true,
+      "demo": false
+    },
+    {
+      "path": "/patient-access",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/patient-access",
+      "headings": 1,
+      "noindex": true,
+      "demo": false
+    },
+    {
+      "path": "/status",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/status",
+      "headings": 1,
+      "noindex": true,
+      "demo": false
+    },
+    {
+      "path": "/hi",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/hi",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/book",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/book",
+      "headings": 1,
+      "noindex": true,
+      "demo": false
+    },
+    {
+      "path": "/appointments",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/book",
+      "headings": 1,
+      "noindex": true,
+      "demo": false
+    },
+    {
+      "path": "/appointments/track",
+      "status": 200,
+      "redirect": null,
+      "headings": 1,
+      "noindex": true,
+      "demo": false
+    },
+    {
+      "path": "/appointments/doctor",
+      "status": 200,
+      "redirect": null,
+      "headings": 1,
+      "noindex": true,
+      "demo": false
+    },
+    {
+      "path": "/doctors",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/doctors",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/hospitals",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/hospitals",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/clinics",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/clinics",
+      "headings": 1,
+      "noindex": true,
+      "demo": false
+    },
+    {
+      "path": "/specialties",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/specialties",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/care-guide",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/care-guide",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/surgery-guide",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/surgery-guide",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/legal/privacy",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/legal/privacy",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/legal/terms",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/legal/terms",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/legal/refund",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/legal/refund",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/legal/disclaimer",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/legal/disclaimer",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/doctor/dr-ambika-rao-jhunjhunu-68798490",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/doctor/dr-ambika-rao-jhunjhunu-68798490",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/doctors/jhunjhunu",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/doctors/jhunjhunu",
+      "headings": 1,
+      "noindex": true,
+      "demo": false
+    },
+    {
+      "path": "/doctors/specialty/general-medicine",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/doctors/specialty/general-medicine",
+      "headings": 1,
+      "noindex": true,
+      "demo": false
+    },
+    {
+      "path": "/specialties/general-medicine",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/specialties/general-medicine",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/patient-guides/diabetes",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/patient-guides/diabetes",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/surgeries/hernia-repair",
+      "status": 200,
+      "redirect": null,
+      "canonical": "https://www.docvy.in/surgeries/hernia-repair",
+      "headings": 1,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/for-students",
+      "status": 307,
+      "redirect": "/doctors",
+      "headings": 0,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/for-employees",
+      "status": 307,
+      "redirect": "/doctors",
+      "headings": 0,
+      "noindex": false,
+      "demo": false
+    },
+    {
+      "path": "/clinic",
+      "status": 307,
+      "redirect": "/book",
+      "canonical": "https://www.docvy.in/clinic",
+      "headings": 0,
+      "noindex": true,
+      "demo": false
+    },
+    {
+      "path": "/crm/demo",
+      "status": 307,
+      "redirect": "/founder",
+      "canonical": "https://www.docvy.in/crm/demo",
+      "headings": 0,
+      "noindex": true,
+      "demo": false
+    },
+    {
+      "path": "/request/test",
+      "status": 307,
+      "redirect": "/book",
+      "canonical": "https://www.docvy.in/request/test",
+      "headings": 0,
+      "noindex": true,
+      "demo": false
+    },
+    {
+      "path": "/request",
+      "status": 307,
+      "redirect": "/book",
+      "canonical": "https://www.docvy.in/request",
+      "headings": 0,
+      "noindex": true,
+      "demo": false
+    }
+  ]
+}

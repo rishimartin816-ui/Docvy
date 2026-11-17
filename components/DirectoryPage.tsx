@@ -1,4 +1,5 @@
 import { getDirectoryDoctors } from "@/lib/public-directory";
+import {getBookingDoctorIds} from "@/lib/patient-discovery";
 import DoctorCard from "./DoctorCard";
 import IllustrationBackground from "@/components/IllustrationBackground";
 import Link from "next/link";
@@ -27,8 +28,9 @@ export function Breadcrumbs({ items }: { items: { name: string; href: string }[]
   </>;
 }
 
-export function DoctorCards({ doctors, city, facility, area }: { doctors: ProviderCandidate[]; city?: string; facility?: string; area?: string }) {
-  return <ul className="doctor-results">{doctors.map(doctor => <li key={doctor.id}><DoctorCard doctor={doctor} location={doctor.locations.find(location => (!city || citySlug(location.city) === city) && (!facility || location.facility === facility) && (!area || location.locality?.toLowerCase() === area.toLowerCase()))} /></li>)}</ul>;
+export async function DoctorCards({ doctors, city, facility, area }: { doctors: ProviderCandidate[]; city?: string; facility?: string; area?: string }) {
+  const active=await getBookingDoctorIds();
+  return <ul className="doctor-results">{doctors.map(doctor => <li key={doctor.id}><DoctorCard doctor={doctor} bookable={active.has(doctor.id)} location={doctor.locations.find(location => (!city || citySlug(location.city) === city) && (!facility || location.facility === facility) && (!area || location.locality?.toLowerCase() === area.toLowerCase()))} /></li>)}</ul>;
 }
 
 export default async function DirectoryPage({ city, specialty }: { city: typeof cities[number]; specialty?: typeof directorySpecialties[number] }) {
@@ -53,7 +55,7 @@ export default async function DirectoryPage({ city, specialty }: { city: typeof 
     }).replace(/</g, "\\u003c") }} />}
     <section className="relative isolate mt-8 overflow-hidden rounded-card border border-line p-6">
       {!ready && <IllustrationBackground slug="empty-state-more-options" alt="Meera makes a note to look for more care options later." />}
-      <h2 className="text-2xl font-bold">{ready ? "Doctor listings" : "Doctors are joining soon"}</h2>
+      <h2 className="text-2xl font-bold">{ready ? "Doctor listings" : "No matching profiles are published here yet"}</h2>
       {ready ? <><p className="mt-3 text-sm text-grey">{doctors.length} published profiles. Showing up to 20 here.</p><DoctorCards doctors={doctors.slice(0,20)} city={city.slug} /><Link className="docvy-pill mt-5" href={{pathname:"/doctors",query:{location:city.slug,...(specialty?{specialty:specialty.slug}:{})}}}>View all results and filter by area</Link></> : <CityWaitlist city={city.slug} specialty={specialty?.slug} enabled={process.env.DOCVY_WAITLIST_ENABLED === "true" && Boolean(clinicCrmConfig())} />}
     </section>
     {areas.length>0 && <section className="mt-8"><h2 className="text-2xl font-bold">Browse by neighbourhood</h2><ul className="mt-3 flex flex-wrap gap-2">{areas.map(area=><li key={area}><Link className="docvy-pill" href={cityPath+"/areas/"+slugify(area)}>{area}</Link></li>)}</ul></section>}
@@ -70,7 +72,7 @@ export default async function DirectoryPage({ city, specialty }: { city: typeof 
     <section className="relative isolate mt-8 overflow-hidden rounded-card border border-line p-6">
       {!ready && <IllustrationBackground slug="empty-state-more-options" alt="Meera makes a note to look for more care options later." />}<h2 className="text-2xl font-bold">Questions about finding care in {city.name}</h2>
       <h3 className="mt-4 font-bold">{city.question}</h3><p className="mt-1">{city.answer}</p>
-      <h3 className="mt-4 font-bold">How do I confirm an appointment?</h3><p className="mt-1">Check the clinic’s location, availability, and fee directly before you travel.</p>
+      <h3 className="mt-4 font-bold">How do I confirm an appointment?</h3><p className="mt-1">Choose a participating doctor and preferred time through DOCVY. Wait for DOCVY’s confirmation before travelling, and check the confirmed practice and fee.</p>
     </section>
   </div></div>;
 }

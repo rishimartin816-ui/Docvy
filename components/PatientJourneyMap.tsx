@@ -8,7 +8,7 @@ import {
   Search,
   ShieldAlert,
 } from "lucide-react";
-import { providerCityListLabel } from "@/lib/directory-coverage";
+
 
 const steps = [
   {
@@ -29,7 +29,7 @@ const steps = [
     number: "03",
     icon: MapPin,
     title: "Check whether listings cover your city",
-    text: `The current directory has source-linked profiles in ${providerCityListLabel}. If you are elsewhere in India, you can still use the guide; other city listings are planned when useful, source-linked coverage is ready. No expansion date has been announced.`,
+    text: `Explore the doctor directory to see current practice locations. Coverage changes as approved profiles are added. The patient guides can be used from anywhere in India.`,
     label: "CURRENT LISTINGS",
   },
   {
@@ -80,7 +80,7 @@ export default function PatientJourneyMap({ intakeEnabled, headingLevel = 3 }: {
             <div className="ml-5 flex h-8 items-center border-l-2 border-dashed border-line"><ArrowDown strokeWidth={1.5} size={16} className="-ml-[9px] rounded-full bg-white text-ink" /></div>
             <div className="flex items-center gap-3">
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-surface text-ink"><MapPin strokeWidth={1.5} size={20} /></span>
-              <div><p className="text-[10px] font-extrabold tracking-[0.13em] text-grey">CURRENT DIRECTORY</p><p className="mt-1 font-bold text-ink">{providerCityListLabel}</p></div>
+              <div><p className="text-[10px] font-extrabold tracking-[0.13em] text-grey">CURRENT DIRECTORY</p><p className="mt-1 font-bold text-ink">Browse current practice locations</p></div>
             </div>
           </div>
 

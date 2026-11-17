@@ -1,10 +1,3 @@
-import type { ProviderCandidate } from "./provider-candidates";
-
-export function facilitiesFrom(liveDoctors: ProviderCandidate[]) { return Array.from(new Set(liveDoctors.flatMap((doctor) => doctor.locations.filter(location => location.kind !== "online").map((location) => location.facility).filter(Boolean))))
-  .map((name) => {
-    const doctors = liveDoctors.filter((doctor) => doctor.locations.some((location) => location.facility === name));
-    const location = doctors[0].locations.find((item) => item.facility === name)!;
-    return { name, location, kind: location.kind ?? (/clinic/i.test(name) ? "clinic" : "hospital"), doctors, specialties: Array.from(new Set(doctors.flatMap((doctor) => doctor.specialties))) };
-  });
-
-}
+import type {ProviderCandidate} from './provider-candidates';
+/** A facility name can occur in different cities; keep each real practice distinct. */
+export function facilitiesFrom(doctors:ProviderCandidate[]){const places=new Map<string,{name:string;location:ProviderCandidate['locations'][number]}>();for(const doctor of doctors)for(const location of doctor.locations){if(location.kind!=='online'&&location.facility){const key=JSON.stringify([location.facility,location.city]);if(!places.has(key))places.set(key,{name:location.facility,location});}}return [...places.values()].map(({name,location})=>{const associated=doctors.filter(doctor=>doctor.locations.some(l=>l.facility===name&&l.city===location.city));return{name,location,kind:location.kind??(/clinic/i.test(name)?'clinic':'hospital'),doctors:associated,specialties:Array.from(new Set(associated.flatMap(doctor=>doctor.specialties)))};});}

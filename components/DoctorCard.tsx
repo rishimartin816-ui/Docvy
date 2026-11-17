@@ -1,36 +1,13 @@
-import Link from "next/link";
-import { practiceLocationLabel } from "@/lib/practice-labels";
-import { ArrowUpRight, BadgeCheck, Building2, CircleUserRound, MapPin } from "lucide-react";
-import DoctorPortrait from "./DoctorPortrait";
-import { doctorPath } from "@/lib/directory-normalization";
-import { canRequestAppointment, isVerified } from "@/lib/profile-policy";
-import type { ProviderCandidate, ProviderLocation } from "@/lib/provider-candidates";
-
-export default function DoctorCard({ doctor, location = doctor.locations[0] }: { doctor: ProviderCandidate; location?: ProviderLocation }) {
-  const partnered = canRequestAppointment(doctor);
-  const profile = doctorPath(doctor);
-  return <article className="doctor-card" aria-labelledby={"doctor-name-" + doctor.id}>
-    <div className="doctor-card-main">
-      <DoctorPortrait name={doctor.name} src={partnered ? doctor.photoUrl : null} compact />
-      <div className="doctor-card-details">
-        <h3 id={"doctor-name-" + doctor.id} className="doctor-card-title"><Link href={profile}>{doctor.name}</Link></h3>
-        {partnered && doctor.profileDetails?.experienceYears != null && <p className="doctor-experience mt-2 inline-flex rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">{doctor.profileDetails.experienceYears} {doctor.profileDetails.experienceYears === 1 ? "Year" : "Years"} of Experience</p>}
-        <p className="doctor-card-specialty capitalize">{doctor.specialties.join(" · ") || "Specialty details under review"}</p>
-        {doctor.centres?.length ? <p className="mt-2 text-xs leading-6 text-grey">Centres &amp; services: {doctor.centres.join(" · ")}</p> : null}
-        {partnered && doctor.profileDetails?.qualifications && <p className="mt-2 text-sm leading-6 text-grey">{doctor.profileDetails.qualifications}</p>}
-        <div className="doctor-card-location">
-          {(location.facility || doctor.hospital) && <p><Building2 size={16} strokeWidth={1.5} aria-hidden="true" /><span className="capitalize">{location.facility || doctor.hospital}</span></p>}
-          <p><MapPin size={16} strokeWidth={1.5} aria-hidden="true" /><span>{location.kind === "online" ? "Online Consultation" : practiceLocationLabel(location, true)}</span></p>
-        </div>
-        {isVerified(doctor) && <p className="doctor-verified"><BadgeCheck size={16} strokeWidth={1.5} aria-hidden="true" /> DOCVY Verified</p>}
-      </div>
-    </div>
-    {partnered ? <div className="doctor-card-footer">
-      <p className="doctor-card-note">Book an appointment<br />with your chosen clinic.</p>
-      <Link href={{ pathname: "/request", query: { provider: doctor.id, city: location.city, facility: location.facility } }} className="doctor-claim-button">Book an appointment <ArrowUpRight size={17} strokeWidth={1.5} aria-hidden="true" /></Link>
-    </div> : <div className="doctor-card-footer">
-      <div className="doctor-card-status"><span className="doctor-status-dot" aria-hidden="true" /><p>Not yet partnered with DOCVY</p></div>
-      <div className="doctor-card-claim"><span>Is this your practice?</span><Link className="doctor-claim-button" href={{ pathname: "/claim-profile", query: { provider: doctor.id } }} aria-label={"Claim profile for " + doctor.name}><CircleUserRound size={17} strokeWidth={1.5} aria-hidden="true" /> Claim profile <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden="true" /></Link></div>
-    </div>}
-  </article>;
+import Link from 'next/link';
+import {ArrowUpRight,BadgeCheck,Building2,MapPin} from 'lucide-react';
+import DoctorPortrait from './DoctorPortrait';
+import {doctorPath} from '@/lib/directory-normalization';
+import {practiceLocationLabel} from '@/lib/practice-labels';
+import {canRequestAppointment,isVerified} from '@/lib/profile-policy';
+import type {ProviderCandidate,ProviderLocation} from '@/lib/provider-candidates';
+export default function DoctorCard({doctor,location=doctor.locations[0],bookable=false}:{doctor:ProviderCandidate;location?:ProviderLocation;bookable?:boolean}){
+ const partnered=canRequestAppointment(doctor),profile=doctorPath(doctor),details=partnered?doctor.profileDetails:undefined;
+ const canBook=bookable&&isVerified(doctor)&&(doctor.id!=='mr-sahil-kochale'||['Indore','Online'].includes(location.city));
+ const fee=partnered?location.consultationFee??details?.consultationFee:undefined;
+ return <article className="doctor-card" aria-labelledby={'doctor-name-'+doctor.id}><div className="doctor-card-main"><DoctorPortrait name={doctor.name} src={partnered?doctor.photoUrl:null} compact/><div className="doctor-card-details">{isVerified(doctor)&&<p className="doctor-verified"><BadgeCheck size={13} aria-hidden="true"/>DOCVY Verified</p>}<h3 id={'doctor-name-'+doctor.id} className="doctor-card-title"><Link href={profile}>{doctor.name}</Link></h3><p className="doctor-card-specialty">{doctor.specialties.join(' · ')||'Professional profile'}</p>{details?.qualifications&&<p className="mt-2 text-xs leading-6 text-grey">{details.qualifications}</p>}{details?.experienceYears!=null&&<p className="doctor-experience mt-2 inline-flex border border-primary/20 bg-primary/10 text-primary">{details.experienceYears} {details.experienceYears===1?'year':'years'} of experience</p>}<div className="doctor-card-location"><p><Building2 size={14} aria-hidden="true"/><span>{location.facility||doctor.hospital}</span></p><p><MapPin size={14} aria-hidden="true"/><span>{location.kind==='online'?'Online consultation':practiceLocationLabel(location,true)}</span></p></div><div className="docvy-profile-chips">{details?.languages?.slice(0,3).map(language=><span key={language}>{language}</span>)}{canBook&&<span>Accepting requests</span>}</div></div></div><div className="doctor-card-footer"><div>{fee!=null?<p className="docvy-directory-fee">₹{fee.toLocaleString('en-IN')}<small>Published consultation fee</small></p>:<p className="docvy-directory-label">{partnered?'Confirm the applicable fee':'Source-linked professional profile'}</p>}</div><div className="docvy-doctor-actions"><Link href={profile} className="docvy-pill">View profile</Link>{canBook&&<Link href={{pathname:'/book',query:{provider:doctor.id,city:location.city,facility:location.facility}}} className="docvy-pill docvy-pill-primary">Book appointment<ArrowUpRight size={14} aria-hidden="true"/></Link>}</div></div></article>;
 }
