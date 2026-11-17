@@ -23,3 +23,11 @@ TypeScript, ESLint, production builds, booking API/email/patient-auth/presentati
 ## Boundaries
 
 This is a sitewide public experience release, not a rewrite of private founder or admin application workflows. Those workflows and their access controls are preserved and regression-tested. Main is not modified. No production schema migration or patient-data modification is required. No reviews, ratings, outcomes or slot availability are fabricated. The independent segmented sitemap PR #9 is not merged by this release. Production already has a working sitemap route; finishing PR #9 remains a distinct change.
+
+## Final live verification
+
+Sitewide deployment dpl_3pZE8mkHnrK6RhZLc6bn79SLgs6e (production commit 9edac1a45408680e3114ead8ea603071bd35b259) is assigned to www.docvy.in. All 42 checked public entry points / representative dynamic paths returned 200 or an intentional 307 redirect. No demo-booking, under-development or non-operational language was found on those pages. Each 200 page had one H1. The two private capability routes intentionally have no canonical and remain noindex. Full results are in PUBLIC_ROUTE_CHECKS_20261117.json.
+
+The live provider API returned 11 practice options; authenticated health returned healthy=true. Booking admin, directory admin and patient tracking without a receipt returned 401. Live Delhi clinic filtering and Anil doctor search returned their matching results. Sitemap and robots returned 200, with valid sitemap XML using the canonical domain. No production error/fatal runtime logs were found in the checked release window. Browser console checks returned no errors.
+
+Live mobile directory and patient access rendered at a measured 390px viewport with document width 375px, without horizontal overflow. The mobile menu opened and closed correctly. Desktop directory cards showed activation-aware booking buttons and published fees. No production patient booking was created for these checks. The production database was queried only for aggregate notification health; no production records or schema were modified.
