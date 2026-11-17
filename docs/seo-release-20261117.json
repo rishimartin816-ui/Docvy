@@ -1,0 +1,861 @@
+{
+  "checkedAt": "2026-11-17T10:38:50.910Z",
+  "origin": "https://www.docvy.in",
+  "segments": [
+    {
+      "segment": "static.xml",
+      "count": 15
+    },
+    {
+      "segment": "directories.xml",
+      "count": 1
+    },
+    {
+      "segment": "specialties.xml",
+      "count": 25
+    },
+    {
+      "segment": "surgeries.xml",
+      "count": 40
+    },
+    {
+      "segment": "content.xml",
+      "count": 13
+    },
+    {
+      "segment": "doctor-profiles.xml",
+      "count": 9
+    }
+  ],
+  "total": 103,
+  "checked": 103,
+  "robotsStatus": 200,
+  "robotsReferencesRoot": true,
+  "failures": [],
+  "checks": [
+    {
+      "url": "https://www.docvy.in/about",
+      "status": 200,
+      "canonical": "https://www.docvy.in/about",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/contact",
+      "status": 200,
+      "canonical": "https://www.docvy.in/contact",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/for-doctors",
+      "status": 200,
+      "canonical": "https://www.docvy.in/for-doctors",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    },
+    {
+      "url": "https://www.docvy.in/faqs",
+      "status": 200,
+      "canonical": "https://www.docvy.in/faqs",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in",
+      "status": 200,
+      "canonical": "https://www.docvy.in",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/hi",
+      "status": 200,
+      "canonical": "https://www.docvy.in/hi",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 1
+    },
+    {
+      "url": "https://www.docvy.in/grievance",
+      "status": 200,
+      "canonical": "https://www.docvy.in/grievance",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/hospitals",
+      "status": 200,
+      "canonical": "https://www.docvy.in/hospitals",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/how-it-works",
+      "status": 200,
+      "canonical": "https://www.docvy.in/how-it-works",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/legal/disclaimer",
+      "status": 200,
+      "canonical": "https://www.docvy.in/legal/disclaimer",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/legal/refund",
+      "status": 200,
+      "canonical": "https://www.docvy.in/legal/refund",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/legal/privacy",
+      "status": 200,
+      "canonical": "https://www.docvy.in/legal/privacy",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/legal/terms",
+      "status": 200,
+      "canonical": "https://www.docvy.in/legal/terms",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/partner-with-us",
+      "status": 200,
+      "canonical": "https://www.docvy.in/partner-with-us",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/bariatric-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/bariatric-surgery",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/pricing",
+      "status": 200,
+      "canonical": "https://www.docvy.in/pricing",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/doctors",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctors",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    },
+    {
+      "url": "https://www.docvy.in/specialties/cardiology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/cardiology",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/critical-care-medicine",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/critical-care-medicine",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/dermatology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/dermatology",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/dentistry",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/dentistry",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    },
+    {
+      "url": "https://www.docvy.in/specialties/ent",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/ent",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/gastroenterology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/gastroenterology",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/endocrinology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/endocrinology",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/general-medicine",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/general-medicine",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    },
+    {
+      "url": "https://www.docvy.in/specialties/mental-health",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/mental-health",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/gynaecology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/gynaecology",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/minimal-access-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/minimal-access-surgery",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/hepatology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/hepatology",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/oncology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/oncology",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/neurology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/neurology",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/nephrology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/nephrology",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    },
+    {
+      "url": "https://www.docvy.in/specialties/orthopaedics",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/orthopaedics",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/ophthalmology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/ophthalmology",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/plastic-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/plastic-surgery",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/proctology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/proctology",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/paediatrics",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/paediatrics",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    },
+    {
+      "url": "https://www.docvy.in/specialties/pulmonology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/pulmonology",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    },
+    {
+      "url": "https://www.docvy.in/specialties/vascular-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/vascular-surgery",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/specialties/urology",
+      "status": 200,
+      "canonical": "https://www.docvy.in/specialties/urology",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/acl-reconstruction",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/acl-reconstruction",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/adenoid-removal",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/adenoid-removal",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/anal-fistula-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/anal-fistula-surgery",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/appendix-removal",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/appendix-removal",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/brain-tumour-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/brain-tumour-surgery",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/carpal-tunnel-release",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/carpal-tunnel-release",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/cataract-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/cataract-surgery",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/corneal-transplant",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/corneal-transplant",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/eardrum-repair",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/eardrum-repair",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/coronary-artery-bypass",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/coronary-artery-bypass",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/dental-implant-placement",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/dental-implant-placement",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/endoscopic-sinus-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/endoscopic-sinus-surgery",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/fibroid-removal",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/fibroid-removal",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/gallbladder-removal",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/gallbladder-removal",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/fracture-fixation",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/fracture-fixation",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/endometriosis-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/endometriosis-surgery",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/heart-valve-repair-or-replacement",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/heart-valve-repair-or-replacement",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/glaucoma-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/glaucoma-surgery",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/hernia-repair",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/hernia-repair",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/hip-replacement",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/hip-replacement",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/hydrocele-repair",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/hydrocele-repair",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/hysterectomy",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/hysterectomy",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/knee-replacement",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/knee-replacement",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/jaw-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/jaw-surgery",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/kidney-stone-removal",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/kidney-stone-removal",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/meniscus-repair",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/meniscus-repair",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/ovarian-cyst-removal",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/ovarian-cyst-removal",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/peripheral-artery-bypass",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/peripheral-artery-bypass",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/piles-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/piles-surgery",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/pacemaker-implantation",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/pacemaker-implantation",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/pilonidal-sinus-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/pilonidal-sinus-surgery",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/septoplasty",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/septoplasty",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/prostate-surgery",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/prostate-surgery",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/spinal-decompression",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/spinal-decompression",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/retinal-detachment-repair",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/retinal-detachment-repair",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/tonsil-removal",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/tonsil-removal",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/varicocele-repair",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/varicocele-repair",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/varicose-vein-procedures",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/varicose-vein-procedures",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgeries/wisdom-tooth-removal",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgeries/wisdom-tooth-removal",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/surgery-guide",
+      "status": 200,
+      "canonical": "https://www.docvy.in/surgery-guide",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 2
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/asthma",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/asthma",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 4
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/cataract",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/cataract",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 4
+    },
+    {
+      "url": "https://www.docvy.in/care-guide",
+      "status": 200,
+      "canonical": "https://www.docvy.in/care-guide",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/diabetes",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/diabetes",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 4
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/fatty-liver",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/fatty-liver",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 4
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/gallstones",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/gallstones",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 4
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/joint-pain-arthritis",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/joint-pain-arthritis",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 4
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/hernia",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/hernia",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 4
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/high-blood-pressure",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/high-blood-pressure",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 4
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/kidney-stones",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/kidney-stones",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 4
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/piles",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/piles",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 4
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/thyroid",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/thyroid",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 4
+    },
+    {
+      "url": "https://www.docvy.in/patient-guides/pcos-pcod",
+      "status": 200,
+      "canonical": "https://www.docvy.in/patient-guides/pcos-pcod",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 4
+    },
+    {
+      "url": "https://www.docvy.in/doctor/dr-anil-kumar-physiotherapist-delhi",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctor/dr-anil-kumar-physiotherapist-delhi",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    },
+    {
+      "url": "https://www.docvy.in/doctor/dr-basab-raj-ghosh",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctor/dr-basab-raj-ghosh",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    },
+    {
+      "url": "https://www.docvy.in/doctor/dr-ambika-rao-jhunjhunu-68798490",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctor/dr-ambika-rao-jhunjhunu-68798490",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    },
+    {
+      "url": "https://www.docvy.in/doctor/dr-channamsetty-sashidhar",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctor/dr-channamsetty-sashidhar",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    },
+    {
+      "url": "https://www.docvy.in/doctor/dr-hassan-ishtiyaque-ali",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctor/dr-hassan-ishtiyaque-ali",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    },
+    {
+      "url": "https://www.docvy.in/doctor/dr-sagar-reddy",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctor/dr-sagar-reddy",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    },
+    {
+      "url": "https://www.docvy.in/doctor/dr-ummed-kumar-meena",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctor/dr-ummed-kumar-meena",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    },
+    {
+      "url": "https://www.docvy.in/doctor/dr-vivek-prakash-rajput",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctor/dr-vivek-prakash-rajput",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    },
+    {
+      "url": "https://www.docvy.in/doctor/mr-sahil-kochale",
+      "status": 200,
+      "canonical": "https://www.docvy.in/doctor/mr-sahil-kochale",
+      "robots": "index, follow",
+      "h1": 1,
+      "schemas": 3
+    }
+  ]
+}

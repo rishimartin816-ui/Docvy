@@ -1,0 +1,7 @@
+/sitemaps/static.xml: 15 URLs validated with XSD, HTTP, canonical and indexability checks
+/sitemaps/directories.xml: 1 URLs validated with XSD, HTTP, canonical and indexability checks
+/sitemaps/specialties.xml: 25 URLs validated with XSD, HTTP, canonical and indexability checks
+/sitemaps/surgeries.xml: 40 URLs validated with XSD, HTTP, canonical and indexability checks
+/sitemaps/content.xml: 13 URLs validated with XSD, HTTP, canonical and indexability checks
+/sitemaps/doctor-profiles.xml: 9 URLs validated with XSD, HTTP, canonical and indexability checks
+PASS: 103 unique canonical URLs; robots and unknown child checks passed
