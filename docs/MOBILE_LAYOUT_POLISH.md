@@ -33,3 +33,11 @@ The user's iPhone screenshot revealed the mobile photo continuing behind the bad
 Released application commit `951cf72c3fa196ac4b93d9791a6f8645609ab989`, production deployment `dpl_APGgYJ4QvqvEjepBTxmuzcCicnK7`, assigned to www.docvy.in. Vercel production build READY. TypeScript, lint and discovery/booking-presentation regressions passed. Browser checks at actual 320px and 375px show image bottom 281px and badge top 288px, with no document overflow; desktop remains unchanged. Live 375px screenshot:
 
 ![Corrected mobile photo](release-screenshots/mobile-photo-fixed.png)
+
+## Reference composition correction
+
+The prior photo-only fix did not match the user's approved mobile reference: it retained the desktop image's empty left area and made the mobile hero taller. This follow-up crops the existing consultation artwork to put the doctor left and patient right, restores the compact overlaid composition, uses smaller intro text/spacing, shows the complete booking CTA, and returns query/city to the same row above location/Find doctors. Popular searches wrap as small links. At widths below 350px the existing single-column fallback preserves readable inputs. The image `sizes` hint accounts for the larger mobile crop.
+
+Live application commit `7f8394baf17850f5b3d6549e52136941075908fe`, production deployment `dpl_DwCX7KyxvQpu4ikm4uN1Y7ugttqj`. TypeScript, lint, discovery and booking-presentation checks passed; Vercel production build READY. At live 393px, document width is 374px (scrollbar excluded); query and city controls have identical top 534.53px. Local 320px check fits at document width 301px. Search for Anil navigates correctly. Desktop remains full-width image with original object position 66% 28%. This reproduces the reference's composition using the existing asset; it is not a claim of pixel-identical artwork. The readable two-column specialty grid from the previous mobile polish is retained.
+
+![Live reference composition correction](release-screenshots/mobile-reference-corrected.png)
