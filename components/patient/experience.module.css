@@ -46,3 +46,6 @@
  .profileHeader{padding-top:24px}.profileHero{gap:15px}.profileHero h1{font-size:28px;line-height:1.15}.profileHero p{font-size:13px}.profileFacts span{font-size:11px}.profileSection{padding:22px}.profileSection p{font-size:14px;line-height:1.8}.factsGrid{grid-template-columns:1fr}.factsGrid dd{font-size:14px}.practiceMeta{font-size:12px}.anchorNav a{font-size:13px;min-height:44px}.bookingPanel,.compact .bookingPanel{padding:19px}.progress{gap:5px}.progress button,.compact .progress button{font-size:11px;line-height:1.35;min-height:44px;gap:5px}.subtext{font-size:13px;line-height:1.75}.notice{font-size:12px;line-height:1.75}.consent{font-size:12px;line-height:1.7}.timeOption{font-size:14px;min-height:44px}.summary dl>div{font-size:13px}.formActions .primary{font-size:13px;min-height:48px}
 }
 @media(max-width:350px){.consultationHero h1{font-size:29px}.consultationHero .actions>a{font-size:11px}.consultationHero .trustLine{font-size:11px}.doctorTop h3{font-size:18px}.doctorTop{gap:12px}.doctorTop>div:first-child{width:64px;height:80px}.progress button,.compact .progress button{font-size:10px}}
+
+@media(max-width:600px){.consultationHero .actions{align-items:stretch}.desktopWord{display:none}}
+@media(max-width:350px){.consultationHero .actions{grid-template-columns:1fr}}
