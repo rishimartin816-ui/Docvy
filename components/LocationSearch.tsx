@@ -11,7 +11,7 @@ const centres: Record<string, [number, number]> = {
   siliguri: [26.73,88.40], mysuru: [12.30,76.64], rangapani: [26.65,88.38],
 };
 type City = { slug: string; name: string; count?: number; areas: string[] };
-export default function LocationSearch({ cities, city, area = "", onCityChange, showArea = true }: { cities: City[]; city: string; area?: string; onCityChange?: (city:string)=>void; showArea?: boolean }) {
+export default function LocationSearch({ cities, city, area = "", onCityChange, showArea = true, compact = false }: { cities: City[]; city: string; area?: string; onCityChange?: (city:string)=>void; showArea?: boolean; compact?: boolean }) {
   const [localCity, setLocalCity] = useState(city);
   const selected = onCityChange ? city : localCity;
   const setSelected = (value:string) => { setLocalCity(value); onCityChange?.(value); };
@@ -34,7 +34,7 @@ export default function LocationSearch({ cities, city, area = "", onCityChange, 
     }, () => { setStatus("Location was unavailable or permission was declined. Choose a city manually."); setLocating(false); }, {enableHighAccuracy:false,timeout:10000,maximumAge:60000});
   }
   const areas = cities.find(c=>c.slug===selected)?.areas ?? [];
-  return <div className="flex min-w-0 flex-1 basis-72 flex-wrap items-end gap-3">
+  return <div data-compact-location={compact || undefined} className="flex min-w-0 flex-1 basis-72 flex-wrap items-end gap-3">
     <label className="min-w-36 flex-1 text-sm font-semibold"><span className="mb-1.5 block">City (optional)</span><select name="location" value={selected} onChange={e=>{setSelected(e.target.value);setStatus("");}} className="docvy-select min-h-12"><option value="">All cities</option>{cities.map(c=><option key={c.slug} value={c.slug}>{c.name}{c.count!=null ? " ("+c.count+")" : ""}</option>)}</select></label>
     {showArea && <label key={selected} className="min-w-36 flex-1 text-sm font-semibold"><span className="mb-1.5 block">Neighbourhood (optional)</span><select name="area" disabled={!areas.length} defaultValue={selected===city?area:""} className="docvy-select min-h-12"><option value="">All areas</option>{areas.map(a=><option key={a} value={a}>{a}</option>)}</select></label>}
     <button type="button" onClick={locate} disabled={locating} className="inline-flex min-h-12 items-center gap-2 text-sm font-semibold underline"><LocateFixed size={17} strokeWidth={1.5} aria-hidden="true" />{locating?"Locating…":"Use my location"}</button>

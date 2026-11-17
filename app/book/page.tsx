@@ -1,3 +1,7 @@
-import BookingForm from "@/components/BookingForm";
-export const metadata={title:"Book an appointment through DOCVY",description:"Bookings are live. Choose your doctor, share your preferred appointment time and track your booking through DOCVY. DOCVY confirms the time with your doctor.",robots:{index:false,follow:false},alternates:{canonical:"https://www.docvy.in/book"}};
-export default function Page(){return <section className="mx-auto max-w-3xl px-6 py-12"><p className="mb-3 text-sm font-bold text-[#087F83]">Bookings are live</p><h1 className="text-4xl font-bold">Book an appointment now</h1><p className="mt-4">Choose your doctor and preferred time. DOCVY confirms availability with the doctor and keeps your booking, confirmation and visit updates together.</p><BookingForm/></section>;}
+import BookingForm from '@/components/BookingForm';
+import {buildPageSocialMetadata} from '@/lib/metadata';
+import s from '@/components/patient/experience.module.css';
+const title='Book an appointment through DOCVY';
+const description='Choose your doctor, practice and preferred appointment time. See consultation fees, save your private reference and follow your visit updates through DOCVY.';
+export const metadata={title,description,robots:{index:false,follow:false},alternates:{canonical:'https://www.docvy.in/book'},...buildPageSocialMetadata(title,description,'/book')};
+export default function Page(){return <div className={`${s.root} ${s.bookingPage}`}><div className={s.wrap}><header className={s.bookingHeading}><span className={s.eyebrow}><span className={s.dot}/>Bookings are live</span><h1>Your next visit starts here.</h1><p>Choose your doctor, tell us what works for you, and keep your appointment updates together. DOCVY checks with the doctor before confirming your time.</p></header><BookingForm/></div></div>;}
