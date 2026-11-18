@@ -17,7 +17,7 @@ export async function generateMetadata({searchParams}:{searchParams:DirectoryPar
 export default async function DoctorsPage({searchParams}:{searchParams:DirectoryParams}){
  const {listed,filters,results,pages,page}=await resultsFor(searchParams);const shown=results.slice((page-1)*20,page*20);
  const places=Array.from(new Map(listed.flatMap(d=>d.locations.map(l=>({city:l.city,citySlug:citySlug(l.city),facility:l.facility,area:l.locality??""}))).map(p=>[JSON.stringify(p),p])).values());
- return <div className="mx-auto max-w-site px-5 py-12 sm:px-9">
+ return <div className="docvy-doctor-directory mx-auto max-w-site px-5 py-12 sm:px-9">
   <Breadcrumbs items={[{name:"Doctors",href:"/doctors"}]}/>
   <header className="docvy-directory-heading"><p className="docvy-eyebrow">YOUR DOCTOR. YOUR PRACTICE. YOUR NEXT STEP.</p><h1>Find the care that fits your life.</h1><p>Explore qualifications, experience, consultation fees and practice locations. Choose a participating doctor and book your next appointment through DOCVY.</p></header>
   <div className="mt-6"><DirectoryFiltersForm key={JSON.stringify([filters.query,filters.city,filters.facility,filters.area,filters.specialty])} {...filters} cities={availableCities(listed)} specialties={directorySpecialties} places={places}/></div>
