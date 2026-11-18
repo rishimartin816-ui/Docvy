@@ -1,0 +1,34 @@
+{
+  "id": "dr-murari-kaimal",
+  "name": "Dr. Murari Kaimal",
+  "specialties": [
+    "ENT"
+  ],
+  "hospital": "Baby Memorial Hospital, Vadakara",
+  "summary": "Major (Dr.) Murari Kaimal is the Senior Consultant and Department Head for ENT and Endoscopic Surgery at Baby Memorial Hospital, Vadakara, with 20 years of experience. His practice covers ear, nose, throat, hearing, voice, airway and head and neck conditions. His expertise includes endoscopic otorhinology, advanced sinus and nasal surgery, functional endoscopic sinus surgery (FESS), balloon sinuplasty, minimally invasive airway surgery, voice and airway procedures, advanced ear surgery, cochlear and hearing implants, middle ear surgery, bone-anchored hearing implants, head and neck endoscopy, and robotic and technology-assisted surgery. His interests also include AI and automation in healthcare. He completed MBBS at Government Medical College, Kannur, and MS in Otorhinolaryngology and Head and Neck Surgery through the Armed Forces Medical Services. He received a Gold Medal and Commendation for the Primary Aviation Medicine Course at the Institute of Aerospace Medicine, Bengaluru.",
+  "profileDetails": {
+    "qualifications": "MBBS, MS (Otorhinolaryngology & Head and Neck Surgery); PAMC; FAACM (USA); Advanced Fellowships in Rhinology & Airway/Voice (UK); AI in Medicine training (Cambridge, UK; Stanford, USA); Six Sigma; Honorary Doctorates (GHRT; Kennedy University, USA); EPIHM (IIT Delhi)",
+    "experienceYears": 20,
+    "experienceAsOf": "2026-11-18",
+    "practicePhone": "+917306302057",
+    "appointmentNote": "Hospital reception: 0496 351 9999. Hospital WhatsApp / enquiries: 6238 905 599. Email: info@bmhvadakara.com."
+  },
+  "locations": [
+    {
+      "city": "Vadakara",
+      "state": "Kerala",
+      "locality": "Chorode",
+      "kind": "hospital",
+      "primary": true,
+      "facility": "Baby Memorial Hospital, Vadakara",
+      "address": "NH Bypass, Chorode, Vadakara, Kozhikode District, Kerala 673106",
+      "mapsUrl": "https://share.google/W5Lb73wjT2Dawzy2w",
+      "practicePhone": "+916238905599"
+    }
+  ],
+  "registrationNumber": "38503",
+  "registrationCouncil": "KSMC / TCMC",
+  "profileStatus": "verified",
+  "sourceUrl": "https://www.babymemorialhospitals.com/doctors/ent-and-head-neck-surgery/maj-dr-murari-kaimal",
+  "sourceChecked": "2026-11-18"
+}
