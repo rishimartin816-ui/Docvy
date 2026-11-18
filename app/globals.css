@@ -407,5 +407,5 @@ main h2[class] { font-weight: 500; }
 }
 
 /* Owner-approved network badge. CSS trims the supplied image's outer white margin. */
-.docvy-verification-badge.docvy-verification-badge { display:inline-block; position:relative; width:210px; max-width:100%; aspect-ratio:1220 / 282; padding:0; margin:0; overflow:hidden; border:0; border-radius:0; background:transparent; box-shadow:none; vertical-align:middle; line-height:0; }
+.docvy-verification-badge.docvy-verification-badge { display:inline-block; position:relative; width:160px; max-width:100%; aspect-ratio:1220 / 282; padding:0; margin:0; overflow:hidden; border:0; border-radius:0; background:transparent; box-shadow:none; vertical-align:middle; line-height:0; }
 .docvy-verification-badge .docvy-verification-image { display:block; position:absolute; width:104.918%; max-width:none; height:auto; left:-2.459%; top:-30.142%; }
