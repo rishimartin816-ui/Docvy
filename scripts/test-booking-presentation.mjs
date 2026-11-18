@@ -4,7 +4,7 @@ import vm from 'node:vm';
 import ts from 'typescript';
 import {createRequire} from 'node:module';
 const require=createRequire(import.meta.url);
-function load(file,overrides={}){const m={exports:{}};const source=ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText;vm.runInThisContext('(function(require,module,exports){'+source+'\n})')(id=>overrides[id]??(id==='./booking-schedule'?load('lib/booking-schedule.ts'):require(id)),m,m.exports);return m.exports;}
+function load(file,overrides={}){const m={exports:{}};const source=ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText;vm.runInThisContext('(function(require,module,exports){'+source+'\n})')(id=>overrides[id]??(id==='./booking-schedule'?load('lib/booking-schedule.ts'):id==='@/lib/doctor-presentation'?load('lib/doctor-presentation.ts'):require(id)),m,m.exports);return m.exports;}
 const calendar=load('lib/booking-presentation.ts');
 const now=Date.parse('2026-11-16T00:00:00Z');
 const doctor={id:'dr-ambika-rao-jhunjhunu-68798490',city:'Jhunjhunu',facility:'Published practice',hours:'9 AM–6 PM'};

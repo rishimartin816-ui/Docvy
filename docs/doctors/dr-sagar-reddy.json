@@ -18,7 +18,16 @@
     ],
     "consultationFee": 500,
     "currency": "INR",
-    "practicePhone": "+919420338220"
+    "practicePhone": "+919420338220",
+    "shortQualifications": "MBBS, DCH, PGPN",
+    "services": [
+      "Newborn Care",
+      "Infant Care",
+      "Child Health",
+      "Child Nutrition",
+      "Child Growth",
+      "Vaccination"
+    ]
   },
   "locations": [
     {

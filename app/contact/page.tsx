@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Building2, CalendarClock, Mail, MapPin, Search, ShieldAlert, ShieldCheck, Stethoscope } from "lucide-react";
 import { buildPageSocialMetadata } from "@/lib/metadata";
 
-const pageDescription = "Bookings are live on DOCVY. Book an appointment, get help with your booking, request doctor profile corrections or contact our privacy and partner support team.";
+const pageDescription = "Bookings are live on DOCVY. Book an Appointment, get help with your booking, request doctor profile corrections or contact our privacy and partner support team.";
 
 export const metadata: Metadata = {
   title: "Contact DOCVY for appointments and support",
@@ -30,7 +30,7 @@ export default function ContactPage() {
           <h1 className="mt-5 max-w-3xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[54px]">Contact DOCVY for appointments, profiles and support.</h1>
           <p className="mt-5 max-w-2xl text-base leading-8 text-grey md:text-lg">Bookings are live. Find your doctor, book an appointment and follow your updates through DOCVY. Our team confirms the appointment time with the doctor. We also help with doctor profile corrections, partner enquiries and privacy questions.</p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <Link href="/book" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-primary px-5 text-sm font-bold text-white transition hover:bg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F1F1EE] focus-visible:ring-offset-2">Book appointment now <ArrowRight strokeWidth={1.5} size={16} aria-hidden="true" /></Link>
+            <Link href="/book" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-primary px-5 text-sm font-bold text-white transition hover:bg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F1F1EE] focus-visible:ring-offset-2">Book an Appointment <ArrowRight strokeWidth={1.5} size={16} aria-hidden="true" /></Link>
             <Link href="/doctors" className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-line bg-white px-5 text-sm font-bold text-ink transition hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">Browse current doctors <ArrowRight strokeWidth={1.5} size={16} aria-hidden="true" /></Link>
           </div>
         </div>
@@ -84,7 +84,7 @@ export default function ContactPage() {
     <section className="border-y border-line bg-white px-6 py-10 md:py-12" aria-label="Patient enquiry status">
       <div className="mx-auto flex max-w-site flex-col gap-4 rounded-2xl border border-line bg-surface p-5 sm:p-6 md:flex-row md:items-center md:justify-between">
         <div className="flex gap-3"><CalendarClock className="mt-0.5 shrink-0 text-[#087F83]" size={21} aria-hidden="true" /><div><p className="text-xs font-extrabold tracking-[0.12em] text-[#087F83]">BOOKINGS ARE LIVE</p><p className="mt-2 text-sm leading-6 text-grey">Choose your doctor and practice, share your preferred visit time, and keep your DOCVY reference for follow-up. Your appointment time is confirmed by DOCVY after checking with the doctor. Do not send patient health or contact information by email.</p></div></div>
-        <div className="flex shrink-0 flex-wrap gap-3 md:pl-4"><Link href="/book" className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-primary px-4 text-sm font-bold text-white hover:bg-primary">Book appointment now <ArrowRight strokeWidth={1.5} size={15} aria-hidden="true" /></Link></div>
+        <div className="flex shrink-0 flex-wrap gap-3 md:pl-4"><Link href="/book" className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-primary px-4 text-sm font-bold text-white hover:bg-primary">Book an Appointment <ArrowRight strokeWidth={1.5} size={15} aria-hidden="true" /></Link></div>
       </div>
     </section>
 

@@ -1,0 +1,67 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs'),path=require('node:path'),Module=require('node:module'),ts=require('typescript');
+const React=require('react'),{renderToStaticMarkup}=require('react-dom/server');
+for(const ext of ['.ts','.tsx'])require.extensions[ext]=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020,jsx:ts.JsxEmit.ReactJSX,esModuleInterop:true}}).outputText,f);
+require.extensions['.css']=m=>{m.exports=new Proxy({},{get:(_,key)=>key==='__esModule'?false:String(key)});};
+const docs=fs.readdirSync('docs/doctors').filter(f=>f.endsWith('.json')).map(f=>({...require(path.resolve('docs/doctors',f)),live:true,consentGiven:true,verifiedAt:'2026-11-18T00:00:00Z',otherNcrLocations:[]}));
+const original=Module._load;
+Module._load=function(id,parent,main){
+ if(id==='server-only')return {};
+ if(id==='@/lib/public-directory')return {getDirectoryDoctors:async()=>docs};
+ if(id==='@/lib/docvy-booking-server')return {activeProviderBookingMode:async()=>'approval'};
+ if(id==='@/lib/patient-discovery')return {getBookingDoctorIds:async()=>new Set(docs.filter(d=>d.profileStatus==='verified').map(d=>d.id))};
+ if(id==='@/components/BookingForm')return {__esModule:true,default:()=>React.createElement('div',{'data-booking-placeholder':true})};
+ return original.call(this,id.startsWith('@/')?path.resolve(id.slice(2)):id,parent,main);
+};
+const {shortQualificationLabel,publishedDoctorServices}=require('../lib/doctor-presentation.ts');
+const {availableCities}=require('../lib/directory.ts');
+const {default:DoctorTreatments}=require('../components/DoctorTreatments.tsx');
+const {default:DoctorCard}=require('../components/DoctorCard.tsx');
+const {default:DoctorPage}=require('../app/doctor/[slug]/page.tsx');
+const {default:PatientHome}=require('../components/patient/PatientHome.tsx');
+const byId=id=>docs.find(d=>d.id===id);
+const text=h=>h.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g,'').replace(/<[^>]+>/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ');
+
+(async()=>{
+ assert.equal(shortQualificationLabel({qualifications:'MBBS, Goa Medical College; MD (Respiratory Medicine)'}),'MBBS, MD');
+ assert.equal(shortQualificationLabel({qualifications:'Honorary doctorate; clinical training'}),'');
+ assert.equal(shortQualificationLabel({shortQualifications:42,qualifications:null}),'');
+ assert.deepEqual(publishedDoctorServices({services:[' Counselling ','Counselling','','Psychotherapy',null]}),['Counselling','Psychotherapy']);
+ assert.deepEqual(publishedDoctorServices({services:'not an approved list'}),[]);
+ const murari=byId('dr-murari-kaimal');
+ assert.equal(shortQualificationLabel(murari.profileDetails),'MBBS, MS - ENT');
+ assert.equal(murari.profileDetails.experienceYears,20);
+ assert.equal(shortQualificationLabel(byId('bheemreddy-vivek-reddy-karimnagar-24773aea').profileDetails),'','Do not invent BDS');
+ assert.deepEqual(byId('dr-basab-raj-ghosh').profileDetails.services,['Radiation Oncology Consultation'],'Do not infer treatments from degree subjects');
+ assert(!murari.profileDetails.services.some(s=>/thyroid|infectious disease|childhood infections/i.test(s)),'Do not copy unsupported treatments from the reference screenshot');
+ for(const doctor of docs){
+  assert(doctor.profileDetails.services.length>0,doctor.name+' approved services');
+  const html=renderToStaticMarkup(React.createElement(DoctorTreatments,{doctor}));
+  assert(text(html).includes('Surgeries & Treatments Offered by '+doctor.name));
+  for(const service of doctor.profileDetails.services)assert(text(html).includes(service),doctor.name+': '+service);
+ }
+ const treatments=renderToStaticMarkup(React.createElement(DoctorTreatments,{doctor:murari}));
+ assert(treatments.includes('<details'));assert(treatments.includes('View all 12 services'));
+ assert.equal(renderToStaticMarkup(React.createElement(DoctorTreatments,{doctor:{...murari,profileStatus:'unclaimed',consentGiven:false}})),'','Unclaimed profiles cannot expose supplied treatment details');
+ const profile=renderToStaticMarkup(await DoctorPage({params:{slug:murari.id}}));
+ const header=profile.match(/<header[\s\S]*?<\/header>/)[0].replace(/<script\b[^>]*>[\s\S]*?<\/script>/g,'');
+ assert(text(header).includes('MBBS, MS - ENT'));assert(!header.includes('PAMC'));
+ assert(profile.includes('PAMC'),'Full qualifications remain available in the details section');
+ assert(profile.includes('id="doctor-services"'));assert(profile.includes('href="#doctor-services"'));
+ assert(!profile.includes('does not guarantee'));
+ assert(profile.includes('Book an Appointment'));
+ const card=renderToStaticMarkup(React.createElement(DoctorCard,{doctor:murari,bookable:true}));
+ assert(card.includes('MBBS, MS - ENT'));assert(!card.includes('PAMC'));assert(card.includes('12 services'));assert(card.includes('Book an Appointment'));
+ const sahil=byId('mr-sahil-kochale');assert(!availableCities([sahil]).some(c=>c.slug==='online'));
+ const home=renderToStaticMarkup(await PatientHome());
+ assert.equal(text(home.match(/<h1[^>]*>[\s\S]*?<\/h1>/)[0]).trim(),'Find doctors in India');
+ assert.equal((home.match(/role="search"/g)||[]).length,1,'Only one homepage filter set');
+ const hero=home.match(/<section[^>]*aria-labelledby="patient-home-title"[\s\S]*?<\/section>/)[0];
+ assert(hero.includes('href="#doctor-search"'));assert(hero.includes('href="#how-it-works"'));assert(!hero.includes('href="/book"'));
+ for(const title of ['Browse by specialty','Meet the doctors','How booking works','Where our doctors practise','Prepare for your visit'])assert(home.includes(title),title);
+ assert(!home.includes('Good care starts'));assert(!home.includes('Find your starting point'));assert(!home.includes('With DOCVY'));
+ assert(text(home).includes('Keri, Goa'));assert(text(home).includes('Poriem, Goa'));assert(text(home).includes('Sankhalim, Goa'));
+ assert(!text(home).includes('Delhi, Delhi'));assert(!home.includes('<strong>docvy</strong>'));
+ assert(!home.includes('<option value="Online"'));
+ console.log('PASS: all 11 approved service lists; short qualifications; native expansion; approval gating; honest missing data; one homepage search; hero copy, state names and Book an Appointment labels.');
+})().catch(e=>{console.error(e);process.exitCode=1;});

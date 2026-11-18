@@ -19,7 +19,12 @@
     "qualifications": "BPT (Bachelor of Physiotherapy)",
     "appointmentNote": "For clinic appointments or physiotherapy at home, call 7042440793 or request a visit through DOCVY.",
     "consultationFee": 200,
-    "experienceYears": 2
+    "experienceYears": 2,
+    "shortQualifications": "BPT",
+    "services": [
+      "Physiotherapy at the Clinic",
+      "Physiotherapy at Home"
+    ]
   },
   "locations": [
     {

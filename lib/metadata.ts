@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const businessDescription = "Bookings are live on DOCVY. Find doctors by specialty, hospital or city, book an appointment with participating doctors and track your visit updates. DOCVY confirms appointment times with the doctor.";
+export const businessDescription = "Find doctors in India by specialty, hospital or city. Compare experience, consultation fees and practice details, then book an appointment through DOCVY. Follow your visit updates with a private appointment reference.";
 
 export const productionOrigin = "https://www.docvy.in";
 export const homeLanguageLinks = { "en-IN": productionOrigin + "/", "hi-IN": productionOrigin + "/hi", "x-default": productionOrigin + "/" };

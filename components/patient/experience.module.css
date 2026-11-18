@@ -59,3 +59,67 @@
 @media(prefers-reduced-motion:reduce){.specialty,.doctorCard,.primary,.secondary{transition:none!important;transform:none!important}}
 
 .shortlistLink{display:inline-flex;align-items:center;min-height:44px;font-weight:650;text-decoration:underline;text-underline-offset:3px;color:var(--pe-green)}
+/* Shared doctor presentation: depth remains visible on touch screens without motion. */
+.doctorCard {
+  display: flex; flex-direction: column; border: 1px solid #d4e3d1; border-bottom: 2px solid #b7cdb7;
+  background: linear-gradient(145deg, #fff 45%, #f4f8ed); border-radius: 23px;
+  box-shadow: 0 5px 0 #dce7d5, 0 18px 32px #244b3512, inset 0 1px 0 #fff;
+}
+.doctorTop { background: radial-gradient(ellipse at 0 0, #e9f2de 0, transparent 70%); }
+.doctorTop > div:first-child { border: 3px solid #fff; box-shadow: 0 4px 0 #d1dfca, 0 10px 20px #2344321c; transform: rotate(-2deg); }
+.doctorTop > div:last-child { min-width: 0; }
+.doctorTop .cardQualifications { display: inline-block; margin-top: 9px; color: #24543b; font-weight: 700; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.cardBody { flex: 1; }
+.cardFoot { background: linear-gradient(110deg, #f1f6e9, #fcfef9); }
+.profileHeader { background: radial-gradient(ellipse at 85% 5%, #d9e9d2, transparent 55%), linear-gradient(135deg, #f7f8ef, #edf3e6); }
+.profileHero {
+  position: relative; isolation: isolate; align-items: center; gap: 32px; overflow: hidden;
+  padding: clamp(24px, 4vw, 44px); margin-block: 22px 35px; border: 1px solid #fff; border-bottom: 2px solid #b9cfb5; border-radius: 30px;
+  background: linear-gradient(125deg, #fffef6 0, #f5f9ec 58%, #e5efdc 100%);
+  box-shadow: 0 8px 0 #d6e3ce, 0 26px 54px #21452c15, inset 0 1px 0 #fff;
+}
+.profileHero::before { content: ""; position: absolute; width: 340px; height: 340px; border: 1px solid #b9d2b580; border-radius: 50%; right: -100px; top: -140px; box-shadow: 0 0 0 35px #d8e8cf55, 0 0 0 70px #e3eddc55; pointer-events: none; z-index: -1; }
+.profileHero > div:first-child { width: 174px; height: 222px; border: 5px solid #fff; border-radius: 23px; box-shadow: 0 5px 0 #cbdcc4, 0 18px 32px #23443224; transform: rotate(-2deg); flex-shrink: 0; }
+.profileHero > div:last-child { min-width: 0; }
+.profileHero h1 { line-height: 1.15; }
+.profileHero .profileQualification {
+  display: inline-flex; align-items: start; gap: 9px; max-width: 100%; padding: 9px 13px; margin-top: 14px;
+  border: 1px solid #c8ddbf; border-radius: 12px; background: linear-gradient(120deg, #fff, #edf5e7);
+  color: #204e34; font-size: clamp(14px, 1.5vw, 17px); font-weight: 700; line-height: 1.6;
+  box-shadow: 0 3px 0 #d7e5cf; overflow-wrap: anywhere;
+}
+.profileQualification svg { flex-shrink: 0; margin-top: 4px; }
+.profileFacts span { background: #ffffffc9; border-color: #d5e3cd; box-shadow: 0 2px 0 #e2ebdc; }
+.servicesList { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; list-style: none; padding: 0; margin-top: 22px; }
+.servicesList li { display: flex; align-items: center; gap: 12px; min-height: 80px; padding: 15px; border: 1px solid #dce7d5; border-radius: 15px; background: linear-gradient(130deg, #fff, #f4f8ed); box-shadow: 0 3px 0 #e5eddc; color: #254b34; font-size: 14px; font-weight: 550; line-height: 1.65; overflow-wrap: anywhere; }
+.servicesList > li:only-child { grid-column: 1 / -1; }
+.serviceIcon { display: grid; place-items: center; width: 40px; height: 40px; flex-shrink: 0; border: 1px solid #d5e5cd; border-radius: 13px; background: linear-gradient(135deg, #f3f9eb, #e0edda); color: #326443; box-shadow: 0 2px 0 #cbddc2; }
+.servicesMore { margin-top: 18px; }
+.servicesMore summary { display: flex; align-items: center; justify-content: center; gap: 9px; list-style: none; min-height: 48px; border: 1px solid #b9d1ae; border-radius: 12px; padding: 12px 16px; background: #f2f7ec; color: #2b5e3c; font-size: 13px; font-weight: 650; cursor: pointer; }
+.servicesMore summary::-webkit-details-marker { display: none; }
+.servicesMore summary:focus-visible { outline: 3px solid #7fa56c; outline-offset: 3px; }
+.servicesMore[open] > summary svg { transform: rotate(180deg); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .doctorCard, .profileHero { transition: transform .25s ease, box-shadow .25s ease; }
+  .doctorCard:hover { transform: perspective(1200px) rotateX(2deg) rotateY(-1.5deg) translateY(-6px); box-shadow: 0 8px 0 #d6e2cf, 0 28px 42px #244b351c; }
+  .profileHero:hover { transform: perspective(1800px) rotateX(.6deg) rotateY(-.5deg) translateY(-2px); box-shadow: 0 9px 0 #d1dfc8, 0 32px 60px #21452c1a; }
+}
+@media (max-width: 760px) {
+  .profileHero { align-items: start; gap: 19px; padding: 23px 20px; border-radius: 23px; margin-block: 18px 28px; }
+  .profileHero > div:first-child { width: 92px; height: 124px; border-width: 3px; border-radius: 18px; }
+  .profileHero .profileQualification { padding: 7px 10px; font-size: 13px; gap: 7px; }
+  .servicesList { grid-template-columns: minmax(0, 1fr); }
+  .servicesList li { min-height: 72px; padding: 13px; font-size: 13px; }
+}
+@media (max-width: 380px) {
+  .profileHero { gap: 14px; padding: 20px 15px; }
+  .profileHero > div:first-child { width: 76px; height: 104px; }
+  .profileHero h1 { font-size: 25px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .doctorCard, .doctorTop > div:first-child, .profileHero, .profileHero > div:first-child { transition: none !important; transform: none !important; }
+}
+
+.doctorFilters{scroll-margin-top:90px}.doctorFilters select:disabled{opacity:.6;cursor:not-allowed}.consultationHero h1{max-width:12ch}.searchDock .searchHint{padding-block:8px}.searchDock:has(.searchHint){padding-top:6px}
+
+.cardQualifications{font-weight:700;color:#24543b;line-height:1.6}

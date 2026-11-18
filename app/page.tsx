@@ -3,7 +3,7 @@ import ReferenceHome from "@/components/ReferenceHome";
 import { buildPageSocialMetadata, productionOrigin, homeLanguageLinks } from "@/lib/metadata";
 
 const title = "Find Doctors in India by Specialty, Hospital & City | DOCVY";
-const description = "Find verified doctor profiles, compare consultation fees and practices, and book appointments through DOCVY. Preferred times are confirmed with the doctor.";
+const description = "Find doctors in India by specialty, hospital or city. Compare experience and consultation fees, then book an appointment through DOCVY.";
 export const metadata: Metadata = {
   title: { absolute: title }, description, alternates: { canonical: productionOrigin + "/", languages: homeLanguageLinks },
   ...buildPageSocialMetadata(title, description, "/"),

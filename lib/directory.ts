@@ -83,6 +83,7 @@ export function availableCities(doctors: ProviderCandidate[], minimum = 1): { sl
   const extra = new Map<string, string>();
   for (const doctor of doctors) for (const location of doctor.locations) {
     const slug = citySlug(location.city);
+    if (location.kind === 'online' || slug === 'online') continue;
     if (slug && !cities.some(c => c.slug === slug)) extra.set(slug, location.city);
   }
   return [...curated, ...Array.from(extra, ([slug, name]) => ({ slug, name, count:doctorsIn(slug,undefined,doctors).length })).sort((a,b) => a.name.localeCompare(b.name))];

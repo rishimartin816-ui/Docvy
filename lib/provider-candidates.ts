@@ -26,7 +26,7 @@ export type ProviderCandidate = {
   centres?: string[];
   serviceTitle?: string;
   profileDetails?: {
-    qualifications?: string; experienceYears?: number; experienceAsOf?: string;
+    qualifications?: string; shortQualifications?: string; services?: string[]; experienceYears?: number; experienceAsOf?: string;
     languages?: string[]; consultationFee?: number; currency?: string;
     practicePhone?: string; appointmentNote?: string;
     additionalMapsUrl?: string; additionalMapsLabel?: string;

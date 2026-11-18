@@ -21,7 +21,12 @@
     "qualifications": "MBBS, MD (Respiratory Medicine)",
     "appointmentNote": "OPD consultations and teleconsultations are offered. Contact the clinic to confirm the consultation format, consulting days and available time.",
     "consultationFee": 300,
-    "experienceYears": 4
+    "experienceYears": 4,
+    "shortQualifications": "MBBS, MD - Respiratory Medicine",
+    "services": [
+      "OPD Consultations",
+      "Teleconsultations"
+    ]
   },
   "locations": [
     {

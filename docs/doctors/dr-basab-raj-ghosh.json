@@ -12,7 +12,11 @@
     "practicePhone": "+919830747929",
     "qualifications": "MBBS, NRS Medical College, Kolkata; MD (Radiotherapy), University of Calcutta; DNB (Radiotherapy)",
     "appointmentNote": "For appointments, call 9830747929 or request a visit through DOCVY.",
-    "experienceYears": 31
+    "experienceYears": 31,
+    "shortQualifications": "MBBS, MD, DNB - Radiotherapy",
+    "services": [
+      "Radiation Oncology Consultation"
+    ]
   },
   "locations": [
     {

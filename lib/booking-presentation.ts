@@ -1,6 +1,6 @@
 import {generateApprovedSlotCandidates} from './booking-schedule';
 
-export type BookingProvider={key:string;id:string;name:string;city:string;facility:string;mode:'approval'|'instant';specialties?:string[];photoUrl?:string|null;fee?:number|null;experienceYears?:number|null;languages?:string[];address?:string;hours?:string;kind?:string};
+export type BookingProvider={key:string;id:string;name:string;city:string;state?:string;shortQualifications?:string;facility:string;mode:'approval'|'instant';specialties?:string[];photoUrl?:string|null;fee?:number|null;experienceYears?:number|null;languages?:string[];address?:string;hours?:string;kind?:string};
 export function istDate(at=Date.now()){return new Date(at+330*60000).toISOString().slice(0,10);}
 export function calendarDates(start:string,count=7){const at=Date.parse(start+'T00:00:00Z');if(!Number.isFinite(at))return [];return Array.from({length:count},(_,i)=>new Date(at+i*86400000).toISOString().slice(0,10));}
 export function shiftDate(date:string,days:number){return new Date(Date.parse(date+'T00:00:00Z')+days*86400000).toISOString().slice(0,10);}

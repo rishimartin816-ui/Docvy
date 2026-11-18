@@ -64,7 +64,7 @@ export default function Nav() {
     {links.map(([href, label]) => <Link key={href} href={href} aria-current={current(href)} onClick={close} className="site-nav-link flex min-h-12 items-center whitespace-nowrap text-sm font-medium hover:underline">{label}</Link>)}
     <Link href="/patient-access" aria-current={current("/patient-access")} onClick={close} className="flex min-h-12 items-center text-sm font-medium hover:underline">My appointment</Link>
   </nav>;
-  const action = <Link href="/book" onClick={close} className="site-header-cta docvy-pill docvy-pill-primary">Book appointment</Link>;
+  const action = <Link href="/book" onClick={close} className="site-header-cta docvy-pill docvy-pill-primary">Book an Appointment</Link>;
 
   return <header className="site-header sticky top-0 z-30 border-b border-line">
     <div className="mx-auto flex h-[60px] max-w-site items-center justify-between gap-3 px-4 sm:h-16 sm:px-8 lg:h-[72px]">

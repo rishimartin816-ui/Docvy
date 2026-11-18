@@ -12,7 +12,11 @@
     "experienceAsOf": "2026-11-16",
     "consultationFee": 750,
     "currency": "INR",
-    "practicePhone": "+919652013437"
+    "practicePhone": "+919652013437",
+    "shortQualifications": "MD, DNB - Nephrology",
+    "services": [
+      "Nephrology Consultation"
+    ]
   },
   "locations": [
     {

@@ -15,7 +15,11 @@
     ],
     "consultationFee": 200,
     "currency": "INR",
-    "practicePhone": "+919370810079"
+    "practicePhone": "+919370810079",
+    "shortQualifications": "BAMS, MD",
+    "services": [
+      "Ayurveda Consultation"
+    ]
   },
   "locations": [
     {

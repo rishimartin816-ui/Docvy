@@ -21,7 +21,23 @@
     "consultationFee": 1200,
     "currency": "INR",
     "practicePhone": "+917648968141",
-    "appointmentNote": "Choose an online consultation through Psyheal or a visit to Shuddhi De-addiction and Rehabilitation Centre. For appointments, call 7648968141."
+    "appointmentNote": "Choose an online consultation through Psyheal or a visit to Shuddhi De-addiction and Rehabilitation Centre. For appointments, call 7648968141.",
+    "shortQualifications": "MA - Clinical Psychology, PG Dip. - Rehabilitation Psychology",
+    "services": [
+      "Counselling",
+      "Psychotherapy",
+      "CBT",
+      "REBT",
+      "SST",
+      "Psychoeducation",
+      "Psychological Assessments",
+      "IQ Testing",
+      "Personality Testing",
+      "Personality Development",
+      "Career Counselling",
+      "Relationship Counselling",
+      "Support for Anxiety, Depression and Phobias"
+    ]
   },
   "locations": [
     {

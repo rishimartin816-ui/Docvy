@@ -10,7 +10,10 @@
   "registrationCouncil": "TSDC",
   "summary": "Dr. Bheemreddy Vivek Reddy practices dentistry at Sri Maatha Multispeciality Dental Hospital in Karimnagar, Telangana. The hospital is located at 3-5-3, Doctors Street, Azmath Pura, Sai Nagar, Karimnagar, Telangana 505001. Patients can request an appointment at this clinic through DOCVY.",
   "profileDetails": {
-    "appointmentNote": "Request an appointment at Sri Maatha Multispeciality Dental Hospital through DOCVY."
+    "appointmentNote": "Request an appointment at Sri Maatha Multispeciality Dental Hospital through DOCVY.",
+    "services": [
+      "Dental Consultation"
+    ]
   },
   "locations": [
     {

@@ -19,7 +19,11 @@
     "qualifications": "MBBS, Goa Medical College",
     "appointmentNote": "Please book your appointment in advance.",
     "consultationFee": 300,
-    "experienceYears": 4
+    "experienceYears": 4,
+    "shortQualifications": "MBBS",
+    "services": [
+      "General Physician Consultation"
+    ]
   },
   "locations": [
     {

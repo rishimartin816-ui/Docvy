@@ -11,7 +11,22 @@
     "experienceYears": 20,
     "experienceAsOf": "2026-11-18",
     "practicePhone": "+917306302057",
-    "appointmentNote": "Hospital reception: 0496 351 9999. Hospital WhatsApp / enquiries: 6238 905 599. Email: info@bmhvadakara.com."
+    "appointmentNote": "Hospital reception: 0496 351 9999. Hospital WhatsApp / enquiries: 6238 905 599. Email: info@bmhvadakara.com.",
+    "shortQualifications": "MBBS, MS - ENT",
+    "services": [
+      "Endoscopic Otorhinology",
+      "Advanced Sinus & Nasal Surgery",
+      "Functional Endoscopic Sinus Surgery (FESS)",
+      "Balloon Sinuplasty",
+      "Minimally Invasive Airway Surgery",
+      "Voice & Airway Procedures",
+      "Advanced Ear Surgery",
+      "Cochlear & Hearing Implant Surgery",
+      "Middle Ear Surgery",
+      "Bone-Anchored Hearing Implants",
+      "Head & Neck Endoscopic Procedures",
+      "Robotic & Technology-Assisted Surgery"
+    ]
   },
   "locations": [
     {

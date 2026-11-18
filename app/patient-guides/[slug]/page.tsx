@@ -140,7 +140,7 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
           <h2 className="mt-3 text-2xl font-bold tracking-tight">Check the details directly</h2>
           <ol className="mt-6 space-y-4">{[
             "Review the doctor’s profile, specialty and practice location on DOCVY. Official hospital sources are linked for reference.",
-            "Choose Book appointment now for a participating doctor, and share your preferred timing and contact details.",
+            "Choose Book an Appointment for a participating doctor, and share your preferred timing and contact details.",
             "Keep your DOCVY reference number. The provider must confirm availability, time and fees.",
           ].map((text, index) => <li key={text} className="flex gap-3 rounded-2xl bg-surface p-4"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-extrabold text-white">{index + 1}</span><span className="pt-1 text-sm leading-6 text-grey">{text}</span></li>)}</ol>
           <Link href="/doctors" className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-primary px-4 text-sm font-bold text-white hover:bg-primary-hover">Browse by city and specialty <ArrowRight strokeWidth={1.5} size={16} aria-hidden="true" /></Link>
