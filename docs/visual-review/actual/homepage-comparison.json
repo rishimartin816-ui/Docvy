@@ -5,8 +5,8 @@
   },
   "actual": {
     "width": 512,
-    "height": 1711
+    "height": 6560
   },
-  "meanAbsoluteChannelError": 63.6390128062293,
+  "meanAbsoluteChannelError": 64.70089915205793,
   "method": "Top-left registration, original dimensions, white padding to common extent. No scaling, warping or content alignment. Diagnostic only; not a fidelity pass."
 }

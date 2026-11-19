@@ -161,10 +161,7 @@ export default async function MockupHome() {
             doctors near you
           </h1>
           <p>
-            Discover doctor profiles, compare
-            <br />
-            clinics and request appointments —<br />
-            all in one place with DOCVY.
+            Compare doctor profiles and clinics, then request a visit near you.
           </p>
         </div>
         <form action="/doctors" className="mock-search">
@@ -175,7 +172,7 @@ export default async function MockupHome() {
             </span>
             <input
               name="q"
-              placeholder="Search doctor, specialty or condition"
+              placeholder="Doctor, specialty or condition"
               maxLength={120}
             />
           </label>
@@ -266,10 +263,9 @@ export default async function MockupHome() {
               </h3>
               <p>{d.specialties[0]}</p>
               <p className="mock-degree">
-                {d.profileDetails?.qualifications}
                 {d.profileDetails?.experienceYears != null
-                  ? " · " + d.profileDetails.experienceYears + " years"
-                  : ""}
+                  ? d.profileDetails.experienceYears + " years of experience"
+                  : "View qualifications on profile"}
               </p>
               <div className="mock-doctor-location">
                 <span>
@@ -297,9 +293,6 @@ export default async function MockupHome() {
               </Link>
             </article>
           ))}
-        </div>
-        <div className="mock-dots" aria-hidden="true">
-          ● ○ ○ ○
         </div>
       </section>
       <section className="mock-section">
@@ -337,9 +330,7 @@ export default async function MockupHome() {
         <div>
           <h2>Are You a DOCVY Partner?</h2>
           <p>
-            List your practice, reach more patients
-            <br />
-            and manage appointments easily.
+            Reach more patients and manage appointment requests in one place.
           </p>
           <Link href="/partner-with-us" className="mock-button">
             List Your Practice — Free <ArrowRight size={12} />
@@ -424,19 +415,10 @@ export default async function MockupHome() {
             </Link>
           ))}
         </div>
-        <div className="mock-dots" aria-hidden="true">
-          ● ○ ○
-        </div>
       </section>
       <section className="mock-app-banner">
         <div>
-          <h2>
-            Find and manage
-            <br />
-            appointments
-            <br />
-            on DOCVY
-          </h2>
+          <h2>Manage your appointments on DOCVY</h2>
           <p>
             Use the website on your phone.
             <br />

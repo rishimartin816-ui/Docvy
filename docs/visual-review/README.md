@@ -6,6 +6,12 @@ Open [the side-by-side review gallery](index.html) for every implemented layout:
 
 ## Review status
 
+### Mobile correction after preview feedback — 19 November
+
+The user reported cramped spacing, cluttered text and cropped photographs. Mobile now reflows instead of scaling the dense mockup: separate hero copy/photo/search rows, 16px search/body copy, 48px buttons, two-column specialty tiles and booking steps, full-width doctor cards, stacked informational sections, readable footer columns and uncropped portrait containment. Home cards show specialty/experience/location/fee; long qualifications remain on profiles. Decorative false carousel dots and forced line breaks were removed. Clean reference photo regions replace assets containing baked screenshot UI.
+
+This intentionally makes the mobile pages taller than the original compressed mockups. The original height comparison below is the baseline, not the latest layout. Latest mobile checks verify no hero overlap, no clipped doctor-card text, full card widths and contained portrait images at 320px and 390px. See [hero](actual/mobile-hero-390.png), [doctor cards](actual/mobile-doctor-cards-390.png), [partner hero](actual/mobile-partner-hero-390.png) and [full phone homepage](actual/mobile-home-390.png). Remaining image softness is present in the supplied low-resolution source crops; no new photography was substituted.
+
 Implemented and visually inspected: homepage, specialties, real doctor profile and location panel, combined doctors/clinics page, individual doctor and clinic landing pages, how it works, pricing, partner registration, care guide, surgery guide, about, contact, FAQs and detailed footer.
 
 **No page is marked visually complete or pixel-perfect.** The homepage is 512×1711 against a 512×1536 reference. Its section order, search geometry, green/mint cards and footer are implemented, but data, source imagery, typography and height differ. The requested homepage fidelity gate has therefore not passed; the remaining layouts are implementation drafts, not approved releases. The supplied separate desktop-home concept still needs a dedicated visual pass; responsive behavior at 1440px alone is not desktop visual approval.

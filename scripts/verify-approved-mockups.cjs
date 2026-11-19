@@ -112,6 +112,49 @@ const pages = [
           ),
           route + " " + width + " overflow",
         );
+        if (route === "/" && width < 768) {
+          const mobile = await page.evaluate(() => {
+            const rect = (selector) =>
+              document.querySelector(selector).getBoundingClientRect();
+            const copy = rect(".mock-hero-copy"),
+              photo = rect(".mock-hero-photo"),
+              search = rect(".mock-search");
+            const cards = [
+              ...document.querySelectorAll(".mock-home .mock-doctors article"),
+            ];
+            return {
+              heroSeparated:
+                copy.bottom <= photo.top && photo.bottom <= search.top,
+              cardWidths: cards.map((c) => c.getBoundingClientRect().width),
+              containedPhotos: cards.every(
+                (c) =>
+                  getComputedStyle(c.querySelector("img")).objectFit ===
+                  "contain",
+              ),
+              bodySize: parseFloat(
+                getComputedStyle(document.querySelector(".mock-hero-copy p"))
+                  .fontSize,
+              ),
+              clippedText: cards.some((c) =>
+                [...c.querySelectorAll("h3,p")].some(
+                  (e) => e.scrollHeight > e.clientHeight + 2,
+                ),
+              ),
+            };
+          });
+          assert(mobile.heroSeparated, "Mobile hero copy/photo/search overlap");
+          assert(
+            mobile.cardWidths.every((w) => w > 240),
+            "Mobile doctor cards are squeezed",
+          );
+          assert(mobile.containedPhotos, "Mobile portrait unexpectedly crops");
+          assert(mobile.bodySize >= 16, "Mobile hero copy is too small");
+          assert(!mobile.clippedText, "Mobile doctor card text is clipped");
+          await page.screenshot({
+            path: path.join(out, `mobile-home-${width}.png`),
+            fullPage: true,
+          });
+        }
       }
     await page.setViewportSize({ width: 512, height: 900 });
     await page.goto(base + "/faqs", { waitUntil: "networkidle" });
@@ -184,4 +227,3 @@ const pages = [
   console.error(e);
   process.exitCode = 1;
 });
-

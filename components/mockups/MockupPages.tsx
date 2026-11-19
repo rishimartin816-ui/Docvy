@@ -59,7 +59,7 @@ const specs: Record<
     title: "List Your Clinic or Hospital on DOCVY",
     description:
       "Increase your visibility, receive patient appointment requests, and manage your practice efficiently.",
-    photo: "clinic_building_hero.png",
+    photo: "clinic-hero-clean.png",
   },
   provider: {
     tag: "For Doctors & Clinics",
@@ -94,14 +94,14 @@ const specs: Record<
     title: "Health guides for you and your family",
     description:
       "Clear information and practical questions to help you prepare for your next visit.",
-    photo: "care_guide_hero_doctor.png",
+    photo: "care-hero-clean.png",
   },
   "surgery-guide": {
     tag: "Surgeries & Procedures",
     title: "Find the Right Surgery & Specialist",
     description:
       "Explore common surgeries, compare treatment questions and request a consultation with participating specialists on DOCVY.",
-    photo: "surgery_hero_surgeons.png",
+    photo: "surgery-hero-clean.png",
   },
   about: {
     tag: "About DOCVY",
@@ -609,11 +609,7 @@ function Surgery() {
           <label className="sr-only" htmlFor="surgery-q">
             Search surgery or condition
           </label>
-          <input
-            id="surgery-q"
-            name="q"
-            placeholder="Search surgery or condition (e.g. Kidney Stone, Hernia)"
-          />
+          <input id="surgery-q" name="q" placeholder="Surgery or condition" />
           <button className="mock-button">Find Specialists</button>
         </form>
         <Benefits
