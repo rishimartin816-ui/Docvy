@@ -1,14 +1,13 @@
+import RouteBreadcrumbs from "@/components/RouteBreadcrumbs";
+import SiteFrame from "@/components/SiteFrame";
+import { docvyOpenGraphImage } from "@/lib/metadata";
+import type { Metadata,Viewport } from "next";
+import { Inter } from "next/font/google";
+import localFont from "next/font/local";
+import "./approved-mockups.css";
 import "./globals.css";
 // Publication and removal changes must be reflected in every public view, including footer links.
 export const dynamic = "force-dynamic";
-import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
-import localFont from "next/font/local";
-import Nav from "@/components/Nav";
-import RouteBreadcrumbs from "@/components/RouteBreadcrumbs";
-import Footer from "@/components/Footer";
-import SiteFrame from "@/components/SiteFrame";
-import { docvyOpenGraphImage } from "@/lib/metadata";
 
 const docvyFont = localFont({
   src: "./fonts/google-sans-flex-latin-wght-normal.woff2",
@@ -94,7 +93,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <SiteFrame navigation={<Nav />} footer={<Footer />} breadcrumbs={<RouteBreadcrumbs />}>{children}</SiteFrame>
+        <SiteFrame breadcrumbs={<RouteBreadcrumbs />}>{children}</SiteFrame>
       </body>
     </html>
   );

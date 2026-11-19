@@ -1,0 +1,12 @@
+{
+  "reference": {
+    "width": 512,
+    "height": 1536
+  },
+  "actual": {
+    "width": 512,
+    "height": 1711
+  },
+  "meanAbsoluteChannelError": 63.6390128062293,
+  "method": "Top-left registration, original dimensions, white padding to common extent. No scaling, warping or content alignment. Diagnostic only; not a fidelity pass."
+}

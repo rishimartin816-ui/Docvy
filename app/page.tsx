@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ReferenceHome from "@/components/ReferenceHome";
+import ReferenceHome from "@/components/mockups/MockupHome";
 import { buildPageSocialMetadata, productionOrigin, homeLanguageLinks } from "@/lib/metadata";
 
 const title = "Find Doctors in India by Specialty, Hospital & City | DOCVY";

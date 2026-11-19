@@ -1,0 +1,193 @@
+{
+  "base": "http://localhost:3112",
+  "checkedAt": "2026-11-19T12:21:16.181Z",
+  "results": [
+    {
+      "id": "footer",
+      "route": "/design-review/footer",
+      "reference": "footer.jpg",
+      "actual": "footer.png",
+      "height": 939,
+      "width": 512,
+      "overflow": false,
+      "h1": 1,
+      "brokenImages": []
+    },
+    {
+      "id": "homepage",
+      "route": "/",
+      "reference": "homepage.jpg",
+      "actual": "homepage.png",
+      "height": 1711,
+      "width": 512,
+      "overflow": false,
+      "h1": 1,
+      "brokenImages": [],
+      "canonical": "https://www.docvy.in"
+    },
+    {
+      "id": "for-doctors",
+      "route": "/for-doctors",
+      "reference": "for-doctors.jpg",
+      "actual": "for-doctors.png",
+      "height": 1697,
+      "width": 510,
+      "overflow": false,
+      "h1": 1,
+      "brokenImages": [],
+      "canonical": "https://www.docvy.in/for-doctors"
+    },
+    {
+      "id": "for-clinics",
+      "route": "/for-clinics",
+      "reference": "for-clinics.jpg",
+      "actual": "for-clinics.png",
+      "height": 1784,
+      "width": 510,
+      "overflow": false,
+      "h1": 1,
+      "brokenImages": [],
+      "canonical": "https://www.docvy.in/for-clinics"
+    },
+    {
+      "id": "provider",
+      "route": "/for-doctors-and-clinics",
+      "reference": "provider_landing.jpg",
+      "actual": "provider.png",
+      "height": 1323,
+      "width": 512,
+      "overflow": false,
+      "h1": 1,
+      "brokenImages": [],
+      "canonical": "https://www.docvy.in/for-doctors-and-clinics"
+    },
+    {
+      "id": "how-it-works",
+      "route": "/how-it-works",
+      "reference": "how_it_works.jpg",
+      "actual": "how-it-works.png",
+      "height": 1115,
+      "width": 512,
+      "overflow": false,
+      "h1": 1,
+      "brokenImages": [],
+      "canonical": "https://www.docvy.in/how-it-works"
+    },
+    {
+      "id": "pricing",
+      "route": "/pricing",
+      "reference": "pricing.jpg",
+      "actual": "pricing.png",
+      "height": 1764,
+      "width": 512,
+      "overflow": false,
+      "h1": 1,
+      "brokenImages": [],
+      "canonical": "https://www.docvy.in/pricing"
+    },
+    {
+      "id": "partner",
+      "route": "/partner-with-us",
+      "reference": "attachment-7.jpg",
+      "actual": "partner.png",
+      "height": 1285,
+      "width": 512,
+      "overflow": false,
+      "h1": 1,
+      "brokenImages": [],
+      "canonical": "https://www.docvy.in/partner-with-us"
+    },
+    {
+      "id": "care-guide",
+      "route": "/care-guide",
+      "reference": "care_guide.jpg",
+      "actual": "care-guide.png",
+      "height": 1664,
+      "width": 512,
+      "overflow": false,
+      "h1": 1,
+      "brokenImages": [],
+      "canonical": "https://www.docvy.in/care-guide"
+    },
+    {
+      "id": "surgery-guide",
+      "route": "/surgery-guide",
+      "reference": "surgery.jpg",
+      "actual": "surgery-guide.png",
+      "height": 1701,
+      "width": 512,
+      "overflow": false,
+      "h1": 1,
+      "brokenImages": [],
+      "canonical": "https://www.docvy.in/surgery-guide"
+    },
+    {
+      "id": "about",
+      "route": "/about",
+      "reference": "about.jpg",
+      "actual": "about.png",
+      "height": 1757,
+      "width": 512,
+      "overflow": false,
+      "h1": 1,
+      "brokenImages": [],
+      "canonical": "https://www.docvy.in/about"
+    },
+    {
+      "id": "contact",
+      "route": "/contact",
+      "reference": "contact.jpg",
+      "actual": "contact.png",
+      "height": 1549,
+      "width": 512,
+      "overflow": false,
+      "h1": 1,
+      "brokenImages": [],
+      "canonical": "https://www.docvy.in/contact"
+    },
+    {
+      "id": "faqs",
+      "route": "/faqs",
+      "reference": "faq.jpg",
+      "actual": "faqs.png",
+      "height": 1326,
+      "width": 512,
+      "overflow": false,
+      "h1": 1,
+      "brokenImages": [],
+      "canonical": "https://www.docvy.in/faqs"
+    },
+    {
+      "id": "specialties",
+      "route": "/specialties",
+      "reference": "specialty_reference.jpg",
+      "actual": "specialties.png",
+      "height": 1526,
+      "width": 1536,
+      "overflow": false,
+      "h1": 1,
+      "brokenImages": [],
+      "canonical": "https://www.docvy.in/specialties"
+    },
+    {
+      "id": "doctor-profile",
+      "route": "/doctor/dr-ummed-kumar-meena",
+      "reference": "doctor-profile-overview.jpg",
+      "actual": "doctor-profile.png",
+      "height": 3056,
+      "width": 504,
+      "overflow": false,
+      "h1": 1,
+      "brokenImages": [],
+      "canonical": "https://www.docvy.in/doctor/dr-ummed-kumar-meena"
+    }
+  ],
+  "browserErrors": [],
+  "interactions": [
+    "FAQ search/category",
+    "Pricing audience toggle",
+    "Existing partner form visible",
+    "Homepage search reaches real profile"
+  ],
+  "note": "Reference images may contain device frames and OS status bars, which are not web UI. Screenshot capture does not imply visual approval."
+}

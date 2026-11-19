@@ -13,7 +13,7 @@ const featuredIcons = { "General physician / internal medicine": Stethoscope, Ca
 const searchFillers = new Set(["a", "an", "and", "are", "can", "doctor", "doctors", "do", "does", "for", "have", "help", "i", "kind", "me", "my", "of", "or", "see", "should", "specialist", "specialists", "specialty", "specialties", "the", "to", "type", "what", "which", "with"]);
 const anyCurrentCity = "Any current city";
 
-export default function CareGuideSearch({ doctors: providerCandidates }: { doctors: ProviderCandidate[] }) {
+export default function CareGuideSearch({ doctors: providerCandidates, compact = false }: { doctors: ProviderCandidate[]; compact?: boolean }) {
   const providerCities = useMemo(() => Array.from(new Set(providerCandidates.flatMap(d=>d.locations.map(l=>l.city)))), [providerCandidates]);
   const providerCityListLabel = providerCities.join(", ") || "no current city listings";
   const [query, setQuery] = useState("");
@@ -37,6 +37,7 @@ export default function CareGuideSearch({ doctors: providerCandidates }: { docto
   }, [query]);
   const visibleResults = query.trim() || showAll ? results : careGuide.filter((item) => featuredSpecialties.includes(item.specialty));
 
+  if(compact)return <div className="mock-compact-guide-search"><label className="mock-inner-search"><Search size={18}/><span className="sr-only">Search health guides</span><input type="search" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search health articles, conditions, treatments…"/></label>{query.trim()&&<div className="mock-guide-search-results" aria-live="polite"><label>City<select value={city} onChange={e=>setCity(e.target.value)}><option value={anyCurrentCity}>All current cities</option>{providerCities.map(c=><option key={c}>{c}</option>)}</select></label>{results.length?results.slice(0,6).map(item=>{const match=canonicalSpecialty(item.specialty.split('/')[0].trim());return <article key={item.specialty}><h2>{item.specialty}</h2><p>{item.description}</p><Link href={"/doctors?"+new URLSearchParams({q:match?.name??item.specialty,...(city!==anyCurrentCity?{location:city}:{})}).toString()}>View matching doctor profiles →</Link></article>}):<p>No exact match. Try a broader concern or speak with a general physician.</p>}</div>}</div>;
   return <>
     <label htmlFor="care-guide-search" className="sr-only">Search a condition, concern, or specialty</label>
     <div className="mt-8 flex min-h-14 max-w-2xl items-center gap-3 rounded-xl border border-line bg-white px-4  focus-within:ring-2 focus-within:ring-primary">
