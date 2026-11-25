@@ -12,6 +12,7 @@ export default function SiteFrame({
   breadcrumbs: ReactNode;
 }) {
   const path = usePathname();
+  if (path === "/") return <>{children}</>;
   const workspace = path === "/crm" || path.startsWith("/crm/");
   return workspace ? (
     <main id="main">{children}</main>
@@ -26,3 +27,4 @@ export default function SiteFrame({
     </div>
   );
 }
+
