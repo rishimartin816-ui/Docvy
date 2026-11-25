@@ -1,0 +1,84 @@
+[
+  {
+    "size": "390x844",
+    "status": 200,
+    "overflow": false,
+    "h1": "Find trusted\ndoctors near you",
+    "broken": [],
+    "doctors": 3,
+    "title": "Find Doctors in India by Specialty, Hospital & City | DOCVY",
+    "canonical": "https://www.docvy.in/",
+    "footerOpen": false,
+    "cityCount": 15,
+    "accessibility": [],
+    "search": {
+      "url": "/doctors?q=cardiology&location=",
+      "heading": "Find doctors by specialty and city."
+    },
+    "/status": [
+      200,
+      "Follow up on your appointment request."
+    ],
+    "/request": [
+      200,
+      "Request your visit through DOCVY."
+    ],
+    "/patient-guides/fatty-liver": [
+      200,
+      "Fatty liver on a scan: understanding the finding and next steps"
+    ],
+    "/specialties/cardiology": [
+      200,
+      "Cardiology"
+    ]
+  },
+  {
+    "size": "430x932",
+    "status": 200,
+    "overflow": false,
+    "h1": "Find trusted\ndoctors near you",
+    "broken": [],
+    "doctors": 3,
+    "title": "Find Doctors in India by Specialty, Hospital & City | DOCVY",
+    "canonical": "https://www.docvy.in/",
+    "footerOpen": false,
+    "cityCount": 15
+  },
+  {
+    "size": "768x1024",
+    "status": 200,
+    "overflow": false,
+    "h1": "Find trusted\ndoctors near you",
+    "broken": [],
+    "doctors": 3,
+    "title": "Find Doctors in India by Specialty, Hospital & City | DOCVY",
+    "canonical": "https://www.docvy.in/",
+    "footerOpen": true,
+    "cityCount": 15
+  },
+  {
+    "size": "1440x900",
+    "status": 200,
+    "overflow": false,
+    "h1": "Find trusted\ndoctors near you",
+    "broken": [],
+    "doctors": 3,
+    "title": "Find Doctors in India by Specialty, Hospital & City | DOCVY",
+    "canonical": "https://www.docvy.in/",
+    "footerOpen": true,
+    "cityCount": 15,
+    "accessibility": []
+  },
+  {
+    "size": "1920x1080",
+    "status": 200,
+    "overflow": false,
+    "h1": "Find trusted\ndoctors near you",
+    "broken": [],
+    "doctors": 3,
+    "title": "Find Doctors in India by Specialty, Hospital & City | DOCVY",
+    "canonical": "https://www.docvy.in/",
+    "footerOpen": true,
+    "cityCount": 15
+  }
+]

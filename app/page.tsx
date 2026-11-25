@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import ReferenceHome from "@/components/mockups/MockupHome";
+import ReferenceHome from "@/components/premium/Home";
 import { buildPageSocialMetadata, productionOrigin, homeLanguageLinks } from "@/lib/metadata";
 
 const title = "Find Doctors in India by Specialty, Hospital & City | DOCVY";
 const description = "Find doctors across India by specialty, city and clinic. Compare practice details, read health guides and request a visit with participating doctors on DOCVY.";
+export const viewport = { themeColor: "#FAF9FB" };
 export const metadata: Metadata = {
   title: { absolute: title }, description, alternates: { canonical: productionOrigin + "/", languages: homeLanguageLinks },
   ...buildPageSocialMetadata(title, description, "/"),
@@ -19,3 +20,5 @@ export default function Home() {
     <ReferenceHome />
   </>;
 }
+
+

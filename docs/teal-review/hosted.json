@@ -1,0 +1,20 @@
+{
+  "overflow": false,
+  "footerCollapsed": true,
+  "cities": 14,
+  "doctors": 3,
+  "canonical": "https://www.docvy.in/",
+  "oneHeading": true,
+  "images": true,
+  "menu": true,
+  "footerLinks": true,
+  "profile": {
+    "status": 200,
+    "heading": "Dr. Ambika Rao"
+  },
+  "booking": {
+    "status": 200,
+    "heading": "Request your visit through DOCVY."
+  },
+  "jsErrors": []
+}

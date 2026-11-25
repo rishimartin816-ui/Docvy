@@ -7,7 +7,7 @@ import { canonicalSiteRedirect } from "@/lib/site-domain";
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const designPreview = process.env.DOCVY_DESIGN_PREVIEW === "true" ||
-    (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_GIT_COMMIT_REF === "preview/doctor-glass-claim");
+    (process.env.VERCEL_ENV === "preview" && ["preview/doctor-glass-claim", "feat/docvy-premium-teal-visual-replication"].includes(process.env.VERCEL_GIT_COMMIT_REF ?? ""));
   if (designPreview && !["GET", "HEAD", "OPTIONS"].includes(request.method)) {
     return NextResponse.json({ error: "This is a design preview. Submissions are disabled and no changes have been saved." }, { status: 409, headers: { "Cache-Control": "no-store" } });
   }
@@ -57,3 +57,4 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = { matcher: ["/((?!_next/static|_next/image|favicon.ico|icon.svg).*)"] };
+
