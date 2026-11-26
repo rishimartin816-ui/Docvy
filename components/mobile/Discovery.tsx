@@ -14,7 +14,7 @@ export function SpecialtyDirectory() {
   const [query,setQuery] = useState("");
   const list = [...specialties.map(s=>({...s,href:"/specialties/"+s.slug})),...directorySpecialties.filter(s=>!specialties.some(a=>a.slug===s.slug)).map(s=>({...s,href:"/doctors/specialty/"+s.slug}))];
   return <Page crumb="Specialties"><Intro title="Explore specialties" description="Understand different medical specialties and find related doctor profiles."/><SearchBox placeholder="Search a specialty" query={query} change={setQuery}/>
-  <div className="grid">{list.filter(s=>s.name.toLowerCase().includes(query.toLowerCase())).map(s=><a className="specialty" key={s.slug} href={s.href}>{specialties.some(a=>a.slug===s.slug)&&<SpecialtyIcon slug={s.slug}/>}<span>{s.name}</span></a>)}</div><Action href="/doctors">Find doctors</Action></Page>;
+  <div className="specialty-grid">{list.filter(s=>s.name.toLowerCase().includes(query.toLowerCase())).map(s=><a className="specialty" key={s.slug} href={s.href}>{specialties.some(a=>a.slug===s.slug)&&<SpecialtyIcon slug={s.slug}/>}<span>{s.name}</span></a>)}</div><Action href="/doctors">Find doctors</Action></Page>;
 }
 export function FaqMobile({questions}:{questions:{question:string;answer:string}[]}) {
   const [query,setQuery]=useState("");
