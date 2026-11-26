@@ -1,0 +1,352 @@
+{
+  "referenceWidthCssPx": 390,
+  "coordinateSystem": "Source image pixels, origin at top left; crop is [left, top, rightExclusive, bottomExclusive]. Homepage reference is 724 px wide. sourceSlotPx is the approximate visible image area measured in that reference, before trimming corners or overlays.",
+  "encoding": "Lossless RGB WebP; decoded pixel values checked against each original rectangle. No resizing, retouching or generated extensions.",
+  "assets": [
+    {
+      "file": "hero.webp",
+      "role": "Hero visible right-hand photograph",
+      "source": "a_tall_clean_modern_mobile_app_homepage_for(1).png",
+      "sourceSha256": "8c35585658bd2bbb348cb4b6ed40d641c35c9fea5b75dbaca254210010889fcd",
+      "sourceWidth": 724,
+      "sourceHeight": 2172,
+      "crop": [
+        312,
+        90,
+        705,
+        275
+      ],
+      "width": 393,
+      "height": 185,
+      "sourceSlotPx": [
+        694,
+        188
+      ],
+      "availability": "visible-region",
+      "notes": "Top band visible above search panel only."
+    },
+    {
+      "file": "activity-avatar.webp",
+      "role": "Activity strip illustration",
+      "source": "a_tall_clean_modern_mobile_app_homepage_for(1).png",
+      "sourceSha256": "8c35585658bd2bbb348cb4b6ed40d641c35c9fea5b75dbaca254210010889fcd",
+      "sourceWidth": 724,
+      "sourceHeight": 2172,
+      "crop": [
+        219,
+        487,
+        260,
+        528
+      ],
+      "width": 41,
+      "height": 41,
+      "sourceSlotPx": [
+        41,
+        41
+      ],
+      "availability": "visible-crop",
+      "notes": "Illustrative participant in the supplied activity strip. Staging use only."
+    },
+    {
+      "file": "doctor-discovery.webp",
+      "role": "Find a Doctor discovery card",
+      "source": "a_tall_clean_modern_mobile_app_homepage_for(1).png",
+      "sourceSha256": "8c35585658bd2bbb348cb4b6ed40d641c35c9fea5b75dbaca254210010889fcd",
+      "sourceWidth": 724,
+      "sourceHeight": 2172,
+      "crop": [
+        36,
+        549,
+        240,
+        617
+      ],
+      "width": 204,
+      "height": 68,
+      "sourceSlotPx": [
+        209,
+        74
+      ],
+      "availability": "visible-crop"
+    },
+    {
+      "file": "clinic-discovery.webp",
+      "role": "Find Clinics discovery card",
+      "source": "a_tall_clean_modern_mobile_app_homepage_for(1).png",
+      "sourceSha256": "8c35585658bd2bbb348cb4b6ed40d641c35c9fea5b75dbaca254210010889fcd",
+      "sourceWidth": 724,
+      "sourceHeight": 2172,
+      "crop": [
+        264,
+        549,
+        463,
+        617
+      ],
+      "width": 199,
+      "height": 68,
+      "sourceSlotPx": [
+        206,
+        74
+      ],
+      "availability": "visible-crop"
+    },
+    {
+      "file": "surgery-discovery.webp",
+      "role": "Explore Surgeries discovery card",
+      "source": "a_tall_clean_modern_mobile_app_homepage_for(1).png",
+      "sourceSha256": "8c35585658bd2bbb348cb4b6ed40d641c35c9fea5b75dbaca254210010889fcd",
+      "sourceWidth": 724,
+      "sourceHeight": 2172,
+      "crop": [
+        489,
+        549,
+        691,
+        617
+      ],
+      "width": 202,
+      "height": 68,
+      "sourceSlotPx": [
+        209,
+        74
+      ],
+      "availability": "visible-crop"
+    },
+    {
+      "file": "specialist-help.webp",
+      "role": "Specialist-help banner visible right-hand photograph",
+      "source": "a_tall_clean_modern_mobile_app_homepage_for(1).png",
+      "sourceSha256": "8c35585658bd2bbb348cb4b6ed40d641c35c9fea5b75dbaca254210010889fcd",
+      "sourceWidth": 724,
+      "sourceHeight": 2172,
+      "crop": [
+        411,
+        1038,
+        690,
+        1159
+      ],
+      "width": 279,
+      "height": 121,
+      "sourceSlotPx": [
+        662,
+        130
+      ],
+      "availability": "visible-region",
+      "notes": "Photo foreground only. Artwork behind the lettering is unavailable."
+    },
+    {
+      "file": "care-heart.webp",
+      "role": "Simple habits for a healthier heart",
+      "source": "a_tall_clean_modern_mobile_app_homepage_for(1).png",
+      "sourceSha256": "8c35585658bd2bbb348cb4b6ed40d641c35c9fea5b75dbaca254210010889fcd",
+      "sourceWidth": 724,
+      "sourceHeight": 2172,
+      "crop": [
+        37,
+        1604,
+        237,
+        1668
+      ],
+      "width": 200,
+      "height": 64,
+      "sourceSlotPx": [
+        208,
+        71
+      ],
+      "availability": "visible-crop"
+    },
+    {
+      "file": "care-plate.webp",
+      "role": "Building a balanced Indian plate",
+      "source": "a_tall_clean_modern_mobile_app_homepage_for(1).png",
+      "sourceSha256": "8c35585658bd2bbb348cb4b6ed40d641c35c9fea5b75dbaca254210010889fcd",
+      "sourceWidth": 724,
+      "sourceHeight": 2172,
+      "crop": [
+        264,
+        1604,
+        463,
+        1668
+      ],
+      "width": 199,
+      "height": 64,
+      "sourceSlotPx": [
+        207,
+        71
+      ],
+      "availability": "visible-crop"
+    },
+    {
+      "file": "care-kidney.webp",
+      "role": "Everyday habits for kidney health",
+      "source": "a_tall_clean_modern_mobile_app_homepage_for(1).png",
+      "sourceSha256": "8c35585658bd2bbb348cb4b6ed40d641c35c9fea5b75dbaca254210010889fcd",
+      "sourceWidth": 724,
+      "sourceHeight": 2172,
+      "crop": [
+        490,
+        1604,
+        691,
+        1668
+      ],
+      "width": 201,
+      "height": 64,
+      "sourceSlotPx": [
+        209,
+        71
+      ],
+      "availability": "visible-crop"
+    },
+    {
+      "file": "doctor-onboarding.webp",
+      "role": "List Your Practice thumbnail",
+      "source": "a_tall_clean_modern_mobile_app_homepage_for(1).png",
+      "sourceSha256": "8c35585658bd2bbb348cb4b6ed40d641c35c9fea5b75dbaca254210010889fcd",
+      "sourceWidth": 724,
+      "sourceHeight": 2172,
+      "crop": [
+        37,
+        1838,
+        135,
+        1896
+      ],
+      "width": 98,
+      "height": 58,
+      "sourceSlotPx": [
+        103,
+        67
+      ],
+      "availability": "visible-crop"
+    },
+    {
+      "file": "clinic-onboarding.webp",
+      "role": "List Your Clinic thumbnail",
+      "source": "a_tall_clean_modern_mobile_app_homepage_for(1).png",
+      "sourceSha256": "8c35585658bd2bbb348cb4b6ed40d641c35c9fea5b75dbaca254210010889fcd",
+      "sourceWidth": 724,
+      "sourceHeight": 2172,
+      "crop": [
+        376,
+        1838,
+        472,
+        1891
+      ],
+      "width": 96,
+      "height": 53,
+      "sourceSlotPx": [
+        102,
+        60
+      ],
+      "availability": "visible-crop"
+    },
+    {
+      "file": "patient-cta.webp",
+      "role": "Final patient CTA visible right-hand photograph",
+      "source": "a_tall_clean_modern_mobile_app_homepage_for(1).png",
+      "sourceSha256": "8c35585658bd2bbb348cb4b6ed40d641c35c9fea5b75dbaca254210010889fcd",
+      "sourceWidth": 724,
+      "sourceHeight": 2172,
+      "crop": [
+        304,
+        1921,
+        686,
+        2064
+      ],
+      "width": 382,
+      "height": 143,
+      "sourceSlotPx": [
+        662,
+        147
+      ],
+      "availability": "visible-region",
+      "notes": "Photo foreground and original composited curve only. Artwork behind the lettering is unavailable."
+    },
+    {
+      "file": "related-consultation.webp",
+      "role": "Specialty detail, patient guides, How It Works, For Doctors, About",
+      "source": "DOCVY_Mobile_Prototype.html (embedded image)",
+      "sourceSha256": "441f196259271920a23557bce340a6f6ff85d11c976ba16eb84782250618365d",
+      "sourceWidth": 464,
+      "sourceHeight": 235,
+      "crop": [
+        0,
+        0,
+        464,
+        235
+      ],
+      "width": 464,
+      "height": 235,
+      "sourceSlotPx": null,
+      "availability": "embedded-crop",
+      "notes": "Supplied embedded photograph."
+    },
+    {
+      "file": "related-surgery.webp",
+      "role": "Surgery Guide and individual procedures",
+      "source": "DOCVY_Mobile_Prototype.html (embedded image)",
+      "sourceSha256": "79c27fcf849c22c4e923bc989af16ec5274f13944c2243385deb8e208837604e",
+      "sourceWidth": 265,
+      "sourceHeight": 115,
+      "crop": [
+        6,
+        5,
+        259,
+        115
+      ],
+      "width": 253,
+      "height": 110,
+      "sourceSlotPx": null,
+      "availability": "embedded-crop",
+      "notes": "Trimmed rounded upper corners inherited from the embedded reference raster."
+    }
+  ],
+  "missingOriginals": [
+    {
+      "asset": "hero",
+      "missing": "Layered or clean full-width photo, including pixels obscured by text or UI.",
+      "minimumVisibleArtPx": [
+        694,
+        188
+      ],
+      "minimumVisibleArtAt390CssPx": [
+        373.8,
+        101.3
+      ],
+      "notes": "Top band visible above search panel only."
+    },
+    {
+      "asset": "specialist-help",
+      "missing": "Layered or clean full-width photo, including pixels obscured by text or UI.",
+      "minimumVisibleArtPx": [
+        662,
+        130
+      ],
+      "minimumVisibleArtAt390CssPx": [
+        356.6,
+        70.0
+      ],
+      "notes": "Photo foreground only. Artwork behind the lettering is unavailable."
+    },
+    {
+      "asset": "patient-cta",
+      "missing": "Layered or clean full-width photo, including pixels obscured by text or UI.",
+      "minimumVisibleArtPx": [
+        662,
+        147
+      ],
+      "minimumVisibleArtAt390CssPx": [
+        356.6,
+        79.2
+      ],
+      "notes": "Photo foreground and original composited curve only. Artwork behind the lettering is unavailable."
+    }
+  ],
+  "sourceLimitations": [
+    "The homepage supplies a flattened image. Its visible thumbnails can be extracted, but some outer corner pixels have already been composited into the cards. The crops exclude those pixels. Larger camera originals and pixels outside the visible frames were not supplied.",
+    "The prototype embeds two unique photograph crops and one raster logo. Mobile header and footer must use the existing official repository wordmarks.",
+    "Use the repository’s existing doctor portrait selection and accessible fallback. No new provider portraits are supplied or licensed by these reference crops.",
+    "Site public images and the older approved-mockups branch photo sets were inspected; those consultation, provider and health article images differ from the current attached homepage."
+  ],
+  "existingLogoFiles": [
+    "/brand/01_primary_wordmark_dark.svg",
+    "/brand/02_white_wordmark_dark_background.svg"
+  ]
+}

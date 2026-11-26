@@ -1,3 +1,5 @@
+import { ResponsivePage } from "@/components/mobile/Viewport";
+import PricingMobile from "@/components/mobile/PricingMobile";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
@@ -35,7 +37,7 @@ function buildPlanContactHref(planName: string) {
 }
 
 export default function PricingPage() {
-  return <div className="bg-[#FFFFFF] text-ink">
+  return <ResponsivePage mobile={<PricingMobile/>}><div className="bg-[#FFFFFF] text-ink">
     <section className="overflow-hidden bg-white py-14 md:py-20"><div className="mx-auto grid max-w-[1440px] items-center gap-8 px-6 lg:px-[72px]">
       <div><p className="inline-flex items-center gap-2 rounded-full border border-line bg-white/85 px-4 py-2 text-[11px] font-extrabold tracking-[0.15em] text-ink">CLINIC &amp; HOSPITAL PLANS · PLANNED</p>
       <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.045em] md:text-[56px]">Plan options for clinics, clinic groups and hospitals.</h1>
@@ -62,5 +64,5 @@ export default function PricingPage() {
       ["What information should I include in a provider enquiry?", "Share your organisation name, city, facility type and business contact details. Do not include any patient's name, contact details, symptoms or medical records."],
     ].map(([question, answer]) => <details key={question} className="group rounded-2xl border border-line bg-[#FFFFFF] p-5 open:bg-white open:shadow-sm"><summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-bold text-ink marker:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"><span>{question}</span><ChevronDown strokeWidth={1.5} size={18} aria-hidden="true" className="shrink-0 text-ink transition-transform group-open:rotate-180" /></summary><p className="mt-3 max-w-3xl text-sm leading-7 text-grey">{answer}</p></details>)}</div></div></section>
     <section className="border-b border-line bg-white py-12"><div className="mx-auto flex max-w-[1440px] flex-col gap-5 px-6 md:flex-row md:items-center md:justify-between lg:px-[72px]"><div><h2 className="text-2xl font-bold">Want to discuss a clinic or hospital setup?</h2><p className="mt-2 text-sm text-grey">Share your organisation details through the contact channel; do not send patient information.</p></div><ContactLink>Contact now</ContactLink></div></section>
-  </div>;
+  </div></ResponsivePage>;
 }

@@ -1,3 +1,5 @@
+import { ResponsivePage } from "@/components/mobile/Viewport";
+import AboutMobile from "@/components/mobile/AboutMobile";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, BookOpen, ClipboardList, Stethoscope } from "lucide-react";
@@ -20,7 +22,7 @@ const paths = [
 ];
 
 export default function AboutPage() {
-  return <div className="docvy-garden">
+  return <ResponsivePage mobile={<AboutMobile/>}><div className="docvy-garden">
     <section className="mx-auto grid max-w-site items-center gap-8 px-5 py-12 sm:px-9 lg:py-20">
       <div>
         <p className="docvy-eyebrow">ABOUT DOCVY</p>
@@ -50,5 +52,5 @@ export default function AboutPage() {
       </div>
       <p className="mt-6 max-w-3xl text-sm leading-6 text-grey">DOCVY guides help you prepare for conversations with your care team. Find a real doctor profile and send an appointment request through DOCVY. DOCVY coordinates availability and the applicable fee with the doctor before confirming your appointment.</p>
     </section>
-  </div>;
+  </div></ResponsivePage>;
 }

@@ -1,3 +1,5 @@
+import { ResponsivePage } from "@/components/mobile/Viewport";
+import { SurgeryDirectory } from "@/components/mobile/Guides";
 import IllustrationBackground from "@/components/IllustrationBackground";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -36,7 +38,7 @@ const stages = [
 ];
 
 export default function SurgeryGuidePage() {
-  return <div className="relative isolate overflow-hidden docvy-garden px-5 py-12 sm:px-9 sm:py-16"><IllustrationBackground slug="surgery-guide-preparing" alt="Ramesh and Meera prepare questions for a consultation."  />
+  return <ResponsivePage mobile={<SurgeryDirectory/>}><div className="relative isolate overflow-hidden docvy-garden px-5 py-12 sm:px-9 sm:py-16"><IllustrationBackground slug="surgery-guide-preparing" alt="Ramesh and Meera prepare questions for a consultation."  />
     <div className="mx-auto max-w-site">
       <Breadcrumbs items={[{ name: "Surgery guide", href: "/surgery-guide" }]} />
       <p className="docvy-eyebrow">PATIENT GUIDE · INDIA</p>
@@ -69,5 +71,5 @@ export default function SurgeryGuidePage() {
       <p className="mt-3 text-sm text-grey">Further reading <a className="underline underline-offset-4" href="https://www.nhs.uk/tests-and-treatments/having-surgery/preparation/">NHS guide to preparing for surgery</a></p>
       <Link href="/care-guide" className="docvy-pill mt-6">Explore other patient guides <ArrowUpRight strokeWidth={1.5} size={17} aria-hidden="true" /></Link>
     </div>
-  </div>;
+  </div></ResponsivePage>;
 }

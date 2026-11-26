@@ -1,3 +1,6 @@
+import { ResponsivePage } from "@/components/mobile/Viewport";
+import { Results } from "@/components/mobile/Doctors";
+import {parseDirectoryFilters} from "@/lib/directory-filters";
 import { specialtyDoctorTitle } from "@/lib/specialty-taxonomy";
 import { notFound } from "next/navigation";
 import { getDirectoryDoctors } from "@/lib/public-directory";
@@ -22,10 +25,10 @@ export default async function SpecialtyDoctorsPage({ params }: Props) {
   if (!specialty) notFound();
   const doctors = doctorsIn(undefined, specialty.slug, await getDirectoryDoctors());
   const shown = doctors.slice(0,20);
-  return <div className="mx-auto max-w-site px-5 py-12 sm:px-8">
+  return <ResponsivePage mobile={<><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify({"@context":"https://schema.org","@type":"ItemList",itemListElement:shown.map((doctor,i)=>({"@type":"ListItem",position:i+1,name:doctor.name,url:productionOrigin+doctorPath(doctor)}))}).replace(/</g,"\\u003c")}}/><Results listed={await getDirectoryDoctors()} shown={shown} pages={Math.ceil(doctors.length/20)} filters={parseDirectoryFilters({specialty:specialty.slug})} label={specialty.name+" doctors"}/></>}><div className="mx-auto max-w-site px-5 py-12 sm:px-8">
     <Breadcrumbs items={[{ name: "Doctors", href: "/doctors" }, { name: specialty.name, href: "/doctors/specialty/" + specialty.slug }]} />
     <h1 className="text-4xl font-medium">{specialtyDoctorTitle(specialty.slug,specialty.name)} in India</h1>
     <h2 className="mt-8 text-2xl font-medium">Doctor listings</h2>
     {doctors.length ? <><p className="mt-4">{doctors.length} published profiles. Showing up to 20 here.</p><DoctorCards doctors={shown} /><Link className="docvy-pill mt-5" href={{pathname:"/doctors",query:{specialty:specialty.slug}}}>View all results and filter by hospital or area</Link><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify({"@context":"https://schema.org","@type":"ItemList",itemListElement:shown.map((doctor,i)=>({"@type":"ListItem",position:i+1,name:doctor.name,url:productionOrigin+doctorPath(doctor)}))}).replace(/</g,"\\u003c")}}/></> : <p className="mt-4">No matching profiles are published for this specialty yet. <Link className="underline" href="/specialties">Explore specialty guides</Link>.</p>}
-  </div>;
+  </div></ResponsivePage>;
 }

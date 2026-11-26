@@ -1,4 +1,5 @@
 "use client";
+import { Row } from "./mobile/Elements";
 import { canonicalSpecialty, specialtyKey } from "@/lib/specialty-taxonomy";
 
 import { useEffect, useMemo, useState } from "react";
@@ -13,7 +14,7 @@ const featuredIcons = { "General physician / internal medicine": Stethoscope, Ca
 const searchFillers = new Set(["a", "an", "and", "are", "can", "doctor", "doctors", "do", "does", "for", "have", "help", "i", "kind", "me", "my", "of", "or", "see", "should", "specialist", "specialists", "specialty", "specialties", "the", "to", "type", "what", "which", "with"]);
 const anyCurrentCity = "Any current city";
 
-export default function CareGuideSearch({ doctors: providerCandidates }: { doctors: ProviderCandidate[] }) {
+export default function CareGuideSearch({ doctors: providerCandidates, mobile = false }: { doctors: ProviderCandidate[]; mobile?:boolean }) {
   const providerCities = useMemo(() => Array.from(new Set(providerCandidates.flatMap(d=>d.locations.map(l=>l.city)))), [providerCandidates]);
   const providerCityListLabel = providerCities.join(", ") || "no current city listings";
   const [query, setQuery] = useState("");
@@ -37,6 +38,9 @@ export default function CareGuideSearch({ doctors: providerCandidates }: { docto
   }, [query]);
   const visibleResults = query.trim() || showAll ? results : careGuide.filter((item) => featuredSpecialties.includes(item.specialty));
 
+  if (mobile) return <><label className="search"><Search/><input id="care-guide-search" type="search" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search condition, concern or specialty" aria-label="Search condition, concern or specialty"/></label>
+    <div className="chips">{examples.map(q=><button type="button" key={q} aria-pressed={query===q} onClick={()=>setQuery(query===q?"":q)}>{q.charAt(0).toUpperCase()+q.slice(1)}</button>)}</div>
+    <section><h2>A good place to start</h2>{query ? <>{providerCities.length>0 && <label>City<select value={city} onChange={event=>setCity(event.target.value)}><option>{anyCurrentCity}</option>{providerCities.map(c=><option key={c}>{c}</option>)}</select></label>}{visibleResults.map(r=><Row key={r.specialty} title={r.specialty} detail={r.description} href={"/doctors?"+new URLSearchParams({q:r.directoryQuery??r.specialty,...(city!==anyCurrentCity?{location:city}:{})})} icon={Stethoscope}/>)}{!visibleResults.length&&<p>No exact match in this guide</p>}</> : <Row title="General physician" detail="An option when a concern is new or unclear." href="/specialties/general-medicine" icon={Stethoscope}/>}</section></>;
   return <>
     <label htmlFor="care-guide-search" className="sr-only">Search a condition, concern, or specialty</label>
     <div className="mt-8 flex min-h-14 max-w-2xl items-center gap-3 rounded-xl border border-line bg-white px-4  focus-within:ring-2 focus-within:ring-primary">

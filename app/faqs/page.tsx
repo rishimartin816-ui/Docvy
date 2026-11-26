@@ -1,3 +1,5 @@
+import { ResponsivePage } from "@/components/mobile/Viewport";
+import { FaqMobile } from "@/components/mobile/Discovery";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { buildPageSocialMetadata } from "@/lib/metadata";
@@ -43,7 +45,7 @@ const questions = [
 ];
 
 export default function FaqsPage() {
-  return <div className="docvy-garden px-5 py-12 sm:px-8 sm:py-16">
+  return <ResponsivePage mobile={<FaqMobile questions={[{"question": "What is DOCVY?", "answer": "A doctor directory with patient guides and appointment coordination."}, {"question": "What does DOCVY Verified mean?", "answer": "Written consent and a separate registration check have been recorded."}, {"question": "Can I request an appointment?", "answer": "Participating claimed or verified doctors can accept requests."}, {"question": "What happens after a request?", "answer": "Save the reference and follow updates through DOCVY."}, {"question": "How can I claim a profile?", "answer": "Use the claim form and provide your professional details."}, {"question": "How do I remove a profile?", "answer": "Use the removal form."}, {"question": "What if I do not know which doctor to see?", "answer": "Start with the Care Guide."}]}/>}><div className="docvy-garden px-5 py-12 sm:px-8 sm:py-16">
     <div className="mx-auto max-w-3xl">
       <p className="docvy-eyebrow">DOCVY HELP</p>
       <h1 className="mt-3 text-4xl font-bold tracking-tight text-ink sm:text-5xl">Questions about using DOCVY</h1>
@@ -56,5 +58,5 @@ export default function FaqsPage() {
         </details>)}
       </div>
     </div>
-  </div>;
+  </div></ResponsivePage>;
 }

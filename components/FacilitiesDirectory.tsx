@@ -1,3 +1,6 @@
+import { ResponsivePage } from "@/components/mobile/Viewport";
+import { Action, Intro, Page, Row, Note } from "@/components/mobile/Elements";
+import {Hospital, Search} from "lucide-react";
 import Link from "next/link";
 import { ArrowUpRight, MapPin } from "lucide-react";
 import { facilitiesFrom } from "@/lib/facilities";
@@ -10,7 +13,7 @@ export default async function FacilitiesDirectory({ outpatient = false, query=""
   const cities=Array.from(new Set(eligible.map(f=>f.location.city))).sort();
   const listedFacilities=eligible.filter(f=>(!city||f.location.city===city)&&[f.name,f.location.city,f.location.locality,...f.specialties].join(" ").toLowerCase().includes(query.toLowerCase()));
   const hasClinics = facilities.some((facility) => facility.kind === "clinic");
-  return <div className="docvy-garden">
+  return <ResponsivePage mobile={<Page crumb={outpatient?"Clinics":"Hospitals"}><Intro title={outpatient?"Clinics and hospital outpatient locations":"Explore hospitals"} description="Find listed hospital practices and their associated doctors."/><form action={outpatient?"/clinics":"/hospitals"}><label className="search"><Search/><input aria-label="Hospital, clinic or specialty" type="search" name="q" defaultValue={query} maxLength={120} placeholder="Hospital, clinic or specialty"/></label><label>City<select name="city" defaultValue={city}><option value="">All cities</option>{cities.map(c=><option key={c}>{c}</option>)}</select></label><button className="btn">Find practices →</button></form><section><h2>Published practices</h2>{listedFacilities.map(f=><Row key={f.name+f.location.city} title={f.name} detail={[f.location.city,...f.specialties].join(" · ")} icon={Hospital} href={"/doctors?"+new URLSearchParams({facility:f.name,location:f.location.city})}/>)}{!listedFacilities.length&&<p>No matching practices.</p>}</section></Page>}><div className="docvy-garden">
     <section className="reference-wrap reference-section grid items-center gap-8 ">
       <div><p className="reference-eyebrow text-primary">{outpatient ? "CLINICS & OUTPATIENT VISITS" : "HOSPITAL DISCOVERY"}</p>
         <h1 className="mt-5 text-4xl font-medium leading-tight tracking-tight sm:text-6xl">{outpatient ? "Make time for your health." : "Explore hospitals. Plan your next visit."}</h1>
@@ -30,5 +33,5 @@ export default async function FacilitiesDirectory({ outpatient = false, query=""
       </li>)}</ul>
       <p className="mt-6 max-w-3xl text-sm leading-7 text-grey">A directory listing does not establish a DOCVY hospital partnership. Requests are saved by DOCVY for coordination. Appointment availability, fees and the final time need provider confirmation.</p>
     </section>
-  </div>;
+  </div></ResponsivePage>;
 }

@@ -1,3 +1,6 @@
+import { ResponsivePage } from "@/components/mobile/Viewport";
+import { Intro, Page, Note } from "@/components/mobile/Elements";
+import { GuideTopics } from "@/components/mobile/Discovery";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, ShieldCheck } from "lucide-react";
@@ -40,7 +43,7 @@ export default async function CareGuidePage() {
     },
   };
 
-  return <div className="docvy-garden">
+  return <ResponsivePage mobile={<><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collection).replace(/</g, "\\u003c") }} /><Page crumb="Care Guide"><Intro title="Which doctor should I see?" description="Explore common concerns and prepare questions for your next consultation."/><CareGuideSearch mobile doctors={await getDirectoryDoctors()}/><GuideTopics/><Note>These guides provide general information, not a diagnosis.</Note></Page></>}><div className="docvy-garden">
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collection).replace(/</g, "\\u003c") }} />
     <section className="relative isolate mx-auto max-w-site overflow-hidden px-5 py-12 sm:px-9 lg:py-20">
       <IllustrationBackground slug="health-guides-reading-together" alt="Meera and Ramesh read a guide before a visit." />
@@ -91,5 +94,5 @@ export default async function CareGuidePage() {
         </ul>
       </div>
     </section>
-  </div>;
+  </div></ResponsivePage>;
 }

@@ -1,3 +1,6 @@
+import { ResponsivePage } from "@/components/mobile/Viewport";
+import { Specialty } from "@/components/mobile/Guides";
+import { MobileCards, Results } from "@/components/mobile/Doctors";
 import {getDirectoryDoctors} from '@/lib/public-directory';
 import {specialtyMatches} from '@/lib/directory';
 import {productionOrigin} from '@/lib/metadata';
@@ -27,7 +30,7 @@ export default async function SpecialtyPage({ params }: { params: { slug: string
   const item = specialties.find(({ slug }) => slug === params.slug);
   if (!item) notFound();
   const providers=(await getDirectoryDoctors()).filter(d=>d.specialties.some(name=>specialtyMatches(name,item.slug)));
-  return <div className="docvy-garden px-5 py-12 sm:px-9">
+  return <ResponsivePage mobile={<>{providers.length > 0 && <><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify({'@context':'https://schema.org','@type':'ItemList',name:item.name+' profiles on DOCVY',numberOfItems:providers.length,itemListElement:providers.map((doctor,i)=>({'@type':'ListItem',position:i+1,name:doctor.name,url:productionOrigin+doctorPath(doctor)}))}).replace(/</g,'\\u003c')}}/></>}<Specialty item={item}>{providers.length ? <MobileCards doctors={providers}/> : <p>No {item.name} profiles are currently published on DOCVY.</p>}</Specialty></>}><div className="docvy-garden px-5 py-12 sm:px-9">
     <div className="mx-auto max-w-3xl">
       <Breadcrumbs items={[{ name: "Medical specialties", href: "/specialties" }, { name: item.name, href: "/specialties/" + item.slug }]} />
       <GuideContents items={[{id:"specialty-overview",label:"Overview"},{id:"specialty-preparation",label:"Before your visit"},{id:"specialty-related",label:"Related guides"}]}/><div id="specialty-overview" className="docvy-glass mt-6 space-y-4 p-6 sm:p-9">
@@ -47,5 +50,5 @@ export default async function SpecialtyPage({ params }: { params: { slug: string
         <ul className="mt-3 space-y-2">{patientTopicGuides.filter((guide) => guide.relatedSpecialties.some((name) => name.split("/").some((part) => specialtySlug(part.trim()) === params.slug))).map(({ slug, title }) =>
           <li key={slug}><Link href={"/patient-guides/" + slug} className="underline">{title}</Link></li>)}</ul>
       </section>}
-  </div>;
+  </div></ResponsivePage>;
 }

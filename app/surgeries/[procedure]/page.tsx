@@ -1,3 +1,5 @@
+import { ResponsivePage } from "@/components/mobile/Viewport";
+import { Procedure } from "@/components/mobile/Guides";
 import { getDirectoryDoctors } from "@/lib/public-directory";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -23,7 +25,7 @@ export default async function SurgeryPage({ params }: Props) {
   const procedure = lookup(params.procedure);
   const specialty = slugify(procedure.specialty);
   const doctors = doctorsIn(undefined, specialty, await getDirectoryDoctors());
-  return <div className="docvy-garden"><div className="mx-auto max-w-5xl px-5 py-12 sm:px-9">
+  return <ResponsivePage mobile={<Procedure name={procedure.name} specialty={procedure.specialty}/>}><div className="docvy-garden"><div className="mx-auto max-w-5xl px-5 py-12 sm:px-9">
     <Breadcrumbs items={[{ name: "Surgery guide", href: "/surgery-guide" }, { name: procedure.name, href: "/surgeries/" + procedure.slug }]} />
     <h1 className="text-4xl font-bold sm:text-6xl">{procedure.name}</h1>
     <p className="mt-4">Listed specialty {specialties.some(({ slug }) => slug === specialty) ? <Link href={"/specialties/" + specialty} className="underline">{procedure.specialty}</Link> : procedure.specialty}.</p>
@@ -33,5 +35,5 @@ export default async function SurgeryPage({ params }: Props) {
       <Link className="docvy-pill mt-5" href="/surgery-guide">Open the surgery preparation guide</Link>
     </section>
     <section className="mt-7"><h2 className="text-2xl font-bold">Doctors in the relevant specialty</h2>{doctors.length ? <DoctorCards doctors={doctors} /> : <p className="mt-3">No profiles are listed for this specialty yet.</p>}</section>
-  </div></div>;
+  </div></div></ResponsivePage>;
 }

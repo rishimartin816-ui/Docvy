@@ -1,3 +1,5 @@
+import { ResponsivePage } from "@/components/mobile/Viewport";
+import { Action, Intro, Page, Row, Note } from "@/components/mobile/Elements";
 import type { Metadata } from "next";
 import { ArrowRight, Mail, MapPin, ShieldCheck } from "lucide-react";
 import { buildPageSocialMetadata } from "@/lib/metadata";
@@ -14,7 +16,7 @@ export const metadata: Metadata = {
 export default function GrievancePage() {
   const responseDays = Number(process.env.DOCVY_GRIEVANCE_RESPONSE_DAYS);
 
-  return <div className="bg-surface text-ink">
+  return <ResponsivePage mobile={<Page crumb="Grievance"><Intro title="Contact DOCVY about a grievance" description="For booking-related or other concerns, contact DOCVY by email or post."/><section><h2>Grievance contact</h2><div className="card"><h3>contact@docvy.in</h3><p>Include your booking reference when relevant.</p><a href="mailto:contact@docvy.in?subject=DOCVY%20grievance">Email DOCVY ↗</a></div><p>Grievance officer: <strong>Rishi Raj Martin</strong>, who has personally accepted responsibility for handling grievances.</p><p>We aim to acknowledge ordinary grievances within 24 hours and address them within {Number.isInteger(responseDays) && responseDays > 0 ? responseDays : 15} calendar days, subject to applicable statutory deadlines. Profile removal requests have a separate 48-hour commitment.</p></section><section id="postal-address"><h2>Written grievance</h2><p>DSS Global Technologies Private Limited<br/>Sector 48, Gurugram<br/>Haryana 122101, India</p></section><Note>Grievances are not submitted through a web form. Do not attach medical records, identity documents or other sensitive personal information to an unverified channel.</Note></Page>}><div className="bg-surface text-ink">
     <section className="bg-white px-6 py-16 md:py-20">
       <div className="mx-auto max-w-site">
         <p className="inline-flex items-center gap-2 rounded-full border border-line bg-white/75 px-4 py-2 text-[11px] font-extrabold tracking-[0.14em] text-ink"><ShieldCheck strokeWidth={1.5} size={15} aria-hidden="true" /> HELP &amp; ACCOUNTABILITY · INDIA</p>
@@ -54,5 +56,5 @@ export default function GrievancePage() {
         </aside>
       </div>
     </section>
-  </div>;
+  </div></ResponsivePage>;
 }

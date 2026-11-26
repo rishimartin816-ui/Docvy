@@ -1,3 +1,5 @@
+import { ResponsivePage } from "@/components/mobile/Viewport";
+import { SpecialtyDirectory } from "@/components/mobile/Discovery";
 import { directorySpecialties } from "@/lib/directory";
 import IllustrationBackground from "@/components/IllustrationBackground";
 import type { Metadata } from "next";
@@ -9,7 +11,7 @@ import { specialties } from "@/lib/care-directory";
 export const metadata: Metadata = { title: "Medical specialties explained", description: "Learn what common medical specialties do, from skin and hair to bones and joints, and what to bring to a first appointment.", alternates: { canonical: "/specialties" } };
 
 export default function SpecialtiesPage() {
-  return <div className="relative isolate overflow-hidden docvy-garden px-5 py-12 sm:px-9"><IllustrationBackground slug="specialties-care-options" alt="Meera and Aarav review different types of care."  />
+  return <ResponsivePage mobile={<SpecialtyDirectory/>}><div className="relative isolate overflow-hidden docvy-garden px-5 py-12 sm:px-9"><IllustrationBackground slug="specialties-care-options" alt="Meera and Aarav review different types of care."  />
     <div className="mx-auto max-w-site">
       <p className="docvy-eyebrow">FIND YOUR STARTING POINT</p>
       <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-6xl">Medical specialties, in plain language</h1>
@@ -24,5 +26,5 @@ export default function SpecialtiesPage() {
       </div>
     <section className="mt-10"><h2 className="text-2xl font-medium">All directory specialties</h2><p className="mt-3 text-sm text-grey">Clinical specialties use the same names in search, navigation and doctor profiles. Clinic centres and services are shown separately on profiles.</p><ul className="mt-5 grid gap-3 sm:grid-cols-3">{directorySpecialties.filter(s=>!specialties.some(g=>g.slug===s.slug)).map(s=><li key={s.slug}><Link href={"/doctors/specialty/"+s.slug} className="inline-flex min-h-11 items-center underline">{s.name}</Link></li>)}</ul></section>
     </div>
-  </div>;
+  </div></ResponsivePage>;
 }

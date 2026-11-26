@@ -1,3 +1,5 @@
+import { ResponsivePage } from "@/components/mobile/Viewport";
+import { Article } from "@/components/mobile/Guides";
 import GuideContents from "@/components/patient/GuideContents";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -71,7 +73,7 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
     })),
   };
 
-  return <div className="docvy-garden min-h-screen">
+  return <ResponsivePage mobile={<><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJson).replace(/</g, "\\u003c") }} /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJson).replace(/</g, "\\u003c") }} /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJson).replace(/</g, "\\u003c") }} /><Article guide={guide}/></>}><div className="docvy-garden min-h-screen">
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJson).replace(/</g, "\\u003c") }} />
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJson).replace(/</g, "\\u003c") }} />
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJson).replace(/</g, "\\u003c") }} />
@@ -165,5 +167,5 @@ export default function PatientTopicGuidePage({ params }: { params: { slug: stri
 
       <div className="mt-10 flex flex-col gap-4 rounded-3xl bg-primary p-6 text-white md:flex-row md:items-center md:justify-between md:p-8"><div><p className="text-xs font-extrabold tracking-[0.13em] text-primary-tint">DOCVY COVERAGE TODAY</p><h2 className="mt-2 text-2xl font-bold text-white">Understand your options. Plan your next visit.</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-primary-tint">Use the guide from anywhere in India. For a listed doctor, request a visit through DOCVY and wait for provider confirmation.</p></div><Link href="/care-guide" className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl bg-white px-5 text-sm font-bold text-ink hover:bg-surface">Explore the patient guide <ArrowRight strokeWidth={1.5} size={16} aria-hidden="true" /></Link></div>
     </section>
-  </div>;
+  </div></ResponsivePage>;
 }

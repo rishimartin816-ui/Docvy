@@ -1,3 +1,5 @@
+import { ResponsivePage } from "@/components/mobile/Viewport";
+import { MobileCards, Results } from "@/components/mobile/Doctors";
 import Link from "next/link";
 import DirectoryFiltersForm from "@/components/DirectoryFilters";
 import { Breadcrumbs, DoctorCards } from "@/components/DirectoryPage";
@@ -17,7 +19,7 @@ export async function generateMetadata({searchParams}:{searchParams:DirectoryPar
 export default async function DoctorsPage({searchParams}:{searchParams:DirectoryParams}){
  const {listed,filters,results,pages,page}=await resultsFor(searchParams);const shown=results.slice((page-1)*20,page*20);
  const places=Array.from(new Map(listed.flatMap(d=>d.locations.map(l=>({city:l.city,citySlug:citySlug(l.city),facility:l.facility,area:l.locality??""}))).map(p=>[JSON.stringify(p),p])).values());
- return <div className="docvy-doctor-directory mx-auto max-w-site px-5 py-12 sm:px-9">
+ return <ResponsivePage mobile={<>{shown.length > 0 && <><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify({"@context":"https://schema.org","@type":"ItemList",name:"DOCVY doctor directory",url:productionOrigin+directoryPageHref(filters,page),numberOfItems:shown.length,itemListElement:shown.map((d,i)=>({"@type":"ListItem",position:(page-1)*20+i+1,name:d.name,url:productionOrigin+doctorPath(d)}))}).replace(/</g,"\\u003c")}}/></>}<Results listed={listed} shown={shown} filters={filters} page={page} pages={pages}/></>}><div className="docvy-doctor-directory mx-auto max-w-site px-5 py-12 sm:px-9">
   <Breadcrumbs items={[{name:"Doctors",href:"/doctors"}]}/>
   <header className="docvy-directory-heading"><p className="docvy-eyebrow">YOUR DOCTOR. YOUR PRACTICE. YOUR NEXT STEP.</p><h1>Find the care that fits your life.</h1><p>Explore qualifications, experience, consultation fees and practice locations. Choose a participating doctor and book your next appointment through DOCVY.</p></header>
   <div className="mt-6"><DirectoryFiltersForm key={JSON.stringify([filters.query,filters.city,filters.facility,filters.area,filters.specialty])} {...filters} cities={availableCities(listed)} specialties={directorySpecialties} places={places}/></div>
@@ -28,5 +30,5 @@ export default async function DoctorsPage({searchParams}:{searchParams:Directory
   {pages>1&&<nav aria-label="Doctor directory pages" className="mt-8 flex flex-wrap items-center gap-3">{page>1&&<Link rel="prev" href={directoryPageHref(filters,page-1)} className="docvy-pill">Previous</Link>}<span>Page {page} of {pages}</span>{page<pages&&<Link rel="next" href={directoryPageHref(filters,page+1)} className="docvy-pill">Next</Link>}</nav>}
   </section>
   <section id="browse-cities" className="mt-10"><h2 className="text-2xl font-medium">Browse by city</h2><ul className="mt-4 flex flex-wrap gap-2">{availableCities(listed).map(c=><li key={c.slug}><Link className="docvy-pill" href={cities.some(known=>known.slug===c.slug)?"/doctors/"+c.slug:"/doctors?location="+c.slug}>{c.name} ({c.count})</Link></li>)}</ul></section>
- </div>;
+ </div></ResponsivePage>;
 }

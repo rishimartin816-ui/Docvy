@@ -1,3 +1,5 @@
+import { ResponsivePage } from "@/components/mobile/Viewport";
+import ContactMobile from "@/components/mobile/ContactMobile";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Building2, CalendarClock, Mail, MapPin, Search, ShieldAlert, ShieldCheck, Stethoscope } from "lucide-react";
@@ -22,7 +24,7 @@ export default function ContactPage() {
     "Please do not include patient or health information.",
   ].join("\n"))}`;
 
-  return <main className="bg-[#FFFFFF] text-ink">
+  return <ResponsivePage mobile={<ContactMobile/>}><main className="bg-[#FFFFFF] text-ink">
     <section className="overflow-hidden bg-white px-6 py-12 md:py-16">
       <div className="mx-auto grid max-w-site items-center gap-10 lg:grid-cols-[1.05fr_.95fr] lg:gap-14">
         <div>
@@ -104,5 +106,5 @@ export default function ContactPage() {
     <section className="mx-auto max-w-site px-6 pb-14">
       <div className="flex gap-3 rounded-2xl border border-line bg-[#FFFFFF] p-5"><ShieldAlert className="mt-0.5 shrink-0 text-ink" size={20} aria-hidden="true" /><div><h2 className="font-bold text-ink">Medical emergency?</h2><p className="mt-2 text-sm leading-6 text-grey">DOCVY is not an emergency service. In India, call <a className="font-bold underline underline-offset-4" href="tel:112">112</a> or go to the nearest emergency department. <a className="font-semibold text-ink underline underline-offset-4" href="https://112.gov.in/" target="_blank" rel="noopener noreferrer">Official emergency information</a>.</p></div></div>
     </section>
-  </main>;
+  </main></ResponsivePage>;
 }

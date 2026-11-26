@@ -1,5 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
+import { useMobile } from "./mobile/Viewport";
+import MobileFooter from "./mobile/Footer";
 import PublicNextStep from "./patient/PublicNextStep";
 import type { ReactNode } from "react";
 
@@ -11,5 +13,8 @@ export default function SiteFrame({children,navigation,footer,breadcrumbs}:{chil
   const shared=publicRoots.includes(root);
   const provider=['for-doctors','for-clinics','pricing'].includes(root);
   const nextStep=shared&&!['legal','grievance','claim-profile','remove-profile','partner-with-us','patient-access','login','status','hi'].includes(root);
+  const mobile = useMobile();
+  const approved = path === "/" || ["/book","/doctors","/hospitals","/clinics","/specialties","/patient-access","/care-guide","/surgery-guide","/how-it-works","/for-doctors","/partner-with-us","/claim-profile","/remove-profile","/pricing","/about","/contact","/faqs","/grievance"].includes(path) || /^\/(doctor|doctors|specialties|patient-guides|surgeries)\//.test(path) || /^\/legal\/(terms|privacy|refund|disclaimer)$/.test(path);
+  if (mobile && approved) return <div className={"dm" + (path === "/" ? " dm-home" : "")}>{navigation}<div hidden>{breadcrumbs}</div><main id="main">{children}</main><MobileFooter home={path === "/"}/></div>;
   return workspace?<main id="main">{children}</main>:<>{navigation}<main id="main" className={shared?"docvy-public-page "+(["patient-guides","specialties","surgeries","legal"].includes(root)?"docvy-editorial-page":""):undefined}>{breadcrumbs}{children}{nextStep&&<PublicNextStep provider={provider}/>}</main>{footer}</>;
 }

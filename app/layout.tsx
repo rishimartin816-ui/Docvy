@@ -1,5 +1,8 @@
 import "./globals.css";
 import "./public-experience.css";
+import "./approved-mobile.css";
+import { headers } from "next/headers";
+import { ViewportProvider } from "@/components/mobile/Viewport";
 // Publication and removal changes must be reflected in every public view, including footer links.
 export const dynamic = "force-dynamic";
 import type { Metadata, Viewport } from "next";
@@ -97,7 +100,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <SiteFrame navigation={<Nav />} footer={<Footer />} breadcrumbs={<RouteBreadcrumbs />}>{children}</SiteFrame>
+        <ViewportProvider initialMobile={/Mobile|iPhone|Android.*Mobile/i.test(headers().get("user-agent") ?? "")}><SiteFrame navigation={<Nav />} footer={<Footer />} breadcrumbs={<RouteBreadcrumbs />}>{children}</SiteFrame></ViewportProvider>
       </body>
     </html>
   );

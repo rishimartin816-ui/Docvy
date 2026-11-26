@@ -1,4 +1,7 @@
 "use client";
+import { useMobile } from "./mobile/Viewport";
+import { Action, Intro, Page, Note, Row } from "./mobile/Elements";
+import { UserRound } from "lucide-react";
 import {useEffect,useMemo,useRef,useState,type FormEvent} from 'react';
 import Link from 'next/link';
 import {ArrowLeft,ArrowRight,CalendarDays,Check,CheckCircle2,ChevronLeft,ChevronRight,ClipboardCheck,Copy,LockKeyhole,MapPin,ShieldCheck,Video} from 'lucide-react';
@@ -10,10 +13,11 @@ import s from './patient/experience.module.css';
 
 type Slot={id:string;startsAt:string;endsAt:string};
 type Result={ok?:boolean;reference?:string;status?:string;mode?:string;receiptKey?:string;error?:string};
-type Props={initialProviderId?:string;initialCity?:string;initialFacility?:string;compact?:boolean};
+type Props={initialProviderId?:string;initialCity?:string;initialFacility?:string;compact?:boolean;mobileDesign?:boolean};
 const initialDetails={name:'',mobile:'',email:'',consent:false};
 const formatSlot=(at:string)=>new Intl.DateTimeFormat('en-IN',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Kolkata'}).format(new Date(at));
-export default function BookingForm({initialProviderId,initialCity,initialFacility,compact=false}:Props){
+export default function BookingForm({initialProviderId,initialCity,initialFacility,compact=false,mobileDesign=false}:Props){
+ const mobile=useMobile();
  const [providers,setProviders]=useState<BookingProvider[]>([]),[selected,setSelected]=useState(''),[loading,setLoading]=useState(true),[loadFailed,setLoadFailed]=useState(false),[retry,setRetry]=useState(0);
  const [query,setQuery]=useState(''),[cityFilter,setCityFilter]=useState(''),[step,setStep]=useState(1),[busy,setBusy]=useState(false),[message,setMessage]=useState('');
  const [date,setDate]=useState(''),[time,setTime]=useState(''),[today,setToday]=useState(''),[calendarStart,setCalendarStart]=useState('');
@@ -61,6 +65,38 @@ export default function BookingForm({initialProviderId,initialCity,initialFacili
  }
  const tracking=result?.receiptKey?'/appointments/track#'+new URLSearchParams({reference:result.reference??'',receipt:result.receiptKey}):'';
  async function copyTracking(){try{await navigator.clipboard.writeText(new URL(tracking,window.location.origin).href);setCopied(true);}catch{setMessage('Use the private tracking link below and save it somewhere safe.');}}
+ if(mobileDesign && mobile){
+  const headings = [
+   ["Book appointment","Book an appointment","Choose your doctor, practice and preferred visit time."],
+   ["Preferred date and time","Choose a preferred time","Select the date and time that work for you."],
+   ["Appointment details","Your contact details","Share the details needed to coordinate your visit."]
+  ];
+  if(result) return <Page crumb="Request receipt"><Intro title={result.status==="confirmed"?"Appointment confirmed":"Request received"}/>
+   <section className="card center"><div className="bigicon"><Check/></div><h2 id="booking-success-title">{result.status==="confirmed"?"Your appointment is confirmed.":"We have your request"}</h2><p>Save your private tracking link and follow your appointment updates.</p><p className="small">{result.reference}</p>
+    {tracking&&<><Action href={tracking}>Open my appointment</Action><button className="textlink" onClick={()=>void copyTracking()}>{copied?"Link copied":"Copy private link"}</button></>}
+   </section>{message&&<p role="status">{message}</p>}<button className="btn outline" onClick={()=>{setResult(null);setDetails(initialDetails);setCopied(false);move(1)}}>Book an appointment</button></Page>;
+  const [crumb,title,description]=headings[step-1];
+  function changeTime(value:string){setTime(value);requestKey.current=null;}
+  const disabled=busy || !active || (step===2 && (active.mode==="instant" ? !slotId : !time));
+  return <Page crumb={crumb}><Intro title={title} description={description}/>
+    <div className="progress" aria-label="Booking progress">{["Practice","Date","Details"].map((label,i)=><span key={label} className={step===i+1?"active":undefined} aria-current={step===i+1?"step":undefined}>{i+1} · {label}</span>)}</div>
+    <form onSubmit={submit}><div hidden aria-hidden="true"><label>Leave blank<input name="website" tabIndex={-1} autoComplete="off"/></label></div>
+    {loading?<p role="status">Finding participating doctors and practices…</p>:loadFailed?<p role="alert">We couldn’t load the booking options. <button type="button" onClick={()=>setRetry(n=>n+1)}>Try again</button></p>:!providers.length?<p>We couldn’t find an activated booking option for this selection. <a href="/doctors">Explore participating doctors</a></p>:<>
+    <fieldset><legend ref={heading} tabIndex={-1}>{["Doctor & practice","Visit preferences","Patient information"][step-1]}</legend>
+      {step===1&&<>{active&&<Row title={active.name} detail={[active.specialties?.join(" · "),active.fee!=null?"₹"+active.fee+" consultation":""].filter(Boolean).join(" · ")} icon={UserRound}/>}<label>Practice<select value={selected} onChange={e=>{const p=providers.find(v=>v.key===e.target.value);if(p)choose(p)}} required><option value="" disabled>Choose a doctor and practice</option>{providers.map(p=><option key={p.key} value={p.key}>{p.name} · {p.facility}, {p.city}</option>)}</select></label></>}
+      {step===2&&(active?.mode==="instant"?<label>Available appointment<select required value={slotId} onChange={e=>{setSlotId(e.target.value);requestKey.current=null}}><option value="">{slotsLoading?"Checking appointments…":"Choose an appointment"}</option>{slots.map(s=><option key={s.id} value={s.id}>{formatSlot(s.startsAt)}</option>)}</select>{!slotsLoading&&!slots.length&&"No managed slots are listed."}</label>:<>
+       <label>Preferred date<input type="date" required value={date} min={today} max={maxDate} onChange={e=>chooseDate(e.target.value)}/></label>
+       <label>Preferred time{times.length || scheduled ? <select required value={time} onChange={e=>changeTime(e.target.value)}><option value="">{times.length?"Choose a time":"No suggested times for this day"}</option>{times.map(t=><option key={t} value={t}>{prettyTime(t)}</option>)}</select>:<input type="time" required value={time} onChange={e=>changeTime(e.target.value)}/>}</label></>)}
+      {step===3&&<><label>Full name<input name="name" autoComplete="name" required minLength={2} maxLength={100} value={details.name} placeholder="Enter name" onChange={e=>{setDetails({...details,name:e.target.value});requestKey.current=null}}/></label>
+       <label>Mobile number<input type="tel" required name="mobile" inputMode="tel" autoComplete="tel-national" pattern="[6-9][0-9]{9}" maxLength={10} placeholder="+91" value={details.mobile} onChange={e=>{setDetails({...details,mobile:e.target.value});requestKey.current=null}}/></label>
+       <label>Email<input name="email" type="email" autoComplete="email" required maxLength={254} placeholder="Enter email" value={details.email} onChange={e=>{setDetails({...details,email:e.target.value});requestKey.current=null}}/></label>
+       <label className="consent"><input required type="checkbox" checked={details.consent} onChange={e=>{setDetails({...details,consent:e.target.checked});requestKey.current=null}}/><span>I consent to DOCVY using these contact details to coordinate this appointment. I understand my preferred time awaits confirmation. <Link href="/legal/privacy">Privacy policy</Link></span></label></>}
+    </fieldset>
+    {message&&<p role="alert">{message}</p>}
+    {step===3?<button key="save" className="btn" type="submit" disabled={busy}>{busy?"Saving your request…":"Book an Appointment"} <ArrowRight/></button>:<button key="continue" className="btn" type="button" disabled={disabled} onClick={next}>Continue <ArrowRight/></button>}
+    {step>1&&<button className="btn outline" type="button" disabled={busy} onClick={()=>move(step-1)}>Back <ArrowRight/></button>}</>}
+    </form>{step===1&&<Note>Your preferred time is a request. Keep your private tracking link after submitting.</Note>}</Page>;
+ }
  if(result)return <section className={`${s.root} ${s.success}`} aria-labelledby="booking-success-title"><div className={s.successIcon}><CheckCircle2 size={29} aria-hidden="true"/></div><span className={s.eyebrow}>{result.status==='confirmed'?'Appointment confirmed':'Your next step is in motion'}</span><h2 id="booking-success-title" className="mt-3">{result.status==='confirmed'?'Your appointment is confirmed.':'Your appointment request is saved.'}</h2><p>{result.status==='confirmed'?'Check your appointment details before travelling.':'DOCVY will check your preferred time with the doctor and send your confirmation. Please wait for confirmation before travelling.'}</p><div className={s.successRef}>YOUR DOCVY REFERENCE<br/><strong>{result.reference}</strong></div><p><strong>{active?.name}</strong><br/>{active?.facility}, {active?.city}{date&&time&&<><br/>{prettyDate(date)} · {prettyTime(time)} IST · Preferred time</>}</p><ol className={s.successSteps}><li><span><Check size={12} aria-hidden="true"/></span><div><strong>Request received</strong><br/>Your preferences are saved with DOCVY.</div></li><li><span>2</span><div><strong>Availability checked with the doctor</strong><br/>DOCVY coordinates your appointment.</div></li><li><span>3</span><div><strong>Confirmation and visit updates</strong><br/>Follow every update using your private tracking link.</div></li></ol>{tracking&&<div className={s.actions}><Link href={tracking} className={s.primary}>Track my appointment<ArrowRight size={15} aria-hidden="true"/></Link><button type="button" onClick={()=>void copyTracking()} className={s.secondary}><Copy size={14} aria-hidden="true"/>{copied?'Link copied':'Copy private link'}</button></div>}<p className="mt-4">Keep this link private. It is for you, not your provider.</p><button type="button" className={s.textLink} onClick={()=>{setResult(null);setDetails(initialDetails);setCopied(false);setStep(1);}}>Book an Appointment<ArrowRight size={14} aria-hidden="true"/></button>{message&&<p role="status">{message}</p>}</section>;
  const selectedTime=active?.mode==='instant'?slots.find(slot=>slot.id===slotId)?.startsAt:null;
  return <div className={`${s.root} ${compact?s.compact:''}`}><div className={s.bookingLayout}>

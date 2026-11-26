@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import MobileHome from "@/components/mobile/Home";
+import { ResponsivePage } from "@/components/mobile/Viewport";
 import ReferenceHome from "@/components/ReferenceHome";
 import { buildPageSocialMetadata, productionOrigin, homeLanguageLinks } from "@/lib/metadata";
 
@@ -16,6 +18,6 @@ export default function Home() {
       publisher: { "@id": productionOrigin + "/#organization" },
       potentialAction: { "@type": "SearchAction", target: productionOrigin + "/doctors?q={search_term_string}", "query-input": "required name=search_term_string" },
     }).replace(/</g, "\\u003c") }} />
-    <ReferenceHome />
+    <ResponsivePage mobile={<MobileHome/>}><ReferenceHome /></ResponsivePage>
   </>;
 }

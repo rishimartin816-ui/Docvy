@@ -1,3 +1,6 @@
+import { ResponsivePage } from "@/components/mobile/Viewport";
+import { Results } from "@/components/mobile/Doctors";
+import {parseDirectoryFilters} from "@/lib/directory-filters";
 import { getDirectoryDoctors } from "@/lib/public-directory";
 import {getBookingDoctorIds} from "@/lib/patient-discovery";
 import DoctorCard from "./DoctorCard";
@@ -45,7 +48,10 @@ export default async function DirectoryPage({ city, specialty }: { city: typeof 
   const procedureList = directoryProcedures.filter(({ slug, specialty: name }) => specialty ? slugify(name) === specialty.slug : popularProcedures.includes(slug));
   const items = [{ name: "Doctors", href: "/doctors" }, { name: city.name, href: cityPath }, ...(specialty ? [{ name: specialty.name, href: cityPath + "/" + specialty.slug }] : [])];
 
-  return <div className="docvy-garden"><div className="mx-auto max-w-site px-5 py-12 sm:px-9">
+  return <ResponsivePage mobile={<><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+      "@context": "https://schema.org", "@type": "ItemList",
+      itemListElement: doctors.slice(0,20).map((doctor, i) => ({ "@type": "ListItem", position: i + 1, name: doctor.name, url: productionOrigin + doctorPath(doctor) })),
+    }).replace(/</g, "\\u003c") }} /><Results listed={listed} shown={doctors.slice(0,20)} filters={parseDirectoryFilters({location:city.slug,specialty:specialty?.slug})} pages={Math.ceil(doctors.length/20)} label={specialty?title:undefined} empty={<CityWaitlist city={city.slug} specialty={specialty?.slug} enabled={process.env.DOCVY_WAITLIST_ENABLED==="true" && Boolean(clinicCrmConfig())}/>}/></>}><div className="docvy-garden"><div className="mx-auto max-w-site px-5 py-12 sm:px-9">
     <Breadcrumbs items={items} />
     <h1 className="text-4xl font-bold sm:text-6xl">{title}</h1>
     <p className="mt-5 max-w-3xl leading-7">{city.intro}</p>
@@ -74,5 +80,5 @@ export default async function DirectoryPage({ city, specialty }: { city: typeof 
       <h3 className="mt-4 font-bold">{city.question}</h3><p className="mt-1">{city.answer}</p>
       <h3 className="mt-4 font-bold">How do I confirm an appointment?</h3><p className="mt-1">Choose a participating doctor and preferred time through DOCVY. Wait for DOCVY’s confirmation before travelling, and check the confirmed practice and fee.</p>
     </section>
-  </div></div>;
+  </div></div></ResponsivePage>;
 }
